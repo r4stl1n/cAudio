@@ -14,7 +14,7 @@ namespace cAudio
     {
     public:
         //! play with defualts / the last set values
-        void play(); 
+        bool play(); 
 	//!plays the audio file 2d no distance.
         void play2d(bool loop = false);
         //!plays the audio file and sets it to 3d

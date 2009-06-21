@@ -11,7 +11,7 @@ namespace cAudio
         IAudio() {}
         virtual ~IAudio() {}
 	//! play with defualts / the last set values
-        virtual void play() = 0; 
+        virtual bool play() = 0; 
 	//!plays the audio file 2d no distance.
         virtual void play2d(bool loop = false) = 0;
 	//!plays the audio file and sets it to 3d

@@ -254,10 +254,10 @@ namespace cAudio
     }
 
     //!Used to play the audio source
-    void cAudio::play()
+    bool cAudio::play()
     {
         playaudio = true;
-	  if (!this->isPaused()) 
+	  if (!this->paused()) 
         { 
             int queueSize = 0; 
  
