@@ -223,7 +223,7 @@ namespace cAudio
     //!Used to set the pitch of the audio file
     void cAudio::setPitch(float pitch)
     {
-        alSourcei (source, AL_PITCH,pitch);
+        alSourcef (source, AL_PITCH,pitch);
     }
 
     //!Used to set the volume of the audio source
