@@ -257,24 +257,31 @@ namespace cAudio
     void cAudio::play()
     {
         playaudio = true;
-
-        if(!paused()){
-
-            if (!stream(buffers[0]))
-                return;
-
-            if (!stream(buffers[1]))
-                return;
-
-            if (!stream(buffers[2]))
-                return;
-            //Stores the sources 3 buffers to be used in the queue
-            alSourceQueueBuffers(source, 3, buffers);
-        }
-
-        alSourcePlay(source);
-
+	  if (!this->isPaused()) 
+        { 
+            int queueSize = 0; 
+ 
+            for(int u = 0; u < 3; u++) 
+            { 
+                int val = this->stream(buffers[u]); 
+ 
+                if(val < 0) 
+                {  
+                    return false; 
+                } 
+                else if(val > 0) 
+                    ++queueSize; 
+            } 
+ 
+            //Stores the sources 3 buffers to be used in the queue 
+            alSourceQueueBuffers(source, queueSize, buffers); 
+        } 
+ 
+        alSourcePlay(source); 
+ 
+        return true; 
     }
+
 
     //!Used to stop the audio source
     void cAudio::stop()
