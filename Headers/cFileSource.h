@@ -31,15 +31,13 @@ class cFileSource : public IDataSource
         virtual bool seek(int amount, bool relative);
     
     protected:
-	//!File Stream
-        std::ifstream File;
-	//!Hold if valid        
-	bool Valid;
-	//!Holds file size
+		//!Hold if valid        
+		bool Valid;
+		//!Holds file size
         int Filesize;
+		//!File stream
+        FILE* pFile;
     private:
-	 //!File stream
-         FILE*   pFile;
 };
 
 };

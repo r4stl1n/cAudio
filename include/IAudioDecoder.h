@@ -37,7 +37,7 @@ class IAudioDecoder
         virtual bool setPosition(int position, bool relative) = 0;
 
         //!If seeking is supported, will seek the stream to seconds
-        virtual bool seek(int seconds, bool relative) = 0;
+        virtual bool seek(float seconds, bool relative) = 0;
     protected:
         IDataSource* Stream;
 };

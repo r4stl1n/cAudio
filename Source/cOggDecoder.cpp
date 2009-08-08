@@ -73,14 +73,15 @@ namespace cAudio
     //!Returns if vorbis file is seekable
     bool cOggDecoder::isSeekingSupported()
     {
-        return ov_seekable(&oggStream);
+        return (ov_seekable(&oggStream)!=0);
     }
 
     //!Reads the vorbis data
     int cOggDecoder::readAudioData(void* output, int amount)
     {
-        int temp;
-        return ov_read(&oggStream,(char*)output,amount,0,2,1,&temp);
+        int temp = 0;
+		int result = ov_read(&oggStream,(char*)output,amount,0,2,1,&temp);
+		return (result < 0) ? 0 : result;
     }
 
     //!Sets the postion for vorbis data reader
@@ -88,22 +89,25 @@ namespace cAudio
     {
         if(ov_seekable(&oggStream))
         {
-            ov_raw_seek(&oggStream,position);
-            return true;
+            return (ov_raw_seek(&oggStream,position)==0);
         }
         else
             return false;
     }
 
     //!Seeks the vorbis data
-    bool cOggDecoder::seek(int seconds,bool relative)
+    bool cOggDecoder::seek(float seconds, bool relative)
     {
-        int oldamount = ov_time_total(&oggStream,-1);
-
         if(ov_seekable(&oggStream))
         {
-			ov_time_seek(&oggStream,seconds);
+			if(relative)
+			{
+				float curtime = ov_time_tell(&oggStream);
+				return (ov_time_seek(&oggStream,curtime+seconds)==0);
+			}
+			else
+				return (ov_time_seek(&oggStream,seconds)==0);
         }
-        return true;
+        return false;
     }
 }

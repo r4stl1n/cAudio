@@ -6,7 +6,6 @@
 #include <vorbis/codec.h>
 #include <vorbis/vorbisenc.h>
 #include <vorbis/vorbisfile.h>
-#include <iostream>
 
 namespace cAudio
 {
@@ -34,17 +33,17 @@ namespace cAudio
             virtual bool setPosition(int position, bool relative);
 
             //!If seeking is supported, will seek the stream to seconds
-            virtual bool seek(int seconds,bool relative);
+            virtual bool seek(float seconds,bool relative);
 
         protected:
        	    //!Callbacks used for read memory
-            ov_callbacks     vorbisCallbacks;
-	    //!some formatting data 
-            vorbis_info*     vorbisInfo;
-	    //!User Comments
-            vorbis_comment*  vorbisComment;
-	    //!Stream handle
-            OggVorbis_File   oggStream; 
+            ov_callbacks vorbisCallbacks;
+			//!some formatting data 
+            vorbis_info* vorbisInfo;
+			//!User Comments
+            vorbis_comment* vorbisComment;
+			//!Stream handle
+            OggVorbis_File oggStream; 
             bool seekable;
     };
 

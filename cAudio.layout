@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="ALL" />
+	<File name="include\IAudioManager.h" open="1" top="1" tabpos="1">
+		<Cursor position="312" topLine="1" />
+	</File>
 </CodeBlocks_layout_file>

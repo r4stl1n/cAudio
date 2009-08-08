@@ -1,84 +1,58 @@
 #ifndef CLISTENER_H_INCLUDED
 #define CLISTENER_H_INCLUDED
-#include <AL/al.h>
-#include <AL/alut.h>
-//!#include <AL/alext.h>
-//!#include <AL/efx.h>
-#include <iostream>
-#define LOAD_AL_FUNC(x) (x = (typeof(x))alGetProcAddress(#x))
+
+#include "../include/IListener.h"
 
 namespace cAudio
 {
-    class cListener
+	class cListener : public IListener
     {
     public:
-        cListener static  &getInstance()
-        {
-            static cListener This;
-            return This;
-        }
+		cListener() :	Direction(0.f, 0.f, -1.f),
+						UpVector(0.f, 1.f, 0.f),
+						MasterGain(1.f) {}
+		virtual ~cListener() {}
 
-        //!Sets the listeners position
-        void setPosition(ALfloat x,ALfloat y, ALfloat z)
-        {
-            alListener3f(AL_POSITION,x,y,z);
-        }
-	//!Sets the listeners orientation
-        void setOrientation(ALfloat x,ALfloat y,ALfloat z,ALfloat upx,ALfloat upy,ALfloat upz)
-        {
-            ALfloat orientation[6] = {x,y,z,upx,upy,upz};
-            alListenerfv(AL_ORIENTATION,orientation);
-        }
-	//!Inits Openal
-        static void initaudio(int argc,char* argv[])
-        {
-            alutInit(&argc,argv);
-	  /*
-            ALCcontext *Context;
-            ALCdevice *Device;
-            ALint attribs[4] = {0};
-            ALCint iSends = 0;
-            LPALGENEFFECTS alGenEffects;
-            LPALDELETEEFFECTS alDeleteEffects;
-            LPALISEFFECT alIsEffect;
+		//!Sets the position of the listener
+		//!Note that this will automatically set velocity to 0
+		//!Use move() if you'd like to have cAudio automatically handle velocity for you
+		//!or remember to set it yourself after setPosition
+		virtual void setPosition(const float x, const float y, const float z) { setPosition(cVector3(x,y,z)); }
+		virtual void setPosition(const cVector3 pos);
+		//!Sets the direction the listener is facing
+        virtual void setDirection(const float x, const float y, const float z) { setDirection(cVector3(x,y,z)); }
+		virtual void setDirection(const cVector3 dir);
+		//!Sets the up vector to use for the listener
+		virtual void setUpVector(const float x, const float y, const float z) { setUpVector(cVector3(x,y,z)); }
+		virtual void setUpVector(const cVector3 up);
+		//!Sets the current velocity of the listener for doppler effects
+		virtual void setVelocity(const float x, const float y, const float z) { setVelocity(cVector3(x,y,z)); }
+		virtual void setVelocity(const cVector3 vel);
+		//!Sets the global volume modifier (will effect all sources)
+		virtual void setMasterVolume(const float volume);
 
-            Device = alcOpenDevice(NULL);
+		//!Convenience function to automatically set the velocity for you on a move
+		//!Velocity will be set to new position - last position
+		virtual void move(const float x, const float y, const float z) { move(cVector3(x,y,z)); }
+		virtual void move(const cVector3 pos);
 
-            //!Query for effect extention
-            if(alcIsExtensionPresent(Device,"ALC_EXT_EFX") == AL_FALSE){
-
-            return;
-            }
-
-            //!Use context creation hint to request 4 axiliary sends per source
-            attribs[0] = ALC_MAX_AUXILIARY_SENDS;
-            attribs[1] = 4;
-            attribs[2] = 0;
-
-            Context = alcCreateContext(Device,attribs);
-
-            if(!Context)
-                return;
-
-            //!activate context
-
-            alcMakeContextCurrent(Context);
-
-            //!retrive Actual number aux sends avaliable per source
-            alcGetIntegerv(Device,ALC_MAX_AUXILIARY_SENDS,1,&iSends);
-
-            //!Get the effect extention function pointers
-            LOAD_AL_FUNC(alGenEffects);
-            LOAD_AL_FUNC(alDeleteEffects);
-            LOAD_AL_FUNC(alIsEffect);
-
-	*/
-        }
-	//!Shutsdown openal
-        static void shutdownaudio()
-        {
-            alutExit();
-        }
+		//!Returns the current position of the listener
+		virtual cVector3 getPosition(void) const { return Position; }
+		//!Returns the current direction of the listener
+		virtual cVector3 getDirection(void) const { return Direction; }
+		//!Returns the current up vector of the listener
+		virtual cVector3 getUpVector(void) const { return UpVector; }
+		//!Returns the current velocity of the listener
+		virtual cVector3 getVelocity(void) const { return Velocity; }
+		//!Returns the global volume modifier for all sources
+		virtual float getMasterVolume(void) const { return MasterGain; }
+	protected:
+		cVector3 Position;
+		cVector3 Direction;
+		cVector3 UpVector;
+		cVector3 Velocity;
+		float MasterGain;
+	private:
     };
 }
 #endif //! CLISTENER_H_INCLUDED

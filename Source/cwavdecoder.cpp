@@ -17,21 +17,22 @@ namespace cAudio{
         Stream->seek(40,false);
         Stream->read(&mDataSize,sizeof(int));
         Stream->seek(44,false);
+
+		//Double the sampleRate to fix a bug with half-time speed
         mSampleRate += mSampleRate;
     }
 
     cWavDecoder::~cWavDecoder()
     {
-        mChunkSize = NULL;
-        mSubChunk1Size = NULL;
-        mFormat = NULL;
-        mChannels = NULL;
-        mSampleRate = NULL;
-        mByteRate = NULL;
-        mBlockAlign = NULL;
-        mBitsPerSample = NULL;
-        mDataSize = NULL;
-
+        mChunkSize = 0;
+        mSubChunk1Size = 0;
+        mFormat = 0;
+        mChannels = 0;
+        mSampleRate = 0;
+        mByteRate = 0;
+        mBlockAlign = 0;
+        mBitsPerSample = 0;
+        mDataSize = 0;
     }
 
     //!Returns wav channel format
@@ -71,7 +72,7 @@ namespace cAudio{
     }
 
     //!Seeks wav data
-    bool cWavDecoder::seek(int seconds,bool relative)
+    bool cWavDecoder::seek(float seconds,bool relative)
     {
         return false;
     }

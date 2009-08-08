@@ -24,7 +24,8 @@ cFileSource::cFileSource(const std::string& filename) : pFile(NULL), Valid(false
 
 cFileSource::~cFileSource()
 {
-    fclose(pFile);
+	if(pFile)
+		fclose(pFile);
 }
 
 //!Returns true if the FileSource is valid

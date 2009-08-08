@@ -13,13 +13,15 @@ cMemorySource::cMemorySource(const void* data, int size, bool copy) : Data(NULL)
         if(copy)
         {
             Data = new char[Size];
-            memcpy(Data, data, Size);
+			if(Data)
+				memcpy(Data, data, Size);
         }
         else
         {
             Data = (char*)data;
         }
-        Valid = true;
+		if(Data)
+			Valid = true;
     }
 }
 
@@ -50,7 +52,7 @@ int cMemorySource::getSize()
 int cMemorySource::read(void* output, int size)
 {
  
-    memset(output, 0, size);
+    //memset(output, 0, size);
     if(Pos+size <= Size)
     {
         memcpy(output, Data+Pos, size);

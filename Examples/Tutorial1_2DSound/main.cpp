@@ -12,7 +12,7 @@ int main(int argc, char* argv[])
     cAudio::IAudio* mysound;
 
     //Some fancy text
-    cout <<"cAudio 1.7.1 Tutorial 1: 2DSound\n";
+    cout << "cAudio 1.7.1 Tutorial 1: 2DSound \n";
 
     //Grap the cAudioManager
     cAudio::IAudioManager* manager = cAudio::getAudioManager();
@@ -20,14 +20,19 @@ int main(int argc, char* argv[])
     manager->init(argc,argv);
     //Create a IAudio object and load a sound from a file
     mysound = manager->createFromFile("bling","../../bin/bling.ogg",true);
-    //Set the IAudio Sound to play2d and loop
-    mysound->play2d(true);
 
-    while(mysound->playing()){
-        //Playback sound
- 	manager->update();
+	if(mysound)
+	{
+		mysound->setVolume(0.5);
+		//Set the IAudio Sound to play2d and loop
+		mysound->play2d(true);
 
-    }
+		while(mysound->playing())
+		{
+			//Playback sound
+ 			manager->update();
+		}
+	}
 
     //Delete all IAudio sounds
     manager->release();

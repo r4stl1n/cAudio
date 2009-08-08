@@ -2,7 +2,6 @@
 #define CWAVDECODER_H_INCLUDED
 
 #include "../include/IAudioDecoder.h"
-#include <iostream>
 
 namespace cAudio
 {
@@ -30,7 +29,7 @@ namespace cAudio
             virtual bool setPosition(int position, bool relative);
 
             //!If seeking is supported, will seek the stream to seconds
-            virtual bool seek(int seconds,bool relative);
+            virtual bool seek(float seconds,bool relative);
 
         private:
             int mChunkSize;
@@ -42,8 +41,6 @@ namespace cAudio
             short mBlockAlign;
             short mBitsPerSample;
             int mDataSize;
-
-
     };
 
 }

@@ -3,6 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual C++ Express 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cAudio", "cAudio.vcproj", "{ACD6C202-85D4-44F5-83BF-6577A074F655}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tutorial1_2DSound", "Examples\Tutorial1_2DSound\Tutorial1_2DSound.vcproj", "{D7A934F9-003B-47F7-AAD6-F360A4D41B9B}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tutorial2_3DSound", "Examples\Tutorial2_3DSound\Tutorial2_3DSound.vcproj", "{96052488-DB19-492E-88F6-D14AFD61E4F9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tutorial3_MemoryPlayback", "Examples\Tutorial3_MemoryPlayback\Tutorial3_MemoryPlayback.vcproj", "{FEA3B340-BBB2-4AFB-AF31-3962A0F3F2C6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -13,6 +19,18 @@ Global
 		{ACD6C202-85D4-44F5-83BF-6577A074F655}.Debug|Win32.Build.0 = Debug|Win32
 		{ACD6C202-85D4-44F5-83BF-6577A074F655}.Release|Win32.ActiveCfg = Release|Win32
 		{ACD6C202-85D4-44F5-83BF-6577A074F655}.Release|Win32.Build.0 = Release|Win32
+		{D7A934F9-003B-47F7-AAD6-F360A4D41B9B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D7A934F9-003B-47F7-AAD6-F360A4D41B9B}.Debug|Win32.Build.0 = Debug|Win32
+		{D7A934F9-003B-47F7-AAD6-F360A4D41B9B}.Release|Win32.ActiveCfg = Release|Win32
+		{D7A934F9-003B-47F7-AAD6-F360A4D41B9B}.Release|Win32.Build.0 = Release|Win32
+		{96052488-DB19-492E-88F6-D14AFD61E4F9}.Debug|Win32.ActiveCfg = Debug|Win32
+		{96052488-DB19-492E-88F6-D14AFD61E4F9}.Debug|Win32.Build.0 = Debug|Win32
+		{96052488-DB19-492E-88F6-D14AFD61E4F9}.Release|Win32.ActiveCfg = Release|Win32
+		{96052488-DB19-492E-88F6-D14AFD61E4F9}.Release|Win32.Build.0 = Release|Win32
+		{FEA3B340-BBB2-4AFB-AF31-3962A0F3F2C6}.Debug|Win32.ActiveCfg = Debug|Win32
+		{FEA3B340-BBB2-4AFB-AF31-3962A0F3F2C6}.Debug|Win32.Build.0 = Debug|Win32
+		{FEA3B340-BBB2-4AFB-AF31-3962A0F3F2C6}.Release|Win32.ActiveCfg = Release|Win32
+		{FEA3B340-BBB2-4AFB-AF31-3962A0F3F2C6}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

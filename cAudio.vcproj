@@ -20,7 +20,7 @@
 			OutputDirectory="Debug"
 			IntermediateDirectory="Debug"
 			ConfigurationType="2"
-			UseOfMFC="2"
+			UseOfMFC="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -41,7 +41,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories=".\dependencies\Headers;.\dependencies\Headers\alut;.\dependencies\Headers\al"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAUDIO_EXPORTS;"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAUDIO_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -64,8 +64,9 @@
 				AdditionalDependencies="OpenAL32.lib alut.lib ogg_static.lib vorbis_static.lib vorbisenc_static.lib vorbisfile_static.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=".\dependencies\Libs\windows"
+				GenerateManifest="false"
 				GenerateDebugInformation="true"
-				SubSystem="2"
+				SubSystem="1"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -203,6 +204,10 @@
 			</File>
 			<File
 				RelativePath=".\Headers\cUtils.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Headers\cVector3.h"
 				>
 			</File>
 			<File
