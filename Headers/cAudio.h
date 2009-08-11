@@ -19,11 +19,12 @@ namespace cAudio
 		void play2d(bool loop = false);
 		//!plays the audio file and sets it to 3d
 		void play3d(bool loop = false, float x = 0.0, float y = 0.0, float z = 0.0, float soundstr = 1.0);
+
 		//!allows us to set the position or reset the position
 		void setPosition(float posx,float posy,float posz);
 		//!allows you to set the audio objects velocity
 		void setVelocity(float velx,float vely,float velz);
-		//!allows us to set the direction the audio should play in / move
+		//!allows us to set the direction the audio should play in
 		void setDirection(float dirx,float diry,float dirz);
 		//! Sets the audios pitch level
 		void setPitch(float pitch); 
@@ -35,6 +36,7 @@ namespace cAudio
 		void setDopplerStrength(float doop);
 		//!Set doppler velocity
 		void setDopplerVelocity(float doopx,float doopy,float doopz);
+
 		//!Seek the audio stream
 		void seek(float secs);
 		//!release the file handle

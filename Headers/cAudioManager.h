@@ -6,6 +6,7 @@
 #include "cAudio.h"
 #include "../include/IAudioDecoderFactory.h"
 #include "cListener.h"
+#include "cAudioCapture.h"
 #include "../include/IAudioManager.h"
 
 namespace cAudio
@@ -16,27 +17,40 @@ namespace cAudio
     {
     public:
 		//!Inits the audio manager calling the alut/etc start ups
-		void init(int argc,char* argv[]); 
+		virtual void init(int argc,char* argv[]); 
 		//!Shuts everything down        
-		void shutDown();
+		virtual void shutDown();
 		//!Creates the cAudio object
-		IAudio* createFromFile(const std::string& identifier,const std::string& file,bool stream = false);
+		virtual IAudio* createFromFile(const std::string& identifier,const std::string& file,bool stream = false);
 		//!Loads ogg from memory or virtual file system
-		IAudio* createFromMemory(const std::string& identifier, const char* data, size_t length, std::string ext);
+		virtual IAudio* createFromMemory(const std::string& identifier, const char* data, size_t length, std::string ext);
+		//!Loads raw audio from memory.
+		virtual IAudio* createFromRaw(const std::string& identifier,const char* data, size_t length, unsigned int frequency, AudioFormats format);
+		
 		//!Register Audio Codec        
-		void registerAudioDecoder(IAudioDecoderFactory* factory, std::string extension);
+		virtual bool registerAudioDecoder(IAudioDecoderFactory* factory, std::string extension);
+		//!Unregister Audio Codec (allows you to prevent an file type from being playable with new sound sources)
+		//!Note that all current sound sources will still continue to use any currently allocated decoders.
+		//!Will delete the factory instance
+		virtual void unRegisterAudioDecoder(std::string extension);
+		//!Returns whether an audio decoder is currently registered for this file type
+		virtual bool isAudioDecoderRegistered(std::string extension);
+		//!Returns a registered audio decoder factory
+		virtual IAudioDecoderFactory* getAudioDecoderFactory(std::string extension);
+
 		//!Allows you to set the listener position (DEPRECIATED! USE getListener() INSTEAD!)       
-		void setListenerPos(float x,float y,float z);
+		virtual void setListenerPos(float x,float y,float z);
 		//!Set Listener Orientation (DEPRECIATED! USE getListener() INSTEAD!)
-		void setListenerOrientation(float ux,float uy,float uz);
+		virtual void setListenerOrientation(float ux,float uy,float uz);
 		//!Updates the cAudio playback        
-		void update();
+		virtual void update();
 		//!Gets you the cAudio object you want
-		IAudio *getSound(std::string identifier);
+		virtual IAudio *getSound(std::string identifier);
 		//!Releases "ALL" cAudio objects        
-		void release();
+		virtual void release();
 
 		virtual IListener* getListener() { return &initlistener; }
+		virtual IAudioCapture* getAudioCapture() { return &initCapture; }
 
 		static cAudioManager* Instance()
 		{
@@ -55,6 +69,8 @@ namespace cAudio
 		std::map<std::string, IAudioDecoderFactory*> decodermap; 
 		//!The listener object        
 		cListener initlistener;
+		//!The audio capture instance
+		cAudioCapture initCapture;
     };
 }
 

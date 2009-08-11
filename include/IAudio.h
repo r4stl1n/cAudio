@@ -21,7 +21,7 @@ namespace cAudio
 		virtual void setPosition(float posx,float posy,float posz) = 0;
 		//!allows you to set the audio objects velocity
 		virtual void setVelocity(float velx,float vely,float velz) = 0;
-		//!allows us to set the direction the audio should play in / move
+		//!allows us to set the direction the audio should play in
 		virtual void setDirection(float dirx,float diry,float dirz) = 0;
 		//! Sets the audios pitch level
 		virtual void setPitch(float pitch) = 0; 

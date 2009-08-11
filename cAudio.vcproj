@@ -179,6 +179,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Headers\cAudioCapture.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Headers\cAudioManager.h"
 				>
 			</File>
@@ -203,11 +207,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Headers\cRawAudioDecoderFactory.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Headers\cRawDecoder.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Headers\cUtils.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Headers\cVector3.h"
+				RelativePath=".\include\cVector3.h"
 				>
 			</File>
 			<File
@@ -219,7 +231,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\eAudioFormats.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\IAudio.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\IAudioCapture.h"
 				>
 			</File>
 			<File
@@ -259,6 +279,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\cAudioCapture.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\cAudioManager.cpp"
 				>
 			</File>
@@ -280,6 +304,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\cOggDecoder.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\cRawDecoder.cpp"
 				>
 			</File>
 			<File

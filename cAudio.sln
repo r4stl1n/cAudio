@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tutorial2_3DSound", "Exampl
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tutorial3_MemoryPlayback", "Examples\Tutorial3_MemoryPlayback\Tutorial3_MemoryPlayback.vcproj", "{FEA3B340-BBB2-4AFB-AF31-3962A0F3F2C6}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tutorial4_AudioCapture", "Examples\Tutorial4_AudioCapture\Tutorial4_AudioCapture.vcproj", "{F04BE31E-E8CC-40C8-9C63-EEAE1BF84EB7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -31,6 +33,10 @@ Global
 		{FEA3B340-BBB2-4AFB-AF31-3962A0F3F2C6}.Debug|Win32.Build.0 = Debug|Win32
 		{FEA3B340-BBB2-4AFB-AF31-3962A0F3F2C6}.Release|Win32.ActiveCfg = Release|Win32
 		{FEA3B340-BBB2-4AFB-AF31-3962A0F3F2C6}.Release|Win32.Build.0 = Release|Win32
+		{F04BE31E-E8CC-40C8-9C63-EEAE1BF84EB7}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F04BE31E-E8CC-40C8-9C63-EEAE1BF84EB7}.Debug|Win32.Build.0 = Debug|Win32
+		{F04BE31E-E8CC-40C8-9C63-EEAE1BF84EB7}.Release|Win32.ActiveCfg = Release|Win32
+		{F04BE31E-E8CC-40C8-9C63-EEAE1BF84EB7}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -2,7 +2,7 @@
 #ifndef ILISTENER_H
 #define ILISTENER_H
 
-#include "../Headers/cVector3.h"
+#include "cVector3.h"
 
 namespace cAudio
 {

@@ -27,13 +27,13 @@ namespace cAudio
     //!Stops all playing sound sources and deletes the sources and buffers
     void cAudio::release()
     {
-	//Stops the audio source
-        alSourceStop(source);
-        empty();
-	//Deletes the source
-        alDeleteSources(1, &source);
-	//deletes the last filled buffer
-        alDeleteBuffers(3, buffers);
+		//Stops the audio source
+		alSourceStop(source);
+		empty();
+		//Deletes the source
+		alDeleteSources(1, &source);
+		//deletes the last filled buffer
+		alDeleteBuffers(3, buffers);
     }
 
     //!Plays back sound source
@@ -69,10 +69,10 @@ namespace cAudio
 
         int processed = 0;
         bool active = true;
-	//gets the sound source processed buffers/
+		//gets the sound source processed buffers/
         alGetSourcei(source, AL_BUFFERS_PROCESSED, &processed);
-	//while there is more data refill buffers with audio data.
-	while (processed--)
+		//while there is more data refill buffers with audio data.
+		while (processed--)
         {
             ALuint buffer;
 
@@ -80,13 +80,11 @@ namespace cAudio
 
             active = stream(buffer);
 
-	    //if more in stream continue playing.
+			//if more in stream continue playing.
             if(active)
                 alSourceQueueBuffers(source, 1, &buffer);
-
         }
-            return active;
-
+		return active;
     }
 
     //!The streaming function
@@ -95,58 +93,56 @@ namespace cAudio
         if(Decoder)
         {
 	        //stores the caculated data into buffer that is passed to output.
-		size_t totalread = 0;
+			size_t totalread = 0;
 	        char tempbuffer[BUFFER_SIZE];
-		while( totalread < BUFFER_SIZE )
-		{
-			char tempbuffer2[BUFFER_SIZE];
-			int actualread = Decoder->readAudioData(tempbuffer2, BUFFER_SIZE-totalread);
-			if(actualread > 0)
+			while( totalread < BUFFER_SIZE )
 			{
-				memcpy(tempbuffer+totalread,tempbuffer2,actualread);
-				totalread += actualread;
-			}
-			if(actualread < 0)
-			{
-				break;
-			}
-			if(actualread == 0)
-			{
-				if(toloop)
+				char tempbuffer2[BUFFER_SIZE];
+				int actualread = Decoder->readAudioData(tempbuffer2, BUFFER_SIZE-totalread);
+				if(actualread > 0)
 				{
-					//If we are to loop, set to the beginning and reload from the start
-					Decoder->setPosition(0,false);
+					memcpy(tempbuffer+totalread,tempbuffer2,actualread);
+					totalread += actualread;
 				}
-				else
+				if(actualread < 0)
+				{
 					break;
-			}
+				}
+				if(actualread == 0)
+				{
+					if(toloop)
+					{
+						//If we are to loop, set to the beginning and reload from the start
+						Decoder->setPosition(0,false);
+					}
+					else
+						break;
+				}
 			}
 
-	        	//Second check, in case looping is not enabled, we will return false for end of stream
-	        	if(totalread == 0)
-	       		{
-	       		     return false;
-	        	}
+	        //Second check, in case looping is not enabled, we will return false for end of stream
+	        if(totalread == 0)
+	       	{
+	       		 return false;
+	        }
 			//std::cout << buffer << std::endl;
-
-            		alBufferData(buffer, Decoder->getFormat(), tempbuffer, totalread, Decoder->getFrequency());
-
-            		return true;
-        	}
-	return false;
+            alBufferData(buffer, Decoder->getFormat(), tempbuffer, totalread, Decoder->getFrequency());
+            return true;
+        }
+		return false;
     }
 
     //!clears the sound sources buffers and makes them free to be used by other sound sources.
     void cAudio::empty()
     {
         int queued = 0;
-	//grabs allt he sources buffers.
+		//grabs allt he sources buffers.
         alGetSourcei(source, AL_BUFFERS_QUEUED, &queued);
 
         while (queued--)
         {
             ALuint buffer;
-	    //unqueues sources buffers to be used for others.
+			//unqueues sources buffers to be used for others.
             alSourceUnqueueBuffers(source, 1, &buffer);
         }
     }
@@ -158,16 +154,14 @@ namespace cAudio
 
         if (error != AL_NO_ERROR)
         {
-            std::cout<<"OpenAL error was Raised.";
+            std::cout<< "OpenAL error was Raised.";
         }
     }
 
     //!checks to see if the given ogg file is valid
     bool cAudio::isvalid()
     {
-
         return (Decoder != 0);
-
     }
 
     //!Sets the sound source relativity to follow the listener to give the illusion of stereo 2d sound
@@ -176,14 +170,14 @@ namespace cAudio
         alSourcei (source, AL_SOURCE_RELATIVE, true);
         toloop = loop;
         play();
-	alSourcePlay(source);
+		alSourcePlay(source);
     }
 
     //!Plays the given audio file with 3d position
     void cAudio::play3d(bool loop, float x, float y, float z,float soundstr)
     {
         alSourcei (source, AL_SOURCE_RELATIVE, false);
-        alSource3f(source, AL_POSITION,x, y, z);
+        alSource3f(source, AL_POSITION, x, y, z);
         alSourcef (source, AL_ROLLOFF_FACTOR,  soundstr);
         toloop = loop;
         play();
@@ -199,49 +193,49 @@ namespace cAudio
     //!Used to move the audio sources position after the initial creation
     void cAudio::setPosition(float posx,float posy,float posz)
     {
-        alSource3f(source, AL_POSITION,posx, posy, posz);
+        alSource3f(source, AL_POSITION, posx, posy, posz);
     }
 
     //!Used to set the velocity of the audio source.
     void cAudio::setVelocity(float velx,float vely, float velz)
     {
-        alSource3f(source, AL_VELOCITY,velx, vely, velz);
+        alSource3f(source, AL_VELOCITY, velx, vely, velz);
     }
 
     //!Used to set the direction of the audio source
     void cAudio::setDirection(float dirx,float diry,float dirz)
     {
-        alSource3f(source, AL_DIRECTION,dirx, diry, dirz);
+        alSource3f(source, AL_DIRECTION, dirx, diry, dirz);
     }
 
     //!Used to set the sound strength or roll off factor
     void cAudio::setStrength(float soundstrength)
     {
-        alSourcef (source, AL_ROLLOFF_FACTOR,  soundstrength);
+        alSourcef(source, AL_ROLLOFF_FACTOR, soundstrength);
     }
 
     //!Used to set the pitch of the audio file
     void cAudio::setPitch(float pitch)
     {
-        alSourcef (source, AL_PITCH,pitch);
+        alSourcef (source, AL_PITCH, pitch);
     }
 
     //!Used to set the volume of the audio source
     void cAudio::setVolume(float volume)
     {
-        alSourcef(source,AL_GAIN,volume);
+        alSourcef(source, AL_GAIN, volume);
     }
 
     //!Used to set the doppler strength of the audio sources doppler effect
     void cAudio::setDopplerStrength(float doop)
     {
-        alSourcef(source,AL_DOPPLER_FACTOR,doop);
+        alSourcef(source, AL_DOPPLER_FACTOR, doop);
     }
 
     //!Used to set the doppler velocity of the audio source
     void cAudio::setDopplerVelocity(float doopx,float doopy,float doopz)
     {
-        alSource3f(source,AL_DOPPLER_VELOCITY,doopx,doopy,doopz);
+        alSource3f(source, AL_DOPPLER_VELOCITY, doopx, doopy, doopz);
     }
 
     //!Allows us to seek through a stream
@@ -257,13 +251,12 @@ namespace cAudio
     bool cAudio::play()
     {
         playaudio = true;
-	  if (!this->paused()) 
+		if (!paused()) 
         { 
             int queueSize = 0; 
- 
             for(int u = 0; u < 3; u++) 
             { 
-                int val = this->stream(buffers[u]); 
+                int val = stream(buffers[u]); 
  
                 if(val < 0) 
                 {  
@@ -272,16 +265,12 @@ namespace cAudio
                 else if(val > 0) 
                     ++queueSize; 
             } 
- 
             //Stores the sources 3 buffers to be used in the queue 
             alSourceQueueBuffers(source, queueSize, buffers); 
-        } 
- 
+        }
         alSourcePlay(source); 
- 
         return true; 
     }
-
 
     //!Used to stop the audio source
     void cAudio::stop()

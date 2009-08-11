@@ -67,6 +67,10 @@ namespace cAudio{
     //!Sets data reader position
     bool cWavDecoder::setPosition(int position, bool relative)
     {
+		//Safety to avoid reading the header as audio data
+		if(!relative && position < 44)
+			position = 44;
+
         Stream->seek(position,relative);
         return true;
     }

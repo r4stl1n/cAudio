@@ -4,8 +4,10 @@
 #include "../Headers/cUtils.h"
 #include "../Headers/cOggAudioDecoderFactory.h"
 #include "../Headers/cWavAudioDecoderFacotry.h"
+#include "../Headers/cRawAudioDecoderFactory.h"
 
 #include <AL/al.h>
+#include <AL/alc.h>
 #include <AL/alut.h>
 //!#include <AL/alext.h>
 //!#include <AL/efx.h>
@@ -24,6 +26,7 @@ namespace cAudio
     void cAudioManager::init(int argc,char* argv[])
     {
         alutInit(&argc,argv);
+
 		/*
 		ALCcontext *Context;
 		ALCdevice *Device;
@@ -64,8 +67,12 @@ namespace cAudio
 		LOAD_AL_FUNC(alIsEffect);
 		*/
 
+		initCapture.checkCaptureExtension();
+		initCapture.initialize();
+
         registerAudioDecoder(new cOggAudioDecoderFactory, "ogg");
         registerAudioDecoder(new cWavAudioDecoderFactory, "wav");
+		registerAudioDecoder(new cRawAudioDecoderFactory, "raw");
     }
 
     //!create a sound source
@@ -76,13 +83,13 @@ namespace cAudio
             if(source->isValid())
             {
                 std::string ext = getExt(file);
-                std::map<std::string, IAudioDecoderFactory*>::iterator it = decodermap.find(ext);
-                if(it == decodermap.end())
-                {
+                IAudioDecoderFactory* factory = getAudioDecoderFactory(ext);
+				if(!factory)
+				{
                     delete source;
                     return NULL;
                 }
-                IAudioDecoder* decoder = it->second->CreateAudioDecoder(source);
+                IAudioDecoder* decoder = factory->CreateAudioDecoder(source);
                 IAudio* audio = new cAudio(decoder);
                 audiomap[identifier] = audio;
                 return audio;
@@ -113,13 +120,13 @@ namespace cAudio
         cMemorySource* source = new cMemorySource(data,length,true);
         if(source->isValid())
         {
-            std::map<std::string, IAudioDecoderFactory*>::iterator it = decodermap.find(ext);
-            if(it == decodermap.end())
+			IAudioDecoderFactory* factory = getAudioDecoderFactory(ext);
+            if(!factory)
             {
                 delete source;
                 return NULL;
             }
-            IAudioDecoder* decoder = it->second->CreateAudioDecoder(source);
+            IAudioDecoder* decoder = factory->CreateAudioDecoder(source);
             IAudio* audio = new cAudio(decoder);
             audiomap[identifier] = audio;
             return audio;
@@ -131,10 +138,60 @@ namespace cAudio
         }
     }
 
-    void cAudioManager::registerAudioDecoder(IAudioDecoderFactory* factory, std::string extension)
+	IAudio* cAudioManager::createFromRaw(const std::string& identifier,const char* data, size_t length, unsigned int frequency, AudioFormats format)
+	{
+		cMemorySource* source = new cMemorySource(data,length,true);
+        if(source->isValid())
+        {
+			IAudioDecoderFactory* factory = getAudioDecoderFactory("raw");
+            if(!factory)
+            {
+                delete source;
+                return NULL;
+            }
+			IAudioDecoder* decoder = ((cRawAudioDecoderFactory*)factory)->CreateAudioDecoder(source, frequency, format);
+            IAudio* audio = new cAudio(decoder);
+            audiomap[identifier] = audio;
+            return audio;
+        }
+        else
+        {
+            delete source;
+            return NULL;
+        }
+	}
+
+    bool cAudioManager::registerAudioDecoder(IAudioDecoderFactory* factory, std::string extension)
     {
         decodermap[extension] = factory;
+		return true;
     }
+
+	void cAudioManager::unRegisterAudioDecoder(std::string extension)
+	{
+		std::map<std::string, IAudioDecoderFactory*>::iterator it = decodermap.find(extension);
+		if(it != decodermap.end())
+		{
+			delete it->second;
+			decodermap.erase(it);
+		}
+	}
+
+	bool cAudioManager::isAudioDecoderRegistered(std::string extension)
+	{
+		std::map<std::string, IAudioDecoderFactory*>::iterator it = decodermap.find(extension);
+		return (it != decodermap.end());
+	}
+
+	IAudioDecoderFactory* cAudioManager::getAudioDecoderFactory(std::string extension)
+	{
+		std::map<std::string, IAudioDecoderFactory*>::iterator it = decodermap.find(extension);
+		if(it != decodermap.end())
+		{
+			return it->second;
+		}
+		return NULL;
+	}
 
     //!grabs the selected audio file via the identifier
     IAudio *cAudioManager::getSound(std::string identifier)
@@ -177,17 +234,19 @@ namespace cAudio
                 {
 
                 }
-                if (i->second->playback())
+                /*if (i->second->playback())
                 {
 
-                }
+                }*/
             }
         }
+		initCapture.updateCaptureBuffer();
     }
 
     //!Shuts down cAudio. Deletes all audio sources in process
     void cAudioManager::shutDown()
     {
+		initCapture.shutdown();
         alutExit();
     }
 
