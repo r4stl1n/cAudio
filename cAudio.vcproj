@@ -231,7 +231,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\eAudioFormats.h"
+				RelativePath=".\include\EAudioFormats.h"
 				>
 			</File>
 			<File
@@ -315,7 +315,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Source\cwavdecoder.cpp"
+				RelativePath=".\Source\cWavdecoder.cpp"
 				>
 			</File>
 		</Filter>
