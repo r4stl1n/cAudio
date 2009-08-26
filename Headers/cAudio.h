@@ -4,7 +4,6 @@
 #include <iostream>
 #include <vector>
 #include "AL/al.h"
-#include "AL/alut.h"
 
 #define BUFFER_SIZE ( 1024 * 32 )
 #include "../include/IAudio.h"

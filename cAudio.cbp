@@ -18,8 +18,6 @@
 					<Add directory="include" />
 					<Add directory="Headers" />
 					<Add directory="dependencies\Headers" />
-					<Add directory="dependencies\Headers\ALUT" />
-					<Add directory="dependencies\Headers\ALUT\AL" />
 					<Add directory="dependencies\Headers\AL" />
 				</Compiler>
 				<Linker>
@@ -28,7 +26,6 @@
 					<Add library="vorbisenc" />
 					<Add library="vorbis" />
 					<Add library="ogg" />
-					<Add library="bin\alut.dll" />
 					<Add library="bin\OpenAL32.dll" />
 				</Linker>
 			</Target>
@@ -47,8 +44,6 @@
 					<Add directory="include" />
 					<Add directory="Headers" />
 					<Add directory="dependencies\Headers" />
-					<Add directory="dependencies\Headers\ALUT" />
-					<Add directory="dependencies\Headers\ALUT\AL" />
 					<Add directory="dependencies\Headers\AL" />
 				</Compiler>
 				<Linker>
@@ -57,7 +52,6 @@
 					<Add library="vorbisenc_static" />
 					<Add library="vorbis_static" />
 					<Add library="ogg_static" />
-					<Add library="alut" />
 					<Add library="OpenAL32" />
 				</Linker>
 			</Target>

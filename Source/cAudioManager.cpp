@@ -8,7 +8,7 @@
 
 #include <AL/al.h>
 #include <AL/alc.h>
-#include <AL/alut.h>
+
 //!#include <AL/alext.h>
 //!#include <AL/efx.h>
 #include <iostream>
@@ -25,48 +25,23 @@ namespace cAudio
     //!Initialize the listener,openal,and mikmod
     void cAudioManager::init(int argc,char* argv[])
     {
-        alutInit(&argc,argv);
-
-		/*
+		//Make a Openal context pointer
 		ALCcontext *Context;
+		//Make a openal device pointer
 		ALCdevice *Device;
-		ALint attribs[4] = {0};
-		ALCint iSends = 0;
-		LPALGENEFFECTS alGenEffects;
-		LPALDELETEEFFECTS alDeleteEffects;
-		LPALISEFFECT alIsEffect;
-
+		//Create a new device
 		Device = alcOpenDevice(NULL);
+		//Check if device can be created
+		if (Device == NULL)
+			exit(-1);
 
-		//!Query for effect extention
-		if(alcIsExtensionPresent(Device,"ALC_EXT_EFX") == AL_FALSE){
-
-		return;
-		}
-
-		//!Use context creation hint to request 4 axiliary sends per source
-		attribs[0] = ALC_MAX_AUXILIARY_SENDS;
-		attribs[1] = 4;
-		attribs[2] = 0;
-
-		Context = alcCreateContext(Device,attribs);
-
-		if(!Context)
-			return;
-
-		//!activate context
-
+		//Create context
+		Context=alcCreateContext(Device, NULL);
+		//Set active context
 		alcMakeContextCurrent(Context);
+		// Clear Error Code
+		alGetError();
 
-		//!retrive Actual number aux sends avaliable per source
-		alcGetIntegerv(Device,ALC_MAX_AUXILIARY_SENDS,1,&iSends);
-
-		//!Get the effect extention function pointers
-		LOAD_AL_FUNC(alGenEffects);
-		LOAD_AL_FUNC(alDeleteEffects);
-		LOAD_AL_FUNC(alIsEffect);
-		
-		*/
 		initCapture.checkCaptureExtension();
 		initCapture.initialize();
 
@@ -246,8 +221,24 @@ namespace cAudio
     //!Shuts down cAudio. Deletes all audio sources in process
     void cAudioManager::shutDown()
     {
+		//Create a openal context pointer
+		ALCcontext *Context;
+		//Create a openal device pointer
+		ALCdevice *Device;
+
+		//Shutdown audio capture
 		initCapture.shutdown();
-        alutExit();
+
+		//Grab current openal context
+		Context=alcGetCurrentContext();
+		//Grab current device context
+		Device=alcGetContextsDevice(Context);
+		//Reset context to null
+		alcMakeContextCurrent(NULL);
+		//Delete the context
+		alcDestroyContext(Context);
+		//Close the device
+		alcCloseDevice(Device);
     }
 
     //!Sets the listeners position.
