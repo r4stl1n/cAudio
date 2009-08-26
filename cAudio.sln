@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual C++ Express 2008
+# Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "cAudio", "cAudio.vcproj", "{ACD6C202-85D4-44F5-83BF-6577A074F655}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tutorial1_2DSound", "Examples\Tutorial1_2DSound\Tutorial1_2DSound.vcproj", "{D7A934F9-003B-47F7-AAD6-F360A4D41B9B}"

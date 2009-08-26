@@ -23,21 +23,40 @@ namespace cAudio
 		void play3d(cVector3 position, float soundstr = 1.0 , bool loop = false);
 
 		//!allows us to set the position or reset the position
-		void setPosition(cVector3 position);
+		void setPosition(const cVector3 position);
 		//!allows you to set the audio objects velocity
-		void setVelocity(cVector3 velocity);
+		void setVelocity(const cVector3 velocity);
 		//!allows us to set the direction the audio should play in
-		void setDirection(cVector3 direction);
+		void setDirection(const cVector3 direction);
 		//! Sets the audios pitch level
-		void setPitch(float pitch); 
+		void setPitch(const float pitch); 
 		//!allows us to set and reset the sound strenght
-		void setStrength(float soundstrength);
+		void setStrength(const float soundstrength);
 		//!Set the volume
-		void setVolume(float volume);
+		void setVolume(const float volume);
 		//!Set the doppler strength
-		void setDopplerStrength(float doop);
+		void setDopplerStrength(const float dstrength);
 		//!Set doppler velocity
-		void setDopplerVelocity(cVector3 dvelocity);
+		void setDopplerVelocity(const cVector3 dvelocity);
+
+		//!Returns the audio objects position
+		cVector3 getPosition();
+		//!Returns the audio objects velocity
+		cVector3 getVelocity();
+		//!Returns the audio objects direction
+		cVector3 getDirection();
+		//!Returns the audio objects doppler strength
+		float getDopplerStrength();
+		//!Returns the audio objects strength
+		float getStrength();
+		//!Returns the volume of the sound object
+		float getVolume();
+		//!Returns the pitch volume
+		float getPitch();
+		//!Returns if the sound object is looping
+		bool isLooping();
+
+
 
 		//!Seek the audio stream
 		void seek(float secs);
@@ -98,6 +117,15 @@ namespace cAudio
 		cVector3 direction;
 		//! Stores the doppler velocity
 		cVector3 dvelocity;
+		//! Stores the volume
+		float volume;
+		//! Stores the pitch
+		float pitch;
+		//! Stores doppler strength
+		float dstrength;
+		//! Stores the objects sound strength
+		float strength;
+		
     };
 }
 #endif //! CAUDIO_H_INCLUDED

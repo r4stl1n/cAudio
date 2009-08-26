@@ -19,23 +19,40 @@ namespace cAudio
 		//!plays the audio file and sets it to 3d
 		virtual void play3d(cVector3 position, float soundstr = 1.0 , bool loop = false) = 0;
 		//!allows us to set the position or reset the position        
-		virtual void setPosition(cVector3 position) = 0;
+		virtual void setPosition(const cVector3 position) = 0;
 		//!allows you to set the audio objects velocity
-		virtual void setVelocity(cVector3 velocity) = 0;
+		virtual void setVelocity(const cVector3 velocity) = 0;
 		//!allows us to set the direction the audio should play in
-		virtual void setDirection(cVector3 direction) = 0;
+		virtual void setDirection(const cVector3 direction) = 0;
 		//! Sets the audios pitch level
-		virtual void setPitch(float pitch) = 0; 
+		virtual void setPitch(const float pitch) = 0; 
 		//!allows us to set and reset the sound strength
-		virtual void setStrength(float soundstrength) = 0;
+		virtual void setStrength(const float soundstrength) = 0;
 		//! Set the volume
-		virtual void setVolume(float volume) = 0; 
+		virtual void setVolume(const float volume) = 0; 
 		//!Set the doppler strength
-		virtual void setDopplerStrength(float doop) = 0; 
+		virtual void setDopplerStrength(const float dstrength) = 0; 
 		//!Set the doppler velocity
-		virtual void setDopplerVelocity(cVector3 dvelocity) = 0;
+		virtual void setDopplerVelocity(const cVector3 dvelocity) = 0;
 		//!Seek through the audio stream        
 		virtual void seek(float secs) = 0; 
+
+		//!Returns the audio objects position
+		virtual cVector3 getPosition() = 0;
+		//!Returns the audio objects velocity
+		virtual cVector3 getVelocity() = 0;
+		//!Returns the audio objects direction
+		virtual cVector3 getDirection() = 0;
+		//!Returns the audio objects doppler strength
+		virtual float getDopplerStrength() = 0;
+		//!Returns the audio objects strength
+		virtual float getStrength() = 0;
+		//!Returns the volume of the sound object
+		virtual float getVolume() = 0;
+		//!Returns the pitch volume
+		virtual float getPitch() = 0;
+		//!Returns if the sound object is looping
+		virtual bool isLooping() = 0;
 
 		//!release the file handle
 		virtual void release() = 0;

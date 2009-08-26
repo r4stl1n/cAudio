@@ -8,8 +8,8 @@ namespace cAudio
 	class cListener : public IListener
     {
     public:
-		cListener() :	Direction(0.f, 0.f, -1.f),
-						UpVector(0.f, 1.f, 0.f),
+		cListener() :	Direction(cVector3(0.f, 0.f, -1.f)),
+						UpVector(cVector3(0.f, 1.f, 0.f)),
 						MasterGain(1.f) {}
 		virtual ~cListener() {}
 
@@ -17,23 +17,17 @@ namespace cAudio
 		//!Note that this will automatically set velocity to 0
 		//!Use move() if you'd like to have cAudio automatically handle velocity for you
 		//!or remember to set it yourself after setPosition
-		virtual void setPosition(const float x, const float y, const float z) { setPosition(cVector3(x,y,z)); }
 		virtual void setPosition(const cVector3 pos);
 		//!Sets the direction the listener is facing
-        virtual void setDirection(const float x, const float y, const float z) { setDirection(cVector3(x,y,z)); }
 		virtual void setDirection(const cVector3 dir);
 		//!Sets the up vector to use for the listener
-		virtual void setUpVector(const float x, const float y, const float z) { setUpVector(cVector3(x,y,z)); }
 		virtual void setUpVector(const cVector3 up);
 		//!Sets the current velocity of the listener for doppler effects
-		virtual void setVelocity(const float x, const float y, const float z) { setVelocity(cVector3(x,y,z)); }
 		virtual void setVelocity(const cVector3 vel);
 		//!Sets the global volume modifier (will effect all sources)
 		virtual void setMasterVolume(const float volume);
-
 		//!Convenience function to automatically set the velocity for you on a move
 		//!Velocity will be set to new position - last position
-		virtual void move(const float x, const float y, const float z) { move(cVector3(x,y,z)); }
 		virtual void move(const cVector3 pos);
 
 		//!Returns the current position of the listener

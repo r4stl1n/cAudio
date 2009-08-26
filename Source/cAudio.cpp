@@ -176,6 +176,7 @@ namespace cAudio
     void cAudio::play3d(cVector3 position, float soundstr, bool loop)
     {
 		this->position = position;
+		this->strength = soundstr;
         alSourcei (source, AL_SOURCE_RELATIVE, false);
         alSource3f(source, AL_POSITION, position.x, position.y, position.z);
         alSourcef (source, AL_ROLLOFF_FACTOR,  soundstr);
@@ -191,56 +192,92 @@ namespace cAudio
     }
 
     //!Used to move the audio sources position after the initial creation
-    void cAudio::setPosition(cVector3 position)
+    void cAudio::setPosition(const cVector3 position)
     {
 		this->position = position;
         alSource3f(source, AL_POSITION, position.x, position.y, position.z);
     }
 
     //!Used to set the velocity of the audio source.
-    void cAudio::setVelocity(cVector3 velocity)
+    void cAudio::setVelocity(const cVector3 velocity)
     {
 		this->velocity = velocity;
         alSource3f(source, AL_VELOCITY, velocity.x, velocity.y, velocity.z);
     }
 
     //!Used to set the direction of the audio source
-    void cAudio::setDirection(cVector3 direction)
+    void cAudio::setDirection(const cVector3 direction)
     {
 		this->direction = direction;
         alSource3f(source, AL_DIRECTION, direction.x, direction.y, direction.z);
     }
 
     //!Used to set the sound strength or roll off factor
-    void cAudio::setStrength(float soundstrength)
+    void cAudio::setStrength(const float soundstrength)
     {
         alSourcef(source, AL_ROLLOFF_FACTOR, soundstrength);
     }
 
     //!Used to set the pitch of the audio file
-    void cAudio::setPitch(float pitch)
+    void cAudio::setPitch(const float pitch)
     {
+		this->pitch = pitch;
         alSourcef (source, AL_PITCH, pitch);
     }
 
     //!Used to set the volume of the audio source
-    void cAudio::setVolume(float volume)
+    void cAudio::setVolume(const float volume)
     {
+		this->volume = volume;
         alSourcef(source, AL_GAIN, volume);
     }
 
     //!Used to set the doppler strength of the audio sources doppler effect
-    void cAudio::setDopplerStrength(float doop)
+    void cAudio::setDopplerStrength(const float dstrength)
     {
-        alSourcef(source, AL_DOPPLER_FACTOR, doop);
+		this->dstrength = dstrength;
+        alSourcef(source, AL_DOPPLER_FACTOR, dstrength);
     }
 
     //!Used to set the doppler velocity of the audio source
-    void cAudio::setDopplerVelocity(cVector3 dvelocity)
+    void cAudio::setDopplerVelocity(const cVector3 dvelocity)
     {
 		this->dvelocity = dvelocity;
         alSource3f(source, AL_DOPPLER_VELOCITY, dvelocity.x, dvelocity.y, dvelocity.z);
     }
+
+	cVector3 cAudio::getPosition()
+	{
+		return this->position;
+	}
+	
+	cVector3 cAudio::getVelocity(){
+		return this->velocity;
+	}
+		
+	cVector3 cAudio::getDirection(){
+		return this->direction;
+	}
+	
+	float cAudio::getDopplerStrength(){
+		return this->dstrength;
+	}
+				
+	float cAudio::getStrength(){
+		return this->strength;
+	}
+		
+	float cAudio::getVolume(){
+		return this->volume;
+	}
+	
+	float cAudio::getPitch(){
+		return this->pitch;
+	}
+		
+	bool cAudio::isLooping(){
+		return this->toloop;
+	}
 
     //!Allows us to seek through a stream
     void cAudio::seek(float secs)

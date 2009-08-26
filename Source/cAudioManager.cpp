@@ -253,13 +253,13 @@ namespace cAudio
     //!Sets the listeners position.
     void cAudioManager::setListenerPos(float x,float y,float z)
     {
-        initlistener.setPosition(x,y,z);
+        initlistener.setPosition(cVector3(x,y,z));
     }
 
     //!Sets the listener orientation
     void cAudioManager::setListenerOrientation(float ux,float uy,float uz)
     {
-		initlistener.setUpVector(ux,uy,uz);
+		initlistener.setUpVector(cVector3(ux,uy,uz));
     }
 
 }
