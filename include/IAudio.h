@@ -2,8 +2,8 @@
 #define IAUDIO_H
 
 #include "IAudioDecoder.h"
+#include "cVector3.h"
 
-class cVector3;
 namespace cAudio
 {
     class IAudio
