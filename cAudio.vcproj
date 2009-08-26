@@ -215,51 +215,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Headers\cUtils.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\cVector3.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Headers\cWavAudioDecoderFacotry.h"
 				>
 			</File>
 			<File
 				RelativePath=".\Headers\cWavDecoder.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\EAudioFormats.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\IAudio.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\IAudioCapture.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\IAudioDecoder.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\IAudioDecoderFactory.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\IAudioManager.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\IDataSource.h"
-				>
-			</File>
-			<File
-				RelativePath=".\include\IListener.h"
 				>
 			</File>
 		</Filter>
@@ -316,6 +276,54 @@
 			</File>
 			<File
 				RelativePath=".\Source\cWavdecoder.cpp"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Include"
+			>
+			<File
+				RelativePath=".\include\EAudioFormats.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\IAudio.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\IAudioCapture.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\IAudioDecoder.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\IAudioDecoderFactory.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\IAudioManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\IDataSource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\IListener.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Util"
+			>
+			<File
+				RelativePath=".\Headers\cUtils.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\cVector3.h"
 				>
 			</File>
 		</Filter>

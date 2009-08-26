@@ -3,6 +3,7 @@
 
 #include "IAudioDecoder.h"
 
+class cVector3;
 namespace cAudio
 {
     class IAudio
@@ -16,13 +17,13 @@ namespace cAudio
 		//!plays the audio file 2d no distance.
 		virtual void play2d(bool loop = false) = 0;
 		//!plays the audio file and sets it to 3d
-		virtual void play3d(bool loop = false, float x = 0.0, float y = 0.0, float z = 0.0, float soundstr = 1.0) = 0;
+		virtual void play3d(cVector3 position, float soundstr = 1.0 , bool loop = false) = 0;
 		//!allows us to set the position or reset the position        
-		virtual void setPosition(float posx,float posy,float posz) = 0;
+		virtual void setPosition(cVector3 position) = 0;
 		//!allows you to set the audio objects velocity
-		virtual void setVelocity(float velx,float vely,float velz) = 0;
+		virtual void setVelocity(cVector3 velocity) = 0;
 		//!allows us to set the direction the audio should play in
-		virtual void setDirection(float dirx,float diry,float dirz) = 0;
+		virtual void setDirection(cVector3 direction) = 0;
 		//! Sets the audios pitch level
 		virtual void setPitch(float pitch) = 0; 
 		//!allows us to set and reset the sound strength
@@ -32,7 +33,7 @@ namespace cAudio
 		//!Set the doppler strength
 		virtual void setDopplerStrength(float doop) = 0; 
 		//!Set the doppler velocity
-		virtual void setDopplerVelocity(float doopx,float doopy,float doopz) = 0;
+		virtual void setDopplerVelocity(cVector3 dvelocity) = 0;
 		//!Seek through the audio stream        
 		virtual void seek(float secs) = 0; 
 

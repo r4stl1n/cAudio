@@ -1,8 +1,7 @@
-#include "../Headers/cAudio.h"
 #include <iostream>
 #include <stdio.h>
 #include <string.h>
-
+#include "../Headers/cAudio.h"
 
 namespace cAudio
 {
@@ -174,10 +173,11 @@ namespace cAudio
     }
 
     //!Plays the given audio file with 3d position
-    void cAudio::play3d(bool loop, float x, float y, float z,float soundstr)
+    void cAudio::play3d(cVector3 position, float soundstr, bool loop)
     {
+		this->position = position;
         alSourcei (source, AL_SOURCE_RELATIVE, false);
-        alSource3f(source, AL_POSITION, x, y, z);
+        alSource3f(source, AL_POSITION, position.x, position.y, position.z);
         alSourcef (source, AL_ROLLOFF_FACTOR,  soundstr);
         toloop = loop;
         play();
@@ -191,21 +191,24 @@ namespace cAudio
     }
 
     //!Used to move the audio sources position after the initial creation
-    void cAudio::setPosition(float posx,float posy,float posz)
+    void cAudio::setPosition(cVector3 position)
     {
-        alSource3f(source, AL_POSITION, posx, posy, posz);
+		this->position = position;
+        alSource3f(source, AL_POSITION, position.x, position.y, position.z);
     }
 
     //!Used to set the velocity of the audio source.
-    void cAudio::setVelocity(float velx,float vely, float velz)
+    void cAudio::setVelocity(cVector3 velocity)
     {
-        alSource3f(source, AL_VELOCITY, velx, vely, velz);
+		this->velocity = velocity;
+        alSource3f(source, AL_VELOCITY, velocity.x, velocity.y, velocity.z);
     }
 
     //!Used to set the direction of the audio source
-    void cAudio::setDirection(float dirx,float diry,float dirz)
+    void cAudio::setDirection(cVector3 direction)
     {
-        alSource3f(source, AL_DIRECTION, dirx, diry, dirz);
+		this->direction = direction;
+        alSource3f(source, AL_DIRECTION, direction.x, direction.y, direction.z);
     }
 
     //!Used to set the sound strength or roll off factor
@@ -233,9 +236,10 @@ namespace cAudio
     }
 
     //!Used to set the doppler velocity of the audio source
-    void cAudio::setDopplerVelocity(float doopx,float doopy,float doopz)
+    void cAudio::setDopplerVelocity(cVector3 dvelocity)
     {
-        alSource3f(source, AL_DOPPLER_VELOCITY, doopx, doopy, doopz);
+		this->dvelocity = dvelocity;
+        alSource3f(source, AL_DOPPLER_VELOCITY, dvelocity.x, dvelocity.y, dvelocity.z);
     }
 
     //!Allows us to seek through a stream

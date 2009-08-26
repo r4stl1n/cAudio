@@ -1,4 +1,3 @@
-
 #ifndef IAUDIOMANAGER_H
 #define IAUDIOMANAGER_H
 #include <string>

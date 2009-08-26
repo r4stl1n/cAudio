@@ -2,12 +2,14 @@
 #define CAUDIO_H_INCLUDED
 #include <string>
 #include <iostream>
+#include <vector>
 #include "AL/al.h"
 #include "AL/alut.h"
-#include <vector>
 
 #define BUFFER_SIZE ( 1024 * 32 )
 #include "../include/IAudio.h"
+#include "../Include/cVector3.h"
+
 namespace cAudio
 {
     class cAudio : public IAudio
@@ -18,14 +20,14 @@ namespace cAudio
 		//!plays the audio file 2d no distance.
 		void play2d(bool loop = false);
 		//!plays the audio file and sets it to 3d
-		void play3d(bool loop = false, float x = 0.0, float y = 0.0, float z = 0.0, float soundstr = 1.0);
+		void play3d(cVector3 position, float soundstr = 1.0 , bool loop = false);
 
 		//!allows us to set the position or reset the position
-		void setPosition(float posx,float posy,float posz);
+		void setPosition(cVector3 position);
 		//!allows you to set the audio objects velocity
-		void setVelocity(float velx,float vely,float velz);
+		void setVelocity(cVector3 velocity);
 		//!allows us to set the direction the audio should play in
-		void setDirection(float dirx,float diry,float dirz);
+		void setDirection(cVector3 direction);
 		//! Sets the audios pitch level
 		void setPitch(float pitch); 
 		//!allows us to set and reset the sound strenght
@@ -35,7 +37,7 @@ namespace cAudio
 		//!Set the doppler strength
 		void setDopplerStrength(float doop);
 		//!Set doppler velocity
-		void setDopplerVelocity(float doopx,float doopy,float doopz);
+		void setDopplerVelocity(cVector3 dvelocity);
 
 		//!Seek the audio stream
 		void seek(float secs);
@@ -88,6 +90,14 @@ namespace cAudio
 		bool pauseaudio;
 		//!if audio is paused
 		bool paused();
+		//! Stores the position of the audio object
+		cVector3 position;
+		//! Stores the velocity of the audio object
+		cVector3 velocity;
+		//! Stores the direction of the audio object
+		cVector3 direction;
+		//! Stores the doppler velocity
+		cVector3 dvelocity;
     };
 }
 #endif //! CAUDIO_H_INCLUDED
