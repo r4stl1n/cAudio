@@ -69,7 +69,7 @@ namespace cAudio
 		\param outputBuffer: Pointer to an output array to copy audio data to.
 		\param outputBufferSize: Size of the output array in bytes
 		*/
-		virtual void getCapturedAudio(void* outputBuffer, unsigned int outputBufferSize);
+		virtual unsigned int getCapturedAudio(void* outputBuffer, unsigned int outputBufferSize);
 
 		//! Returns the current size of the internal audio buffer in bytes
 		virtual unsigned int getCurrentCapturedAudioSize();

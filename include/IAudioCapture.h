@@ -50,8 +50,9 @@ namespace cAudio
 		Once successfully retrieved, the captured audio will be deleted from the internal buffer.
 		\param outputBuffer: Pointer to an output array to copy audio data to.
 		\param outputBufferSize: Size of the output array in bytes
+		\return Size in bytes of the data actually copied to the output buffer.
 		*/
-		virtual void getCapturedAudio(void* outputBuffer, unsigned int outputBufferSize) = 0;
+		virtual unsigned int getCapturedAudio(void* outputBuffer, unsigned int outputBufferSize) = 0;
 
 		//! Returns the current size of the internal audio buffer in bytes
 		virtual unsigned int getCurrentCapturedAudioSize() = 0;

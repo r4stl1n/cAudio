@@ -110,14 +110,17 @@ namespace cAudio
 		Capturing = false;
 	}
 
-	void cAudioCapture::getCapturedAudio(void* outputBuffer, unsigned int outputBufferSize)
+	unsigned int cAudioCapture::getCapturedAudio(void* outputBuffer, unsigned int outputBufferSize)
 	{
 		if(outputBuffer && outputBufferSize > 0)
 		{
 			int sizeToCopy = (outputBufferSize >= CaptureBuffer.size()) ? CaptureBuffer.size() : outputBufferSize;
 			memcpy(outputBuffer, &CaptureBuffer[0], sizeToCopy);
 			CaptureBuffer.erase(CaptureBuffer.begin(), CaptureBuffer.begin()+sizeToCopy);
+
+			return sizeToCopy;
 		}
+		return 0;
 	}
 
 	unsigned int cAudioCapture::getCurrentCapturedAudioSize()
