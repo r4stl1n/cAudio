@@ -65,8 +65,8 @@ namespace cAudio
 		LOAD_AL_FUNC(alGenEffects);
 		LOAD_AL_FUNC(alDeleteEffects);
 		LOAD_AL_FUNC(alIsEffect);
+		
 		*/
-
 		initCapture.checkCaptureExtension();
 		initCapture.initialize();
 

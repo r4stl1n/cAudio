@@ -9,6 +9,8 @@
 #include "../../include/IAudioManager.h"
 //Include IAudio so we can create cAudio objects
 #include "../../include/IAudio.h"
+//Include The cAudio vector class
+#include "../../include/cVector3.h"
 
 using namespace std;
 
@@ -36,15 +38,15 @@ int main(int argc, char* argv[])
     //play3d takes 4 arguments play3d(toloop,x,y,z,strength)
 	if(mysound && listener)
 	{
-		listener->setPosition(0,0,0);
-		mysound->play3d(true,0.0,0.0,0.0,0.1);
+		listener->setPosition(cAudio::cVector3(0,0,0));
+		mysound->play3d(cAudio::cVector3(0,0,0),0.1,true);
 
 		while(mysound->playing())
 		{
 			//Playback sound
 			x+=0.001f * 0.017453293f;  //0.001 degrees a frame
 			float realX = sinf(x)*10.f;
-			mysound->setPosition(realX,0.0,-5.0);
+			mysound->setPosition(cAudio::cVector3(realX,0.0,-5.0));
  			manager->update();
 		}
 	}
