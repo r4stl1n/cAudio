@@ -40,21 +40,21 @@ namespace cAudio
 		void setDopplerVelocity(const cVector3 dvelocity);
 
 		//!Returns the audio objects position
-		cVector3 getPosition();
+		const cVector3& getPosition()const;
 		//!Returns the audio objects velocity
-		cVector3 getVelocity();
+		const cVector3& getVelocity()const;
 		//!Returns the audio objects direction
-		cVector3 getDirection();
+		const cVector3& getDirection()const;
 		//!Returns the audio objects doppler strength
-		float getDopplerStrength();
+		const float& getDopplerStrength()const;
 		//!Returns the audio objects strength
-		float getStrength();
+		const float& getStrength()const;
 		//!Returns the volume of the sound object
-		float getVolume();
+		const float& getVolume()const;
 		//!Returns the pitch volume
-		float getPitch();
+		const float& getPitch()const;
 		//!Returns if the sound object is looping
-		bool isLooping();
+		const bool& isLooping()const;
 
 
 

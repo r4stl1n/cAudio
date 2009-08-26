@@ -38,21 +38,21 @@ namespace cAudio
 		virtual void seek(float secs) = 0; 
 
 		//!Returns the audio objects position
-		virtual cVector3 getPosition() = 0;
+		virtual const cVector3& getPosition()const = 0;
 		//!Returns the audio objects velocity
-		virtual cVector3 getVelocity() = 0;
+		virtual const cVector3& getVelocity()const = 0;
 		//!Returns the audio objects direction
-		virtual cVector3 getDirection() = 0;
+		virtual const cVector3& getDirection()const = 0;
 		//!Returns the audio objects doppler strength
-		virtual float getDopplerStrength() = 0;
+		virtual const float& getDopplerStrength()const = 0;
 		//!Returns the audio objects strength
-		virtual float getStrength() = 0;
+		virtual const float& getStrength()const = 0;
 		//!Returns the volume of the sound object
-		virtual float getVolume() = 0;
+		virtual const float& getVolume()const = 0;
 		//!Returns the pitch volume
-		virtual float getPitch() = 0;
+		virtual const float& getPitch()const = 0;
 		//!Returns if the sound object is looping
-		virtual bool isLooping() = 0;
+		virtual const bool& isLooping()const = 0;
 
 		//!release the file handle
 		virtual void release() = 0;

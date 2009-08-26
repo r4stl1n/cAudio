@@ -246,36 +246,43 @@ namespace cAudio
         alSource3f(source, AL_DOPPLER_VELOCITY, dvelocity.x, dvelocity.y, dvelocity.z);
     }
 
-	cVector3 cAudio::getPosition()
+	const cVector3& cAudio::getPosition()const
 	{
 		return this->position;
 	}
 	
-	cVector3 cAudio::getVelocity(){
+	const cVector3& cAudio::getVelocity()const
+	{
 		return this->velocity;
 	}
 		
-	cVector3 cAudio::getDirection(){
+	const cVector3& cAudio::getDirection()const
+	{
 		return this->direction;
 	}
 	
-	float cAudio::getDopplerStrength(){
+	const float& cAudio::getDopplerStrength()const
+	{
 		return this->dstrength;
 	}
 				
-	float cAudio::getStrength(){
+	const float& cAudio::getStrength()const
+	{
 		return this->strength;
 	}
 		
-	float cAudio::getVolume(){
+	const float& cAudio::getVolume()const
+	{
 		return this->volume;
 	}
 	
-	float cAudio::getPitch(){
+	const float& cAudio::getPitch()const
+	{
 		return this->pitch;
 	}
 		
-	bool cAudio::isLooping(){
+	const bool& cAudio::isLooping()const
+	{
 		return this->toloop;
 	}
 
