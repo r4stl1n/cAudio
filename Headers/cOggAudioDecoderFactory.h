@@ -3,6 +3,7 @@
 
 #include "../include/IAudioDecoderFactory.h"
 #include "cOggDecoder.h"
+#include "../Headers/cMutex.h"
 
 namespace cAudio
 {
@@ -15,10 +16,14 @@ class cOggAudioDecoderFactory : public IAudioDecoderFactory
 
         IAudioDecoder* CreateAudioDecoder(IDataSource* stream)
         {
-            return new cOggDecoder(stream);
+			Mutex.lock();
+			IAudioDecoder* decoder = new cOggDecoder(stream);
+			Mutex.unlock();
+            return decoder;
         }
 
     protected:
+		cAudioMutex Mutex;
     private:
 };
 

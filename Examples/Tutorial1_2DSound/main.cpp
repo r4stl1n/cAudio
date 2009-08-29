@@ -3,6 +3,8 @@
 #include "../../include/IAudioManager.h"
 //Include IAudio so we can create cAudio objects
 #include "../../include/IAudio.h"
+//Include our version of Sleep to free CPU usage
+#include "../../include/cAudioSleep.h"
 
 using namespace std;
 
@@ -27,11 +29,8 @@ int main(int argc, char* argv[])
 		//Set the IAudio Sound to play2d and loop
 		mysound->play2d(true);
 
-		while(mysound->playing())
-		{
-			//Playback sound
- 			manager->update();
-		}
+		//Sleep for 10,000 ms to let the sound play in the worker thread
+		cAudio::cAudioSleep(10000);
 	}
 
     //Delete all IAudio sounds

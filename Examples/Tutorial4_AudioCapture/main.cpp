@@ -4,6 +4,8 @@
 #include "../../include/IAudioManager.h"
 //Include IAudio so we can create cAudio objects
 #include "../../include/IAudio.h"
+//Include our version of Sleep to free CPU usage
+#include "../../include/cAudioSleep.h"
 
 using namespace std;
 
@@ -61,12 +63,17 @@ int main(int argc, char* argv[])
 			while(currentsize < targetRecordSize)
 			{
 				currentsize = capture->getCurrentCapturedAudioSize();
-				//Run the main update loop to keep audio data flowing in
-				manager->update();
+
+				//Sleep for 1 ms to free some CPU
+				cAudio::cAudioSleep(1);
 			}
 		}
 		capture->stopCapture();
 		cout << "Capture stopped... \n \n";
+
+		//Grab the total size again, ensures we get ALL the audio data
+		//Not completely necessary, as starting a capture again will clear the old audio data
+		currentsize = capture->getCurrentCapturedAudioSize();
 
 		char* buffer = new char[currentsize];
 		capture->getCapturedAudio(buffer, currentsize);
@@ -85,8 +92,8 @@ int main(int argc, char* argv[])
 
 			while(mysound->playing())
 			{
-				//Playback sound
- 				manager->update();
+				//Sleep for 10 ms to free some CPU
+				cAudio::cAudioSleep(10);
 			}
 		}
 	}

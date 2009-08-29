@@ -1,0 +1,39 @@
+#include "../Headers/cThread.h"
+
+#ifdef _WIN32
+#include <windows.h>	//Basic windows includes
+#include <process.h>
+#else
+#include <pthread.h>	//Assumed linux system
+#endif	
+
+namespace cAudio
+{
+	#ifdef _WIN32
+	int cAudioThread::SpawnThread( unsigned __stdcall start_address( void* ), void *arg)
+	{
+		HANDLE threadHandle;
+		unsigned threadID = 0;
+
+		threadHandle = (HANDLE) _beginthreadex(NULL,0,start_address,arg,0,&threadID);
+
+		int state = (threadHandle==0) ? 1 : 0;
+
+		if(state == 0)
+			CloseHandle( threadHandle );
+
+		return state;
+	}
+	#else
+	int cAudioThread::SpawnThread( void* start_address( void* ), void *arg)
+	{
+		pthread_t threadHandle;
+
+		pthread_attr_t attr;
+		pthread_attr_init( &attr );
+		pthread_attr_setdetachstate( &attr, PTHREAD_CREATE_DETACHED );
+
+		return pthread_create( &threadHandle, &attr, start_address, arg );
+	}
+	#endif
+};

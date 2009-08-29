@@ -11,6 +11,8 @@
 #include "../../include/IAudio.h"
 //Include The cAudio vector class
 #include "../../include/cVector3.h"
+//Include our version of Sleep to free CPU usage
+#include "../../include/cAudioSleep.h"
 //Our Bling sound
 #include "bling.h"
 
@@ -39,8 +41,8 @@ int main(int argc, char* argv[])
 
 		while(mysound->playing())
 		{
-			//Playback sound
- 			manager->update();
+			//Sleep for 10 ms to free some CPU
+			cAudio::cAudioSleep(10);
 		}
 	}
 

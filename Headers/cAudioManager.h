@@ -8,6 +8,7 @@
 #include "cListener.h"
 #include "cAudioCapture.h"
 #include "../include/IAudioManager.h"
+#include "../Headers/cMutex.h"
 
 namespace cAudio
 {
@@ -52,15 +53,22 @@ namespace cAudio
 		virtual IListener* getListener() { return &initlistener; }
 		virtual IAudioCapture* getAudioCapture() { return &initCapture; }
 
+		virtual bool IsThreadRunning() { return RunThread; }
+
 		static cAudioManager* Instance()
 		{
 			return &m_cAudioManager;
 		}
 
 	protected:
-		cAudioManager(){ }
+		cAudioManager() : RunThread(false){ }
 
 	private:
+		//Mutex for thread syncronization
+		cAudioMutex Mutex;
+
+		bool RunThread;
+
 		//!Global cAudioManager
 		static cAudioManager m_cAudioManager;
 		//!The map that holds the cAudio objects

@@ -7,6 +7,7 @@ namespace cAudio
 {
     cAudio::cAudio(IAudioDecoder* decoder) : Decoder(decoder)
     {
+		Mutex.lock();
         streaming = false;
         playaudio = false;
         pauseaudio = false;
@@ -16,16 +17,20 @@ namespace cAudio
 		alGenBuffers(3, buffers);
 		//Creates one source to be stored.
 		alGenSources(1, &source);
+		Mutex.unlock();
     }
 
     cAudio::~cAudio()
     {
+		Mutex.lock();
         delete Decoder;
+		Mutex.unlock();
     }
 
     //!Stops all playing sound sources and deletes the sources and buffers
     void cAudio::release()
     {
+		Mutex.lock();
 		//Stops the audio source
 		alSourceStop(source);
 		empty();
@@ -33,38 +38,50 @@ namespace cAudio
 		alDeleteSources(1, &source);
 		//deletes the last filled buffer
 		alDeleteBuffers(3, buffers);
+		Mutex.unlock();
     }
 
     //!Plays back sound source
     bool cAudio::playback()
     {
-        return playing();
+		Mutex.lock();
+		bool play = playing();
+		Mutex.unlock();
+        return play;
     }
 
     bool cAudio::paused()
     {
+		Mutex.lock();
         ALenum state = 0;
 
         alGetSourcei(source, AL_SOURCE_STATE, &state);
 
+		Mutex.unlock();
         return (state == AL_PAUSED);
     }
 
     //!checks to see if audio source is playing if it is returns true
     bool cAudio::playing()
     {
+		Mutex.lock();
         ALenum state = 0;
 
         alGetSourcei(source, AL_SOURCE_STATE, &state);
 
+		Mutex.unlock();
         return (state == AL_PLAYING);
     }
 
     //!updates the sound source by refilling the buffers with ogg data.
     bool cAudio::update()
     {
+		Mutex.lock();
         if(!isvalid() || !playing())
+		{
+			Mutex.unlock();
             return false;
+		}
 
         int processed = 0;
         bool active = true;
@@ -83,6 +100,7 @@ namespace cAudio
             if(active)
                 alSourceQueueBuffers(source, 1, &buffer);
         }
+		Mutex.unlock();
 		return active;
     }
 
@@ -160,21 +178,27 @@ namespace cAudio
     //!checks to see if the given ogg file is valid
     bool cAudio::isvalid()
     {
-        return (Decoder != 0);
+		Mutex.lock();
+		bool state = (Decoder != 0);
+		Mutex.unlock();
+        return state;
     }
 
     //!Sets the sound source relativity to follow the listener to give the illusion of stereo 2d sound
     void cAudio::play2d(bool loop)
     {
+		Mutex.lock();
         alSourcei (source, AL_SOURCE_RELATIVE, true);
         toloop = loop;
         play();
 		alSourcePlay(source);
+		Mutex.unlock();
     }
 
     //!Plays the given audio file with 3d position
     void cAudio::play3d(cVector3 position, float soundstr, bool loop)
     {
+		Mutex.lock();
 		this->position = position;
 		this->strength = soundstr;
         alSourcei (source, AL_SOURCE_RELATIVE, false);
@@ -183,67 +207,86 @@ namespace cAudio
         toloop = loop;
         play();
         alSourcePlay(source);
+		Mutex.unlock();
     }
 
     //!Used to tell the soundsource to loop or not
     void cAudio::loop(bool loop)
     {
+		Mutex.lock();
         toloop = loop;
+		Mutex.unlock();
     }
 
     //!Used to move the audio sources position after the initial creation
     void cAudio::setPosition(const cVector3 position)
     {
+		Mutex.lock();
 		this->position = position;
         alSource3f(source, AL_POSITION, position.x, position.y, position.z);
+		Mutex.unlock();
     }
 
     //!Used to set the velocity of the audio source.
     void cAudio::setVelocity(const cVector3 velocity)
     {
+		Mutex.lock();
 		this->velocity = velocity;
         alSource3f(source, AL_VELOCITY, velocity.x, velocity.y, velocity.z);
+		Mutex.unlock();
     }
 
     //!Used to set the direction of the audio source
     void cAudio::setDirection(const cVector3 direction)
     {
+		Mutex.lock();
 		this->direction = direction;
         alSource3f(source, AL_DIRECTION, direction.x, direction.y, direction.z);
+		Mutex.unlock();
     }
 
     //!Used to set the sound strength or roll off factor
     void cAudio::setStrength(const float soundstrength)
     {
+		Mutex.lock();
         alSourcef(source, AL_ROLLOFF_FACTOR, soundstrength);
+		Mutex.unlock();
     }
 
     //!Used to set the pitch of the audio file
     void cAudio::setPitch(const float pitch)
     {
+		Mutex.lock();
 		this->pitch = pitch;
         alSourcef (source, AL_PITCH, pitch);
+		Mutex.unlock();
     }
 
     //!Used to set the volume of the audio source
     void cAudio::setVolume(const float volume)
     {
+		Mutex.lock();
 		this->volume = volume;
         alSourcef(source, AL_GAIN, volume);
+		Mutex.unlock();
     }
 
     //!Used to set the doppler strength of the audio sources doppler effect
     void cAudio::setDopplerStrength(const float dstrength)
     {
+		Mutex.lock();
 		this->dstrength = dstrength;
         alSourcef(source, AL_DOPPLER_FACTOR, dstrength);
+		Mutex.unlock();
     }
 
     //!Used to set the doppler velocity of the audio source
     void cAudio::setDopplerVelocity(const cVector3 dvelocity)
     {
+		Mutex.lock();
 		this->dvelocity = dvelocity;
         alSource3f(source, AL_DOPPLER_VELOCITY, dvelocity.x, dvelocity.y, dvelocity.z);
+		Mutex.unlock();
     }
 
 	const cVector3& cAudio::getPosition()const
@@ -289,15 +332,18 @@ namespace cAudio
     //!Allows us to seek through a stream
     void cAudio::seek(float secs)
     {
+		Mutex.lock();
         if(Decoder->isSeekingSupported())
         {
             Decoder->seek(secs, false);
         }
+		Mutex.unlock();
     }
 
     //!Used to play the audio source
     bool cAudio::play()
     {
+		Mutex.lock();
         playaudio = true;
 		if (!paused()) 
         { 
@@ -316,22 +362,27 @@ namespace cAudio
             //Stores the sources 3 buffers to be used in the queue 
             alSourceQueueBuffers(source, queueSize, buffers); 
         }
-        alSourcePlay(source); 
+        alSourcePlay(source);
+		Mutex.unlock();
         return true; 
     }
 
     //!Used to stop the audio source
     void cAudio::stop()
     {
+		Mutex.lock();
         playaudio = false;
         alSourceStop(source);
+		Mutex.unlock();
     }
 
     //!Used to pause the audio source
     void cAudio::pause()
     {
+		Mutex.lock();
         playaudio = false;
         alSourcePause(source);
+		Mutex.unlock();
     }
 
 }

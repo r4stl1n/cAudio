@@ -3,18 +3,7 @@
 #include <string>
 #include "IListener.h"
 #include "IAudioCapture.h"
-
-#ifndef CAUDIO_STATIC_LIB
-
-#ifdef CAUDIO_EXPORTS
-#define CAUDIO_API __declspec(dllexport)
-#else
-#define CAUDIO_API//! __declspec(dllimport)
-#endif // CAUDIO_EXPORTS
-
-#else
-#define CAUDIO_API
-#endif // CAUDIO_STATIC_LIB
+#include "cAudioDefines.h"
 
 namespace cAudio
 {
@@ -61,6 +50,8 @@ namespace cAudio
 		virtual IListener* getListener() = 0;
 		//!Returns an interface for audio capture
 		virtual IAudioCapture* getAudioCapture() = 0;
+
+		virtual bool IsThreadRunning() = 0;
 
 		virtual ~IAudioManager() {}
     protected:

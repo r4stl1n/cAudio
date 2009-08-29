@@ -11,6 +11,8 @@
 #include "../../include/IAudio.h"
 //Include The cAudio vector class
 #include "../../include/cVector3.h"
+//Include our version of Sleep to free CPU usage
+#include "../../include/cAudioSleep.h"
 
 using namespace std;
 
@@ -44,10 +46,12 @@ int main(int argc, char* argv[])
 		while(mysound->playing())
 		{
 			//Playback sound
-			x+=0.001f * 0.017453293f;  //0.001 degrees a frame
+			x+=0.1f * 0.017453293f;  //0.1 degrees a frame
 			float realX = sinf(x)*10.f;
 			mysound->setPosition(cAudio::cVector3(realX,0.0,-5.0));
- 			manager->update();
+
+			//Sleep for 1 ms to free some CPU
+			cAudio::cAudioSleep(1);
 		}
 	}
 

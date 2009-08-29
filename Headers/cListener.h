@@ -2,6 +2,7 @@
 #define CLISTENER_H_INCLUDED
 
 #include "../include/IListener.h"
+#include "../Headers/cMutex.h"
 
 namespace cAudio
 {
@@ -41,6 +42,8 @@ namespace cAudio
 		//!Returns the global volume modifier for all sources
 		virtual float getMasterVolume(void) const { return MasterGain; }
 	protected:
+		cAudioMutex Mutex;
+
 		cVector3 Position;
 		cVector3 Direction;
 		cVector3 UpVector;

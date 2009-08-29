@@ -15,17 +15,20 @@ namespace cAudio
 
 	bool cAudioCapture::checkCaptureExtension()
 	{
+		Mutex.lock();
 		// Check for Capture Extension support
 		ALCdevice* pDevice;
 		ALCcontext* pContext;
 		pContext = alcGetCurrentContext();
 		pDevice = alcGetContextsDevice(pContext);
 		Supported = ( alcIsExtensionPresent(pDevice, "ALC_EXT_CAPTURE") == AL_TRUE );
+		Mutex.unlock();
 		return Supported;
 	}
 
 	bool cAudioCapture::initOpenALDevice()
 	{
+		Mutex.lock();
 		if(Supported)
 		{
 			if(CaptureDevice)
@@ -35,14 +38,17 @@ namespace cAudio
 			if(CaptureDevice)
 			{
 				Ready = true;
+				Mutex.unlock();
 				return true;
 			}
 		}
+		Mutex.unlock();
 		return false;
 	}
 
 	void cAudioCapture::shutdownOpenALDevice()
 	{
+		Mutex.lock();
 		if(Supported)
 		{
 			if(Capturing)
@@ -55,15 +61,19 @@ namespace cAudio
 				Ready = false;
 			}
 		}
+		Mutex.unlock();
 	}
 
 	void cAudioCapture::shutdown()
 	{
+		Mutex.lock();
 		shutdownOpenALDevice();
+		Mutex.unlock();
 	}
 
 	void cAudioCapture::updateCaptureBuffer(bool force)
 	{
+		Mutex.lock();
 		if(Capturing && CaptureDevice && Ready)
 		{
 			int AvailableSamples = 0;
@@ -82,10 +92,12 @@ namespace cAudio
 				}
 			}
 		}
+		Mutex.unlock();
 	}
 
 	bool cAudioCapture::beginCapture()
 	{
+		Mutex.lock();
 		if(!Capturing)
 		{
 			CaptureBuffer.clear();
@@ -94,49 +106,65 @@ namespace cAudio
 				alcCaptureStart(CaptureDevice);
 				Capturing = true;
 			}
+			Mutex.unlock();
 			return Capturing;
 		}
 		else
+		{
+			Mutex.unlock();
 			return false;
+		}
 	}
 
 	void cAudioCapture::stopCapture()
 	{
+		Mutex.lock();
 		if(CaptureDevice && Ready)
 		{
 			alcCaptureStop(CaptureDevice);
 			updateCaptureBuffer(true);
 		}
 		Capturing = false;
+		Mutex.unlock();
 	}
 
 	unsigned int cAudioCapture::getCapturedAudio(void* outputBuffer, unsigned int outputBufferSize)
 	{
+		Mutex.lock();
 		if(outputBuffer && outputBufferSize > 0)
 		{
 			int sizeToCopy = (outputBufferSize >= CaptureBuffer.size()) ? CaptureBuffer.size() : outputBufferSize;
 			memcpy(outputBuffer, &CaptureBuffer[0], sizeToCopy);
 			CaptureBuffer.erase(CaptureBuffer.begin(), CaptureBuffer.begin()+sizeToCopy);
 
+			Mutex.unlock();
 			return sizeToCopy;
 		}
+		Mutex.unlock();
 		return 0;
 	}
 
 	unsigned int cAudioCapture::getCurrentCapturedAudioSize()
 	{
-		return CaptureBuffer.size();
+		Mutex.lock();
+		unsigned int size = CaptureBuffer.size();
+		Mutex.unlock();
+		return size;
 	}
 
 	bool cAudioCapture::setFrequency(unsigned int frequency)
 	{
+		Mutex.lock();
 		Frequency = frequency;
 		shutdownOpenALDevice();
-		return initOpenALDevice();
+		bool state = initOpenALDevice();
+		Mutex.unlock();
+		return state;
 	}
 
 	bool cAudioCapture::setFormat(AudioFormats format)
 	{
+		Mutex.lock();
 		Format = format;
 		if(Format == EAF_8BIT_MONO)
 			SampleSize = 1;
@@ -148,19 +176,25 @@ namespace cAudio
 			SampleSize = 4;
 
 		shutdownOpenALDevice();
-		return initOpenALDevice();
+		bool state = initOpenALDevice();
+		Mutex.unlock();
+		return state;
 	}
 
 	bool cAudioCapture::setInternalBufferSize(unsigned int internalBufferSize)
 	{
+		Mutex.lock();
 		InternalBufferSize = internalBufferSize;
 
 		shutdownOpenALDevice();
-		return initOpenALDevice();
+		bool state = initOpenALDevice();
+		Mutex.unlock();
+		return state;
 	}
 
 	bool cAudioCapture::initialize(unsigned int frequency, AudioFormats format, unsigned int internalBufferSize)
 	{
+		Mutex.lock();
 		Frequency = frequency;
 		InternalBufferSize = internalBufferSize;
 
@@ -175,6 +209,8 @@ namespace cAudio
 			SampleSize = 4;
 
 		shutdownOpenALDevice();
-		return initOpenALDevice();
+		bool state = initOpenALDevice();
+		Mutex.unlock();
+		return state;
 	}
 };

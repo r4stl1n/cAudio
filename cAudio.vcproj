@@ -199,6 +199,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Headers\cMutex.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Headers\cOggAudioDecoderFactory.h"
 				>
 			</File>
@@ -212,6 +216,10 @@
 			</File>
 			<File
 				RelativePath=".\Headers\cRawDecoder.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Headers\cThread.h"
 				>
 			</File>
 			<File
@@ -247,6 +255,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\cAudioSleep.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\cFileSource.cpp"
 				>
 			</File>
@@ -256,6 +268,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\cMemorySource.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\cMutex.cpp"
 				>
 			</File>
 			<File
@@ -271,6 +287,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\cThread.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\cWavAudioDecoderFactory.cpp"
 				>
 			</File>
@@ -282,6 +302,14 @@
 		<Filter
 			Name="Include"
 			>
+			<File
+				RelativePath=".\include\cAudioDefines.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\cAudioSleep.h"
+				>
+			</File>
 			<File
 				RelativePath=".\include\EAudioFormats.h"
 				>

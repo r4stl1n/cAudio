@@ -5,6 +5,7 @@
 #include <vector>
 #include <AL/al.h>
 #include <AL/alc.h>
+#include "../Headers/cMutex.h"
 
 namespace cAudio
 {
@@ -74,6 +75,9 @@ namespace cAudio
 		//! Returns the current size of the internal audio buffer in bytes
 		virtual unsigned int getCurrentCapturedAudioSize();
 	protected:
+		//Mutex for thread syncronization
+		cAudioMutex Mutex;
+
 		bool initOpenALDevice();
 		void shutdownOpenALDevice();
 

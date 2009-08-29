@@ -3,7 +3,7 @@
 
 #include "../include/IAudioDecoderFactory.h"
 #include "cWavDecoder.h"
-
+#include "../Headers/cMutex.h"
 
 namespace cAudio
 {
@@ -16,9 +16,13 @@ class cWavAudioDecoderFactory : public IAudioDecoderFactory
 
         IAudioDecoder* CreateAudioDecoder(IDataSource* stream)
         {
-            return new cWavDecoder(stream);
+			Mutex.lock();
+            IAudioDecoder* decoder = new cWavDecoder(stream);
+			Mutex.unlock();
+			return decoder;
         }
     protected:
+		cAudioMutex Mutex;
     private:
 };
 

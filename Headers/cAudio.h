@@ -8,6 +8,7 @@
 #define BUFFER_SIZE ( 1024 * 32 )
 #include "../include/IAudio.h"
 #include "../Include/cVector3.h"
+#include "../Headers/cMutex.h"
 
 namespace cAudio
 {
@@ -82,6 +83,8 @@ namespace cAudio
 
 	protected:
 	private:
+		//Mutex for thread syncronization
+		cAudioMutex Mutex;
 		//!empties the queue
 		void empty();
 		//!checks openal error state
