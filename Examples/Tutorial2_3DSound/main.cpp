@@ -23,7 +23,7 @@ int main(int argc, char* argv[])
     //Some fancy text
     cout << "cAudio 1.7.1 Tutorial 2: 3dSound \n";
     //Hold audio source x position
-    float x = 0;
+    float rot = 0;
     //Grap the cAudioManager
     cAudio::IAudioManager* manager = cAudio::getAudioManager();
     //Init the cAudio Engine
@@ -41,14 +41,18 @@ int main(int argc, char* argv[])
 	if(mysound && listener)
 	{
 		listener->setPosition(cAudio::cVector3(0,0,0));
-		mysound->play3d(cAudio::cVector3(0,0,0),0.1,true);
+		mysound->play3d(cAudio::cVector3(0,0,0),1.0f,true);
+		mysound->setVolume(2.0);
 
 		while(mysound->playing())
 		{
-			//Playback sound
-			x+=0.1f * 0.017453293f;  //0.1 degrees a frame
-			float realX = sinf(x)*10.f;
-			mysound->setPosition(cAudio::cVector3(realX,0.0,-5.0));
+			//Figure out the location of our rotated sound
+			rot+=0.1f * 0.017453293f;  //0.1 degrees a frame
+
+			//Sound "starts" at x=5, y=0, z=0
+			float x = 5.0f * cosf(rot) - 0.0f * sinf(rot);
+			float z = 0.0f * cosf(rot) + 5.0f * sinf(rot);
+			mysound->setPosition(cAudio::cVector3(x,0.0,z));
 
 			//Sleep for 1 ms to free some CPU
 			cAudio::cAudioSleep(1);
