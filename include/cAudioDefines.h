@@ -18,6 +18,9 @@
 //Will also disable internal threading by the library
 #define CAUDIO_MAKE_THREAD_SAFE
 
+//Define for compiling with EAX
+#define CAUDIO_EAX_ENABLED
+
 #ifdef CAUDIO_MAKE_THREAD_SAFE
 //Define enables threading for the main update loop.  Disable to run the internal update loop yourself
 //NOTE: Internal threading should NOT be used if the library is not thread safe!

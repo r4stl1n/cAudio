@@ -10,9 +10,10 @@
 
 #include <AL/al.h>
 #include <AL/alc.h>
+#include <AL/efx.h>
+#include <AL/efx-creative.h>
+#include <AL/xram.h>
 
-//!#include <AL/alext.h>
-//!#include <AL/efx.h>
 #include <iostream>
 #define LOAD_AL_FUNC(x) (x = (typeof(x))alGetProcAddress(#x))
 
@@ -47,12 +48,26 @@ namespace cAudio
 		ALCdevice *Device;
 		//Create a new device
 		Device = alcOpenDevice(NULL);
+		//Stores the EAX attributes
+		ALint attribs[4] = { 0 };
 		//Check if device can be created
 		if (Device == NULL)
 			exit(-1);
 
-		//Create context
+		//Setup attributes to request 4 slots per a sound source
+		attribs[0] = ALC_MAX_AUXILIARY_SENDS;
+		attribs[1] = 4;
+
+		//Create context with eax effects for windows
+#ifdef CAUDIO_EAX_ENABLED
+		if(alcIsExtensionPresent(Device, "ALC_EXT_EFX") == AL_FALSE)
+			return;
+
+		Context=alcCreateContext(Device, attribs);
+#else
 		Context=alcCreateContext(Device, NULL);
+#endif 
+
 		//Set active context
 		alcMakeContextCurrent(Context);
 		// Clear Error Code
@@ -295,6 +310,7 @@ namespace cAudio
 		alcDestroyContext(Context);
 		//Close the device
 		alcCloseDevice(Device);
+
 		Mutex.unlock();
 		RunThread = false;
     }
