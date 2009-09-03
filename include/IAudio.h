@@ -6,6 +6,7 @@
 
 namespace cAudio
 {
+	
     class IAudio
     {
     public:
@@ -71,6 +72,8 @@ namespace cAudio
 		virtual bool update() = 0;
 		//!checks to make sure everything is ready to go
 		virtual bool isvalid() = 0;
+		//!returns the current OpenalSource
+		virtual const ALuint& getSource()const = 0;
     protected:
     private:
     };

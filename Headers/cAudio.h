@@ -77,7 +77,9 @@ namespace cAudio
 		bool update();
 		//!checks to make sure everything is ready to go
 		bool isvalid();
-
+		//!returns the current OpenalSource
+		const ALuint& getSource()const;
+	
 		cAudio(IAudioDecoder* decoder);
 		~cAudio();
 

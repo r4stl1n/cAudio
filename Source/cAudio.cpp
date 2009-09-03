@@ -385,4 +385,8 @@ namespace cAudio
 		Mutex.unlock();
     }
 
+	const ALuint& cAudio::getSource()const
+	{
+		return this->source;
+	}
 }
