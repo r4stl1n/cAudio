@@ -52,7 +52,10 @@ namespace cAudio
 		ALint attribs[4] = { 0 };
 		//Check if device can be created
 		if (Device == NULL)
+			log->log(E_LOGLEVEL_4,"cAudio Failed to Initalized:");		
 			exit(-1);
+
+		log->log(E_LOGLEVEL_4,"cAudio Initalized:");
 
 		//Setup attributes to request 4 slots per a sound source
 		attribs[0] = ALC_MAX_AUXILIARY_SENDS;
@@ -61,9 +64,11 @@ namespace cAudio
 		//Create context with eax effects for windows
 #ifdef CAUDIO_EAX_ENABLED
 		if(alcIsExtensionPresent(Device, "ALC_EXT_EFX") == AL_FALSE)
+			log->log(E_LOGLEVEL_4,"cAudio: EFX isnt supported");
 			return;
 
 		Context=alcCreateContext(Device, attribs);
+		log->log(E_LOGLEVEL_4,"cAudio: EFX Supported and Enabled.");
 #else
 		Context=alcCreateContext(Device, NULL);
 #endif 
@@ -106,12 +111,14 @@ namespace cAudio
                 IAudioDecoder* decoder = factory->CreateAudioDecoder(source);
                 IAudio* audio = new cAudio(decoder);
                 audiomap[identifier] = audio;
-				Mutex.unlock();
-                return audio;
+				log->log(E_LOGLEVEL_4,"cAudio: Streaming IAudio Object %s created from %s", identifier.c_str(),file.c_str());
+                Mutex.unlock();
+				return audio;
             }
             else
             {
                 delete source;
+				log->log(E_LOGLEVEL_4,"cAudio: Failed to create IAudio Object %s from %s", identifier.c_str(),file.c_str());
 				Mutex.unlock();
                 return NULL;
             }
@@ -148,12 +155,14 @@ namespace cAudio
             IAudioDecoder* decoder = factory->CreateAudioDecoder(source);
             IAudio* audio = new cAudio(decoder);
             audiomap[identifier] = audio;
+			log->log(E_LOGLEVEL_4,"cAudio: IAudio Object %s created from memory", identifier.c_str());
 			Mutex.unlock();
             return audio;
         }
         else
         {
             delete source;
+			log->log(E_LOGLEVEL_4,"cAudio: Failed to create IAudio Object %s from memory", identifier.c_str());
 			Mutex.unlock();
             return NULL;
         }
@@ -175,12 +184,14 @@ namespace cAudio
 			IAudioDecoder* decoder = ((cRawAudioDecoderFactory*)factory)->CreateAudioDecoder(source, frequency, format);
             IAudio* audio = new cAudio(decoder);
             audiomap[identifier] = audio;
+			log->log(E_LOGLEVEL_4,"cAudio: IAudio Object %s created from memory", identifier.c_str());
 			Mutex.unlock();
             return audio;
         }
         else
         {
             delete source;
+			log->log(E_LOGLEVEL_4,"cAudio: Failed to create IAudio Object %s from memory", identifier.c_str());
 			Mutex.unlock();
             return NULL;
         }
@@ -190,6 +201,7 @@ namespace cAudio
     {
 		Mutex.lock();
         decodermap[extension] = factory;
+		log->log(E_LOGLEVEL_4,"cAudio: Audio Decoder %s loaded", extension.c_str());
 		Mutex.unlock();
 		return true;
     }
@@ -202,6 +214,7 @@ namespace cAudio
 		{
 			delete it->second;
 			decodermap.erase(it);
+			log->log(E_LOGLEVEL_4,"cAudio: Audio Decoder %s unloaded", extension.c_str());
 		}
 		Mutex.unlock();
 	}
@@ -310,7 +323,7 @@ namespace cAudio
 		alcDestroyContext(Context);
 		//Close the device
 		alcCloseDevice(Device);
-
+		log->log(E_LOGLEVEL_4,"cAudio ShutDown");
 		Mutex.unlock();
 		RunThread = false;
     }

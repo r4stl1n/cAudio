@@ -13,6 +13,7 @@ namespace cAudio
     class IAudioManager
     {
     public:
+
 		//!Inits the audio manager calling the alut/etc start ups
 		virtual void init(int argc,char* argv[]) = 0;
 		//!Shuts everything down
@@ -52,7 +53,8 @@ namespace cAudio
 		virtual IAudioCapture* getAudioCapture() = 0;
 
 		virtual bool IsThreadRunning() = 0;
-
+		
+		IAudioManager(){}
 		virtual ~IAudioManager() {}
     protected:
     private:

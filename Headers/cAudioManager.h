@@ -9,6 +9,8 @@
 #include "cAudioCapture.h"
 #include "../include/IAudioManager.h"
 #include "../Headers/cMutex.h"
+#include "../include/ILogger.h"
+#include "../Headers/cLogger.h"
 
 namespace cAudio
 {
@@ -17,6 +19,7 @@ namespace cAudio
     class cAudioManager : public IAudioManager
     {
     public:
+
 		//!Inits the audio manager calling the alut/etc start ups
 		virtual void init(int argc,char* argv[]); 
 		//!Shuts everything down        
@@ -59,16 +62,21 @@ namespace cAudio
 		{
 			return &m_cAudioManager;
 		}
-
+		virtual ~cAudioManager(){
+			delete log;
+		}
+	
 	protected:
-		cAudioManager() : RunThread(false){ }
-
+		cAudioManager() : RunThread(false){ 
+		log = new cLogger();}
+		
 	private:
 		//Mutex for thread syncronization
 		cAudioMutex Mutex;
-
 		bool RunThread;
-
+		
+		//Logger Object
+		ILogger *log;
 		//!Global cAudioManager
 		static cAudioManager m_cAudioManager;
 		//!The map that holds the cAudio objects

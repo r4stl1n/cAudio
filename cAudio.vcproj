@@ -197,6 +197,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Headers\cLogger.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Headers\cMemorySource.h"
 				>
 			</File>
@@ -266,6 +270,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\cListener.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\cLogger.cpp"
 				>
 			</File>
 			<File
@@ -342,6 +350,10 @@
 			</File>
 			<File
 				RelativePath=".\include\IListener.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ILogger.h"
 				>
 			</File>
 		</Filter>

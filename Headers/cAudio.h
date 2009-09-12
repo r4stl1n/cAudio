@@ -9,6 +9,7 @@
 #include "../include/IAudio.h"
 #include "../Include/cVector3.h"
 #include "../Headers/cMutex.h"
+#include "../include/ILogger.h"
 
 namespace cAudio
 {
