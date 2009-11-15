@@ -51,9 +51,10 @@ namespace cAudio
 		//Stores the EAX attributes
 		ALint attribs[4] = { 0 };
 		//Check if device can be created
-		if (Device == NULL)
+		if (Device == NULL){
 			log->log(E_LOGLEVEL_4,"cAudio Failed to Initalized:");		
 			exit(-1);
+		}
 
 		log->log(E_LOGLEVEL_4,"cAudio Initalized:");
 
@@ -63,9 +64,10 @@ namespace cAudio
 
 		//Create context with eax effects for windows
 #ifdef CAUDIO_EAX_ENABLED
-		if(alcIsExtensionPresent(Device, "ALC_EXT_EFX") == AL_FALSE)
+		if(alcIsExtensionPresent(Device, "ALC_EXT_EFX") == AL_FALSE){
 			log->log(E_LOGLEVEL_4,"cAudio: EFX isnt supported");
 			return;
+		}
 
 		Context=alcCreateContext(Device, attribs);
 		log->log(E_LOGLEVEL_4,"cAudio: EFX Supported and Enabled.");

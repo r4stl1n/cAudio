@@ -25,11 +25,17 @@ void cLogger::setLogLevel(E_LOGLEVEL level)
 
 void cLogger::log(E_LOGLEVEL loglevel,const char* text,...)
 {
-	Mutex.lock();
-	if(logLevel <= loglevel){
-		std::cout<<text<<std::endl;
-	}
-	Mutex.unlock();
+    Mutex.lock();
+    char buffer[ 4096 ];
+    va_list marker;
+    va_start( marker, text );
+    vsprintf( buffer, text, marker );
+    va_end( marker );
+    if(logLevel <= loglevel)
+    {
+        std::cout<< buffer <<std::endl;
+    }
+    Mutex.unlock(); 
 }
 
 }
