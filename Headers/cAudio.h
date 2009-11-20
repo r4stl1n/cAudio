@@ -3,7 +3,8 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include "AL/al.h"
+#include <AL/al.h>
+#include <AL/alc.h>
 
 #define BUFFER_SIZE ( 1024 * 32 )
 #include "../include/IAudio.h"
@@ -91,11 +92,9 @@ namespace cAudio
 		//!empties the queue
 		void empty();
 		//!checks openal error state
-		void check();
+		void checkError();
 		//!reloads a buffer
 		bool stream(ALuint buffer);
-		//!stringify an error code
-		std::string errorString(int code);
 
 		//! front and back buffers
 		ALuint buffers[3]; 

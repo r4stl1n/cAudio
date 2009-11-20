@@ -1,27 +1,54 @@
 #include "../Headers/cAudioCapture.h"
+#include "../Headers/cUtils.h"
+#include "../Headers/cThread.h"
+#include "../include/cAudioSleep.h"
+
 #include <string.h>
+#include <set>
 
 namespace cAudio
 {
-	cAudioCapture::cAudioCapture() : Frequency(22050), Format(EAF_16BIT_MONO), InternalBufferSize(8192),
-									Supported(false), Ready(false), Capturing(false), SampleSize(2), CaptureDevice(NULL)
-	{
+	static bool RunAudioCaptureThread(false);
 
+	//Note: OpenAL is threadsafe, so a mutex only needs to protect the class state
+#ifdef CAUDIO_USE_INTERNAL_THREAD
+	static cAudioMutex AudioCaptureObjectsMutex;
+	static std::set<IAudioCapture*> AudioCaptureObjects;
+
+	CAUDIO_DECLARE_THREAD_FUNCTION(AudioCaptureUpdateThread)
+	{
+		while(RunAudioCaptureThread)
+		{
+			AudioCaptureObjectsMutex.lock();
+			std::set<IAudioCapture*>::iterator it;
+			for ( it=AudioCaptureObjects.begin() ; it != AudioCaptureObjects.end(); it++ )
+			{
+				(*it)->updateCaptureBuffer();
+			}
+			AudioCaptureObjectsMutex.unlock();
+			cAudioSleep(1);
+		}
+		return 0;
+	}
+#endif
+
+	cAudioCapture::cAudioCapture() : Frequency(22050), Format(EAF_16BIT_MONO), InternalBufferSize(8192),
+									SampleSize(2), Supported(false), Ready(false), Capturing(false), 
+									CaptureDevice(NULL)
+	{
+		checkCaptureExtension();
+		getAvailableDevices();
 	}
 	cAudioCapture::~cAudioCapture()
 	{
-
+		shutdown();
 	}
 
 	bool cAudioCapture::checkCaptureExtension()
 	{
 		Mutex.lock();
 		// Check for Capture Extension support
-		ALCdevice* pDevice;
-		ALCcontext* pContext;
-		pContext = alcGetCurrentContext();
-		pDevice = alcGetContextsDevice(pContext);
-		Supported = ( alcIsExtensionPresent(pDevice, "ALC_EXT_CAPTURE") == AL_TRUE );
+		Supported = ( alcIsExtensionPresent(NULL, "ALC_EXT_CAPTURE") == AL_TRUE );
 		Mutex.unlock();
 		return Supported;
 	}
@@ -33,10 +60,13 @@ namespace cAudio
 		{
 			if(CaptureDevice)
 				shutdownOpenALDevice();
-
-			CaptureDevice = alcCaptureOpenDevice(NULL, Frequency, Format, InternalBufferSize / SampleSize);
+			if(DeviceName.empty())
+				CaptureDevice = alcCaptureOpenDevice(NULL, Frequency, Format, InternalBufferSize / SampleSize);
+			else
+				CaptureDevice = alcCaptureOpenDevice(DeviceName.c_str(), Frequency, Format, InternalBufferSize / SampleSize);
 			if(CaptureDevice)
 			{
+				DeviceName = alcGetString(CaptureDevice, ALC_CAPTURE_DEVICE_SPECIFIER);
 				Ready = true;
 				Mutex.unlock();
 				return true;
@@ -60,6 +90,7 @@ namespace cAudio
 				CaptureDevice = NULL;
 				Ready = false;
 			}
+			CaptureBuffer.clear();
 		}
 		Mutex.unlock();
 	}
@@ -69,6 +100,60 @@ namespace cAudio
 		Mutex.lock();
 		shutdownOpenALDevice();
 		Mutex.unlock();
+	}
+
+	void cAudioCapture::getAvailableDevices()
+	{
+		// Get list of available Capture Devices
+		Mutex.lock();
+		if( alcIsExtensionPresent(NULL, "ALC_ENUMERATION_EXT") == AL_TRUE )
+		{
+			const char* deviceList = alcGetString(NULL, ALC_CAPTURE_DEVICE_SPECIFIER);
+			if (deviceList)
+			{
+				while(*deviceList)
+				{
+					std::string device(deviceList);
+					AvailableDevices.push_back(device);
+					deviceList += strlen(deviceList) + 1;
+				}
+			}
+
+			// Get the name of the 'default' capture device
+			DefaultDevice = alcGetString(NULL, ALC_CAPTURE_DEFAULT_DEVICE_SPECIFIER);
+		}
+		Mutex.unlock();
+	}
+
+	const char* cAudioCapture::getAvailableDeviceName(unsigned int index)
+	{
+		Mutex.lock();
+		if(!AvailableDevices.empty())
+		{
+			//Bounds check
+			if( index > (AvailableDevices.size()-1) ) index = (AvailableDevices.size()-1);
+			const char* deviceName = AvailableDevices[index].c_str();
+			Mutex.unlock();
+			return deviceName;
+		}
+		Mutex.unlock();
+		return "";
+	}
+
+	unsigned int cAudioCapture::getAvailableDeviceCount()
+	{
+		Mutex.lock();
+		unsigned int size = AvailableDevices.size();
+		Mutex.unlock();
+		return size;
+	}
+
+	const char* cAudioCapture::getDefaultDeviceName()
+	{
+		Mutex.lock();
+		const char* deviceName = DefaultDevice.empty() ? "" : DefaultDevice.c_str();
+		Mutex.unlock();
+		return deviceName;
 	}
 
 	void cAudioCapture::updateCaptureBuffer(bool force)
@@ -86,7 +171,7 @@ namespace cAudio
 				//Fixes a bug with the capture being forced, but no data being available
 				if(availbuffersize > 0)
 				{
-					const int oldBufferSize = CaptureBuffer.size();
+					const unsigned int oldBufferSize = CaptureBuffer.size();
 					CaptureBuffer.resize(oldBufferSize + availbuffersize, 0);
 					alcCaptureSamples(CaptureDevice, &CaptureBuffer[oldBufferSize], AvailableSamples);
 				}
@@ -131,9 +216,10 @@ namespace cAudio
 	unsigned int cAudioCapture::getCapturedAudio(void* outputBuffer, unsigned int outputBufferSize)
 	{
 		Mutex.lock();
-		if(outputBuffer && outputBufferSize > 0)
+		unsigned int internalBufferSize = CaptureBuffer.size();
+		if(outputBuffer && outputBufferSize > 0 && internalBufferSize > 0)
 		{
-			int sizeToCopy = (outputBufferSize >= CaptureBuffer.size()) ? CaptureBuffer.size() : outputBufferSize;
+			int sizeToCopy = (outputBufferSize >= internalBufferSize) ? internalBufferSize : outputBufferSize;
 			memcpy(outputBuffer, &CaptureBuffer[0], sizeToCopy);
 			CaptureBuffer.erase(CaptureBuffer.begin(), CaptureBuffer.begin()+sizeToCopy);
 
@@ -192,9 +278,21 @@ namespace cAudio
 		return state;
 	}
 
-	bool cAudioCapture::initialize(unsigned int frequency, AudioFormats format, unsigned int internalBufferSize)
+	bool cAudioCapture::setDevice(const char* deviceName)
 	{
 		Mutex.lock();
+		DeviceName = safeCStr(deviceName);
+
+		shutdownOpenALDevice();
+		bool state = initOpenALDevice();
+		Mutex.unlock();
+		return state;
+	}
+
+	bool cAudioCapture::initialize(const char* deviceName, unsigned int frequency, AudioFormats format, unsigned int internalBufferSize)
+	{
+		Mutex.lock();
+		DeviceName = safeCStr(deviceName);
 		Frequency = frequency;
 		InternalBufferSize = internalBufferSize;
 
@@ -212,5 +310,49 @@ namespace cAudio
 		bool state = initOpenALDevice();
 		Mutex.unlock();
 		return state;
+	}
+
+	CAUDIO_API IAudioCapture* createAudioCapture(bool initializeDefault)
+	{
+		cAudioCapture* capture = new cAudioCapture;
+		if(capture)
+		{
+			if(initializeDefault)
+				capture->initialize();
+
+#ifdef CAUDIO_USE_INTERNAL_THREAD
+			AudioCaptureObjectsMutex.lock();
+			AudioCaptureObjects.insert(capture);
+
+			//First time launch of thread
+			if(!RunAudioCaptureThread && AudioCaptureObjects.size() > 0)
+				RunAudioCaptureThread = (cAudioThread::SpawnThread(AudioCaptureUpdateThread, NULL) == 0);
+			AudioCaptureObjectsMutex.unlock();
+#endif
+		}
+		return capture;
+	}
+
+	CAUDIO_API void destroyAudioCapture(IAudioCapture* capture)
+	{
+		if(capture)
+		{
+#ifdef CAUDIO_USE_INTERNAL_THREAD
+			AudioCaptureObjectsMutex.lock();
+			AudioCaptureObjects.erase(capture);
+
+			//Kill the thread if there are no objects to process anymore
+			if(RunAudioCaptureThread && AudioCaptureObjects.empty())
+				RunAudioCaptureThread = false;
+			AudioCaptureObjectsMutex.unlock();
+#endif
+			delete capture;
+			capture = NULL;
+		}
+	}
+
+	CAUDIO_API bool isAudioCaptureThreadRunning()
+	{
+		return RunAudioCaptureThread;
 	}
 };

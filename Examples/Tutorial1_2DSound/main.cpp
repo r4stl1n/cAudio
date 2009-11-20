@@ -6,36 +6,70 @@
 //Include our version of Sleep to free CPU usage
 #include "../../include/cAudioSleep.h"
 
+//#include "../../include/cAudioLog.h"
+
 using namespace std;
 
 int main(int argc, char* argv[])
 {
-    //To make visual studio happy
-    cAudio::IAudio* mysound;
-
     //Some fancy text
-    cout << "cAudio 1.7.1 Tutorial 1: 2DSound \n";
+    cout << "cAudio 1.7.1 Tutorial 1: 2DSound \n \n";
 
-    //Grap the cAudioManager
-    cAudio::IAudioManager* manager = cAudio::getAudioManager();
-    //Init the cAudio Engine
-    manager->init(argc,argv);
-    //Create a IAudio object and load a sound from a file
-    mysound = manager->createFromFile("bling","../../bin/bling.ogg",true);
+	//Create an uninitialized Audio Manager
+    cAudio::IAudioManager* manager = cAudio::createAudioManager(false);
 
-	if(mysound)
+	if(manager)
 	{
-		mysound->setVolume(0.5);
-		//Set the IAudio Sound to play2d and loop
-		mysound->play2d(true);
+		//Allow the user to choose a playback device
+		cout << "Available Playback Devices: \n";
+		unsigned int deviceCount = manager->getAvailableDeviceCount();
+		std::string defaultDeviceName = manager->getDefaultDeviceName();
+		for(unsigned int i=0; i<deviceCount; ++i)
+		{
+			std::string deviceName = manager->getAvailableDeviceName(i);
+			if(deviceName.compare(defaultDeviceName) == 0)
+				cout << i << "): " << deviceName << " (DEFAULT) \n";
+			else
+				cout << i << "): " << deviceName << " \n";
+		}
+		cout << std::endl;
+		cout << "Choose a device by number: ";
+		unsigned int deviceSelection = 0;
+		cin >> deviceSelection;
+		cout << std::endl;
 
-		//Sleep for 10,000 ms to let the sound play in the worker thread
-		cAudio::cAudioSleep(10000);
+		//Initialize the manager with the user settings
+		manager->initialize(manager->getAvailableDeviceName(deviceSelection));
+
+		//Create a IAudio object and load a sound from a file
+		cAudio::IAudio* mysound = manager->createFromFile("bling","../../media/cAudioTheme2.ogg",true);
+
+		if(mysound)
+		{
+			mysound->setVolume(0.5);
+			//Set the IAudio Sound to play2d and loop
+			mysound->play2d(false);
+
+			//Wait for the sound to finish playing
+			while(mysound->playing())
+				cAudio::cAudioSleep(10);
+		}
+
+		//Delete all IAudio sounds
+		manager->release();
+		//Shutdown cAudio
+		manager->shutDown();
+
+		cAudio::destroyAudioManager(manager);
+	}
+	else
+	{
+		std::cout << "Failed to create audio playback manager. \n";
 	}
 
-    //Delete all IAudio sounds
-    manager->release();
-    //Shutdown cAudio
-    manager->shutDown();
+	std::cout << "Press any key to quit \n";
+	std::cin.get();
+	std::cin.get();
+
     return 0;
 }

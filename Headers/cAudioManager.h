@@ -6,11 +6,11 @@
 #include "cAudio.h"
 #include "../include/IAudioDecoderFactory.h"
 #include "cListener.h"
-#include "cAudioCapture.h"
 #include "../include/IAudioManager.h"
 #include "../Headers/cMutex.h"
-#include "../include/ILogger.h"
-#include "../Headers/cLogger.h"
+
+#include <AL/al.h>
+#include <AL/alc.h>
 
 namespace cAudio
 {
@@ -19,11 +19,22 @@ namespace cAudio
     class cAudioManager : public IAudioManager
     {
     public:
+		cAudioManager() { }
+		virtual ~cAudioManager() { }
 
 		//!Inits the audio manager calling the alut/etc start ups
-		virtual void init(int argc,char* argv[]); 
+		virtual bool initialize(const char* deviceName = 0x0, int outputFrequency = -1, int eaxEffectSlots = 4); 
 		//!Shuts everything down        
 		virtual void shutDown();
+
+		//! Returns the name of an available playback device.
+		/** \param index: Specify which name to retrieve ( Range: 0 to getAvailableDeviceCount()-1 ) */
+		virtual const char* getAvailableDeviceName(unsigned int index);
+		//! Returns the number of playback devices available for use.
+		virtual unsigned int getAvailableDeviceCount();
+		//! Returns the name of the default system playback device.
+		virtual const char* getDefaultDeviceName();
+
 		//!Creates the cAudio object
 		virtual IAudio* createFromFile(const std::string& identifier,const std::string& file,bool stream = false);
 		//!Loads ogg from memory or virtual file system
@@ -35,17 +46,13 @@ namespace cAudio
 		virtual bool registerAudioDecoder(IAudioDecoderFactory* factory, std::string extension);
 		//!Unregister Audio Codec (allows you to prevent an file type from being playable with new sound sources)
 		//!Note that all current sound sources will still continue to use any currently allocated decoders.
-		//!Will delete the factory instance
+		//!Will NOT delete any user added factory instance, you must do that yourself
 		virtual void unRegisterAudioDecoder(std::string extension);
 		//!Returns whether an audio decoder is currently registered for this file type
 		virtual bool isAudioDecoderRegistered(std::string extension);
 		//!Returns a registered audio decoder factory
 		virtual IAudioDecoderFactory* getAudioDecoderFactory(std::string extension);
 
-		//!Allows you to set the listener position (DEPRECIATED! USE getListener() INSTEAD!)       
-		virtual void setListenerPos(float x,float y,float z);
-		//!Set Listener Orientation (DEPRECIATED! USE getListener() INSTEAD!)
-		virtual void setListenerOrientation(float ux,float uy,float uz);
 		//!Updates the cAudio playback        
 		virtual void update();
 		//!Gets you the cAudio object you want
@@ -53,40 +60,31 @@ namespace cAudio
 		//!Releases "ALL" cAudio objects        
 		virtual void release();
 
+		//! Grabs a list of available devices, as well as the default system one
+		void getAvailableDevices();
+
 		virtual IListener* getListener() { return &initlistener; }
-		virtual IAudioCapture* getAudioCapture() { return &initCapture; }
 
-		virtual bool IsThreadRunning() { return RunThread; }
-
-		static cAudioManager* Instance()
-		{
-			return &m_cAudioManager;
-		}
-		virtual ~cAudioManager(){
-			delete log;
-		}
-	
-	protected:
-		cAudioManager() : RunThread(false){ 
-		log = new cLogger();}
-		
 	private:
 		//Mutex for thread syncronization
 		cAudioMutex Mutex;
-		bool RunThread;
-		
-		//Logger Object
-		ILogger *log;
-		//!Global cAudioManager
-		static cAudioManager m_cAudioManager;
+
+		//Make a Openal context pointer
+		ALCcontext *Context;
+		//Make a openal device pointer
+		ALCdevice *Device;
+
 		//!The map that holds the cAudio objects
 		std::map<std::string, IAudio*> audiomap; 
 		//!Decoder map that holds all decoders by file extension
 		std::map<std::string, IAudioDecoderFactory*> decodermap; 
 		//!The listener object        
 		cListener initlistener;
-		//!The audio capture instance
-		cAudioCapture initCapture;
+		//! Check for OpenAL errors
+		void checkError();
+
+		std::vector<std::string> AvailableDevices;
+		std::string DefaultDevice;
     };
 }
 

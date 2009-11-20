@@ -4,6 +4,7 @@
 	Version="9.00"
 	Name="cAudio"
 	ProjectGUID="{ACD6C202-85D4-44F5-83BF-6577A074F655}"
+	RootNamespace="cAudio"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="0"
 	>
@@ -18,7 +19,7 @@
 		<Configuration
 			Name="Debug|Win32"
 			OutputDirectory="bin/win32-visual"
-			IntermediateDirectory="Debug"
+			IntermediateDirectory="obj/$(ConfigurationName)"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			>
@@ -94,7 +95,7 @@
 		<Configuration
 			Name="Release|Win32"
 			OutputDirectory="bin/win32-visual"
-			IntermediateDirectory="Release"
+			IntermediateDirectory="obj/$(ConfigurationName)"
 			ConfigurationType="2"
 			UseOfMFC="0"
 			>
@@ -189,6 +190,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Headers\cConsoleLogReceiver.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Headers\cFileSource.h"
 				>
 			</File>
@@ -262,6 +267,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\cAudioSleep.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\cConsoleLogReceiver.cpp"
 				>
 			</File>
 			<File
@@ -354,6 +363,10 @@
 			</File>
 			<File
 				RelativePath=".\include\ILogger.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ILogReceiver.h"
 				>
 			</File>
 		</Filter>

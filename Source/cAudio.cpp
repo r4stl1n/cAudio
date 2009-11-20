@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "../Headers/cAudio.h"
+#include "../Headers/cLogger.h"
 
 namespace cAudio
 {
@@ -17,6 +18,7 @@ namespace cAudio
 		alGenBuffers(3, buffers);
 		//Creates one source to be stored.
 		alGenSources(1, &source);
+		checkError();
 		Mutex.unlock();
     }
 
@@ -38,6 +40,7 @@ namespace cAudio
 		alDeleteSources(1, &source);
 		//deletes the last filled buffer
 		alDeleteBuffers(3, buffers);
+		checkError();
 		Mutex.unlock();
     }
 
@@ -99,6 +102,8 @@ namespace cAudio
 			//if more in stream continue playing.
             if(active)
                 alSourceQueueBuffers(source, 1, &buffer);
+
+			checkError();
         }
 		Mutex.unlock();
 		return active;
@@ -144,6 +149,7 @@ namespace cAudio
 	        }
 			//std::cout << buffer << std::endl;
             alBufferData(buffer, Decoder->getFormat(), tempbuffer, totalread, Decoder->getFrequency());
+			checkError();
             return true;
         }
 		return false;
@@ -161,17 +167,23 @@ namespace cAudio
             ALuint buffer;
 			//unqueues sources buffers to be used for others.
             alSourceUnqueueBuffers(source, 1, &buffer);
+			checkError();
         }
     }
 
     //!Checks the given functions
-    void cAudio::check()
+    void cAudio::checkError()
     {
         int error = alGetError();
+		const char* errorString;
 
         if (error != AL_NO_ERROR)
         {
-            std::cout<< "OpenAL error was Raised.";
+			errorString = alGetString(error);
+			if(error == AL_OUT_OF_MEMORY)
+				getLogger()->logCritical("Audio Source", "OpenAL Error: %s.", errorString);
+			else
+				getLogger()->logError("Audio Source", "OpenAL Error: %s.", errorString);
         }
     }
 
@@ -192,6 +204,7 @@ namespace cAudio
         toloop = loop;
         play();
 		alSourcePlay(source);
+		checkError();
 		Mutex.unlock();
     }
 
@@ -207,6 +220,7 @@ namespace cAudio
         toloop = loop;
         play();
         alSourcePlay(source);
+		checkError();
 		Mutex.unlock();
     }
 
@@ -224,6 +238,7 @@ namespace cAudio
 		Mutex.lock();
 		this->position = position;
         alSource3f(source, AL_POSITION, position.x, position.y, position.z);
+		checkError();
 		Mutex.unlock();
     }
 
@@ -233,6 +248,7 @@ namespace cAudio
 		Mutex.lock();
 		this->velocity = velocity;
         alSource3f(source, AL_VELOCITY, velocity.x, velocity.y, velocity.z);
+		checkError();
 		Mutex.unlock();
     }
 
@@ -242,6 +258,7 @@ namespace cAudio
 		Mutex.lock();
 		this->direction = direction;
         alSource3f(source, AL_DIRECTION, direction.x, direction.y, direction.z);
+		checkError();
 		Mutex.unlock();
     }
 
@@ -250,6 +267,7 @@ namespace cAudio
     {
 		Mutex.lock();
         alSourcef(source, AL_ROLLOFF_FACTOR, soundstrength);
+		checkError();
 		Mutex.unlock();
     }
 
@@ -259,6 +277,7 @@ namespace cAudio
 		Mutex.lock();
 		this->pitch = pitch;
         alSourcef (source, AL_PITCH, pitch);
+		checkError();
 		Mutex.unlock();
     }
 
@@ -268,6 +287,7 @@ namespace cAudio
 		Mutex.lock();
 		this->volume = volume;
         alSourcef(source, AL_GAIN, volume);
+		checkError();
 		Mutex.unlock();
     }
 
@@ -277,6 +297,7 @@ namespace cAudio
 		Mutex.lock();
 		this->dstrength = dstrength;
         alSourcef(source, AL_DOPPLER_FACTOR, dstrength);
+		checkError();
 		Mutex.unlock();
     }
 
@@ -286,6 +307,7 @@ namespace cAudio
 		Mutex.lock();
 		this->dvelocity = dvelocity;
         alSource3f(source, AL_DOPPLER_VELOCITY, dvelocity.x, dvelocity.y, dvelocity.z);
+		checkError();
 		Mutex.unlock();
     }
 
@@ -361,8 +383,10 @@ namespace cAudio
             } 
             //Stores the sources 3 buffers to be used in the queue 
             alSourceQueueBuffers(source, queueSize, buffers); 
+			checkError();
         }
         alSourcePlay(source);
+		checkError();
 		Mutex.unlock();
         return true; 
     }
@@ -373,6 +397,7 @@ namespace cAudio
 		Mutex.lock();
         playaudio = false;
         alSourceStop(source);
+		checkError();
 		Mutex.unlock();
     }
 
@@ -382,6 +407,7 @@ namespace cAudio
 		Mutex.lock();
         playaudio = false;
         alSourcePause(source);
+		checkError();
 		Mutex.unlock();
     }
 

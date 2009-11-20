@@ -6,6 +6,7 @@
 #include <AL/al.h>
 #include <AL/alc.h>
 #include "../Headers/cMutex.h"
+#include <string>
 
 namespace cAudio
 {
@@ -16,30 +17,36 @@ namespace cAudio
 		~cAudioCapture();
 
 		//! Checks to see if capturing audio is supported by OpenAL
-		//! Normally run automatically by cAudioManager::init()
 		bool checkCaptureExtension();
 
-		//! Grabs samples from the OpenAL buffer into the capture buffer.  Should be run once every audio frame.
-		//! Normally run automatically by cAudioManager::update()
-		void updateCaptureBuffer(bool force = false);
-
-		//! Shuts down the capture device
-		//! Normally run automatically by cAudioManager::shutDown()
-		void shutdown();
-
 		//! Initializes the capture device to the selected settings
-		/** Note that calling this will cause the capture device to be reinitialized.  Calling while in use may lead to a loss of audio data.
-		\param frequency: Frequency that the captured audio will be at
+		/** Note that calling this will cause the capture device to be reinitialized.  Calling while in use will clear the internal audio buffer.
+		\param deviceName: Name of the audio device to capture audio from, pass NULL to specify the default one
+		\param frequency: Frequency that the captured audio will be at in hz
 		\param format: Format of the captured audio
-		\param internalBufferSize: Size of the internal OpenAL buffer used to store the captured audio until the next IAudioManager::update() in bytes
+		\param internalBufferSize: Size of the internal OpenAL buffer used to store the captured audio between calls to getCapturedAudio() in bytes.
 		\return True on success, False if the capture device failed to initialize.
 		*/
-		virtual bool initialize(unsigned int frequency = 22050, AudioFormats format = EAF_16BIT_MONO, unsigned int internalBufferSize = 8192);
+		virtual bool initialize(const char* deviceName = 0x0, unsigned int frequency = 22050, AudioFormats format = EAF_16BIT_MONO, unsigned int internalBufferSize = 8192);
 		//! Returns true if the current OpenAL implementation supports capturing audio
 		virtual bool isSupported() { return Supported; }
 		//! Returns true if the capture device is ready to be used.  False may indicate an error with the current settings. 
 		virtual bool isReady() { return Ready; }
+		//! Grabs samples from the OpenAL buffer into the capture buffer.  Should be run once every audio frame.
+		virtual void updateCaptureBuffer(bool force = false);
+		//! Shuts down the capture device
+		virtual void shutdown();
 
+		//! Returns the name of an available capturing device.
+		/** \param index: Specify which name to retrieve ( Range: 0 to getAvailableDeviceCount()-1 ) */
+		virtual const char* getAvailableDeviceName(unsigned int index);
+		//! Returns the number of capture devices available for use.
+		virtual unsigned int getAvailableDeviceCount();
+		//! Returns the name of the default system capturing device.
+		virtual const char* getDefaultDeviceName();
+
+		//! Returns the name of the audio device being used to capture audio
+		virtual const char* getDeviceName() { return DeviceName.c_str(); }
 		//! Returns the frequency that the captured audio will be at
 		virtual unsigned int getFrequency() { return Frequency; }
 		//! Returns the format of the captured audio
@@ -49,6 +56,9 @@ namespace cAudio
 		//! Returns the size of a "sample" of audio data.  Useful for making sure you grab audio data at sample boundaries
 		virtual unsigned int getSampleSize() { return SampleSize; }
 
+		//! Sets the audio device .  Will cause the capture device to be reinitialized.  Calling while in use will clear the internal audio buffer.
+		/** \return True on success, False if the capture device failed to initialize. */
+		virtual bool setDevice(const char* deviceName);
 		//! Sets the frequency that the captured audio will be at.  Will cause the capture device to be reinitialized.  Calling while in use may lead to a loss of audio data.
 		/** \return True on success, False if the capture device failed to initialize. */
 		virtual bool setFrequency(unsigned int frequency);
@@ -74,6 +84,9 @@ namespace cAudio
 
 		//! Returns the current size of the internal audio buffer in bytes
 		virtual unsigned int getCurrentCapturedAudioSize();
+
+		//! Grabs a list of available devices, as well as the default system one
+		void getAvailableDevices();
 	protected:
 		//Mutex for thread syncronization
 		cAudioMutex Mutex;
@@ -84,12 +97,17 @@ namespace cAudio
 		unsigned int Frequency;
 		AudioFormats Format;
 		unsigned int InternalBufferSize;
+		int SampleSize;
+
 		std::vector<char> CaptureBuffer;
+		std::vector<std::string> AvailableDevices;
+		std::string DefaultDevice;
+
 		bool Supported;
 		bool Ready;
 		bool Capturing;
-		int SampleSize;
 
+		std::string DeviceName;
 		ALCdevice* CaptureDevice;
 	};
 };

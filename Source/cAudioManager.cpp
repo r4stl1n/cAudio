@@ -7,91 +7,127 @@
 #include "../Headers/cRawAudioDecoderFactory.h"
 #include "../Headers/cThread.h"
 #include "../include/cAudioSleep.h"
+#include "../Headers/cLogger.h"
 
-#include <AL/al.h>
-#include <AL/alc.h>
+#include <set>
+#include <iostream>
+
 #include <AL/efx.h>
 #include <AL/efx-creative.h>
 #include <AL/xram.h>
 
-#include <iostream>
 #define LOAD_AL_FUNC(x) (x = (typeof(x))alGetProcAddress(#x))
 
 namespace cAudio
 {
-    CAUDIO_API IAudioManager* getAudioManager(void)
-	{
-		return cAudioManager::Instance();
-	}
-    cAudioManager cAudioManager::m_cAudioManager;
+	static bool RunAudioManagerThread(false);
 
-	CAUDIO_DECLARE_THREAD_FUNCTION(UpdateThread)
+#ifdef CAUDIO_COMPILE_WITH_OGG_DECODER
+	static cOggAudioDecoderFactory OggDecoderFactory;
+#endif
+#ifdef CAUDIO_COMPILE_WITH_WAV_DECODER
+	static cWavAudioDecoderFactory WavDecoderFactory;
+#endif
+#ifdef CAUDIO_COMPILE_WITH_RAW_DECODER
+	static cRawAudioDecoderFactory RawDecoderFactory;
+#endif
+
+	//Note: OpenAL is threadsafe, so a mutex only needs to protect the class state
+#ifdef CAUDIO_USE_INTERNAL_THREAD
+	static cAudioMutex AudioManagerObjectsMutex;
+	static std::set<IAudioManager*> AudioManagerObjects;
+
+	CAUDIO_DECLARE_THREAD_FUNCTION(AudioManagerUpdateThread)
 	{
-		while(true)
+		while(RunAudioManagerThread)
 		{
-			if(!cAudioManager::Instance()->IsThreadRunning())
+			AudioManagerObjectsMutex.lock();
+			std::set<IAudioManager*>::iterator it;
+			for ( it=AudioManagerObjects.begin() ; it != AudioManagerObjects.end(); it++ )
 			{
-				return 0;
+				(*it)->update();
 			}
-			cAudioManager::Instance()->update();
+			AudioManagerObjectsMutex.unlock();
 			cAudioSleep(1);
 		}
+		return 0;
 	}
+#endif
 
     //!Initialize the listener,openal,and mikmod
-    void cAudioManager::init(int argc,char* argv[])
+    bool cAudioManager::initialize(const char* deviceName, int outputFrequency, int eaxEffectSlots)
     {
 		Mutex.lock();
-		//Make a Openal context pointer
-		ALCcontext *Context;
-		//Make a openal device pointer
-		ALCdevice *Device;
-		//Create a new device
-		Device = alcOpenDevice(NULL);
-		//Stores the EAX attributes
-		ALint attribs[4] = { 0 };
-		//Check if device can be created
-		if (Device == NULL){
-			log->log(E_LOGLEVEL_4,"cAudio Failed to Initalized:");		
-			exit(-1);
+
+		//Stores the context attributes (MAX of 4, with 2 zeros to terminate)
+		ALint attribs[6] = { 0 };
+
+		unsigned int currentAttrib = 0;
+		if(outputFrequency > 0)
+		{
+			attribs[currentAttrib++] = ALC_FREQUENCY;
+			attribs[currentAttrib++] = outputFrequency;
+		}
+		if(eaxEffectSlots > 0)
+		{
+			attribs[currentAttrib++] = ALC_MAX_AUXILIARY_SENDS;
+			attribs[currentAttrib++] = eaxEffectSlots;
 		}
 
-		log->log(E_LOGLEVEL_4,"cAudio Initalized:");
-
-		//Setup attributes to request 4 slots per a sound source
-		attribs[0] = ALC_MAX_AUXILIARY_SENDS;
-		attribs[1] = 4;
+		//Create a new device
+		Device = alcOpenDevice(deviceName);
+		//Check if device can be created
+		if (Device == NULL)
+		{
+			getLogger()->logError("AudioManager", "Failed to Create OpenAL Device.");
+			checkError();
+			Mutex.unlock();
+			return false;
+		}
 
 		//Create context with eax effects for windows
 #ifdef CAUDIO_EAX_ENABLED
-		if(alcIsExtensionPresent(Device, "ALC_EXT_EFX") == AL_FALSE){
-			log->log(E_LOGLEVEL_4,"cAudio: EFX isnt supported");
-			return;
+		if(alcIsExtensionPresent(Device, "ALC_EXT_EFX") == AL_FALSE)
+		{
+			getLogger()->logWarning("AudioManager", "EFX not supported.");
+		}
+		getLogger()->logInfo("AudioManager", "EFX supported and enabled.");
+#endif
+
+		Context = alcCreateContext(Device, attribs);
+		if (Context == NULL)
+		{
+			getLogger()->logError("AudioManager", "Failed to Create OpenAL Context.");
+			checkError();
+			Mutex.unlock();
+			return false;
 		}
 
-		Context=alcCreateContext(Device, attribs);
-		log->log(E_LOGLEVEL_4,"cAudio: EFX Supported and Enabled.");
-#else
-		Context=alcCreateContext(Device, NULL);
-#endif 
+		if(!alcMakeContextCurrent(Context))
+		{
+			getLogger()->logError("AudioManager", "Failed to make OpenAL Context current.");
+			checkError();
+			Mutex.unlock();
+			return false;
+		}
 
-		//Set active context
-		alcMakeContextCurrent(Context);
-		// Clear Error Code
-		alGetError();
+		getLogger()->logInfo("AudioManager", "OpenAL Version: %s", alGetString(AL_VERSION));
+		getLogger()->logInfo("AudioManager", "Vendor: %s", alGetString(AL_VENDOR));
+		getLogger()->logInfo("AudioManager", "Renderer: %s", alGetString(AL_RENDERER));
+		getLogger()->logInfo("AudioManager", "Supported Extensions: %s", alGetString(AL_EXTENSIONS));
 
-		initCapture.checkCaptureExtension();
-		initCapture.initialize();
-
-        registerAudioDecoder(new cOggAudioDecoderFactory, "ogg");
-        registerAudioDecoder(new cWavAudioDecoderFactory, "wav");
-		registerAudioDecoder(new cRawAudioDecoderFactory, "raw");
+#ifdef CAUDIO_COMPILE_WITH_OGG_DECODER
+        registerAudioDecoder(&OggDecoderFactory, "ogg");
+#endif
+#ifdef CAUDIO_COMPILE_WITH_WAV_DECODER
+        registerAudioDecoder(&WavDecoderFactory, "wav");
+#endif
+#ifdef CAUDIO_COMPILE_WITH_RAW_DECODER
+		registerAudioDecoder(&RawDecoderFactory, "raw");
+#endif
 
 		Mutex.unlock();
-
-#ifdef CAUDIO_USE_INTERNAL_THREAD
-		RunThread = (cAudioThread::SpawnThread(UpdateThread, NULL) == 0);
-#endif
+		return true;
     }
 
     //!create a sound source
@@ -113,14 +149,14 @@ namespace cAudio
                 IAudioDecoder* decoder = factory->CreateAudioDecoder(source);
                 IAudio* audio = new cAudio(decoder);
                 audiomap[identifier] = audio;
-				log->log(E_LOGLEVEL_4,"cAudio: Streaming IAudio Object %s created from %s", identifier.c_str(),file.c_str());
+				getLogger()->logInfo("AudioManager", "Streaming Audio Source (%s) created from file %s.", identifier.c_str(), file.c_str());
                 Mutex.unlock();
 				return audio;
             }
             else
             {
                 delete source;
-				log->log(E_LOGLEVEL_4,"cAudio: Failed to create IAudio Object %s from %s", identifier.c_str(),file.c_str());
+				getLogger()->logError("AudioManager", "Failed to create Audio Source (%s) from file %s.", identifier.c_str(), file.c_str());
 				Mutex.unlock();
                 return NULL;
             }
@@ -157,14 +193,14 @@ namespace cAudio
             IAudioDecoder* decoder = factory->CreateAudioDecoder(source);
             IAudio* audio = new cAudio(decoder);
             audiomap[identifier] = audio;
-			log->log(E_LOGLEVEL_4,"cAudio: IAudio Object %s created from memory", identifier.c_str());
+			getLogger()->logInfo("AudioManager", "Audio Source (%s) created from memory buffer.", identifier.c_str());
 			Mutex.unlock();
             return audio;
         }
         else
         {
             delete source;
-			log->log(E_LOGLEVEL_4,"cAudio: Failed to create IAudio Object %s from memory", identifier.c_str());
+			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s) from memory buffer.", identifier.c_str());
 			Mutex.unlock();
             return NULL;
         }
@@ -186,14 +222,14 @@ namespace cAudio
 			IAudioDecoder* decoder = ((cRawAudioDecoderFactory*)factory)->CreateAudioDecoder(source, frequency, format);
             IAudio* audio = new cAudio(decoder);
             audiomap[identifier] = audio;
-			log->log(E_LOGLEVEL_4,"cAudio: IAudio Object %s created from memory", identifier.c_str());
+			getLogger()->logInfo("AudioManager", "Raw Audio Source (%s) created from memory buffer.", identifier.c_str());
 			Mutex.unlock();
             return audio;
         }
         else
         {
             delete source;
-			log->log(E_LOGLEVEL_4,"cAudio: Failed to create IAudio Object %s from memory", identifier.c_str());
+			getLogger()->logError("AudioManager", "Failed to create Raw Audio Source (%s) from memory buffer.", identifier.c_str());
 			Mutex.unlock();
             return NULL;
         }
@@ -203,7 +239,7 @@ namespace cAudio
     {
 		Mutex.lock();
         decodermap[extension] = factory;
-		log->log(E_LOGLEVEL_4,"cAudio: Audio Decoder %s loaded", extension.c_str());
+		getLogger()->logInfo("AudioManager", "Audio Decoder for extension .%s registered.", extension.c_str());
 		Mutex.unlock();
 		return true;
     }
@@ -214,9 +250,8 @@ namespace cAudio
 		std::map<std::string, IAudioDecoderFactory*>::iterator it = decodermap.find(extension);
 		if(it != decodermap.end())
 		{
-			delete it->second;
 			decodermap.erase(it);
-			log->log(E_LOGLEVEL_4,"cAudio: Audio Decoder %s unloaded", extension.c_str());
+			getLogger()->logInfo("AudioManager", "Audio Decoder for extension .%s unregistered.", extension.c_str());
 		}
 		Mutex.unlock();
 	}
@@ -269,12 +304,6 @@ namespace cAudio
 			i++;
         }
 		audiomap.clear();
-        std::map<std::string, IAudioDecoderFactory*>::iterator it = decodermap.begin();
-        while ( it != decodermap.end())
-        {
-            delete it->second;
-            it++;
-        }
 		decodermap.clear();
 		Mutex.unlock();
     }
@@ -299,7 +328,6 @@ namespace cAudio
                 }*/
             }
         }
-		initCapture.updateCaptureBuffer();
 		Mutex.unlock();
     }
 
@@ -307,43 +335,152 @@ namespace cAudio
     void cAudioManager::shutDown()
     {
 		Mutex.lock();
-		//Create a openal context pointer
-		ALCcontext *Context;
-		//Create a openal device pointer
-		ALCdevice *Device;
-
-		//Shutdown audio capture
-		initCapture.shutdown();
-
-		//Grab current openal context
-		Context=alcGetCurrentContext();
-		//Grab current device context
-		Device=alcGetContextsDevice(Context);
 		//Reset context to null
 		alcMakeContextCurrent(NULL);
 		//Delete the context
 		alcDestroyContext(Context);
 		//Close the device
 		alcCloseDevice(Device);
-		log->log(E_LOGLEVEL_4,"cAudio ShutDown");
+		getLogger()->logInfo("AudioManager", "Manager successfully shutdown.");
 		Mutex.unlock();
-		RunThread = false;
     }
 
-    //!Sets the listeners position.
-    void cAudioManager::setListenerPos(float x,float y,float z)
-    {
+	void cAudioManager::checkError()
+	{
+		int error = alGetError();
+		const char* errorString;
+
+        if (error != AL_NO_ERROR)
+        {
+			errorString = alGetString(error);
+			getLogger()->logError("AudioManager", "OpenAL Error: %s.", errorString);
+        }
+
+		if(Device)
+		{
+			error = alcGetError(Device);
+			if (error != AL_NO_ERROR)
+			{
+				errorString = alGetString(error);
+				getLogger()->logError("AudioManager", "OpenAL Error: %s.", errorString);
+			}
+		}
+	}
+
+	void cAudioManager::getAvailableDevices()
+	{
+		// Get list of available Playback Devices
 		Mutex.lock();
-        initlistener.setPosition(cVector3(x,y,z));
-		Mutex.unlock();
-    }
+		if( alcIsExtensionPresent(NULL, "ALC_ENUMERATE_ALL_EXT") == AL_TRUE )
+		{
+			const char* deviceList = alcGetString(NULL, ALC_ALL_DEVICES_SPECIFIER);
+			if (deviceList)
+			{
+				while(*deviceList)
+				{
+					std::string device(deviceList);
+					AvailableDevices.push_back(device);
+					deviceList += strlen(deviceList) + 1;
+				}
+			}
 
-    //!Sets the listener orientation
-    void cAudioManager::setListenerOrientation(float ux,float uy,float uz)
-    {
+			// Get the name of the 'default' capture device
+			DefaultDevice = alcGetString(NULL, ALC_DEFAULT_ALL_DEVICES_SPECIFIER);
+		}
+		else if( alcIsExtensionPresent(NULL, "ALC_ENUMERATION_EXT") == AL_TRUE )
+		{
+			const char* deviceList = alcGetString(NULL, ALC_DEVICE_SPECIFIER);
+			if (deviceList)
+			{
+				while(*deviceList)
+				{
+					std::string device(deviceList);
+					AvailableDevices.push_back(device);
+					deviceList += strlen(deviceList) + 1;
+				}
+			}
+
+			// Get the name of the 'default' capture device
+			DefaultDevice = alcGetString(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
+		}
+		Mutex.unlock();
+	}
+
+	const char* cAudioManager::getAvailableDeviceName(unsigned int index)
+	{
 		Mutex.lock();
-		initlistener.setUpVector(cVector3(ux,uy,uz));
+		if(!AvailableDevices.empty())
+		{
+			//Bounds check
+			if( index > (AvailableDevices.size()-1) ) index = (AvailableDevices.size()-1);
+			const char* deviceName = AvailableDevices[index].c_str();
+			Mutex.unlock();
+			return deviceName;
+		}
 		Mutex.unlock();
-    }
+		return "";
+	}
 
-}
+	unsigned int cAudioManager::getAvailableDeviceCount()
+	{
+		Mutex.lock();
+		unsigned int size = AvailableDevices.size();
+		Mutex.unlock();
+		return size;
+	}
+
+	const char* cAudioManager::getDefaultDeviceName()
+	{
+		Mutex.lock();
+		const char* deviceName = DefaultDevice.empty() ? "" : DefaultDevice.c_str();
+		Mutex.unlock();
+		return deviceName;
+	}
+
+	CAUDIO_API IAudioManager* createAudioManager(bool initializeDefault)
+	{
+		cAudioManager* manager = new cAudioManager;
+		if(manager)
+		{
+			if(initializeDefault)
+				manager->initialize();
+
+			manager->getAvailableDevices();
+
+#ifdef CAUDIO_USE_INTERNAL_THREAD
+			AudioManagerObjectsMutex.lock();
+			AudioManagerObjects.insert(manager);
+
+			//First time launch of thread
+			if(!RunAudioManagerThread && AudioManagerObjects.size() > 0)
+				RunAudioManagerThread = (cAudioThread::SpawnThread(AudioManagerUpdateThread, NULL) == 0);
+			AudioManagerObjectsMutex.unlock();
+#endif
+		}
+		return manager;
+	}
+
+	CAUDIO_API void destroyAudioManager(IAudioManager* manager)
+	{
+		if(manager)
+		{
+#ifdef CAUDIO_USE_INTERNAL_THREAD
+			AudioManagerObjectsMutex.lock();
+			AudioManagerObjects.erase(manager);
+
+			//Kill the thread if there are no objects to process anymore
+			if(RunAudioManagerThread && AudioManagerObjects.empty())
+				RunAudioManagerThread = false;
+			AudioManagerObjectsMutex.unlock();
+#endif
+			delete manager;
+			manager = NULL;
+		}
+	}
+
+	CAUDIO_API bool isAudioManagerThreadRunning()
+	{
+		return RunAudioManagerThread;
+	}
+
+};
