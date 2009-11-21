@@ -6,7 +6,7 @@
 #include <AL/al.h>
 #include <AL/alc.h>
 
-#define BUFFER_SIZE ( 1024 * 32 )
+#define BUFFER_SIZE ( 1024 * 64 )
 #include "../include/IAudio.h"
 #include "../Include/cVector3.h"
 #include "../Headers/cMutex.h"

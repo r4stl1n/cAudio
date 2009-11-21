@@ -81,7 +81,8 @@ namespace cAudio
     {
         int temp = 0;
 		int result = ov_read(&oggStream,(char*)output,amount,0,2,1,&temp);
-		return (result < 0) ? 0 : result;
+		//return (result < 0) ? 0 : result;
+		return result;
     }
 
     //!Sets the postion for vorbis data reader

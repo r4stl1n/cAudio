@@ -6,8 +6,6 @@
 //Include our version of Sleep to free CPU usage
 #include "../../include/cAudioSleep.h"
 
-//#include "../../include/cAudioLog.h"
-
 using namespace std;
 
 int main(int argc, char* argv[])
@@ -42,7 +40,7 @@ int main(int argc, char* argv[])
 		manager->initialize(manager->getAvailableDeviceName(deviceSelection));
 
 		//Create a IAudio object and load a sound from a file
-		cAudio::IAudio* mysound = manager->createFromFile("bling","../../media/cAudioTheme2.ogg",true);
+		cAudio::IAudio* mysound = manager->createFromFile("bling","../../media/cAudioTheme1.ogg",true);
 
 		if(mysound)
 		{

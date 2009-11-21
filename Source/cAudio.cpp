@@ -42,6 +42,7 @@ namespace cAudio
 		alDeleteBuffers(3, buffers);
 		checkError();
 		Mutex.unlock();
+		getLogger()->logDebug("Audio Source", "Audio source released.");
     }
 
     //!Plays back sound source
@@ -116,6 +117,7 @@ namespace cAudio
         {
 	        //stores the caculated data into buffer that is passed to output.
 			size_t totalread = 0;
+			unsigned int errorcount = 0;
 	        char tempbuffer[BUFFER_SIZE];
 			while( totalread < BUFFER_SIZE )
 			{
@@ -128,7 +130,10 @@ namespace cAudio
 				}
 				if(actualread < 0)
 				{
-					break;
+					++errorcount;
+					getLogger()->logDebug("Audio Source", "Decoder returned an error: %i (%i of 3)", actualread, errorcount);
+					if(errorcount >= 3)
+						break;
 				}
 				if(actualread == 0)
 				{
@@ -136,6 +141,7 @@ namespace cAudio
 					{
 						//If we are to loop, set to the beginning and reload from the start
 						Decoder->setPosition(0,false);
+						getLogger()->logDebug("Audio Source", "Buffer looping.");
 					}
 					else
 						break;
@@ -147,7 +153,7 @@ namespace cAudio
 	       	{
 	       		 return false;
 	        }
-			//std::cout << buffer << std::endl;
+			getLogger()->logDebug("Audio Source", "Buffered %i bytes of data into buffer %i at %i hz.", totalread, buffer, Decoder->getFrequency());
             alBufferData(buffer, Decoder->getFormat(), tempbuffer, totalread, Decoder->getFrequency());
 			checkError();
             return true;
@@ -388,6 +394,7 @@ namespace cAudio
         alSourcePlay(source);
 		checkError();
 		Mutex.unlock();
+		getLogger()->logDebug("Audio Source", "Source playing.");
         return true; 
     }
 
@@ -399,6 +406,7 @@ namespace cAudio
         alSourceStop(source);
 		checkError();
 		Mutex.unlock();
+		getLogger()->logDebug("Audio Source", "Source stopped.");
     }
 
     //!Used to pause the audio source
@@ -409,6 +417,7 @@ namespace cAudio
         alSourcePause(source);
 		checkError();
 		Mutex.unlock();
+		getLogger()->logDebug("Audio Source", "Source paused.");
     }
 
 	const ALuint& cAudio::getSource()const

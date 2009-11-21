@@ -1,14 +1,15 @@
 #ifndef CVECTOR3_H
 #define CVECTOR3_H
 
-#include <float.h>
 #include <math.h>
 
 namespace cAudio
 {
+	const float Epsilon = 0.000001f;
+
 	inline bool float_equals(const float a, const float b)
 	{
-		return (a + FLT_EPSILON >= b) && (a - FLT_EPSILON <= b);
+		return (a + Epsilon >= b) && (a - Epsilon <= b);
 	}
 
 	class cVector3

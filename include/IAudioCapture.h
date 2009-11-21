@@ -9,6 +9,9 @@ namespace cAudio
 	class IAudioCapture
 	{
 	public:
+		IAudioCapture() { }
+		virtual ~IAudioCapture() { }
+
 		//! Initializes the capture device to the selected settings
 		/** Note that calling this will cause the capture device to be reinitialized.  Calling while in use will clear the internal audio buffer.
 		\param deviceName: Name of the audio device to capture audio from, pass NULL to specify the default one
@@ -84,9 +87,6 @@ namespace cAudio
 
 		//! Returns the current size of the internal audio buffer in bytes
 		virtual unsigned int getCurrentCapturedAudioSize() = 0;
-
-		IAudioCapture() { }
-		virtual ~IAudioCapture() { }
 	};
 
 	//! Creates an interface to an Audio Capture Object
