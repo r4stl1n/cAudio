@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
 		{
 			std::string deviceName = manager->getAvailableDeviceName(i);
 			if(deviceName.compare(defaultDeviceName) == 0)
-				cout << i << "): " << deviceName << " (DEFAULT) \n";
+				cout << i << "): " << deviceName << " [DEFAULT] \n";
 			else
 				cout << i << "): " << deviceName << " \n";
 		}

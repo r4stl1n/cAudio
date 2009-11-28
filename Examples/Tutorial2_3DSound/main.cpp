@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
 		{
 			std::string deviceName = manager->getAvailableDeviceName(i);
 			if(deviceName.compare(defaultDeviceName) == 0)
-				cout << i << "): " << deviceName << " (DEFAULT) \n";
+				cout << i << "): " << deviceName << " [DEFAULT] \n";
 			else
 				cout << i << "): " << deviceName << " \n";
 		}
@@ -61,22 +61,24 @@ int main(int argc, char* argv[])
 		if(mysound && listener)
 		{
 			listener->setPosition(cAudio::cVector3(0,0,0));
-			mysound->play3d(cAudio::cVector3(0,0,0),1.0f,true);
-			mysound->setVolume(1.0);
+			mysound->play3d(cAudio::cVector3(0,0,0),2.0f,true);
+			mysound->setVolume(1.0f);
+			mysound->setMinDistance(1.0f);
+			mysound->setMaxDistance(100.0f);
 
 			//Play for 10 seconds
 			const int ticksToPlay = 10000;
 			int currentTick = 0;
 			int currentSecTick = 0;
 
-			while(mysound->playing() && currentTick < ticksToPlay)
+			while(mysound->isPlaying() && currentTick < ticksToPlay)
 			{
 				//Figure out the location of our rotated sound
 				rot+=0.1f * 0.017453293f;  //0.1 degrees a frame
 
-				//Sound "starts" at x=2.5, y=0, z=0
-				float x = 2.5f * cosf(rot) - 0.0f * sinf(rot);
-				float z = 0.0f * cosf(rot) + 2.5f * sinf(rot);
+				//Sound "starts" at x=5, y=0, z=0
+				float x = 5.0f * cosf(rot) - 0.0f * sinf(rot);
+				float z = 0.0f * cosf(rot) + 5.0f * sinf(rot);
 				mysound->setPosition(cAudio::cVector3(x,0.0,z));
 
 				++currentTick;

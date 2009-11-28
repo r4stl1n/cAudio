@@ -10,7 +10,6 @@
 #include "../Headers/cLogger.h"
 
 #include <set>
-#include <iostream>
 
 #include <AL/efx.h>
 #include <AL/efx-creative.h>
@@ -315,17 +314,12 @@ namespace cAudio
         std::map<std::string,IAudio*>::iterator i = audiomap.begin();
         for (i = audiomap.begin(); i != audiomap.end() ; i++)
         {
-            if (i->second->isvalid() == true)
+            if (i->second->isValid() == true)
             {
-
                 if (i->second->update())
                 {
 
                 }
-                /*if (i->second->playback())
-                {
-
-                }*/
             }
         }
 		Mutex.unlock();

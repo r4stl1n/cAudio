@@ -26,7 +26,7 @@ int main(int argc, char* argv[])
 		{
 			std::string deviceName = manager->getAvailableDeviceName(i);
 			if(deviceName.compare(defaultDeviceName) == 0)
-				cout << i << "): " << deviceName << " (DEFAULT) \n";
+				cout << i << "): " << deviceName << " [DEFAULT] \n";
 			else
 				cout << i << "): " << deviceName << " \n";
 		}
@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
 			mysound->play2d(false);
 
 			//Wait for the sound to finish playing
-			while(mysound->playing())
+			while(mysound->isPlaying())
 				cAudio::cAudioSleep(10);
 		}
 

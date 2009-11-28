@@ -9,15 +9,12 @@ namespace cAudio
     cAudio::cAudio(IAudioDecoder* decoder) : Decoder(decoder)
     {
 		Mutex.lock();
-        streaming = false;
-        playaudio = false;
-        pauseaudio = false;
-		toloop = false;
+		Loop = false;
 
 		//Generates 3 buffers for the ogg file
-		alGenBuffers(3, buffers);
+		alGenBuffers(NUM_BUFFERS, Buffers);
 		//Creates one source to be stored.
-		alGenSources(1, &source);
+		alGenSources(1, &Source);
 		checkError();
 		Mutex.unlock();
     }
@@ -29,80 +26,117 @@ namespace cAudio
 		Mutex.unlock();
     }
 
-    //!Stops all playing sound sources and deletes the sources and buffers
-    void cAudio::release()
-    {
+	bool cAudio::play()
+	{
 		Mutex.lock();
-		//Stops the audio source
-		alSourceStop(source);
-		empty();
-		//Deletes the source
-		alDeleteSources(1, &source);
-		//deletes the last filled buffer
-		alDeleteBuffers(3, buffers);
+		if (!isPaused()) 
+        { 
+            int queueSize = 0; 
+            for(int u = 0; u < NUM_BUFFERS; u++) 
+            { 
+                int val = stream(Buffers[u]); 
+ 
+                if(val < 0) 
+                {  
+                    return false;
+                } 
+                else if(val > 0) 
+                    ++queueSize; 
+            } 
+            //Stores the sources 3 buffers to be used in the queue 
+            alSourceQueueBuffers(Source, queueSize, Buffers); 
+			checkError();
+        }
+        alSourcePlay(Source);
 		checkError();
 		Mutex.unlock();
-		getLogger()->logDebug("Audio Source", "Audio source released.");
+		getLogger()->logDebug("Audio Source", "Source playing.");
+        return true; 
     }
 
-    //!Plays back sound source
-    bool cAudio::playback()
-    {
+	bool cAudio::play2d(const bool& toLoop)
+	{
 		Mutex.lock();
-		bool play = playing();
+        alSourcei(Source, AL_SOURCE_RELATIVE, true);
+        loop(toLoop);
+        bool state = play();
+		checkError();
 		Mutex.unlock();
-        return play;
+		return state;
     }
 
-    bool cAudio::paused()
-    {
+	bool cAudio::play3d(const cVector3& position, const float& soundstr, const bool& toLoop)
+	{
 		Mutex.lock();
-        ALenum state = 0;
-
-        alGetSourcei(source, AL_SOURCE_STATE, &state);
-
+        alSourcei(Source, AL_SOURCE_RELATIVE, false);
+        setPosition(position);
+        setStrength(soundstr);
+        loop(toLoop);
+        bool state = play();
+		checkError();
 		Mutex.unlock();
-        return (state == AL_PAUSED);
+		return state;
     }
 
-    //!checks to see if audio source is playing if it is returns true
-    bool cAudio::playing()
-    {
+	void cAudio::pause()
+	{
 		Mutex.lock();
-        ALenum state = 0;
-
-        alGetSourcei(source, AL_SOURCE_STATE, &state);
-
+        alSourcePause(Source);
+		checkError();
 		Mutex.unlock();
-        return (state == AL_PLAYING);
+		getLogger()->logDebug("Audio Source", "Source paused.");
+    }
+     
+	void cAudio::stop()
+	{
+		Mutex.lock();
+        alSourceStop(Source);
+		checkError();
+		Mutex.unlock();
+		getLogger()->logDebug("Audio Source", "Source stopped.");
     }
 
-    //!updates the sound source by refilling the buffers with ogg data.
-    bool cAudio::update()
-    {
+	void cAudio::loop(const bool& loop)
+	{
 		Mutex.lock();
-        if(!isvalid() || !playing())
+        Loop = loop;
+		Mutex.unlock();
+    }
+
+	bool cAudio::seek(const float& seconds)
+	{
+		bool state = false;
+		Mutex.lock();
+        if(Decoder->isSeekingSupported())
+        {
+			state = Decoder->seek(seconds, false);
+        }
+		Mutex.unlock();
+		return state;
+    }
+
+	bool cAudio::update()
+	{
+        if(!isValid() || !isPlaying())
 		{
-			Mutex.unlock();
             return false;
 		}
-
         int processed = 0;
         bool active = true;
-		//gets the sound source processed buffers/
-        alGetSourcei(source, AL_BUFFERS_PROCESSED, &processed);
+
+		Mutex.lock();
+		//gets the sound source processed buffers
+        alGetSourcei(Source, AL_BUFFERS_PROCESSED, &processed);
 		//while there is more data refill buffers with audio data.
 		while (processed--)
         {
             ALuint buffer;
-
-            alSourceUnqueueBuffers(source, 1, &buffer);
-
+            alSourceUnqueueBuffers(Source, 1, &buffer);
             active = stream(buffer);
 
 			//if more in stream continue playing.
             if(active)
-                alSourceQueueBuffers(source, 1, &buffer);
+                alSourceQueueBuffers(Source, 1, &buffer);
 
 			checkError();
         }
@@ -110,7 +144,330 @@ namespace cAudio
 		return active;
     }
 
-    //!The streaming function
+	void cAudio::release()
+    {
+		Mutex.lock();
+		//Stops the audio Source
+		alSourceStop(Source);
+		empty();
+		//Deletes the source
+		alDeleteSources(1, &Source);
+		//deletes the last filled buffer
+		alDeleteBuffers(NUM_BUFFERS, Buffers);
+		checkError();
+		Mutex.unlock();
+		getLogger()->logDebug("Audio Source", "Audio source released.");
+    }
+
+	const bool cAudio::isValid() const
+	{
+		bool state = (Decoder != 0);
+        return state;
+	}
+
+	const bool cAudio::isPlaying() const
+	{
+		ALenum state = 0;
+        alGetSourcei(Source, AL_SOURCE_STATE, &state);
+        return (state == AL_PLAYING);
+    }
+
+	const bool cAudio::isPaused() const
+	{
+		ALenum state = 0;
+        alGetSourcei(Source, AL_SOURCE_STATE, &state);
+        return (state == AL_PAUSED);
+    }
+
+	const bool cAudio::isStopped() const
+	{
+		ALenum state = 0;
+        alGetSourcei(Source, AL_SOURCE_STATE, &state);
+		return (state == AL_STOPPED);
+    }
+
+	const bool cAudio::isLooping() const
+	{
+		return Loop;
+	}
+     
+	void cAudio::setPosition(const cVector3& position)
+	{
+		Mutex.lock();
+        alSource3f(Source, AL_POSITION, position.x, position.y, position.z);
+		checkError();
+		Mutex.unlock();
+    }
+
+	void cAudio::setVelocity(const cVector3& velocity)
+	{
+		Mutex.lock();
+        alSource3f(Source, AL_VELOCITY, velocity.x, velocity.y, velocity.z);
+		checkError();
+		Mutex.unlock();
+    }
+
+	void cAudio::setDirection(const cVector3& direction)
+	{
+		Mutex.lock();
+        alSource3f(Source, AL_DIRECTION, direction.x, direction.y, direction.z);
+		checkError();
+		Mutex.unlock();
+    }
+
+	void cAudio::setRolloffFactor(const float& rolloff)
+	{
+		Mutex.lock();
+        alSourcef(Source, AL_ROLLOFF_FACTOR, rolloff);
+		checkError();
+		Mutex.unlock();
+    }
+
+	void cAudio::setStrength(const float& soundstrength)
+	{
+		float inverseStrength = 0.0f;
+		if(soundstrength > 0.0f)
+			inverseStrength = 1.0f / soundstrength;
+
+		Mutex.lock();
+        alSourcef(Source, AL_ROLLOFF_FACTOR, inverseStrength);
+		checkError();
+		Mutex.unlock();
+    }
+
+	void cAudio::setMinDistance(const float& minDistance)
+	{
+		Mutex.lock();
+        alSourcef(Source, AL_REFERENCE_DISTANCE, minDistance);
+		checkError();
+		Mutex.unlock();
+	}
+
+	void cAudio::setMaxDistance(const float& maxDistance)
+	{
+		Mutex.lock();
+        alSourcef(Source, AL_MAX_DISTANCE, maxDistance);
+		checkError();
+		Mutex.unlock();
+	}
+
+	void cAudio::setPitch(const float& pitch)
+	{
+		Mutex.lock();
+        alSourcef (Source, AL_PITCH, pitch);
+		checkError();
+		Mutex.unlock();
+    }
+
+	void cAudio::setVolume(const float& volume)
+	{
+		Mutex.lock();
+        alSourcef(Source, AL_GAIN, volume);
+		checkError();
+		Mutex.unlock();
+    }
+
+	void cAudio::setMinVolume(const float& minVolume)
+	{
+		Mutex.lock();
+        alSourcef(Source, AL_MIN_GAIN, minVolume);
+		checkError();
+		Mutex.unlock();
+	}
+
+	void cAudio::setMaxVolume(const float& maxVolume)
+	{
+		Mutex.lock();
+        alSourcef(Source, AL_MAX_GAIN, maxVolume);
+		checkError();
+		Mutex.unlock();
+	}
+
+	void cAudio::setInnerConeAngle(const float& innerAngle)
+	{
+		Mutex.lock();
+        alSourcef(Source, AL_CONE_INNER_ANGLE, innerAngle);
+		checkError();
+		Mutex.unlock();
+	}
+
+	void cAudio::setOuterConeAngle(const float& outerAngle)
+	{
+		Mutex.lock();
+        alSourcef(Source, AL_CONE_OUTER_ANGLE, outerAngle);
+		checkError();
+		Mutex.unlock();
+	}
+
+	void cAudio::setOuterConeVolume(const float& outerVolume)
+	{
+		Mutex.lock();
+        alSourcef(Source, AL_CONE_OUTER_GAIN, outerVolume);
+		checkError();
+		Mutex.unlock();
+	}
+
+	void cAudio::setDopplerStrength(const float& dstrength)
+	{
+		Mutex.lock();
+        alSourcef(Source, AL_DOPPLER_FACTOR, dstrength);
+		checkError();
+		Mutex.unlock();
+    }
+
+	void cAudio::setDopplerVelocity(const cVector3& dvelocity)
+	{
+		Mutex.lock();
+        alSource3f(Source, AL_DOPPLER_VELOCITY, dvelocity.x, dvelocity.y, dvelocity.z);
+		checkError();
+		Mutex.unlock();
+    }
+
+	const cVector3 cAudio::getPosition() const
+	{
+		cVector3 position;
+		alGetSourcefv(Source, AL_POSITION, &position.x);
+		return position;
+	}
+
+	const cVector3 cAudio::getVelocity() const
+	{
+		cVector3 velocity;
+		alGetSourcefv(Source, AL_VELOCITY, &velocity.x);
+		return velocity;
+	}
+
+	const cVector3 cAudio::getDirection() const
+	{
+		cVector3 direction;
+		alGetSourcefv(Source, AL_DIRECTION, &direction.x);
+		return direction;
+	}
+
+	const float cAudio::getRolloffFactor() const
+	{
+		float value = 0.0f;
+		alGetSourcef(Source, AL_ROLLOFF_FACTOR, &value);
+		return value;
+	}
+
+	const float cAudio::getStrength() const
+	{
+		float value = 0.0f;
+		alGetSourcef(Source, AL_ROLLOFF_FACTOR, &value);
+
+		float inverseStrength = 0.0f;
+		if(value > 0.0f)
+			inverseStrength = 1.0f / value;
+
+		return inverseStrength;
+	}
+
+	const float cAudio::getMinDistance() const
+	{
+		float value = 0.0f;
+		alGetSourcef(Source, AL_REFERENCE_DISTANCE, &value);
+		return value;
+	}
+
+	const float cAudio::getMaxDistance() const
+	{
+		float value = 0.0f;
+		alGetSourcef(Source, AL_MAX_DISTANCE, &value);
+		return value;
+	}
+
+	const float cAudio::getPitch() const
+	{
+		float value = 0.0f;
+		alGetSourcef(Source, AL_PITCH, &value);
+		return value;
+	}
+
+	const float cAudio::getVolume() const
+	{
+		float value = 0.0f;
+		alGetSourcef(Source, AL_GAIN, &value);
+		return value;
+	}
+
+	const float cAudio::getMinVolume() const
+	{
+		float value = 0.0f;
+		alGetSourcef(Source, AL_MIN_GAIN, &value);
+		return value;
+	}
+
+	const float cAudio::getMaxVolume() const
+	{
+		float value = 0.0f;
+		alGetSourcef(Source, AL_MAX_GAIN, &value);
+		return value;
+	}
+
+	const float cAudio::getInnerConeAngle() const
+	{
+		float value = 0.0f;
+		alGetSourcef(Source, AL_CONE_INNER_ANGLE, &value);
+		return value;
+	}
+
+	const float cAudio::getOuterConeAngle() const
+	{
+		float value = 0.0f;
+		alGetSourcef(Source, AL_CONE_OUTER_ANGLE, &value);
+		return value;
+	}
+
+	const float cAudio::getOuterConeVolume() const
+	{
+		float value = 0.0f;
+		alGetSourcef(Source, AL_CONE_OUTER_GAIN, &value);
+		return value;
+	}
+
+	const float cAudio::getDopplerStrength() const
+	{
+		float value = 0.0f;
+		alGetSourcef(Source, AL_DOPPLER_FACTOR, &value);
+		return value;
+	}
+
+	const cVector3 cAudio::getDopplerVelocity() const
+	{
+		cVector3 velocity;
+		alGetSourcefv(Source, AL_DOPPLER_VELOCITY, &velocity.x);
+		return velocity;
+	}
+
+    void cAudio::empty()
+    {
+        int queued = 0;
+        alGetSourcei(Source, AL_BUFFERS_QUEUED, &queued);
+
+        while (queued--)
+        {
+            ALuint buffer;
+            alSourceUnqueueBuffers(Source, 1, &buffer);
+			checkError();
+        }
+    }
+
+	void cAudio::checkError()
+    {
+        int error = alGetError();
+		const char* errorString;
+
+        if (error != AL_NO_ERROR)
+        {
+			errorString = alGetString(error);
+			if(error == AL_OUT_OF_MEMORY)
+				getLogger()->logCritical("Audio Source", "OpenAL Error: %s.", errorString);
+			else
+				getLogger()->logError("Audio Source", "OpenAL Error: %s.", errorString);
+        }
+    }
+
     bool cAudio::stream(ALuint buffer)
     {
         if(Decoder)
@@ -137,10 +494,10 @@ namespace cAudio
 				}
 				if(actualread == 0)
 				{
-					if(toloop)
+					if(isLooping())
 					{
 						//If we are to loop, set to the beginning and reload from the start
-						Decoder->setPosition(0,false);
+						Decoder->setPosition(0, false);
 						getLogger()->logDebug("Audio Source", "Buffer looping.");
 					}
 					else
@@ -160,268 +517,4 @@ namespace cAudio
         }
 		return false;
     }
-
-    //!clears the sound sources buffers and makes them free to be used by other sound sources.
-    void cAudio::empty()
-    {
-        int queued = 0;
-		//grabs allt he sources buffers.
-        alGetSourcei(source, AL_BUFFERS_QUEUED, &queued);
-
-        while (queued--)
-        {
-            ALuint buffer;
-			//unqueues sources buffers to be used for others.
-            alSourceUnqueueBuffers(source, 1, &buffer);
-			checkError();
-        }
-    }
-
-    //!Checks the given functions
-    void cAudio::checkError()
-    {
-        int error = alGetError();
-		const char* errorString;
-
-        if (error != AL_NO_ERROR)
-        {
-			errorString = alGetString(error);
-			if(error == AL_OUT_OF_MEMORY)
-				getLogger()->logCritical("Audio Source", "OpenAL Error: %s.", errorString);
-			else
-				getLogger()->logError("Audio Source", "OpenAL Error: %s.", errorString);
-        }
-    }
-
-    //!checks to see if the given ogg file is valid
-    bool cAudio::isvalid()
-    {
-		Mutex.lock();
-		bool state = (Decoder != 0);
-		Mutex.unlock();
-        return state;
-    }
-
-    //!Sets the sound source relativity to follow the listener to give the illusion of stereo 2d sound
-    void cAudio::play2d(bool loop)
-    {
-		Mutex.lock();
-        alSourcei (source, AL_SOURCE_RELATIVE, true);
-        toloop = loop;
-        play();
-		alSourcePlay(source);
-		checkError();
-		Mutex.unlock();
-    }
-
-    //!Plays the given audio file with 3d position
-    void cAudio::play3d(cVector3 position, float soundstr, bool loop)
-    {
-		Mutex.lock();
-		this->position = position;
-		this->strength = soundstr;
-        alSourcei (source, AL_SOURCE_RELATIVE, false);
-        alSource3f(source, AL_POSITION, position.x, position.y, position.z);
-        alSourcef (source, AL_ROLLOFF_FACTOR,  soundstr);
-        toloop = loop;
-        play();
-        alSourcePlay(source);
-		checkError();
-		Mutex.unlock();
-    }
-
-    //!Used to tell the soundsource to loop or not
-    void cAudio::loop(bool loop)
-    {
-		Mutex.lock();
-        toloop = loop;
-		Mutex.unlock();
-    }
-
-    //!Used to move the audio sources position after the initial creation
-    void cAudio::setPosition(const cVector3 position)
-    {
-		Mutex.lock();
-		this->position = position;
-        alSource3f(source, AL_POSITION, position.x, position.y, position.z);
-		checkError();
-		Mutex.unlock();
-    }
-
-    //!Used to set the velocity of the audio source.
-    void cAudio::setVelocity(const cVector3 velocity)
-    {
-		Mutex.lock();
-		this->velocity = velocity;
-        alSource3f(source, AL_VELOCITY, velocity.x, velocity.y, velocity.z);
-		checkError();
-		Mutex.unlock();
-    }
-
-    //!Used to set the direction of the audio source
-    void cAudio::setDirection(const cVector3 direction)
-    {
-		Mutex.lock();
-		this->direction = direction;
-        alSource3f(source, AL_DIRECTION, direction.x, direction.y, direction.z);
-		checkError();
-		Mutex.unlock();
-    }
-
-    //!Used to set the sound strength or roll off factor
-    void cAudio::setStrength(const float soundstrength)
-    {
-		Mutex.lock();
-        alSourcef(source, AL_ROLLOFF_FACTOR, soundstrength);
-		checkError();
-		Mutex.unlock();
-    }
-
-    //!Used to set the pitch of the audio file
-    void cAudio::setPitch(const float pitch)
-    {
-		Mutex.lock();
-		this->pitch = pitch;
-        alSourcef (source, AL_PITCH, pitch);
-		checkError();
-		Mutex.unlock();
-    }
-
-    //!Used to set the volume of the audio source
-    void cAudio::setVolume(const float volume)
-    {
-		Mutex.lock();
-		this->volume = volume;
-        alSourcef(source, AL_GAIN, volume);
-		checkError();
-		Mutex.unlock();
-    }
-
-    //!Used to set the doppler strength of the audio sources doppler effect
-    void cAudio::setDopplerStrength(const float dstrength)
-    {
-		Mutex.lock();
-		this->dstrength = dstrength;
-        alSourcef(source, AL_DOPPLER_FACTOR, dstrength);
-		checkError();
-		Mutex.unlock();
-    }
-
-    //!Used to set the doppler velocity of the audio source
-    void cAudio::setDopplerVelocity(const cVector3 dvelocity)
-    {
-		Mutex.lock();
-		this->dvelocity = dvelocity;
-        alSource3f(source, AL_DOPPLER_VELOCITY, dvelocity.x, dvelocity.y, dvelocity.z);
-		checkError();
-		Mutex.unlock();
-    }
-
-	const cVector3& cAudio::getPosition()const
-	{
-		return this->position;
-	}
-	
-	const cVector3& cAudio::getVelocity()const
-	{
-		return this->velocity;
-	}
-		
-	const cVector3& cAudio::getDirection()const
-	{
-		return this->direction;
-	}
-	
-	const float& cAudio::getDopplerStrength()const
-	{
-		return this->dstrength;
-	}
-				
-	const float& cAudio::getStrength()const
-	{
-		return this->strength;
-	}
-		
-	const float& cAudio::getVolume()const
-	{
-		return this->volume;
-	}
-	
-	const float& cAudio::getPitch()const
-	{
-		return this->pitch;
-	}
-		
-	const bool& cAudio::isLooping()const
-	{
-		return this->toloop;
-	}
-
-    //!Allows us to seek through a stream
-    void cAudio::seek(float secs)
-    {
-		Mutex.lock();
-        if(Decoder->isSeekingSupported())
-        {
-            Decoder->seek(secs, false);
-        }
-		Mutex.unlock();
-    }
-
-    //!Used to play the audio source
-    bool cAudio::play()
-    {
-		Mutex.lock();
-        playaudio = true;
-		if (!paused()) 
-        { 
-            int queueSize = 0; 
-            for(int u = 0; u < 3; u++) 
-            { 
-                int val = stream(buffers[u]); 
- 
-                if(val < 0) 
-                {  
-                    return false; 
-                } 
-                else if(val > 0) 
-                    ++queueSize; 
-            } 
-            //Stores the sources 3 buffers to be used in the queue 
-            alSourceQueueBuffers(source, queueSize, buffers); 
-			checkError();
-        }
-        alSourcePlay(source);
-		checkError();
-		Mutex.unlock();
-		getLogger()->logDebug("Audio Source", "Source playing.");
-        return true; 
-    }
-
-    //!Used to stop the audio source
-    void cAudio::stop()
-    {
-		Mutex.lock();
-        playaudio = false;
-        alSourceStop(source);
-		checkError();
-		Mutex.unlock();
-		getLogger()->logDebug("Audio Source", "Source stopped.");
-    }
-
-    //!Used to pause the audio source
-    void cAudio::pause()
-    {
-		Mutex.lock();
-        playaudio = false;
-        alSourcePause(source);
-		checkError();
-		Mutex.unlock();
-		getLogger()->logDebug("Audio Source", "Source paused.");
-    }
-
-	const ALuint& cAudio::getSource()const
-	{
-		return this->source;
-	}
 }

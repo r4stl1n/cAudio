@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
 				{
 					std::string deviceName = capture->getAvailableDeviceName(i);
 					if(deviceName.compare(defaultDeviceName) == 0)
-						cout << i << "): " << deviceName << " (DEFAULT) \n";
+						cout << i << "): " << deviceName << " [DEFAULT] \n";
 					else
 						cout << i << "): " << deviceName << " \n";
 				}
@@ -111,7 +111,7 @@ int main(int argc, char* argv[])
 					//Set the IAudio Sound to play2d and loop
 					mysound->play2d(false);
 
-					while(mysound->playing())
+					while(mysound->isPlaying())
 					{
 						//Sleep for 10 ms to free some CPU
 						cAudio::cAudioSleep(10);
