@@ -1,4 +1,6 @@
 #include <iostream>
+#include <string>
+
 //Include IAudioManager so we can easily work with cAudio
 #include "../../include/IAudioManager.h"
 //Include IAudio so we can create cAudio objects

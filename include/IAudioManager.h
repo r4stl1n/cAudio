@@ -1,6 +1,6 @@
 #ifndef IAUDIOMANAGER_H
 #define IAUDIOMANAGER_H
-#include <string>
+
 #include "IListener.h"
 #include "cAudioDefines.h"
 #include "eAudioFormats.h"
@@ -23,7 +23,7 @@ namespace cAudio
 		//!Updates the cAudio playback
 		virtual void update() = 0;
 		//!Returns an IAudio object by its "name" and 0 if the name is not found
-		virtual IAudio* getSound(std::string identifier) = 0;
+		virtual IAudio* getSoundByName(const char* name) = 0;
 		//!Releases "ALL" cAudio objects (but does not shutdown the manager)
 		virtual void release() = 0;
 
@@ -36,22 +36,22 @@ namespace cAudio
 		virtual const char* getDefaultDeviceName() = 0;
 		
 		//!Creates the cAudio object
-		virtual IAudio* createFromFile(const std::string& identifier,const std::string& file,bool stream = false) = 0;
+		virtual IAudio* createFromFile(const char* name, const char* pathToFile, bool stream = false) = 0;
 		//!Loads audio from memory or virtual file system
-		virtual IAudio* createFromMemory(const std::string& identifier,const char* data, size_t length, std::string ext) = 0;
+		virtual IAudio* createFromMemory(const char* name, const char* data, size_t length, const char* extension) = 0;
 		//!Loads raw audio from memory.
-		virtual IAudio* createFromRaw(const std::string& identifier,const char* data, size_t length, unsigned int frequency, AudioFormats format) = 0;
+		virtual IAudio* createFromRaw(const char* name, const char* data, size_t length, unsigned int frequency, AudioFormats format) = 0;
 
 		//!Register Audio Codec
-		virtual bool registerAudioDecoder(IAudioDecoderFactory* factory, std::string extension) = 0;
+		virtual bool registerAudioDecoder(IAudioDecoderFactory* factory, const char* extension) = 0;
 		//!Unregister Audio Codec (allows you to prevent an file type from being playable with new sound sources)
 		//!Note that all current sound sources will still continue to use any currently allocated decoders.
 		//!Will NOT delete any user added factory instance, you must do that yourself
-		virtual void unRegisterAudioDecoder(std::string extension) = 0;
+		virtual void unRegisterAudioDecoder(const char* extension) = 0;
 		//!Returns whether an audio decoder is currently registered for this file type
-		virtual bool isAudioDecoderRegistered(std::string extension) = 0;
+		virtual bool isAudioDecoderRegistered(const char* extension) = 0;
 		//!Returns a registered audio decoder factory
-		virtual IAudioDecoderFactory* getAudioDecoderFactory(std::string extension) = 0;
+		virtual IAudioDecoderFactory* getAudioDecoderFactory(const char* extension) = 0;
 
 		//!Returns an interface for the listener
 		virtual IListener* getListener() = 0;

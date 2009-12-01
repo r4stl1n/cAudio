@@ -1,7 +1,6 @@
 #ifndef CAUDIO_H_INCLUDED
 #define CAUDIO_H_INCLUDED
 #include <string>
-#include <iostream>
 #include <vector>
 #include <AL/al.h>
 #include <AL/alc.h>
@@ -112,6 +111,10 @@ namespace cAudio
 		virtual void setDopplerStrength(const float& dstrength); 
 		//! Overrides the doppler velocity vector
 		virtual void setDopplerVelocity(const cVector3& dvelocity);
+
+		//! Convenience function to automatically set the velocity and position for you in a single call
+		//! Velocity will be set to new position - last position
+		virtual void move(const cVector3& position);
 
 		//!Returns the audio objects position
 		virtual const cVector3 getPosition() const;

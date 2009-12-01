@@ -4,7 +4,9 @@
 //****************************************************************
 
 #include <iostream>
+#include <string>
 #include <math.h>
+
 //Include IAudioManager so we can easily work with cAudio
 #include "../../include/IAudioManager.h"
 //Include IAudio so we can create cAudio objects
@@ -54,7 +56,7 @@ int main(int argc, char* argv[])
 		cAudio::IListener* listener = manager->getListener();
 
 		//Create a IAudio object and load a sound from a file
-		cAudio::IAudio* mysound = manager->createFromFile("bling","../../media/bling.ogg",true);
+		cAudio::IAudio* mysound = manager->createFromFile("bling", "../../media/bling.ogg", true);
 
 		//Set the IAudio Sound to play3d and loop
 		//play3d takes 4 arguments play3d(toloop,x,y,z,strength)
@@ -79,7 +81,7 @@ int main(int argc, char* argv[])
 				//Sound "starts" at x=5, y=0, z=0
 				float x = 5.0f * cosf(rot) - 0.0f * sinf(rot);
 				float z = 0.0f * cosf(rot) + 5.0f * sinf(rot);
-				mysound->setPosition(cAudio::cVector3(x,0.0,z));
+				mysound->move(cAudio::cVector3(x,0.0,z));
 
 				++currentTick;
 

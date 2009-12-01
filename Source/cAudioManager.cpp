@@ -130,15 +130,20 @@ namespace cAudio
     }
 
     //!create a sound source
-    IAudio* cAudioManager::createFromFile(const std::string& identifier,const std::string& file,bool stream)
+    IAudio* cAudioManager::createFromFile(const char* name, const char* pathToFile, bool stream)
     {
 		Mutex.lock();
-        if(stream){
-            cFileSource* source = new cFileSource(file);
+
+		std::string audioName = safeCStr(name);
+		std::string path = safeCStr(pathToFile);
+
+        if(stream)
+		{
+            cFileSource* source = new cFileSource(path);
             if(source->isValid())
             {
-                std::string ext = getExt(file);
-                IAudioDecoderFactory* factory = getAudioDecoderFactory(ext);
+                std::string ext = getExt(path);
+				IAudioDecoderFactory* factory = getAudioDecoderFactory(ext.c_str());
 				if(!factory)
 				{
                     delete source;
@@ -147,27 +152,32 @@ namespace cAudio
                 }
                 IAudioDecoder* decoder = factory->CreateAudioDecoder(source);
                 IAudio* audio = new cAudio(decoder);
-                audiomap[identifier] = audio;
-				getLogger()->logInfo("AudioManager", "Streaming Audio Source (%s) created from file %s.", identifier.c_str(), file.c_str());
+
+				if(!audioName.empty())
+					audioIndex[audioName] = audio;
+
+				audioSources.push_back(audio);
+
+				getLogger()->logInfo("AudioManager", "Streaming Audio Source (%s) created from file %s.", audioName.c_str(), path.c_str());
                 Mutex.unlock();
 				return audio;
             }
             else
             {
                 delete source;
-				getLogger()->logError("AudioManager", "Failed to create Audio Source (%s) from file %s.", identifier.c_str(), file.c_str());
+				getLogger()->logError("AudioManager", "Failed to create Audio Source (%s) from file %s.", audioName.c_str(), path.c_str());
 				Mutex.unlock();
                 return NULL;
             }
         }
         else
         {
-            cFileSource* tempsource = new cFileSource(file);
+            cFileSource* tempsource = new cFileSource(path);
             int length = tempsource->getSize();
             char *tempbuf = new char[length];
             tempsource->read(tempbuf,length);
 
-            IAudio* guy = createFromMemory(identifier,tempbuf,length,getExt(file));
+			IAudio* guy = createFromMemory(name, tempbuf, length, getExt(path).c_str());
             delete[]tempbuf;
             delete tempsource;
 			Mutex.unlock();
@@ -176,13 +186,17 @@ namespace cAudio
     }
 
     //!Loads the ogg file from memory *virtual file systems*
-    IAudio* cAudioManager::createFromMemory(const std::string& identifier, const char* data, size_t length, std::string ext)
+    IAudio* cAudioManager::createFromMemory(const char* name, const char* data, size_t length, const char* extension)
     {
 		Mutex.lock();
-        cMemorySource* source = new cMemorySource(data,length,true);
+
+		std::string audioName = safeCStr(name);
+		std::string ext = safeCStr(extension);
+
+        cMemorySource* source = new cMemorySource(data, length, true);
         if(source->isValid())
         {
-			IAudioDecoderFactory* factory = getAudioDecoderFactory(ext);
+			IAudioDecoderFactory* factory = getAudioDecoderFactory(ext.c_str());
             if(!factory)
             {
                 delete source;
@@ -191,24 +205,31 @@ namespace cAudio
             }
             IAudioDecoder* decoder = factory->CreateAudioDecoder(source);
             IAudio* audio = new cAudio(decoder);
-            audiomap[identifier] = audio;
-			getLogger()->logInfo("AudioManager", "Audio Source (%s) created from memory buffer.", identifier.c_str());
+            
+			if(!audioName.empty())
+					audioIndex[audioName] = audio;
+
+			audioSources.push_back(audio);
+
+			getLogger()->logInfo("AudioManager", "Audio Source (%s) created from memory buffer.", audioName.c_str());
 			Mutex.unlock();
             return audio;
         }
         else
         {
             delete source;
-			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s) from memory buffer.", identifier.c_str());
+			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s) from memory buffer.", audioName.c_str());
 			Mutex.unlock();
             return NULL;
         }
     }
 
-	IAudio* cAudioManager::createFromRaw(const std::string& identifier,const char* data, size_t length, unsigned int frequency, AudioFormats format)
+	IAudio* cAudioManager::createFromRaw(const char* name, const char* data, size_t length, unsigned int frequency, AudioFormats format)
 	{
 		Mutex.lock();
-		cMemorySource* source = new cMemorySource(data,length,true);
+		std::string audioName = safeCStr(name);
+
+		cMemorySource* source = new cMemorySource(data, length, true);
         if(source->isValid())
         {
 			IAudioDecoderFactory* factory = getAudioDecoderFactory("raw");
@@ -220,54 +241,63 @@ namespace cAudio
             }
 			IAudioDecoder* decoder = ((cRawAudioDecoderFactory*)factory)->CreateAudioDecoder(source, frequency, format);
             IAudio* audio = new cAudio(decoder);
-            audiomap[identifier] = audio;
-			getLogger()->logInfo("AudioManager", "Raw Audio Source (%s) created from memory buffer.", identifier.c_str());
+			
+			if(!audioName.empty())
+					audioIndex[audioName] = audio;
+
+			audioSources.push_back(audio);
+
+			getLogger()->logInfo("AudioManager", "Raw Audio Source (%s) created from memory buffer.", audioName.c_str());
 			Mutex.unlock();
             return audio;
         }
         else
         {
             delete source;
-			getLogger()->logError("AudioManager", "Failed to create Raw Audio Source (%s) from memory buffer.", identifier.c_str());
+			getLogger()->logError("AudioManager", "Failed to create Raw Audio Source (%s) from memory buffer.", audioName.c_str());
 			Mutex.unlock();
             return NULL;
         }
 	}
 
-    bool cAudioManager::registerAudioDecoder(IAudioDecoderFactory* factory, std::string extension)
+    bool cAudioManager::registerAudioDecoder(IAudioDecoderFactory* factory, const char* extension)
     {
 		Mutex.lock();
-        decodermap[extension] = factory;
-		getLogger()->logInfo("AudioManager", "Audio Decoder for extension .%s registered.", extension.c_str());
+		std::string ext = safeCStr(extension);
+        decodermap[ext] = factory;
+		getLogger()->logInfo("AudioManager", "Audio Decoder for extension .%s registered.", ext.c_str());
 		Mutex.unlock();
 		return true;
     }
 
-	void cAudioManager::unRegisterAudioDecoder(std::string extension)
+	void cAudioManager::unRegisterAudioDecoder(const char* extension)
 	{
 		Mutex.lock();
-		std::map<std::string, IAudioDecoderFactory*>::iterator it = decodermap.find(extension);
+		std::string ext = safeCStr(extension);
+		std::map<std::string, IAudioDecoderFactory*>::iterator it = decodermap.find(ext);
 		if(it != decodermap.end())
 		{
 			decodermap.erase(it);
-			getLogger()->logInfo("AudioManager", "Audio Decoder for extension .%s unregistered.", extension.c_str());
+			getLogger()->logInfo("AudioManager", "Audio Decoder for extension .%s unregistered.", ext.c_str());
 		}
 		Mutex.unlock();
 	}
 
-	bool cAudioManager::isAudioDecoderRegistered(std::string extension)
+	bool cAudioManager::isAudioDecoderRegistered(const char* extension)
 	{
 		Mutex.lock();
-		std::map<std::string, IAudioDecoderFactory*>::iterator it = decodermap.find(extension);
+		std::string ext = safeCStr(extension);
+		std::map<std::string, IAudioDecoderFactory*>::iterator it = decodermap.find(ext);
 		bool result = (it != decodermap.end());
 		Mutex.unlock();
 		return result;
 	}
 
-	IAudioDecoderFactory* cAudioManager::getAudioDecoderFactory(std::string extension)
+	IAudioDecoderFactory* cAudioManager::getAudioDecoderFactory(const char* extension)
 	{
 		Mutex.lock();
-		std::map<std::string, IAudioDecoderFactory*>::iterator it = decodermap.find(extension);
+		std::string ext = safeCStr(extension);
+		std::map<std::string, IAudioDecoderFactory*>::iterator it = decodermap.find(ext);
 		if(it != decodermap.end())
 		{
 			Mutex.unlock();
@@ -278,11 +308,12 @@ namespace cAudio
 	}
 
     //!grabs the selected audio file via the identifier
-    IAudio *cAudioManager::getSound(std::string identifier)
+    IAudio* cAudioManager::getSoundByName(const char* name)
     {
 		Mutex.lock();
-        std::map<std::string,IAudio*>::iterator i = audiomap.find(identifier);
-        if (i == audiomap.end())
+		std::string audioName = safeCStr(name);
+        std::map<std::string,IAudio*>::iterator i = audioIndex.find(audioName);
+        if (i == audioIndex.end())
 		{
 			Mutex.unlock();
 			return NULL;
@@ -295,14 +326,14 @@ namespace cAudio
     void cAudioManager::release()
     {
 		Mutex.lock();
-        std::map<std::string,IAudio*>::iterator i = audiomap.begin();
-        while ( i != audiomap.end())
-        {
-            i->second->release();
-            delete i->second;
-			i++;
-        }
-		audiomap.clear();
+		for(unsigned int i=0; i<audioSources.size(); ++i)
+		{
+			IAudio* source = audioSources[i];
+			if(source)
+				delete source;
+		}
+		audioSources.clear();
+		audioIndex.clear();
 		decodermap.clear();
 		Mutex.unlock();
     }
@@ -311,12 +342,12 @@ namespace cAudio
     void cAudioManager::update()
     {
 		Mutex.lock();
-        std::map<std::string,IAudio*>::iterator i = audiomap.begin();
-        for (i = audiomap.begin(); i != audiomap.end() ; i++)
-        {
-            if (i->second->isValid() == true)
+        for(unsigned int i=0; i<audioSources.size(); ++i)
+		{
+			IAudio* source = audioSources[i];
+            if (source->isValid())
             {
-                if (i->second->update())
+                if (source->update())
                 {
 
                 }

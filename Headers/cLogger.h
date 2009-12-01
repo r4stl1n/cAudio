@@ -1,10 +1,11 @@
 #ifndef CLOGGER_H_INCLUDED
 #define CLOGGER_H_INCLUDED
 
-#include "../include/ILogger.h"
-#include "../Headers/cMutex.h"
 #include <map>
 #include <stdarg.h>
+
+#include "../include/ILogger.h"
+#include "../Headers/cMutex.h"
 
 namespace cAudio
 {
@@ -26,14 +27,14 @@ namespace cAudio
 		//! Register Log Receiver
 		//! Note: Any class registered will become owned by the internal thread.
 		//! If threading is enabled, you MUST make the receiver threadsafe if you plan to access it in your application while it is registered
-		virtual bool registerLogReceiver(ILogReceiver* receiver, std::string name);
+		virtual bool registerLogReceiver(ILogReceiver* receiver, const char* name);
 		//!Unregister a Log Receiver
 		//!Will NOT delete any user added receiver, you must do that yourself
-		virtual void unRegisterLogReceiver(std::string name);
+		virtual void unRegisterLogReceiver(const char* name);
 		//!Returns whether an log receiver is currently registered
-		virtual bool isLogReceiverRegistered(std::string name);
+		virtual bool isLogReceiverRegistered(const char* name);
 		//!Returns a registered log receiver
-		virtual ILogReceiver* getLogReceiver(std::string name);
+		virtual ILogReceiver* getLogReceiver(const char* name);
 
 	protected:
 		void broadcastMessage( LogLevel level, const char* sender, const char* msg, va_list args );

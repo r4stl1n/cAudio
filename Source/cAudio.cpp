@@ -1,6 +1,3 @@
-#include <iostream>
-#include <stdio.h>
-#include <string.h>
 #include "../Headers/cAudio.h"
 #include "../Headers/cLogger.h"
 
@@ -322,6 +319,18 @@ namespace cAudio
 		checkError();
 		Mutex.unlock();
     }
+
+	void cAudio::move(const cVector3& position)
+	{
+		Mutex.lock();
+		cVector3 oldPos = getPosition();
+		cVector3 velocity = position - oldPos;
+
+        alSource3f(Source, AL_VELOCITY, velocity.x, velocity.y, velocity.z);
+		alSource3f(Source, AL_POSITION, position.x, position.y, position.z);
+		checkError();
+		Mutex.unlock();
+	}
 
 	const cVector3 cAudio::getPosition() const
 	{

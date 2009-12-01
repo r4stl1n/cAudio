@@ -13,9 +13,8 @@ namespace cAudio
         virtual ~IListener() {}
 
 		//!Sets the position of the listener
-		//!Note that this will automatically set velocity to 0
+		//!Note that you will still have to set velocity after this call for proper doppler effects
 		//!Use move() if you'd like to have cAudio automatically handle velocity for you
-		//!or remember to set it yourself after setPosition
 		virtual void setPosition(const cVector3 pos) = 0;
 		//!Sets the direction the listener is facing
 		virtual void setDirection(const cVector3 dir) = 0;
@@ -26,7 +25,7 @@ namespace cAudio
 		//!Sets the global volume modifier (will effect all sources)
 		virtual void setMasterVolume(const float volume) = 0;
 
-		//!Convenience function to automatically set the velocity for you on a move
+		//!Convenience function to automatically set the velocity and position for you in a single call
 		//!Velocity will be set to new position - last position
 		virtual void move(const cVector3 pos) = 0;
 

@@ -23,6 +23,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tutorial4_AudioCapture", "E
 		{ACD6C202-85D4-44F5-83BF-6577A074F655} = {ACD6C202-85D4-44F5-83BF-6577A074F655}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Stress_Test", "tests\Stress_Test\Stress_Test.vcproj", "{0E491D8E-6B9E-4107-B50B-EC48CBA3203D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -49,6 +51,10 @@ Global
 		{F04BE31E-E8CC-40C8-9C63-EEAE1BF84EB7}.Debug|Win32.Build.0 = Debug|Win32
 		{F04BE31E-E8CC-40C8-9C63-EEAE1BF84EB7}.Release|Win32.ActiveCfg = Release|Win32
 		{F04BE31E-E8CC-40C8-9C63-EEAE1BF84EB7}.Release|Win32.Build.0 = Release|Win32
+		{0E491D8E-6B9E-4107-B50B-EC48CBA3203D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0E491D8E-6B9E-4107-B50B-EC48CBA3203D}.Debug|Win32.Build.0 = Debug|Win32
+		{0E491D8E-6B9E-4107-B50B-EC48CBA3203D}.Release|Win32.ActiveCfg = Release|Win32
+		{0E491D8E-6B9E-4107-B50B-EC48CBA3203D}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

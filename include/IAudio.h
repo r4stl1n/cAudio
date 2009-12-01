@@ -101,11 +101,15 @@ namespace cAudio
 		//! Overrides the doppler velocity vector
 		virtual void setDopplerVelocity(const cVector3& dvelocity) = 0;
 
-		//!Returns the audio objects position
+		//! Convenience function to automatically set the velocity and position for you in a single call
+		//! Velocity will be set to new position - last position
+		virtual void move(const cVector3& position) = 0;
+
+		//! Returns the audio objects position
 		virtual const cVector3 getPosition() const = 0;
-		//!Returns the audio objects velocity
+		//! Returns the audio objects velocity
 		virtual const cVector3 getVelocity() const = 0;
-		//!Returns the audio objects direction
+		//! Returns the audio objects direction
 		virtual const cVector3 getDirection() const = 0;
 
 		//! Returns the factor used in attenuating the source over distance
@@ -117,9 +121,9 @@ namespace cAudio
 		//! Returns the distance from the source where attenuation will stop
 		virtual const float getMaxDistance() const = 0;
 
-		//!Returns the pitch of the source
+		//! Returns the pitch of the source
 		virtual const float getPitch() const = 0;
-		//!Returns the source volume before attenuation and other effects
+		//! Returns the source volume before attenuation and other effects
 		virtual const float getVolume() const = 0;
 		//! Returns the minimum volume that the source can be attenuated to
 		virtual const float getMinVolume() const = 0;
@@ -133,9 +137,9 @@ namespace cAudio
 		//! Returns how much the volume of the source is scaled in the outer cone
 		virtual const float getOuterConeVolume() const = 0;
 
-		//!Returns the doppler strength, which enhances or diminishes the doppler effect 
+		//! Returns the doppler strength, which enhances or diminishes the doppler effect 
 		virtual const float getDopplerStrength() const = 0;
-		//!Returns the override for the doppler velocity vector
+		//! Returns the override for the doppler velocity vector
 		virtual const cVector3 getDopplerVelocity() const = 0;
 
     protected:

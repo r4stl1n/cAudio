@@ -1,6 +1,7 @@
-#include "../Headers/cLogger.h"
 #include <time.h>
+#include "../Headers/cLogger.h"
 #include "../Headers/cConsoleLogReceiver.h"
+#include "../Headers/cUtils.h"
 
 namespace cAudio
 {
@@ -90,18 +91,20 @@ namespace cAudio
             it->second->OnLogMessage(sender, TempTextBuf, level, messageTime);
         }
 	}
-	bool cLogger::registerLogReceiver(ILogReceiver* receiver, std::string name)
+	bool cLogger::registerLogReceiver(ILogReceiver* receiver, const char* name)
     {
 		Mutex.lock();
-        Receivers[name] = receiver;
+		std::string logName = safeCStr(name);
+        Receivers[logName] = receiver;
 		Mutex.unlock();
 		return true;
     }
 
-	void cLogger::unRegisterLogReceiver(std::string name)
+	void cLogger::unRegisterLogReceiver(const char* name)
 	{
 		Mutex.lock();
-		std::map<std::string, ILogReceiver*>::iterator it = Receivers.find(name);
+		std::string logName = safeCStr(name);
+		std::map<std::string, ILogReceiver*>::iterator it = Receivers.find(logName);
 		if(it != Receivers.end())
 		{
 			Receivers.erase(it);
@@ -109,19 +112,21 @@ namespace cAudio
 		Mutex.unlock();
 	}
 
-	bool cLogger::isLogReceiverRegistered(std::string name)
+	bool cLogger::isLogReceiverRegistered(const char* name)
 	{
 		Mutex.lock();
-		std::map<std::string, ILogReceiver*>::iterator it = Receivers.find(name);
+		std::string logName = safeCStr(name);
+		std::map<std::string, ILogReceiver*>::iterator it = Receivers.find(logName);
 		bool result = (it != Receivers.end());
 		Mutex.unlock();
 		return result;
 	}
 
-	ILogReceiver* cLogger::getLogReceiver(std::string name)
+	ILogReceiver* cLogger::getLogReceiver(const char* name)
 	{
 		Mutex.lock();
-		std::map<std::string, ILogReceiver*>::iterator it = Receivers.find(name);
+		std::string logName = safeCStr(name);
+		std::map<std::string, ILogReceiver*>::iterator it = Receivers.find(logName);
 		if(it != Receivers.end())
 		{
 			Mutex.unlock();
