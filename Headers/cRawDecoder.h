@@ -22,6 +22,9 @@ namespace cAudio
             //!Returns whether seeking is supported
             virtual bool isSeekingSupported();
 
+			//!Returns whether the stream is valid for this codec
+			virtual bool isValid();
+
             //!Reads a section of data out of the audio stream
             virtual int readAudioData(void* output, int amount);
 

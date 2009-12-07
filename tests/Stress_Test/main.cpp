@@ -22,8 +22,8 @@
 
 using namespace std;
 
-#define MAXAUDIOSOURCES 128
-#define TESTDURATION 30
+#define MAXAUDIOSOURCES 64
+#define TESTDURATION 10
 
 cAudio::IAudio* AudioSources[MAXAUDIOSOURCES];
 
@@ -52,7 +52,7 @@ int main(int argc, char* argv[])
 	if(manager)
 	{
 		//Allow the user to choose a playback device
-		cout << "Available Playback Devices: \n";
+		/*cout << "Available Playback Devices: \n";
 		unsigned int deviceCount = manager->getAvailableDeviceCount();
 		std::string defaultDeviceName = manager->getDefaultDeviceName();
 		for(unsigned int i=0; i<deviceCount; ++i)
@@ -67,10 +67,11 @@ int main(int argc, char* argv[])
 		cout << "Choose a device by number: ";
 		unsigned int deviceSelection = 0;
 		cin >> deviceSelection;
-		cout << std::endl;
+		cout << std::endl;*/
 
 		//Initialize the manager with the user settings
-		manager->initialize(manager->getAvailableDeviceName(deviceSelection));
+		//manager->initialize(manager->getAvailableDeviceName(deviceSelection));
+		manager->initialize(NULL);
 
 		//Grab the listener object, which allows us to manipulate where "we" are in the world
 		//It's useful to bind this to a camera if you are using a 3d graphics engine
@@ -117,7 +118,8 @@ int main(int argc, char* argv[])
 			currentTick = clock();
 		}
 		cout << "Did " << currentCycle << " source moves in " << TESTDURATION << " seconds. \n";
-		cout << "Each move took an average of " << ((float)TESTDURATION/(float)currentCycle)*1000.f << " milliseconds. \n \n";
+		cout << "Average Moves Per Second: " << (((float)currentCycle)/(float)TESTDURATION) << " \n";
+		cout << "Average Frames (All audio sources moved) Per Second: " << (((float)currentCycle/(float)MAXAUDIOSOURCES)/(float)TESTDURATION) << " \n \n";
 
 		std::cout << std::endl;
 
@@ -141,7 +143,7 @@ int main(int argc, char* argv[])
 
 	std::cout << "Press any key to quit \n";
 	std::cin.get();
-	std::cin.get();
+	//std::cin.get();
 
     return 0;
 }

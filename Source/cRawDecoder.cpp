@@ -27,8 +27,13 @@ namespace cAudio{
     //!Returns if seeking is supported
     bool cRawDecoder::isSeekingSupported()
     {
-        return false;
+        return true;
     }
+
+	bool cRawDecoder::isValid()
+	{
+		return true;
+	}
 
     //!Reads wav data
     int cRawDecoder::readAudioData(void* output, int amount)
@@ -46,8 +51,17 @@ namespace cAudio{
     //!Seeks wav data
     bool cRawDecoder::seek(float seconds,bool relative)
     {
-        return false;
+		int SampleSize = 1;
+		if(Format == EAF_8BIT_MONO)
+			SampleSize = 1;
+		else if(Format == EAF_8BIT_STEREO)
+			SampleSize = 2;
+		else if(Format == EAF_16BIT_MONO)
+			SampleSize = 2;
+		else
+			SampleSize = 4;
+
+        int amountToSeek = seconds * (float)Frequency * (float)SampleSize;
+        return setPosition(amountToSeek, relative);
     }
-
-
 }

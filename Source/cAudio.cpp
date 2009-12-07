@@ -3,23 +3,27 @@
 
 namespace cAudio
 {
-    cAudio::cAudio(IAudioDecoder* decoder) : Decoder(decoder)
+    cAudio::cAudio(IAudioDecoder* decoder) : Decoder(decoder), Loop(false), Valid(false)
     {
 		Mutex.lock();
-		Loop = false;
+
+		if(Decoder)
+			Decoder->grab();
 
 		//Generates 3 buffers for the ogg file
 		alGenBuffers(NUM_BUFFERS, Buffers);
 		//Creates one source to be stored.
 		alGenSources(1, &Source);
-		checkError();
+		bool state = !checkError();
+		Valid = state && (Decoder != NULL);
 		Mutex.unlock();
     }
 
     cAudio::~cAudio()
     {
 		Mutex.lock();
-        delete Decoder;
+		if(Decoder)
+			Decoder->drop();
 		Mutex.unlock();
     }
 
@@ -100,13 +104,13 @@ namespace cAudio
 		Mutex.unlock();
     }
 
-	bool cAudio::seek(const float& seconds)
+	bool cAudio::seek(const float& seconds, bool relative)
 	{
 		bool state = false;
 		Mutex.lock();
         if(Decoder->isSeekingSupported())
         {
-			state = Decoder->seek(seconds, false);
+			state = Decoder->seek(seconds, relative);
         }
 		Mutex.unlock();
 		return state;
@@ -158,8 +162,7 @@ namespace cAudio
 
 	const bool cAudio::isValid() const
 	{
-		bool state = (Decoder != 0);
-        return state;
+        return Valid;
 	}
 
 	const bool cAudio::isPlaying() const
@@ -462,7 +465,7 @@ namespace cAudio
         }
     }
 
-	void cAudio::checkError()
+	bool cAudio::checkError()
     {
         int error = alGetError();
 		const char* errorString;
@@ -474,7 +477,9 @@ namespace cAudio
 				getLogger()->logCritical("Audio Source", "OpenAL Error: %s.", errorString);
 			else
 				getLogger()->logError("Audio Source", "OpenAL Error: %s.", errorString);
+			return true;
         }
+		return false;
     }
 
     bool cAudio::stream(ALuint buffer)

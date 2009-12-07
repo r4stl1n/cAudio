@@ -21,7 +21,7 @@ namespace cAudio
     class cAudioManager : public IAudioManager
     {
     public:
-		cAudioManager() { }
+		cAudioManager() : Device(NULL), Context(NULL), EFXSupported(false), Initialized(false) { }
 		virtual ~cAudioManager() { }
 
 		//!Inits the audio manager calling the alut/etc start ups
@@ -75,13 +75,19 @@ namespace cAudio
 		//Make a openal device pointer
 		ALCdevice* Device;
 
+		//Holds whether EFX is supported
+		bool EFXSupported;
+
+		//Whether the manager is currently initialized and ready to go.
+		bool Initialized;
+
 		//! Holds an index for fast searching of audio sources by name
 		std::map<std::string, IAudio*> audioIndex;
 		//! Holds all managed audio sources
 		std::vector<IAudio*> audioSources;
-		//!Decoder map that holds all decoders by file extension
+		//! Decoder map that holds all decoders by file extension
 		std::map<std::string, IAudioDecoderFactory*> decodermap; 
-		//!The listener object        
+		//! The listener object        
 		cListener initlistener;
 		//! Check for OpenAL errors
 		void checkError();

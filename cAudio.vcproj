@@ -222,6 +222,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Headers\cPluginManager.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Headers\cRawAudioDecoderFactory.h"
 				>
 			</File>
@@ -234,7 +238,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Headers\cWavAudioDecoderFacotry.h"
+				RelativePath=".\Headers\cWavAudioDecoderFactory.h"
 				>
 			</File>
 			<File
@@ -299,6 +303,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\cOggDecoder.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\cPluginManager.cpp"
 				>
 			</File>
 			<File
@@ -367,6 +375,10 @@
 			</File>
 			<File
 				RelativePath=".\include\ILogReceiver.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\IRefCounted.h"
 				>
 			</File>
 		</Filter>

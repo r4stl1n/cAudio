@@ -1,12 +1,13 @@
 #ifndef IAUDIO_H
 #define IAUDIO_H
 
+#include "IRefCounted.h"
 #include "IAudioDecoder.h"
 #include "cVector3.h"
 
 namespace cAudio
 {
-    class IAudio
+    class IAudio : public IRefCounted
     {
     public:
 		IAudio() {}
@@ -29,7 +30,7 @@ namespace cAudio
 		/** Note: May not be supported by all codecs
 		\param seconds: Number of seconds from the start of the audio stream to seek to
 		\return True on success, False if the codec does not support seeking. */
-		virtual bool seek(const float& seconds) = 0;
+		virtual bool seek(const float& seconds, bool relative = false) = 0;
 
 		//! Normally called every frame by the audio manager to update the internal buffers
 		//! Note: For internal use only.

@@ -3,7 +3,7 @@
 #include "../Headers/cMemorySource.h"
 #include "../Headers/cUtils.h"
 #include "../Headers/cOggAudioDecoderFactory.h"
-#include "../Headers/cWavAudioDecoderFacotry.h"
+#include "../Headers/cWavAudioDecoderFactory.h"
 #include "../Headers/cRawAudioDecoderFactory.h"
 #include "../Headers/cThread.h"
 #include "../include/cAudioSleep.h"
@@ -56,7 +56,10 @@ namespace cAudio
     //!Initialize the listener,openal,and mikmod
     bool cAudioManager::initialize(const char* deviceName, int outputFrequency, int eaxEffectSlots)
     {
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
+
+		if(Initialized)
+			shutDown();
 
 		//Stores the context attributes (MAX of 4, with 2 zeros to terminate)
 		ALint attribs[6] = { 0 };
@@ -80,17 +83,11 @@ namespace cAudio
 		{
 			getLogger()->logError("AudioManager", "Failed to Create OpenAL Device.");
 			checkError();
-			Mutex.unlock();
 			return false;
 		}
 
-		//Create context with eax effects for windows
 #ifdef CAUDIO_EAX_ENABLED
-		if(alcIsExtensionPresent(Device, "ALC_EXT_EFX") == AL_FALSE)
-		{
-			getLogger()->logWarning("AudioManager", "EFX not supported.");
-		}
-		getLogger()->logInfo("AudioManager", "EFX supported and enabled.");
+		EFXSupported = (alcIsExtensionPresent(Device, "ALC_EXT_EFX") == AL_TRUE);
 #endif
 
 		Context = alcCreateContext(Device, attribs);
@@ -98,7 +95,8 @@ namespace cAudio
 		{
 			getLogger()->logError("AudioManager", "Failed to Create OpenAL Context.");
 			checkError();
-			Mutex.unlock();
+			alcCloseDevice(Device);
+			Device = NULL;
 			return false;
 		}
 
@@ -106,13 +104,31 @@ namespace cAudio
 		{
 			getLogger()->logError("AudioManager", "Failed to make OpenAL Context current.");
 			checkError();
-			Mutex.unlock();
+			alcDestroyContext(Context);
+			alcCloseDevice(Device);
+			Context = NULL;
+			Device = NULL;
 			return false;
 		}
 
 		getLogger()->logInfo("AudioManager", "OpenAL Version: %s", alGetString(AL_VERSION));
 		getLogger()->logInfo("AudioManager", "Vendor: %s", alGetString(AL_VENDOR));
 		getLogger()->logInfo("AudioManager", "Renderer: %s", alGetString(AL_RENDERER));
+#ifdef CAUDIO_EAX_ENABLED
+		if(EFXSupported)
+		{
+			int EFXMajorVersion = 0;
+			int EFXMinorVersion = 0;
+			alcGetIntegerv(Device, ALC_EFX_MAJOR_VERSION, 1, &EFXMajorVersion);
+			alcGetIntegerv(Device, ALC_EFX_MINOR_VERSION, 1, &EFXMinorVersion);
+			getLogger()->logInfo("AudioManager", "EFX Version: %i.%i", EFXMajorVersion, EFXMinorVersion);
+			getLogger()->logInfo("AudioManager", "EFX supported and enabled.");
+		}
+		else
+		{
+			getLogger()->logWarning("AudioManager", "EFX is not supported, EFX disabled.");
+		}
+#endif
 		getLogger()->logInfo("AudioManager", "Supported Extensions: %s", alGetString(AL_EXTENSIONS));
 
 #ifdef CAUDIO_COMPILE_WITH_OGG_DECODER
@@ -125,154 +141,240 @@ namespace cAudio
 		registerAudioDecoder(&RawDecoderFactory, "raw");
 #endif
 
-		Mutex.unlock();
+		Initialized = true;
 		return true;
     }
 
     //!create a sound source
     IAudio* cAudioManager::createFromFile(const char* name, const char* pathToFile, bool stream)
     {
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 
 		std::string audioName = safeCStr(name);
 		std::string path = safeCStr(pathToFile);
 
-        if(stream)
+		std::string ext = getExt(path);
+		IAudioDecoderFactory* factory = getAudioDecoderFactory(ext.c_str());
+		if(factory)
 		{
-            cFileSource* source = new cFileSource(path);
-            if(source->isValid())
-            {
-                std::string ext = getExt(path);
-				IAudioDecoderFactory* factory = getAudioDecoderFactory(ext.c_str());
-				if(!factory)
+			if(stream)
+			{
+				cFileSource* source = new cFileSource(path);
+				if(source)
 				{
-                    delete source;
-					Mutex.unlock();
-                    return NULL;
-                }
-                IAudioDecoder* decoder = factory->CreateAudioDecoder(source);
-                IAudio* audio = new cAudio(decoder);
+					if(source->isValid())
+					{
+						IAudioDecoder* decoder = factory->CreateAudioDecoder(source);
+						source->drop();
+						if(decoder)
+						{
+							if(decoder->isValid())
+							{
+								IAudio* audio = new cAudio(decoder);
+								decoder->drop();
 
-				if(!audioName.empty())
-					audioIndex[audioName] = audio;
+								if(audio)
+								{
+									if(audio->isValid())
+									{
+										if(!audioName.empty())
+											audioIndex[audioName] = audio;
 
-				audioSources.push_back(audio);
+										audioSources.push_back(audio);
 
-				getLogger()->logInfo("AudioManager", "Streaming Audio Source (%s) created from file %s.", audioName.c_str(), path.c_str());
-                Mutex.unlock();
-				return audio;
-            }
-            else
-            {
-                delete source;
-				getLogger()->logError("AudioManager", "Failed to create Audio Source (%s) from file %s.", audioName.c_str(), path.c_str());
-				Mutex.unlock();
-                return NULL;
-            }
-        }
-        else
-        {
-            cFileSource* tempsource = new cFileSource(path);
-            int length = tempsource->getSize();
-            char *tempbuf = new char[length];
-            tempsource->read(tempbuf,length);
+										getLogger()->logInfo("AudioManager", "Streaming Audio Source (%s) created from file %s.", audioName.c_str(), path.c_str());
+										
+										return audio;
+									}
+									getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Error creating audio source.", audioName.c_str());
+									audio->drop();
+									return NULL;
+								}
+								getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Could not allocate enough memory.", audioName.c_str());
+								return NULL;
+							}
+							getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Audio data could not be decoded by (.%s) decoder.", audioName.c_str(), ext.c_str());
+							decoder->drop();
+							return NULL;
+						}
+						getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Could not allocate enough memory.", audioName.c_str());
+						return NULL;
+					}
+					source->drop();
+					getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Could not load file %s.", audioName.c_str(), path.c_str());
+					return NULL;
+				}
+				getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Could not allocate enough memory.", audioName.c_str());
+				return NULL;
+			}
+			else
+			{
+				cFileSource* tempsource = new cFileSource(path);
+				if(tempsource)
+				{
+					if(tempsource->isValid())
+					{
+						int length = tempsource->getSize();
+						char *tempbuf = new char[length];
+						if(tempbuf)
+						{
+							tempsource->read(tempbuf,length);
 
-			IAudio* guy = createFromMemory(name, tempbuf, length, getExt(path).c_str());
-            delete[]tempbuf;
-            delete tempsource;
-			Mutex.unlock();
-            return guy;
-        }
+							IAudio* guy = createFromMemory(name, tempbuf, length, getExt(path).c_str());
+							delete[]tempbuf;
+							tempsource->drop();
+							return guy;
+						}
+						getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Could not allocate enough memory.", audioName.c_str());
+						tempsource->drop();
+						return NULL;
+					}
+					getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Audio data is corrupt.", audioName.c_str());
+					tempsource->drop();
+					return NULL;
+				}
+				getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Could not allocate enough memory.", audioName.c_str());
+				return NULL;
+			}
+		}
+		getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Codec (.%s) is not supported.", audioName.c_str(), ext.c_str());
+		return NULL;
     }
 
     //!Loads the ogg file from memory *virtual file systems*
     IAudio* cAudioManager::createFromMemory(const char* name, const char* data, size_t length, const char* extension)
     {
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 
 		std::string audioName = safeCStr(name);
 		std::string ext = safeCStr(extension);
+		IAudioDecoderFactory* factory = getAudioDecoderFactory(ext.c_str());
+		if(factory)
+		{
+			cMemorySource* source = new cMemorySource(data, length, true);
+			if(source)
+			{
+				if(source->isValid())
+				{
+					IAudioDecoder* decoder = factory->CreateAudioDecoder(source);
+					source->drop();
+					if(decoder)
+					{
+						if(decoder->isValid())
+						{
+							IAudio* audio = new cAudio(decoder);
+							decoder->drop();
 
-        cMemorySource* source = new cMemorySource(data, length, true);
-        if(source->isValid())
-        {
-			IAudioDecoderFactory* factory = getAudioDecoderFactory(ext.c_str());
-            if(!factory)
-            {
-                delete source;
-				Mutex.unlock();
-                return NULL;
-            }
-            IAudioDecoder* decoder = factory->CreateAudioDecoder(source);
-            IAudio* audio = new cAudio(decoder);
-            
-			if(!audioName.empty())
-					audioIndex[audioName] = audio;
+							if(audio)
+							{
+								if(audio->isValid())
+								{
+									if(!audioName.empty())
+										audioIndex[audioName] = audio;
 
-			audioSources.push_back(audio);
+									audioSources.push_back(audio);
 
-			getLogger()->logInfo("AudioManager", "Audio Source (%s) created from memory buffer.", audioName.c_str());
-			Mutex.unlock();
-            return audio;
-        }
-        else
-        {
-            delete source;
-			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s) from memory buffer.", audioName.c_str());
-			Mutex.unlock();
-            return NULL;
-        }
+									getLogger()->logInfo("AudioManager", "Audio Source (%s) successfully created from memory.", audioName.c_str());
+									
+									return audio;
+								}
+								audio->drop();
+								getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Error creating audio source.", audioName.c_str());
+								return NULL;
+							}
+							getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Could not allocate enough memory.", audioName.c_str());
+							return NULL;
+						}
+						decoder->drop();
+						getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Audio data could not be decoded by (.%s) decoder.", audioName.c_str(), ext.c_str());
+						return NULL;
+					}
+					getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Could not allocate enough memory for decoder.", audioName.c_str());
+					return NULL;
+				}
+				source->drop();
+				getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Audio data is corrupt.", audioName.c_str());
+				return NULL;
+			}
+			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Could not allocate enough memory.", audioName.c_str());
+			return NULL;
+		}
+		getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Codec (.%s) is not supported.", audioName.c_str(), ext.c_str());
+		return NULL;
     }
 
 	IAudio* cAudioManager::createFromRaw(const char* name, const char* data, size_t length, unsigned int frequency, AudioFormats format)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
+
 		std::string audioName = safeCStr(name);
+		IAudioDecoderFactory* factory = getAudioDecoderFactory("raw");
+		if(factory)
+		{
+			cMemorySource* source = new cMemorySource(data, length, true);
+			if(source)
+			{
+				if(source->isValid())
+				{
+					IAudioDecoder* decoder = ((cRawAudioDecoderFactory*)factory)->CreateAudioDecoder(source, frequency, format);
+					source->drop();
+					if(decoder)
+					{
+						if(decoder->isValid())
+						{
+							IAudio* audio = new cAudio(decoder);
+							decoder->drop();
 
-		cMemorySource* source = new cMemorySource(data, length, true);
-        if(source->isValid())
-        {
-			IAudioDecoderFactory* factory = getAudioDecoderFactory("raw");
-            if(!factory)
-            {
-                delete source;
-				Mutex.unlock();
-                return NULL;
-            }
-			IAudioDecoder* decoder = ((cRawAudioDecoderFactory*)factory)->CreateAudioDecoder(source, frequency, format);
-            IAudio* audio = new cAudio(decoder);
-			
-			if(!audioName.empty())
-					audioIndex[audioName] = audio;
+							if(audio)
+							{
+								if(audio->isValid())
+								{
+									if(!audioName.empty())
+										audioIndex[audioName] = audio;
 
-			audioSources.push_back(audio);
+									audioSources.push_back(audio);
 
-			getLogger()->logInfo("AudioManager", "Raw Audio Source (%s) created from memory buffer.", audioName.c_str());
-			Mutex.unlock();
-            return audio;
-        }
-        else
-        {
-            delete source;
-			getLogger()->logError("AudioManager", "Failed to create Raw Audio Source (%s) from memory buffer.", audioName.c_str());
-			Mutex.unlock();
-            return NULL;
-        }
+									getLogger()->logInfo("AudioManager", "Audio Source (%s) successfully created from raw data.", audioName.c_str());
+									
+									return audio;
+								}
+								audio->drop();
+								getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Error creating audio source.", audioName.c_str());
+								return NULL;
+							}
+							getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Could not allocate enough memory.", audioName.c_str());
+							return NULL;
+						}
+						decoder->drop();
+						getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Audio data could not be decoded by (.%s) decoder.", audioName.c_str(), "raw");
+						return NULL;
+					}
+					getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Could not allocate enough memory for decoder.", audioName.c_str());
+					return NULL;
+				}
+				source->drop();
+				getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Audio data is corrupt.", audioName.c_str());
+				return NULL;
+			}
+			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Could not allocate enough memory.", audioName.c_str());
+			return NULL;
+		}
+		getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Codec (.%s) is not supported.", audioName.c_str(), "raw");
+		return NULL;
 	}
 
     bool cAudioManager::registerAudioDecoder(IAudioDecoderFactory* factory, const char* extension)
     {
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 		std::string ext = safeCStr(extension);
         decodermap[ext] = factory;
 		getLogger()->logInfo("AudioManager", "Audio Decoder for extension .%s registered.", ext.c_str());
-		Mutex.unlock();
 		return true;
     }
 
 	void cAudioManager::unRegisterAudioDecoder(const char* extension)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 		std::string ext = safeCStr(extension);
 		std::map<std::string, IAudioDecoderFactory*>::iterator it = decodermap.find(ext);
 		if(it != decodermap.end())
@@ -280,68 +382,59 @@ namespace cAudio
 			decodermap.erase(it);
 			getLogger()->logInfo("AudioManager", "Audio Decoder for extension .%s unregistered.", ext.c_str());
 		}
-		Mutex.unlock();
 	}
 
 	bool cAudioManager::isAudioDecoderRegistered(const char* extension)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 		std::string ext = safeCStr(extension);
 		std::map<std::string, IAudioDecoderFactory*>::iterator it = decodermap.find(ext);
-		bool result = (it != decodermap.end());
-		Mutex.unlock();
-		return result;
+		return (it != decodermap.end());
 	}
 
 	IAudioDecoderFactory* cAudioManager::getAudioDecoderFactory(const char* extension)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 		std::string ext = safeCStr(extension);
 		std::map<std::string, IAudioDecoderFactory*>::iterator it = decodermap.find(ext);
 		if(it != decodermap.end())
 		{
-			Mutex.unlock();
 			return it->second;
 		}
-		Mutex.unlock();
 		return NULL;
 	}
 
     //!grabs the selected audio file via the identifier
     IAudio* cAudioManager::getSoundByName(const char* name)
     {
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 		std::string audioName = safeCStr(name);
         std::map<std::string,IAudio*>::iterator i = audioIndex.find(audioName);
         if (i == audioIndex.end())
 		{
-			Mutex.unlock();
 			return NULL;
 		}
-		Mutex.unlock();
         return i->second;
     }
 
     //!Releases the selected audio source
     void cAudioManager::release()
     {
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 		for(unsigned int i=0; i<audioSources.size(); ++i)
 		{
 			IAudio* source = audioSources[i];
 			if(source)
-				delete source;
+				source->drop();
 		}
 		audioSources.clear();
 		audioIndex.clear();
-		decodermap.clear();
-		Mutex.unlock();
     }
 
     //!Updates all audiosources created
     void cAudioManager::update()
     {
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
         for(unsigned int i=0; i<audioSources.size(); ++i)
 		{
 			IAudio* source = audioSources[i];
@@ -353,21 +446,27 @@ namespace cAudio
                 }
             }
         }
-		Mutex.unlock();
     }
 
     //!Shuts down cAudio. Deletes all audio sources in process
     void cAudioManager::shutDown()
     {
-		Mutex.lock();
-		//Reset context to null
-		alcMakeContextCurrent(NULL);
-		//Delete the context
-		alcDestroyContext(Context);
-		//Close the device
-		alcCloseDevice(Device);
-		getLogger()->logInfo("AudioManager", "Manager successfully shutdown.");
-		Mutex.unlock();
+		if(Initialized)
+		{
+			cAudioMutexBasicLock lock(Mutex);
+			release();
+			decodermap.clear();
+			//Reset context to null
+			alcMakeContextCurrent(NULL);
+			//Delete the context
+			alcDestroyContext(Context);
+			Context = NULL;
+			//Close the device
+			alcCloseDevice(Device);
+			Device = NULL;
+			Initialized = false;
+			getLogger()->logInfo("AudioManager", "Manager successfully shutdown.");
+		}
     }
 
 	void cAudioManager::checkError()
@@ -395,7 +494,7 @@ namespace cAudio
 	void cAudioManager::getAvailableDevices()
 	{
 		// Get list of available Playback Devices
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 		if( alcIsExtensionPresent(NULL, "ALC_ENUMERATE_ALL_EXT") == AL_TRUE )
 		{
 			const char* deviceList = alcGetString(NULL, ALC_ALL_DEVICES_SPECIFIER);
@@ -428,38 +527,31 @@ namespace cAudio
 			// Get the name of the 'default' capture device
 			DefaultDevice = alcGetString(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
 		}
-		Mutex.unlock();
 	}
 
 	const char* cAudioManager::getAvailableDeviceName(unsigned int index)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 		if(!AvailableDevices.empty())
 		{
 			//Bounds check
 			if( index > (AvailableDevices.size()-1) ) index = (AvailableDevices.size()-1);
 			const char* deviceName = AvailableDevices[index].c_str();
-			Mutex.unlock();
 			return deviceName;
 		}
-		Mutex.unlock();
 		return "";
 	}
 
 	unsigned int cAudioManager::getAvailableDeviceCount()
 	{
-		Mutex.lock();
-		unsigned int size = AvailableDevices.size();
-		Mutex.unlock();
-		return size;
+		cAudioMutexBasicLock lock(Mutex);
+		return AvailableDevices.size();
 	}
 
 	const char* cAudioManager::getDefaultDeviceName()
 	{
-		Mutex.lock();
-		const char* deviceName = DefaultDevice.empty() ? "" : DefaultDevice.c_str();
-		Mutex.unlock();
-		return deviceName;
+		cAudioMutexBasicLock lock(Mutex);
+		return DefaultDevice.empty() ? "" : DefaultDevice.c_str();
 	}
 
 	CAUDIO_API IAudioManager* createAudioManager(bool initializeDefault)
@@ -498,6 +590,7 @@ namespace cAudio
 				RunAudioManagerThread = false;
 			AudioManagerObjectsMutex.unlock();
 #endif
+			manager->shutDown();
 			delete manager;
 			manager = NULL;
 		}

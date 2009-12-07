@@ -41,10 +41,13 @@ namespace cAudio
         vorbisCallbacks.close_func = NULL;
         vorbisCallbacks.seek_func = VorbisSeek;
         vorbisCallbacks.tell_func = VorbisTell;
-        ov_open_callbacks(Stream,&oggStream,NULL,0,vorbisCallbacks);
+        Valid = (ov_open_callbacks(Stream,&oggStream,NULL,0,vorbisCallbacks) == 0);
 
-        vorbisInfo = ov_info(&oggStream, -1);
-        vorbisComment = ov_comment(&oggStream,-1);
+		if(Valid)
+		{
+			vorbisInfo = ov_info(&oggStream, -1);
+			vorbisComment = ov_comment(&oggStream,-1);
+		}
     }
 
     cOggDecoder::~cOggDecoder()
@@ -54,61 +57,86 @@ namespace cAudio
     //!Returns given vorbis channel format
     AudioFormats cOggDecoder::getFormat()
     {
-        if(vorbisInfo->channels == 1)
-        {
-            return EAF_16BIT_MONO;
-
-        }
-        else
-        {
-            return EAF_16BIT_STEREO;
-        }
+		if(Valid)
+		{
+			if(vorbisInfo->channels == 1)
+			{
+				return EAF_16BIT_MONO;
+			}
+			else
+			{
+				return EAF_16BIT_STEREO;
+			}
+		}
+		return EAF_8BIT_MONO;
     }
     //!Returns vorbis file frequency
     int cOggDecoder::getFrequency()
     {
-        return vorbisInfo->rate;
+		if(Valid)
+		{
+			return vorbisInfo->rate;
+		}
+		return 0;
     }
 
     //!Returns if vorbis file is seekable
     bool cOggDecoder::isSeekingSupported()
     {
-        return (ov_seekable(&oggStream)!=0);
+		if(Valid)
+		{
+			return (ov_seekable(&oggStream)!=0);
+		}
+		return false;
     }
+
+	bool cOggDecoder::isValid()
+	{
+		return Valid;
+	}
 
     //!Reads the vorbis data
     int cOggDecoder::readAudioData(void* output, int amount)
     {
-        int temp = 0;
-		int result = ov_read(&oggStream,(char*)output,amount,0,2,1,&temp);
-		//return (result < 0) ? 0 : result;
-		return result;
+		if(Valid)
+		{
+			int temp = 0;
+			int result = ov_read(&oggStream,(char*)output,amount,0,2,1,&temp);
+			//return (result < 0) ? 0 : result;
+			return result;
+		}
+		return 0;
     }
 
     //!Sets the postion for vorbis data reader
     bool cOggDecoder::setPosition(int position, bool relative)
     {
-        if(ov_seekable(&oggStream))
-        {
-            return (ov_raw_seek(&oggStream,position)==0);
-        }
-        else
-            return false;
+		if(Valid)
+		{
+			if(ov_seekable(&oggStream))
+			{
+				return (ov_raw_seek(&oggStream,position)==0);
+			}
+		}
+		return false;
     }
 
     //!Seeks the vorbis data
     bool cOggDecoder::seek(float seconds, bool relative)
     {
-        if(ov_seekable(&oggStream))
-        {
-			if(relative)
+		if(Valid)
+		{
+			if(ov_seekable(&oggStream))
 			{
-				float curtime = ov_time_tell(&oggStream);
-				return (ov_time_seek(&oggStream,curtime+seconds)==0);
+				if(relative)
+				{
+					float curtime = ov_time_tell(&oggStream);
+					return (ov_time_seek(&oggStream,curtime+seconds)==0);
+				}
+				else
+					return (ov_time_seek(&oggStream,seconds)==0);
 			}
-			else
-				return (ov_time_seek(&oggStream,seconds)==0);
-        }
+		}
         return false;
     }
 }

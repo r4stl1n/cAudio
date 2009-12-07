@@ -22,6 +22,9 @@ namespace cAudio
             //!Returns whether seeking is supported
             virtual bool isSeekingSupported();
 
+			//!Returns whether the stream is valid for this codec
+			virtual bool isValid();
+
             //!Reads a section of data out of the audio stream
             virtual int readAudioData(void* output, int amount);
 
@@ -32,15 +35,15 @@ namespace cAudio
             virtual bool seek(float seconds,bool relative);
 
         private:
-            int mChunkSize;
-            int mSubChunk1Size;
-            short mFormat;
-            short mChannels;
-            int mSampleRate;
-            int mByteRate;
-            short mBlockAlign;
-            short mBitsPerSample;
-            int mDataSize;
+            short Channels;
+            int SampleRate;
+            int ByteRate;
+            short BlockAlign;
+            short BitsPerSample;
+            int DataSize;
+			int DataOffset;
+
+			bool Valid;
     };
 
 }

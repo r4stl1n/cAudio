@@ -40,7 +40,7 @@ namespace cAudio
 		/** Note: May not be supported by all codecs
 		\param seconds: Number of seconds from the start of the audio stream to seek to
 		\return True on success, False if the codec does not support seeking. */
-		virtual bool seek(const float& seconds);
+		virtual bool seek(const float& seconds, bool relative = false);
 
 		//! Normally called every frame by the audio manager to update the internal buffers
 		//! Note: For internal use only.
@@ -160,7 +160,7 @@ namespace cAudio
 		//Empties the current working buffer queue
 		void empty();
 		//Checks for OpenAL errors and reports them
-		void checkError();
+		bool checkError();
 		//Steams audio data from the decoder into a buffer
 		bool stream(ALuint buffer);
 
@@ -173,6 +173,8 @@ namespace cAudio
 
 		//Stores whether the source is to loop the audio stream
 		bool Loop;
+		//Stores whether the source is ready to be used
+		bool Valid;
     };
 }
 #endif //! CAUDIO_H_INCLUDED
