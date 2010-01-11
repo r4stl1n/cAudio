@@ -1,8 +1,8 @@
-
 #ifndef ILISTENER_H
 #define ILISTENER_H
 
 #include "cVector3.h"
+#include "cAudioDefines.h"
 
 namespace cAudio
 {
@@ -39,6 +39,13 @@ namespace cAudio
 		virtual cVector3 getVelocity(void) const = 0;
 		//!Returns the global volume modifier for all sources
 		virtual float getMasterVolume(void) const = 0;
+
+#ifdef CAUDIO_EFX_ENABLED
+		//!Sets the meters per user world unit for use with sound effects
+		virtual void setMetersPerUnit(const float& meters) = 0;
+		//!Returns the meters per user world unit for use with sound effects
+		virtual float getMetersPerUnit(void) const = 0;
+#endif
 
     protected:
     private:

@@ -41,6 +41,14 @@ namespace cAudio
 		virtual cVector3 getVelocity(void) const { return Velocity; }
 		//!Returns the global volume modifier for all sources
 		virtual float getMasterVolume(void) const { return MasterGain; }
+
+#ifdef CAUDIO_EFX_ENABLED
+		//!Sets the meters per user world unit for use with sound effects
+		virtual void setMetersPerUnit(const float& meters);
+		//!Returns the meters per user world unit for use with sound effects
+		virtual float getMetersPerUnit(void) const;
+#endif
+
 	protected:
 		cAudioMutex Mutex;
 

@@ -58,7 +58,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="cAudio.lib"
-				AdditionalLibraryDirectories="&quot;..\..\bin\win32-visual&quot;"
+				AdditionalLibraryDirectories="&quot;..\..\lib\win32-visual&quot;"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
 			/>
@@ -128,7 +128,7 @@
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalDependencies="cAudio.lib"
-				AdditionalLibraryDirectories="&quot;..\..\bin\win32-visual&quot;"
+				AdditionalLibraryDirectories="&quot;..\..\lib\win32-visual&quot;"
 				GenerateDebugInformation="false"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"

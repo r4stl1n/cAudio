@@ -9,18 +9,18 @@
 #include "../Include/cVector3.h"
 #include "../Headers/cMutex.h"
 #include "../include/ILogger.h"
-
-//! Size of each internal buffer for sound (total amount buffered is BUFFER_SIZE * NUM_BUFFERS)
-#define BUFFER_SIZE ( 1024 * 64 )
-//! Number of internal buffers to cycle through (Note: using only 1 leads to choppy sound or premature ending of sources)
-#define NUM_BUFFERS 3
+#include "../Headers/cEFXFunctions.h"
 
 namespace cAudio
 {
     class cAudio : public IAudio
     {
     public:
-		cAudio(IAudioDecoder* decoder);
+#ifdef CAUDIO_EFX_ENABLED
+		cAudio(IAudioDecoder* decoder, ALCcontext* context, cEFXFunctions* oALFunctions);
+#else
+		cAudio(IAudioDecoder* decoder, ALCcontext* context);
+#endif
 		~cAudio();
 
 		//! Plays the source with the default or last set values
@@ -38,7 +38,8 @@ namespace cAudio
 		virtual void loop(const bool& toLoop);
 		//! Seeks through the audio stream to a specific spot
 		/** Note: May not be supported by all codecs
-		\param seconds: Number of seconds from the start of the audio stream to seek to
+		\param seconds: Number of seconds to seek
+		\param relative: Whether to seek from the current position or the start of the stream
 		\return True on success, False if the codec does not support seeking. */
 		virtual bool seek(const float& seconds, bool relative = false);
 
@@ -153,6 +154,22 @@ namespace cAudio
 		//!Returns the override for the doppler velocity vector
 		virtual const cVector3 getDopplerVelocity() const;
 
+#ifdef CAUDIO_EFX_ENABLED
+		//! Returns the number of effects at one time this source can support
+		virtual unsigned int getNumEffectSlotsAvailable() const;
+		//! Attaches an EFX audio effect to this sound source to a specific slot
+		//! Range (slot): 0 to getNumEffectSlotsAvailable()
+		virtual bool attachEffect(unsigned int slot, IEffect* effect);
+		//! Removes an EFX audio effect from this sound source
+		//! Range (slot): 0 to getNumEffectSlotsAvailable()
+		virtual void removeEffect(unsigned int slot);
+
+		//! Attaches an audio filter to this sound source that will operate on the direct feed, seperate from any effects
+		virtual bool attachFilter(IFilter* filter);
+		//! Removes the previously attached filter
+		virtual void removeFilter();
+#endif
+
 	protected:
 	private:
 		//Mutex for thread syncronization
@@ -161,11 +178,16 @@ namespace cAudio
 		void empty();
 		//Checks for OpenAL errors and reports them
 		bool checkError();
-		//Steams audio data from the decoder into a buffer
+		//Streams audio data from the decoder into a buffer
 		bool stream(ALuint buffer);
+		//Converts our audio format enum to OpenAL's
+		ALenum convertAudioFormatEnum(AudioFormats format);
+
+		//The context that owns this source
+		ALCcontext* Context;
 
 		//Internal audio buffers
-		ALuint Buffers[NUM_BUFFERS]; 
+		ALuint Buffers[CAUDIO_SOURCE_NUM_BUFFERS]; 
 		//OpenAL source
 		ALuint Source; 
 		//cAudio decoder being used to stream data
@@ -175,6 +197,26 @@ namespace cAudio
 		bool Loop;
 		//Stores whether the source is ready to be used
 		bool Valid;
+
+#ifdef CAUDIO_EFX_ENABLED
+		//Holds pointers to all the EFX related functions
+		cEFXFunctions* EFX;
+		//Updates the attached filter
+		void updateFilter(bool remove = false);
+		//Updates the effect attached to a specific slot
+		void updateEffect(unsigned int slot, bool remove = false);
+
+		//Stores the effects attached to this source
+		IEffect* Effects[CAUDIO_SOURCE_MAX_EFFECT_SLOTS];
+		unsigned int LastEffectTimeStamp[CAUDIO_SOURCE_MAX_EFFECT_SLOTS];
+
+		//Stores the attached direct feed filter
+		IFilter* Filter;
+		unsigned int LastFilterTimeStamp;
+
+		//Number of effects supported by the OpenAL Context
+		unsigned int EffectSlotsAvailable;
+#endif
     };
-}
+};
 #endif //! CAUDIO_H_INCLUDED

@@ -109,6 +109,11 @@ namespace cAudio
 
 		std::string DeviceName;
 		ALCdevice* CaptureDevice;
+
+		//! Check for OpenAL errors
+		bool checkError();
+		//Converts our audio format enum to OpenAL's
+		ALenum convertAudioFormatEnum(AudioFormats format);
 	};
 };
 

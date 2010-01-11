@@ -18,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="bin/win32-visual"
+			OutputDirectory="lib/win32-visual"
 			IntermediateDirectory="obj/$(ConfigurationName)"
 			ConfigurationType="2"
 			UseOfMFC="0"
@@ -90,11 +90,12 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="xcopy &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\bin\win32-visual\&quot; /y"
 			/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="bin/win32-visual"
+			OutputDirectory="lib/win32-visual"
 			IntermediateDirectory="obj/$(ConfigurationName)"
 			ConfigurationType="2"
 			UseOfMFC="0"
@@ -166,6 +167,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="xcopy &quot;$(TargetPath)&quot; &quot;$(SolutionDir)\bin\win32-visual\&quot; /y"
 			/>
 		</Configuration>
 	</Configurations>
@@ -186,6 +188,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Headers\cAudioEffects.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Headers\cAudioManager.h"
 				>
 			</File>
@@ -194,7 +200,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Headers\cEffect.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Headers\cEFXFunctions.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Headers\cFileSource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Headers\cFilter.h"
 				>
 			</File>
 			<File
@@ -266,6 +284,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\cAudioEffects.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\cAudioManager.cpp"
 				>
 			</File>
@@ -278,7 +300,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\cEffect.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\cFileSource.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\cFilter.cpp"
 				>
 			</File>
 			<File
@@ -358,11 +388,27 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\IAudioEffects.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\IAudioManager.h"
 				>
 			</File>
 			<File
 				RelativePath=".\include\IDataSource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\IEffect.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\IEffectParameters.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\IFilter.h"
 				>
 			</File>
 			<File

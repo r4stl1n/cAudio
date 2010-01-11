@@ -11,10 +11,6 @@
 
 #include <set>
 
-#include <AL/efx.h>
-#include <AL/efx-creative.h>
-#include <AL/xram.h>
-
 #define LOAD_AL_FUNC(x) (x = (typeof(x))alGetProcAddress(#x))
 
 namespace cAudio
@@ -59,7 +55,7 @@ namespace cAudio
 		cAudioMutexBasicLock lock(Mutex);
 
 		if(Initialized)
-			shutDown();
+			return false;
 
 		//Stores the context attributes (MAX of 4, with 2 zeros to terminate)
 		ALint attribs[6] = { 0 };
@@ -86,10 +82,6 @@ namespace cAudio
 			return false;
 		}
 
-#ifdef CAUDIO_EAX_ENABLED
-		EFXSupported = (alcIsExtensionPresent(Device, "ALC_EXT_EFX") == AL_TRUE);
-#endif
-
 		Context = alcCreateContext(Device, attribs);
 		if (Context == NULL)
 		{
@@ -111,10 +103,17 @@ namespace cAudio
 			return false;
 		}
 
+#ifdef CAUDIO_EFX_ENABLED
+		initEffects.getEFXInterface()->Mutex.lock();
+		EFXSupported = initEffects.getEFXInterface()->CheckEFXSupport(Device);
+		initEffects.getEFXInterface()->Mutex.unlock();
+		initEffects.checkEFXSupportDetails();
+#endif
+
 		getLogger()->logInfo("AudioManager", "OpenAL Version: %s", alGetString(AL_VERSION));
 		getLogger()->logInfo("AudioManager", "Vendor: %s", alGetString(AL_VENDOR));
 		getLogger()->logInfo("AudioManager", "Renderer: %s", alGetString(AL_RENDERER));
-#ifdef CAUDIO_EAX_ENABLED
+#ifdef CAUDIO_EFX_ENABLED
 		if(EFXSupported)
 		{
 			int EFXMajorVersion = 0;
@@ -170,7 +169,7 @@ namespace cAudio
 						{
 							if(decoder->isValid())
 							{
-								IAudio* audio = new cAudio(decoder);
+								IAudio* audio = new cAudio(decoder, Context, initEffects.getEFXInterface());
 								decoder->drop();
 
 								if(audio)
@@ -262,7 +261,7 @@ namespace cAudio
 					{
 						if(decoder->isValid())
 						{
-							IAudio* audio = new cAudio(decoder);
+							IAudio* audio = new cAudio(decoder, Context, initEffects.getEFXInterface());
 							decoder->drop();
 
 							if(audio)
@@ -322,7 +321,7 @@ namespace cAudio
 					{
 						if(decoder->isValid())
 						{
-							IAudio* audio = new cAudio(decoder);
+							IAudio* audio = new cAudio(decoder, Context, initEffects.getEFXInterface());
 							decoder->drop();
 
 							if(audio)
@@ -469,7 +468,7 @@ namespace cAudio
 		}
     }
 
-	void cAudioManager::checkError()
+	bool cAudioManager::checkError()
 	{
 		int error = alGetError();
 		const char* errorString;
@@ -478,6 +477,7 @@ namespace cAudio
         {
 			errorString = alGetString(error);
 			getLogger()->logError("AudioManager", "OpenAL Error: %s.", errorString);
+			return true;
         }
 
 		if(Device)
@@ -487,8 +487,10 @@ namespace cAudio
 			{
 				errorString = alGetString(error);
 				getLogger()->logError("AudioManager", "OpenAL Error: %s.", errorString);
+				return true;
 			}
 		}
+		return false;
 	}
 
 	void cAudioManager::getAvailableDevices()

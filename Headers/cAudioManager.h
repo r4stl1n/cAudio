@@ -10,6 +10,7 @@
 #include "cListener.h"
 #include "../include/IAudioManager.h"
 #include "../Headers/cMutex.h"
+#include "../Headers/cAudioEffects.h"
 
 #include <AL/al.h>
 #include <AL/alc.h>
@@ -65,6 +66,7 @@ namespace cAudio
 		void getAvailableDevices();
 
 		virtual IListener* getListener() { return &initlistener; }
+		virtual IAudioEffects* getEffects() { return &initEffects; }
 
 	private:
 		//Mutex for thread syncronization
@@ -89,8 +91,10 @@ namespace cAudio
 		std::map<std::string, IAudioDecoderFactory*> decodermap; 
 		//! The listener object        
 		cListener initlistener;
+		//! Interface for audio effects
+		cAudioEffects initEffects;
 		//! Check for OpenAL errors
-		void checkError();
+		bool checkError();
 
 		std::vector<std::string> AvailableDevices;
 		std::string DefaultDevice;

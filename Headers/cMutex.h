@@ -48,7 +48,6 @@ namespace cAudio
 	};
 #endif
 
-#ifdef CAUDIO_MAKE_THREAD_SAFE
 	class cAudioMutexBasicLock
 	{
 	public:
@@ -63,7 +62,6 @@ namespace cAudio
 	protected:
 		cAudioMutex* Mutex;
 	};
-#endif
 };
 
 #endif //! CAUDIOMUTEX_H

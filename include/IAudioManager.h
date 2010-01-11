@@ -4,6 +4,7 @@
 #include "IListener.h"
 #include "cAudioDefines.h"
 #include "eAudioFormats.h"
+#include "IAudioEffects.h"
 
 namespace cAudio
 {
@@ -55,6 +56,7 @@ namespace cAudio
 
 		//!Returns an interface for the listener
 		virtual IListener* getListener() = 0;
+		virtual IAudioEffects* getEffects() = 0;
 
     protected:
     private:

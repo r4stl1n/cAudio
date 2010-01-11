@@ -1,39 +1,91 @@
 #include "../Headers/cAudio.h"
 #include "../Headers/cLogger.h"
+#include "../Headers/cFilter.h"
+#include "../Headers/cEffect.h"
 
 namespace cAudio
 {
-    cAudio::cAudio(IAudioDecoder* decoder) : Decoder(decoder), Loop(false), Valid(false)
+#ifdef CAUDIO_EFX_ENABLED
+    cAudio::cAudio(IAudioDecoder* decoder, ALCcontext* context, cEFXFunctions* oALFunctions) 
+		: Context(context), Source(0), Decoder(decoder), Loop(false), Valid(false), 
+		EFX(oALFunctions), Filter(NULL), EffectSlotsAvailable(0), LastFilterTimeStamp(0)
+#else
+	cAudio::cAudio(IAudioDecoder* decoder, ALCcontext* context)
+		: Context(context), Source(0), Decoder(decoder), Loop(false), Valid(false)
+#endif
     {
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
+
+		for(int i=0; i<CAUDIO_SOURCE_NUM_BUFFERS; ++i)
+			Buffers[i] = 0;
+
+#ifdef CAUDIO_EFX_ENABLED
+		for(int i=0; i<CAUDIO_SOURCE_MAX_EFFECT_SLOTS; ++i)
+			Effects[i] = NULL;
+
+		for(int i=0; i<CAUDIO_SOURCE_MAX_EFFECT_SLOTS; ++i)
+			LastEffectTimeStamp[i] = 0;
+#endif
 
 		if(Decoder)
 			Decoder->grab();
 
 		//Generates 3 buffers for the ogg file
-		alGenBuffers(NUM_BUFFERS, Buffers);
-		//Creates one source to be stored.
-		alGenSources(1, &Source);
+		alGenBuffers(CAUDIO_SOURCE_NUM_BUFFERS, Buffers);
 		bool state = !checkError();
-		Valid = state && (Decoder != NULL);
-		Mutex.unlock();
+		if(state)
+		{
+			//Creates one source to be stored.
+			alGenSources(1, &Source);
+			state = !checkError();
+		}
+#ifdef CAUDIO_EFX_ENABLED
+		Valid = state && (Decoder != NULL) && (Context != NULL) && (EFX != NULL);
+#else
+		Valid = state && (Decoder != NULL) && (Context != NULL);
+#endif
+
+#ifdef CAUDIO_EFX_ENABLED
+		int numSlots = 0;
+		ALCdevice* device = alcGetContextsDevice(Context);
+		alcGetIntegerv(device, ALC_MAX_AUXILIARY_SENDS, 1, &numSlots);
+
+		EffectSlotsAvailable = (numSlots <= CAUDIO_SOURCE_MAX_EFFECT_SLOTS) ? numSlots : CAUDIO_SOURCE_MAX_EFFECT_SLOTS;
+#endif
     }
 
     cAudio::~cAudio()
     {
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 		if(Decoder)
 			Decoder->drop();
-		Mutex.unlock();
+
+#ifdef CAUDIO_EFX_ENABLED
+		for(int i=0; i<CAUDIO_SOURCE_MAX_EFFECT_SLOTS; ++i)
+		{
+			if(Effects[i])
+				Effects[i]->drop();
+			Effects[i] = NULL;
+		}
+
+		if(Filter)
+			Filter->drop();
+		Filter = NULL;
+#endif
     }
 
 	bool cAudio::play()
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 		if (!isPaused()) 
         { 
-            int queueSize = 0; 
-            for(int u = 0; u < NUM_BUFFERS; u++) 
+            int queueSize = 0;
+			//Resets the audio to the beginning
+			Decoder->setPosition(0, false);
+			//Purges all buffers from the source
+			alSourcei(Source, AL_BUFFER, 0);
+			checkError();
+            for(int u = 0; u < CAUDIO_SOURCE_NUM_BUFFERS; u++) 
             { 
                 int val = stream(Buffers[u]); 
  
@@ -48,76 +100,75 @@ namespace cAudio
             alSourceQueueBuffers(Source, queueSize, Buffers); 
 			checkError();
         }
+#ifdef CAUDIO_EFX_ENABLED
+		updateFilter();
+		for(unsigned int i=0; i<CAUDIO_SOURCE_MAX_EFFECT_SLOTS; ++i)
+			updateEffect(i);
+#endif
         alSourcePlay(Source);
 		checkError();
-		Mutex.unlock();
 		getLogger()->logDebug("Audio Source", "Source playing.");
         return true; 
     }
 
 	bool cAudio::play2d(const bool& toLoop)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
         alSourcei(Source, AL_SOURCE_RELATIVE, true);
         loop(toLoop);
         bool state = play();
 		checkError();
-		Mutex.unlock();
 		return state;
     }
 
 	bool cAudio::play3d(const cVector3& position, const float& soundstr, const bool& toLoop)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
         alSourcei(Source, AL_SOURCE_RELATIVE, false);
         setPosition(position);
         setStrength(soundstr);
         loop(toLoop);
         bool state = play();
 		checkError();
-		Mutex.unlock();
 		return state;
     }
 
 	void cAudio::pause()
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
         alSourcePause(Source);
 		checkError();
-		Mutex.unlock();
 		getLogger()->logDebug("Audio Source", "Source paused.");
     }
      
 	void cAudio::stop()
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
         alSourceStop(Source);
 		checkError();
-		Mutex.unlock();
 		getLogger()->logDebug("Audio Source", "Source stopped.");
     }
 
 	void cAudio::loop(const bool& loop)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
         Loop = loop;
-		Mutex.unlock();
     }
 
 	bool cAudio::seek(const float& seconds, bool relative)
 	{
 		bool state = false;
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
         if(Decoder->isSeekingSupported())
         {
 			state = Decoder->seek(seconds, relative);
         }
-		Mutex.unlock();
 		return state;
     }
 
 	bool cAudio::update()
 	{
+		cAudioMutexBasicLock lock(Mutex);
         if(!isValid() || !isPlaying())
 		{
             return false;
@@ -125,7 +176,12 @@ namespace cAudio
         int processed = 0;
         bool active = true;
 
-		Mutex.lock();
+#ifdef CAUDIO_EFX_ENABLED
+		updateFilter();
+		for(unsigned int i=0; i<CAUDIO_SOURCE_MAX_EFFECT_SLOTS; ++i)
+			updateEffect(i);
+#endif
+
 		//gets the sound source processed buffers
         alGetSourcei(Source, AL_BUFFERS_PROCESSED, &processed);
 		//while there is more data refill buffers with audio data.
@@ -141,22 +197,20 @@ namespace cAudio
 
 			checkError();
         }
-		Mutex.unlock();
 		return active;
     }
 
 	void cAudio::release()
     {
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 		//Stops the audio Source
 		alSourceStop(Source);
 		empty();
 		//Deletes the source
 		alDeleteSources(1, &Source);
 		//deletes the last filled buffer
-		alDeleteBuffers(NUM_BUFFERS, Buffers);
+		alDeleteBuffers(CAUDIO_SOURCE_NUM_BUFFERS, Buffers);
 		checkError();
-		Mutex.unlock();
 		getLogger()->logDebug("Audio Source", "Audio source released.");
     }
 
@@ -193,34 +247,30 @@ namespace cAudio
      
 	void cAudio::setPosition(const cVector3& position)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
         alSource3f(Source, AL_POSITION, position.x, position.y, position.z);
 		checkError();
-		Mutex.unlock();
     }
 
 	void cAudio::setVelocity(const cVector3& velocity)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
         alSource3f(Source, AL_VELOCITY, velocity.x, velocity.y, velocity.z);
 		checkError();
-		Mutex.unlock();
     }
 
 	void cAudio::setDirection(const cVector3& direction)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
         alSource3f(Source, AL_DIRECTION, direction.x, direction.y, direction.z);
 		checkError();
-		Mutex.unlock();
     }
 
 	void cAudio::setRolloffFactor(const float& rolloff)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_ROLLOFF_FACTOR, rolloff);
 		checkError();
-		Mutex.unlock();
     }
 
 	void cAudio::setStrength(const float& soundstrength)
@@ -229,110 +279,97 @@ namespace cAudio
 		if(soundstrength > 0.0f)
 			inverseStrength = 1.0f / soundstrength;
 
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_ROLLOFF_FACTOR, inverseStrength);
 		checkError();
-		Mutex.unlock();
     }
 
 	void cAudio::setMinDistance(const float& minDistance)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_REFERENCE_DISTANCE, minDistance);
 		checkError();
-		Mutex.unlock();
 	}
 
 	void cAudio::setMaxDistance(const float& maxDistance)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_MAX_DISTANCE, maxDistance);
 		checkError();
-		Mutex.unlock();
 	}
 
 	void cAudio::setPitch(const float& pitch)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
         alSourcef (Source, AL_PITCH, pitch);
 		checkError();
-		Mutex.unlock();
     }
 
 	void cAudio::setVolume(const float& volume)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_GAIN, volume);
 		checkError();
-		Mutex.unlock();
     }
 
 	void cAudio::setMinVolume(const float& minVolume)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_MIN_GAIN, minVolume);
 		checkError();
-		Mutex.unlock();
 	}
 
 	void cAudio::setMaxVolume(const float& maxVolume)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_MAX_GAIN, maxVolume);
 		checkError();
-		Mutex.unlock();
 	}
 
 	void cAudio::setInnerConeAngle(const float& innerAngle)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_CONE_INNER_ANGLE, innerAngle);
 		checkError();
-		Mutex.unlock();
 	}
 
 	void cAudio::setOuterConeAngle(const float& outerAngle)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_CONE_OUTER_ANGLE, outerAngle);
 		checkError();
-		Mutex.unlock();
 	}
 
 	void cAudio::setOuterConeVolume(const float& outerVolume)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_CONE_OUTER_GAIN, outerVolume);
 		checkError();
-		Mutex.unlock();
 	}
 
 	void cAudio::setDopplerStrength(const float& dstrength)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_DOPPLER_FACTOR, dstrength);
 		checkError();
-		Mutex.unlock();
     }
 
 	void cAudio::setDopplerVelocity(const cVector3& dvelocity)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
         alSource3f(Source, AL_DOPPLER_VELOCITY, dvelocity.x, dvelocity.y, dvelocity.z);
 		checkError();
-		Mutex.unlock();
     }
 
 	void cAudio::move(const cVector3& position)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 		cVector3 oldPos = getPosition();
 		cVector3 velocity = position - oldPos;
 
         alSource3f(Source, AL_VELOCITY, velocity.x, velocity.y, velocity.z);
 		alSource3f(Source, AL_POSITION, position.x, position.y, position.z);
 		checkError();
-		Mutex.unlock();
 	}
 
 	const cVector3 cAudio::getPosition() const
@@ -452,6 +489,65 @@ namespace cAudio
 		return velocity;
 	}
 
+#ifdef CAUDIO_EFX_ENABLED
+	unsigned int cAudio::getNumEffectSlotsAvailable() const
+	{
+		return EffectSlotsAvailable;
+	}
+
+	bool cAudio::attachEffect(unsigned int slot, IEffect* effect)
+	{
+		cAudioMutexBasicLock lock(Mutex);
+		if(slot < EffectSlotsAvailable)
+		{
+			Effects[slot] = effect;
+
+			if(Effects[slot])
+				Effects[slot]->grab();
+
+			updateEffect(slot);
+			return true;
+		}
+		return false;
+	}
+
+	void cAudio::removeEffect(unsigned int slot)
+	{
+		cAudioMutexBasicLock lock(Mutex);
+		if(slot < EffectSlotsAvailable)
+		{
+			if(Effects[slot])
+				Effects[slot]->drop();
+
+			Effects[slot] = NULL;
+			LastEffectTimeStamp[slot] = 0;
+			updateEffect(slot, true);
+		}
+	}
+
+	bool cAudio::attachFilter(IFilter* filter)
+	{
+		cAudioMutexBasicLock lock(Mutex);
+		Filter = filter;
+
+		if(Filter)
+			Filter->grab();
+
+		updateFilter();
+		return true;
+	}
+
+	void cAudio::removeFilter()
+	{
+		cAudioMutexBasicLock lock(Mutex);
+		if(Filter)
+			Filter->drop();
+		Filter = NULL;
+		LastFilterTimeStamp = 0;
+		updateFilter(true);
+	}
+#endif
+
     void cAudio::empty()
     {
         int queued = 0;
@@ -489,11 +585,11 @@ namespace cAudio
 	        //stores the caculated data into buffer that is passed to output.
 			size_t totalread = 0;
 			unsigned int errorcount = 0;
-	        char tempbuffer[BUFFER_SIZE];
-			while( totalread < BUFFER_SIZE )
+	        char tempbuffer[CAUDIO_SOURCE_BUFFER_SIZE];
+			while( totalread < CAUDIO_SOURCE_BUFFER_SIZE )
 			{
-				char tempbuffer2[BUFFER_SIZE];
-				int actualread = Decoder->readAudioData(tempbuffer2, BUFFER_SIZE-totalread);
+				char tempbuffer2[CAUDIO_SOURCE_BUFFER_SIZE];
+				int actualread = Decoder->readAudioData(tempbuffer2, CAUDIO_SOURCE_BUFFER_SIZE-totalread);
 				if(actualread > 0)
 				{
 					memcpy(tempbuffer+totalread,tempbuffer2,actualread);
@@ -525,10 +621,86 @@ namespace cAudio
 	       		 return false;
 	        }
 			getLogger()->logDebug("Audio Source", "Buffered %i bytes of data into buffer %i at %i hz.", totalread, buffer, Decoder->getFrequency());
-            alBufferData(buffer, Decoder->getFormat(), tempbuffer, totalread, Decoder->getFrequency());
+            alBufferData(buffer, convertAudioFormatEnum(Decoder->getFormat()), tempbuffer, totalread, Decoder->getFrequency());
 			checkError();
             return true;
         }
 		return false;
     }
+
+	ALenum cAudio::convertAudioFormatEnum(AudioFormats format)
+	{
+		switch(format)
+		{
+		case EAF_8BIT_MONO:
+			return AL_FORMAT_MONO8;
+		case EAF_16BIT_MONO:
+			return AL_FORMAT_MONO16;
+		case EAF_8BIT_STEREO:
+			return AL_FORMAT_STEREO8;
+		case EAF_16BIT_STEREO:
+			return AL_FORMAT_STEREO16;
+		default:
+			return AL_FORMAT_MONO8;
+		};
+	}
+
+#ifdef CAUDIO_EFX_ENABLED
+	void cAudio::updateFilter(bool remove)
+	{
+		if(!remove)
+		{
+			if(Filter && Filter->isValid())
+			{
+				if(LastFilterTimeStamp != Filter->getLastUpdated())
+				{
+					LastFilterTimeStamp = Filter->getLastUpdated();
+					cFilter* theFilter = static_cast<cFilter*>(Filter);
+					if(theFilter)
+					{
+						alSourcei(Source, AL_DIRECT_FILTER, theFilter->getOpenALFilter());
+						checkError();
+						return;
+					}
+				}
+				return;
+			}
+		}
+		alSourcei(Source, AL_DIRECT_FILTER, AL_FILTER_NULL);
+		checkError();
+	}
+
+	void cAudio::updateEffect(unsigned int slot, bool remove)
+	{
+		if(slot < EffectSlotsAvailable)
+		{
+			if(!remove)
+			{
+				if(Effects[slot] && Effects[slot]->isValid())
+				{
+					if(LastEffectTimeStamp[slot] != Effects[slot]->getLastUpdated())
+					{
+						LastEffectTimeStamp[slot] = Effects[slot]->getLastUpdated();
+						cEffect* theEffect = static_cast<cEffect*>(Effects[slot]);
+						if(theEffect)
+						{
+							ALuint filterID = AL_FILTER_NULL;
+							cFilter* theFilter = static_cast<cFilter*>(theEffect->getFilter());
+							if(theFilter)
+							{
+								filterID = theFilter->getOpenALFilter();
+							}
+							alSource3i(Source, AL_AUXILIARY_SEND_FILTER, theEffect->getOpenALEffectSlot(), slot, filterID);
+							checkError();
+							return;
+						}
+					}
+					return;
+				}
+			}
+			alSource3i(Source, AL_AUXILIARY_SEND_FILTER, AL_EFFECTSLOT_NULL, slot, AL_FILTER_NULL);
+			checkError();
+		}
+	}
+#endif
 }

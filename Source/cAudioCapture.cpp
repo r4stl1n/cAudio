@@ -2,6 +2,7 @@
 #include "../Headers/cUtils.h"
 #include "../Headers/cThread.h"
 #include "../include/cAudioSleep.h"
+#include "../Headers/cLogger.h"
 
 #include <string.h>
 #include <set>
@@ -46,39 +47,39 @@ namespace cAudio
 
 	bool cAudioCapture::checkCaptureExtension()
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 		// Check for Capture Extension support
 		Supported = ( alcIsExtensionPresent(NULL, "ALC_EXT_CAPTURE") == AL_TRUE );
-		Mutex.unlock();
 		return Supported;
 	}
 
 	bool cAudioCapture::initOpenALDevice()
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 		if(Supported)
 		{
 			if(CaptureDevice)
 				shutdownOpenALDevice();
 			if(DeviceName.empty())
-				CaptureDevice = alcCaptureOpenDevice(NULL, Frequency, Format, InternalBufferSize / SampleSize);
+				CaptureDevice = alcCaptureOpenDevice(NULL, Frequency, convertAudioFormatEnum(Format), InternalBufferSize / SampleSize);
 			else
-				CaptureDevice = alcCaptureOpenDevice(DeviceName.c_str(), Frequency, Format, InternalBufferSize / SampleSize);
+				CaptureDevice = alcCaptureOpenDevice(DeviceName.c_str(), Frequency, convertAudioFormatEnum(Format), InternalBufferSize / SampleSize);
 			if(CaptureDevice)
 			{
 				DeviceName = alcGetString(CaptureDevice, ALC_CAPTURE_DEVICE_SPECIFIER);
 				Ready = true;
-				Mutex.unlock();
+				checkError();
+				getLogger()->logDebug("AudioCapture", "OpenAL Capture Device Opened.");
 				return true;
 			}
 		}
-		Mutex.unlock();
+		checkError();
 		return false;
 	}
 
 	void cAudioCapture::shutdownOpenALDevice()
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 		if(Supported)
 		{
 			if(Capturing)
@@ -89,23 +90,23 @@ namespace cAudio
 				alcCaptureCloseDevice(CaptureDevice);
 				CaptureDevice = NULL;
 				Ready = false;
+				getLogger()->logDebug("AudioCapture", "OpenAL Capture Device Closed.");
 			}
+			checkError();
 			CaptureBuffer.clear();
 		}
-		Mutex.unlock();
 	}
 
 	void cAudioCapture::shutdown()
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 		shutdownOpenALDevice();
-		Mutex.unlock();
 	}
 
 	void cAudioCapture::getAvailableDevices()
 	{
 		// Get list of available Capture Devices
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 		if( alcIsExtensionPresent(NULL, "ALC_ENUMERATION_EXT") == AL_TRUE )
 		{
 			const char* deviceList = alcGetString(NULL, ALC_CAPTURE_DEVICE_SPECIFIER);
@@ -122,43 +123,36 @@ namespace cAudio
 			// Get the name of the 'default' capture device
 			DefaultDevice = alcGetString(NULL, ALC_CAPTURE_DEFAULT_DEVICE_SPECIFIER);
 		}
-		Mutex.unlock();
 	}
 
 	const char* cAudioCapture::getAvailableDeviceName(unsigned int index)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 		if(!AvailableDevices.empty())
 		{
 			//Bounds check
 			if( index > (AvailableDevices.size()-1) ) index = (AvailableDevices.size()-1);
 			const char* deviceName = AvailableDevices[index].c_str();
-			Mutex.unlock();
 			return deviceName;
 		}
-		Mutex.unlock();
 		return "";
 	}
 
 	unsigned int cAudioCapture::getAvailableDeviceCount()
 	{
-		Mutex.lock();
-		unsigned int size = AvailableDevices.size();
-		Mutex.unlock();
-		return size;
+		cAudioMutexBasicLock lock(Mutex);
+		return AvailableDevices.size();
 	}
 
 	const char* cAudioCapture::getDefaultDeviceName()
 	{
-		Mutex.lock();
-		const char* deviceName = DefaultDevice.empty() ? "" : DefaultDevice.c_str();
-		Mutex.unlock();
-		return deviceName;
+		cAudioMutexBasicLock lock(Mutex);
+		return DefaultDevice.empty() ? "" : DefaultDevice.c_str();
 	}
 
 	void cAudioCapture::updateCaptureBuffer(bool force)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 		if(Capturing && CaptureDevice && Ready)
 		{
 			int AvailableSamples = 0;
@@ -174,15 +168,16 @@ namespace cAudio
 					const unsigned int oldBufferSize = CaptureBuffer.size();
 					CaptureBuffer.resize(oldBufferSize + availbuffersize, 0);
 					alcCaptureSamples(CaptureDevice, &CaptureBuffer[oldBufferSize], AvailableSamples);
+					checkError();
+					getLogger()->logDebug("AudioCapture", "Captured %i bytes of audio data.", availbuffersize);
 				}
 			}
 		}
-		Mutex.unlock();
 	}
 
 	bool cAudioCapture::beginCapture()
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 		if(!Capturing)
 		{
 			CaptureBuffer.clear();
@@ -190,32 +185,31 @@ namespace cAudio
 			{
 				alcCaptureStart(CaptureDevice);
 				Capturing = true;
+				getLogger()->logDebug("AudioCapture", "OpenAL Capture Started.");
 			}
-			Mutex.unlock();
+			checkError();
 			return Capturing;
 		}
-		else
-		{
-			Mutex.unlock();
-			return false;
-		}
+		checkError();
+		return false;
 	}
 
 	void cAudioCapture::stopCapture()
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 		if(CaptureDevice && Ready)
 		{
 			alcCaptureStop(CaptureDevice);
 			updateCaptureBuffer(true);
+			checkError();
+			getLogger()->logDebug("AudioCapture", "OpenAL Capture Stopped.");
 		}
 		Capturing = false;
-		Mutex.unlock();
 	}
 
 	unsigned int cAudioCapture::getCapturedAudio(void* outputBuffer, unsigned int outputBufferSize)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 		unsigned int internalBufferSize = CaptureBuffer.size();
 		if(outputBuffer && outputBufferSize > 0 && internalBufferSize > 0)
 		{
@@ -223,34 +217,30 @@ namespace cAudio
 			memcpy(outputBuffer, &CaptureBuffer[0], sizeToCopy);
 			CaptureBuffer.erase(CaptureBuffer.begin(), CaptureBuffer.begin()+sizeToCopy);
 
-			Mutex.unlock();
+			getLogger()->logDebug("AudioCapture", "Copied out %i bytes of data out of %i bytes in the buffer at user request.", sizeToCopy, internalBufferSize);
+
 			return sizeToCopy;
 		}
-		Mutex.unlock();
 		return 0;
 	}
 
 	unsigned int cAudioCapture::getCurrentCapturedAudioSize()
 	{
-		Mutex.lock();
-		unsigned int size = CaptureBuffer.size();
-		Mutex.unlock();
-		return size;
+		cAudioMutexBasicLock lock(Mutex);
+		return CaptureBuffer.size();
 	}
 
 	bool cAudioCapture::setFrequency(unsigned int frequency)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 		Frequency = frequency;
 		shutdownOpenALDevice();
-		bool state = initOpenALDevice();
-		Mutex.unlock();
-		return state;
+		return initOpenALDevice();
 	}
 
 	bool cAudioCapture::setFormat(AudioFormats format)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 		Format = format;
 		if(Format == EAF_8BIT_MONO)
 			SampleSize = 1;
@@ -262,36 +252,30 @@ namespace cAudio
 			SampleSize = 4;
 
 		shutdownOpenALDevice();
-		bool state = initOpenALDevice();
-		Mutex.unlock();
-		return state;
+		return initOpenALDevice();
 	}
 
 	bool cAudioCapture::setInternalBufferSize(unsigned int internalBufferSize)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 		InternalBufferSize = internalBufferSize;
 
 		shutdownOpenALDevice();
-		bool state = initOpenALDevice();
-		Mutex.unlock();
-		return state;
+		return initOpenALDevice();
 	}
 
 	bool cAudioCapture::setDevice(const char* deviceName)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 		DeviceName = safeCStr(deviceName);
 
 		shutdownOpenALDevice();
-		bool state = initOpenALDevice();
-		Mutex.unlock();
-		return state;
+		return initOpenALDevice();
 	}
 
 	bool cAudioCapture::initialize(const char* deviceName, unsigned int frequency, AudioFormats format, unsigned int internalBufferSize)
 	{
-		Mutex.lock();
+		cAudioMutexBasicLock lock(Mutex);
 		DeviceName = safeCStr(deviceName);
 		Frequency = frequency;
 		InternalBufferSize = internalBufferSize;
@@ -307,9 +291,39 @@ namespace cAudio
 			SampleSize = 4;
 
 		shutdownOpenALDevice();
-		bool state = initOpenALDevice();
-		Mutex.unlock();
-		return state;
+		return initOpenALDevice();
+	}
+
+	bool cAudioCapture::checkError()
+	{
+		if(CaptureDevice)
+		{
+			int error = alcGetError(CaptureDevice);
+			if (error != AL_NO_ERROR)
+			{
+				const char* errorString = alGetString(error);
+				getLogger()->logError("AudioCapture", "OpenAL Error: %s.", errorString);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	ALenum cAudioCapture::convertAudioFormatEnum(AudioFormats format)
+	{
+		switch(format)
+		{
+		case EAF_8BIT_MONO:
+			return AL_FORMAT_MONO8;
+		case EAF_16BIT_MONO:
+			return AL_FORMAT_MONO16;
+		case EAF_8BIT_STEREO:
+			return AL_FORMAT_STEREO8;
+		case EAF_16BIT_STEREO:
+			return AL_FORMAT_STEREO16;
+		default:
+			return AL_FORMAT_MONO8;
+		};
 	}
 
 	CAUDIO_API IAudioCapture* createAudioCapture(bool initializeDefault)

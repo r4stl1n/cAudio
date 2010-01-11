@@ -1,9 +1,12 @@
 #ifndef IAUDIO_H
 #define IAUDIO_H
 
+#include "cAudioDefines.h"
 #include "IRefCounted.h"
 #include "IAudioDecoder.h"
 #include "cVector3.h"
+#include "IEffect.h"
+#include "IFilter.h"
 
 namespace cAudio
 {
@@ -28,7 +31,8 @@ namespace cAudio
 		virtual void loop(const bool& toLoop) = 0;
 		//! Seeks through the audio stream to a specific spot
 		/** Note: May not be supported by all codecs
-		\param seconds: Number of seconds from the start of the audio stream to seek to
+		\param seconds: Number of seconds to seek
+		\param relative: Whether to seek from the current position or the start of the stream
 		\return True on success, False if the codec does not support seeking. */
 		virtual bool seek(const float& seconds, bool relative = false) = 0;
 
@@ -142,6 +146,22 @@ namespace cAudio
 		virtual const float getDopplerStrength() const = 0;
 		//! Returns the override for the doppler velocity vector
 		virtual const cVector3 getDopplerVelocity() const = 0;
+
+#ifdef CAUDIO_EFX_ENABLED
+		//! Returns the number of effects at one time this source can support
+		virtual unsigned int getNumEffectSlotsAvailable() const = 0;
+		//! Attaches an EFX audio effect to this sound source to a specific slot
+		//! Range (slot): 0 to getNumEffectSlotsAvailable()
+		virtual bool attachEffect(unsigned int slot, IEffect* effect) = 0;
+		//! Removes an EFX audio effect from this sound source
+		//! Range (slot): 0 to getNumEffectSlotsAvailable()
+		virtual void removeEffect(unsigned int slot) = 0;
+
+		//! Attaches an audio filter to this sound source that will operate on the direct feed, seperate from any effects
+		virtual bool attachFilter(IFilter* filter) = 0;
+		//! Removes the previously attached filter
+		virtual void removeFilter() = 0;
+#endif
 
     protected:
     private:

@@ -9,6 +9,8 @@
 //Include our version of Sleep to free CPU usage
 #include "../../include/cAudioSleep.h"
 
+#include "../../include/ILogger.h"
+
 using namespace std;
 
 const unsigned int CAPTURE_FREQUENCY = 22050;
