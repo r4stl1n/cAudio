@@ -430,6 +430,32 @@ namespace cAudio
 		audioIndex.clear();
     }
 
+	void cAudioManager::release(IAudio* source)
+	{
+		if(source)
+		{
+			cAudioMutexBasicLock lock(Mutex);
+			std::map<std::string,IAudio*>::iterator it = audioIndex.begin();
+			for ( it=audioIndex.begin(); it != audioIndex.end(); it++ )
+			{
+				if( it->second == source )
+				{
+					audioIndex.erase(it);
+					break;
+				}
+			}
+			for(unsigned int i=0; i<audioSources.size(); ++i)
+			{
+				if(source == audioSources[i])
+				{
+					source->drop();
+					audioSources.erase(audioSources.begin()+i);
+					break;
+				}
+			}
+		}
+	}
+
     //!Updates all audiosources created
     void cAudioManager::update()
     {

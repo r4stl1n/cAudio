@@ -35,6 +35,8 @@ namespace cAudio
 		virtual IAudio* getSoundByName(const char* name);
 		//!Releases "ALL" cAudio objects        
 		virtual void release();
+		//!Releases a single cAudio source
+		virtual void release(IAudio* source);
 
 		//! Returns the name of an available playback device.
 		/** \param index: Specify which name to retrieve ( Range: 0 to getAvailableDeviceCount()-1 ) */

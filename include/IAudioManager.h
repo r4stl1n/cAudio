@@ -27,6 +27,8 @@ namespace cAudio
 		virtual IAudio* getSoundByName(const char* name) = 0;
 		//!Releases "ALL" cAudio objects (but does not shutdown the manager)
 		virtual void release() = 0;
+		//!Releases a single cAudio source
+		virtual void release(IAudio* source) = 0;
 
 		//! Returns the name of an available playback device.
 		/** \param index: Specify which name to retrieve ( Range: 0 to getAvailableDeviceCount()-1 ) */
