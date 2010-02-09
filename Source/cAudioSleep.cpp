@@ -2,7 +2,9 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifdef _WIN32
+#include "../include/cAudioPlatform.h"
+
+#ifdef CAUDIO_PLATFORM_WIN
 #include <windows.h>	//Basic windows include for Sleep();
 #else
 #include <unistd.h>		//Assumed linux system, include for usleep()
@@ -16,7 +18,7 @@ namespace cAudio
 
 void cAudioSleep(unsigned int ms)
 {
-#ifdef _WIN32
+#ifdef CAUDIO_PLATFORM_WIN
 	Sleep(ms);
 #else
 	usleep(ms*1000); //convert from milliseconds to microseconds

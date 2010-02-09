@@ -4,7 +4,7 @@
 
 #include "../Headers/cThread.h"
 
-#ifdef _WIN32
+#ifdef CAUDIO_PLATFORM_WIN
 #include <windows.h>	//Basic windows includes
 #include <process.h>
 #else
@@ -13,7 +13,7 @@
 
 namespace cAudio
 {
-	#ifdef _WIN32
+	#ifdef CAUDIO_PLATFORM_WIN
 	int cAudioThread::SpawnThread( unsigned __stdcall start_address( void* ), void *arg)
 	{
 		HANDLE threadHandle;

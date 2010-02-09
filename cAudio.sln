@@ -33,6 +33,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tutorial5_AudioEffects", "E
 		{ACD6C202-85D4-44F5-83BF-6577A074F655} = {ACD6C202-85D4-44F5-83BF-6577A074F655}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mp3Decoder", "plugins\mp3Decoder\mp3Decoder.vcproj", "{F1741962-FBBB-4BA2-AC74-A97E2DDF6B2E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -67,6 +69,10 @@ Global
 		{EA03D1BB-6D71-4960-958A-670480A8259A}.Debug|Win32.Build.0 = Debug|Win32
 		{EA03D1BB-6D71-4960-958A-670480A8259A}.Release|Win32.ActiveCfg = Release|Win32
 		{EA03D1BB-6D71-4960-958A-670480A8259A}.Release|Win32.Build.0 = Release|Win32
+		{F1741962-FBBB-4BA2-AC74-A97E2DDF6B2E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F1741962-FBBB-4BA2-AC74-A97E2DDF6B2E}.Debug|Win32.Build.0 = Debug|Win32
+		{F1741962-FBBB-4BA2-AC74-A97E2DDF6B2E}.Release|Win32.ActiveCfg = Release|Win32
+		{F1741962-FBBB-4BA2-AC74-A97E2DDF6B2E}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

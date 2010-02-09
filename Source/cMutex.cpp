@@ -15,7 +15,7 @@ namespace cAudio
 	{
 		if(!Initialized)
 			return;
-		#ifdef _WIN32
+		#ifdef CAUDIO_PLATFORM_WIN
 		DeleteCriticalSection(&criticalSection);
 		#else
 		pthread_mutex_destroy(&Mutex);
@@ -27,7 +27,7 @@ namespace cAudio
 		if(!Initialized)
 			initialize();
 
-	#ifdef _WIN32
+	#ifdef CAUDIO_PLATFORM_WIN
 		EnterCriticalSection(&criticalSection);
 	#else
 		int error = pthread_mutex_lock(&Mutex);
@@ -38,7 +38,7 @@ namespace cAudio
 	{
 		if(!Initialized)
 			return;
-	#ifdef _WIN32
+	#ifdef CAUDIO_PLATFORM_WIN
 		LeaveCriticalSection(&criticalSection);
 	#else
 		int error = pthread_mutex_unlock(&Mutex);
@@ -47,7 +47,7 @@ namespace cAudio
 
 	void cAudioMutex::initialize(void)
 	{
-	#ifdef _WIN32
+	#ifdef CAUDIO_PLATFORM_WIN
 		InitializeCriticalSection(&criticalSection);
 	#else
 		pthread_mutexattr_t attr;

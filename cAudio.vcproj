@@ -192,6 +192,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Headers\cAudioPlugin.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Headers\cAudioSource.h"
 				>
 			</File>
@@ -240,6 +244,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Headers\cPluginManager.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Headers\cRawAudioDecoderFactory.h"
 				>
 			</File>
@@ -281,6 +289,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\cAudioManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\cAudioPlugin.cpp"
 				>
 			</File>
 			<File
@@ -332,6 +344,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\cPluginManager.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\cRawDecoder.cpp"
 				>
 			</File>
@@ -357,6 +373,10 @@
 			</File>
 			<File
 				RelativePath=".\include\cAudioDefines.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\cAudioPlatform.h"
 				>
 			</File>
 			<File
@@ -392,6 +412,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\IAudioPlugin.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\IDataSource.h"
 				>
 			</File>
@@ -417,6 +441,10 @@
 			</File>
 			<File
 				RelativePath=".\include\ILogReceiver.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\IPluginManager.h"
 				>
 			</File>
 			<File

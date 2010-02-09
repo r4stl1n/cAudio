@@ -12,7 +12,7 @@
 #include "../Headers/cThread.h"
 #include "../include/cAudioSleep.h"
 #include "../Headers/cLogger.h"
-#include "../include/CAudioDefines.h"
+#include "../Headers/cPluginManager.h"
 
 #include <set>
 #include <string.h>
@@ -608,6 +608,12 @@ namespace cAudio
 
 			manager->getAvailableDevices();
 
+			std::vector<IAudioPlugin*> plugins = PluginManagerSingleton.getPluginList();
+			for(unsigned int i = 0; i < plugins.size(); ++i)
+			{
+				plugins[i]->onCreateAudioManager(manager);
+			}
+
 #ifdef CAUDIO_USE_INTERNAL_THREAD
 			AudioManagerObjectsMutex.lock();
 			AudioManagerObjects.insert(manager);
@@ -635,6 +641,13 @@ namespace cAudio
 			AudioManagerObjectsMutex.unlock();
 #endif
 			manager->shutDown();
+
+			std::vector<IAudioPlugin*> plugins = PluginManagerSingleton.getPluginList();
+			for(unsigned int i = 0; i < plugins.size(); ++i)
+			{
+				plugins[i]->onDestroyAudioManager(manager);
+			}
+
 			delete manager;
 			manager = NULL;
 		}

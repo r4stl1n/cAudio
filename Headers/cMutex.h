@@ -8,7 +8,7 @@
 #include "../include/cAudioDefines.h"
 
 #ifdef CAUDIO_MAKE_THREAD_SAFE
-	#ifdef _WIN32
+	#ifdef CAUDIO_PLATFORM_WIN
 	#include <windows.h>	//Basic windows include
 	#else
 	#include <pthread.h>	//Assumed linux system
@@ -29,7 +29,7 @@ namespace cAudio
 		void unlock();
 	private:
 		void initialize();
-		#ifdef _WIN32
+		#ifdef CAUDIO_PLATFORM_WIN
 		CRITICAL_SECTION criticalSection;
 		#else
 		pthread_mutex_t Mutex;

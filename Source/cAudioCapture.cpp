@@ -7,6 +7,7 @@
 #include "../Headers/cThread.h"
 #include "../include/cAudioSleep.h"
 #include "../Headers/cLogger.h"
+#include "../Headers/cPluginManager.h"
 
 #include <string.h>
 #include <set>
@@ -338,6 +339,12 @@ namespace cAudio
 			if(initializeDefault)
 				capture->initialize();
 
+			std::vector<IAudioPlugin*> plugins = PluginManagerSingleton.getPluginList();
+			for(unsigned int i = 0; i < plugins.size(); ++i)
+			{
+				plugins[i]->onCreateAudioCapture(capture);
+			}
+
 #ifdef CAUDIO_USE_INTERNAL_THREAD
 			AudioCaptureObjectsMutex.lock();
 			AudioCaptureObjects.insert(capture);
@@ -364,6 +371,12 @@ namespace cAudio
 				RunAudioCaptureThread = false;
 			AudioCaptureObjectsMutex.unlock();
 #endif
+			std::vector<IAudioPlugin*> plugins = PluginManagerSingleton.getPluginList();
+			for(unsigned int i = 0; i < plugins.size(); ++i)
+			{
+				plugins[i]->onDestoryAudioCapture(capture);
+			}
+
 			delete capture;
 			capture = NULL;
 		}
