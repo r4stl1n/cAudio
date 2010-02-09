@@ -6,6 +6,7 @@
 #define CLOGGER_H_INCLUDED
 
 #include <map>
+#include <string>
 #include <stdarg.h>
 
 #include "../include/ILogger.h"

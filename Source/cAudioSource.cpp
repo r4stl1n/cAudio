@@ -7,6 +7,8 @@
 #include "../Headers/cFilter.h"
 #include "../Headers/cEffect.h"
 
+#include <string.h>
+
 namespace cAudio
 {
 #ifdef CAUDIO_EFX_ENABLED

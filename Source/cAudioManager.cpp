@@ -12,8 +12,20 @@
 #include "../Headers/cThread.h"
 #include "../include/cAudioSleep.h"
 #include "../Headers/cLogger.h"
+#include "../include/CAudioDefines.h"
 
 #include <set>
+#include <string.h>
+
+#ifdef _WIN32
+	#include <AL/efx.h>
+	#include <AL/efx-creative.h>
+	#include <AL/xram.h>
+#endif
+
+#ifdef __linux__
+	#include <AL/alext.h>
+#endif
 
 #define LOAD_AL_FUNC(x) (x = (typeof(x))alGetProcAddress(#x))
 

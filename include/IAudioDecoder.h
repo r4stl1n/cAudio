@@ -7,7 +7,7 @@
 
 #include "IRefCounted.h"
 #include "IDataSource.h"
-#include "eAudioFormats.h"
+#include "EAudioFormats.h"
 
 namespace cAudio
 {

@@ -7,7 +7,7 @@
 
 #include "IListener.h"
 #include "cAudioDefines.h"
-#include "eAudioFormats.h"
+#include "EAudioFormats.h"
 #include "IAudioEffects.h"
 
 namespace cAudio

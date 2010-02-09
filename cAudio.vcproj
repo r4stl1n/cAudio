@@ -344,7 +344,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Source\cWavdecoder.cpp"
+				RelativePath=".\Source\cWavDecoder.cpp"
 				>
 			</File>
 		</Filter>

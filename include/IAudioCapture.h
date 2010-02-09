@@ -5,7 +5,7 @@
 #ifndef IAUDIOCAPTURE_H
 #define IAUDIOCAPTURE_H
 
-#include "eAudioFormats.h"
+#include "EAudioFormats.h"
 #include "cAudioDefines.h"
 
 namespace cAudio

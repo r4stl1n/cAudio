@@ -1,5 +1,5 @@
 //****************************************************************
-//cAudio 1.7.1 Tutorial 2
+//cAudio 2.0 Tutorial 2
 //Basic 3d Audio. Moving Audio source. Must be mono sound source
 //****************************************************************
 
