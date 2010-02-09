@@ -1,11 +1,11 @@
 SONAME=libcAudio.so
-VERSION=1.7
+VERSION=2.0
 DIR=../bin/Linux/x86 #x86_64
 
-DEPEND=-lmikmod -logg -lopenal -lalut -lvorbis -lvorbisenc -lvorbisfile\
+DEPEND=-logg -lopenal -lalut -lvorbis -lvorbisenc -lvorbisfile\
  -I../dependencies/Headers
 
-OBJECT=cAudio.o cAudioManager.o cFileSource.o cListener.o cMemorySource.o cOggAudioDecoderFactory.o cOggDecoder.o cWavAudioDecoderFactory.o cWavDecoder.o
+OBJECT= cAudioCapture.o cAudioEffects.o cAudioManager.o cAudioPlugin.o cAudioSleep.o cAudioSource.o cConsoleLogReceiver.o cEffect.o cFileSource.o cFilter.o cListener.o cLogger.o cMemorySource.o cMutex.o cOggAudioDecoderFactory.o cOggDecoder.o cRawDecoder.o cThread.o cWavAudioDecoderFactory.o cWavDecoder.o
 
 LINK_OPTIONS=-shared
 COMPILE_OPTIONS=-fPIC

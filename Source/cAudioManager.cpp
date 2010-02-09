@@ -13,17 +13,18 @@
 #include "../include/cAudioSleep.h"
 #include "../Headers/cLogger.h"
 #include "../Headers/cPluginManager.h"
+#include "../include/cAudioPlatform.h"
 
 #include <set>
 #include <string.h>
 
-#ifdef _WIN32
+#ifdef CAUDIO_PLATFORM_WIN
 	#include <AL/efx.h>
 	#include <AL/efx-creative.h>
 	#include <AL/xram.h>
 #endif
 
-#ifdef __linux__
+#ifdef CAUDIO_PLATFORM_LINUX
 	#include <AL/alext.h>
 #endif
 
