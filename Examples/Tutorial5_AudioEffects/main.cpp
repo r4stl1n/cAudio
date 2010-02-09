@@ -1,12 +1,13 @@
+//****************************************************************
+//cAudio 1.7.1 Tutorial 5
+//Audio effects
+//****************************************************************
+
 #include <iostream>
 #include <string>
 
-//Include IAudioManager so we can easily work with cAudio
-#include "../../include/IAudioManager.h"
-//Include IAudio so we can create cAudio objects
-#include "../../include/IAudio.h"
-//Include our version of Sleep to free CPU usage
-#include "../../include/cAudioSleep.h"
+///Include cAudio.h so we can work wtih cAudio
+#include "../../include/cAudio.h"
 
 using namespace std;
 

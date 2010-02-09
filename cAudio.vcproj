@@ -180,10 +180,6 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath=".\Headers\cAudio.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Headers\cAudioCapture.h"
 				>
 			</File>
@@ -193,6 +189,10 @@
 			</File>
 			<File
 				RelativePath=".\Headers\cAudioManager.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Headers\cAudioSource.h"
 				>
 			</File>
 			<File
@@ -240,10 +240,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Headers\cPluginManager.h"
-				>
-			</File>
-			<File
 				RelativePath=".\Headers\cRawAudioDecoderFactory.h"
 				>
 			</File>
@@ -276,10 +272,6 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\Source\cAudio.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Source\cAudioCapture.cpp"
 				>
 			</File>
@@ -293,6 +285,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\cAudioSleep.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\cAudioSource.cpp"
 				>
 			</File>
 			<File
@@ -336,10 +332,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\Source\cPluginManager.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\Source\cRawDecoder.cpp"
 				>
 			</File>
@@ -359,6 +351,10 @@
 		<Filter
 			Name="Include"
 			>
+			<File
+				RelativePath=".\include\cAudio.h"
+				>
+			</File>
 			<File
 				RelativePath=".\include\cAudioDefines.h"
 				>

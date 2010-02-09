@@ -1,3 +1,7 @@
+// Copyright (c) 2008-2010 Raynaldo (Wildicv) Rivera, Joshua (Dark_Kilauea) Jones
+// This file is part of the "cAudio Engine"
+// For conditions of distribution and use, see copyright notice in cAudio.h
+
 #ifndef CAUDIOMANAGER_H_INCLUDED
 #define CAUDIOMANAGER_H_INCLUDED
 
@@ -5,7 +9,7 @@
 #include <string>
 #include <vector>
 
-#include "cAudio.h"
+#include "cAudioSource.h"
 #include "../include/IAudioDecoderFactory.h"
 #include "cListener.h"
 #include "../include/IAudioManager.h"

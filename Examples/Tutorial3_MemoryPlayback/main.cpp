@@ -7,14 +7,9 @@
 #include <iostream>
 #include <string>
 
-//Include IAudioManager so we can easily work with cAudio
-#include "../../include/IAudioManager.h"
-//Include IAudio so we can create cAudio objects
-#include "../../include/IAudio.h"
-//Include The cAudio vector class
-#include "../../include/cVector3.h"
-//Include our version of Sleep to free CPU usage
-#include "../../include/cAudioSleep.h"
+//Include cAudio.h so we can work wtih cAudio
+#include "../../include/cAudio.h"
+
 //Our Bling sound
 #include "bling.h"
 
