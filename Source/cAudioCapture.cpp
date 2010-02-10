@@ -339,7 +339,7 @@ namespace cAudio
 			if(initializeDefault)
 				capture->initialize();
 
-			std::vector<IAudioPlugin*> plugins = PluginManagerSingleton.getPluginList();
+			std::vector<IAudioPlugin*> plugins = cPluginManager::Instance()->getPluginList();
 			for(unsigned int i = 0; i < plugins.size(); ++i)
 			{
 				plugins[i]->onCreateAudioCapture(capture);
@@ -371,7 +371,7 @@ namespace cAudio
 				RunAudioCaptureThread = false;
 			AudioCaptureObjectsMutex.unlock();
 #endif
-			std::vector<IAudioPlugin*> plugins = PluginManagerSingleton.getPluginList();
+			std::vector<IAudioPlugin*> plugins = cPluginManager::Instance()->getPluginList();
 			for(unsigned int i = 0; i < plugins.size(); ++i)
 			{
 				plugins[i]->onDestoryAudioCapture(capture);

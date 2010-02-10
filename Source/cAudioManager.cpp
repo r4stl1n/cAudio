@@ -497,7 +497,6 @@ namespace cAudio
 		{
 			cAudioMutexBasicLock lock(Mutex);
 			release();
-			decodermap.clear();
 			//Reset context to null
 			alcMakeContextCurrent(NULL);
 			//Delete the context
@@ -609,7 +608,7 @@ namespace cAudio
 
 			manager->getAvailableDevices();
 
-			std::vector<IAudioPlugin*> plugins = PluginManagerSingleton.getPluginList();
+			std::vector<IAudioPlugin*> plugins = cPluginManager::Instance()->getPluginList();
 			for(unsigned int i = 0; i < plugins.size(); ++i)
 			{
 				plugins[i]->onCreateAudioManager(manager);
@@ -641,13 +640,12 @@ namespace cAudio
 				RunAudioManagerThread = false;
 			AudioManagerObjectsMutex.unlock();
 #endif
-			manager->shutDown();
-
-			std::vector<IAudioPlugin*> plugins = PluginManagerSingleton.getPluginList();
+			std::vector<IAudioPlugin*> plugins = cPluginManager::Instance()->getPluginList();
 			for(unsigned int i = 0; i < plugins.size(); ++i)
 			{
 				plugins[i]->onDestroyAudioManager(manager);
 			}
+			manager->shutDown();
 
 			delete manager;
 			manager = NULL;

@@ -1,16 +1,17 @@
 #ifndef IAUDIOPLUGIN_H_INCLUDED
 #define IAUDIOPLUGIN_H_INCLUDED
 
-class IAudioManager;
-class IAudioCapture;
-
 namespace cAudio
 {
+	class IAudioManager;
+	class IAudioCapture;
+	class ILogger;
+
 	//Class that abstracts a particular plugin implementation
 	//Plugins must have the following functions:
 	/*
-	//Will be called on initial install of the plugin, use this for any first time initialization.
-	bool installPlugin();
+	//Will be called on initial install of the plugin, use this for any first time initialization.  A reference to the logger is passed in for convenience.
+	bool installPlugin(ILogger* logger);
 
 	//Must return a unique name that identifies this plugin.
 	const char* getPluginName();
@@ -39,7 +40,7 @@ namespace cAudio
 		IAudioPlugin() { }
 		~IAudioPlugin() { }
 
-		virtual bool installPlugin() = 0;
+		virtual bool installPlugin(ILogger* logger) = 0;
 		virtual const char* getPluginName() = 0;
 		virtual void uninstallPlugin() = 0;
 

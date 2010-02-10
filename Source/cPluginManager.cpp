@@ -33,7 +33,7 @@ bool cPluginManager::installPlugin(IAudioPlugin* plugin, const char* name)
 		if(theName.empty())
 			theName = plugin->getPluginName();
 
-		if(plugin->installPlugin())
+		if(plugin->installPlugin(getLogger()))
 		{
 			RegisteredPlugins[theName] = plugin;
 			return true;

@@ -51,6 +51,12 @@ namespace cAudio
 		cPluginManager();
 		~cPluginManager();
 
+		static cPluginManager* Instance()
+		{
+			static cPluginManager theInstance;
+			return &theInstance;
+		}
+
 		virtual bool installPlugin(IAudioPlugin* plugin, const char* name);
 		virtual bool installPlugin(const char* filename, const char* name);
 
@@ -67,8 +73,6 @@ namespace cAudio
 		std::map<std::string, IAudioPlugin*> RegisteredPlugins;
 		std::map<IAudioPlugin*, DYNLIB_HANDLE> DynamicallyLoadedPlugins;
 	};
-
-	static cPluginManager PluginManagerSingleton;
 };
 
 #endif //! CPLUGINMANAGER_H_INCLUDED

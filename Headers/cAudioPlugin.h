@@ -2,10 +2,11 @@
 #define CAUDIOPLUGIN_H_INCLUDED
 
 #include "../include/IAudioPlugin.h"
+#include "../include/ILogger.h"
 
 namespace cAudio
 {
-	typedef bool (*pluginInstallFunc)();
+	typedef bool (*pluginInstallFunc)(ILogger* logger);
 	typedef const char* (*pluginNameFunc)();
 	typedef void (*pluginUninstallFunc)();
 
@@ -31,7 +32,7 @@ namespace cAudio
 		}
 		~cAudioPlugin() { }
 
-		virtual bool installPlugin();
+		virtual bool installPlugin(ILogger* logger);
 		virtual const char* getPluginName();
 		virtual void uninstallPlugin();
 

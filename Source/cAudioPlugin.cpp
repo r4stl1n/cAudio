@@ -3,10 +3,10 @@
 namespace cAudio
 {
 
-bool cAudioPlugin::installPlugin()
+bool cAudioPlugin::installPlugin(ILogger* logger)
 {
 	if(initFunc)
-		return initFunc();
+		return initFunc(logger);
 
 	return false;
 }
