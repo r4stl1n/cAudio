@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
 		manager->initialize(manager->getAvailableDeviceName(deviceSelection));
 
 		//Create a IAudio object and load a sound from a file
-		cAudio::IAudio* mysound = manager->createFromFile("bling","../../media/cAudioTheme1.ogg",true);
+		cAudio::IAudioSource* mysound = manager->createFromFile("bling","../../media/cAudioTheme1.ogg",true);
 
 		if(mysound)
 		{

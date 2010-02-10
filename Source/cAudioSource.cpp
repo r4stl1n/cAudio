@@ -12,11 +12,11 @@
 namespace cAudio
 {
 #ifdef CAUDIO_EFX_ENABLED
-    cAudio::cAudio(IAudioDecoder* decoder, ALCcontext* context, cEFXFunctions* oALFunctions) 
+    cAudioSource::cAudioSource(IAudioDecoder* decoder, ALCcontext* context, cEFXFunctions* oALFunctions) 
 		: Context(context), Source(0), Decoder(decoder), Loop(false), Valid(false), 
 		EFX(oALFunctions), Filter(NULL), EffectSlotsAvailable(0), LastFilterTimeStamp(0)
 #else
-	cAudio::cAudio(IAudioDecoder* decoder, ALCcontext* context)
+	cAudioSource::cAudioSource(IAudioDecoder* decoder, ALCcontext* context)
 		: Context(context), Source(0), Decoder(decoder), Loop(false), Valid(false)
 #endif
     {
@@ -60,7 +60,7 @@ namespace cAudio
 #endif
     }
 
-    cAudio::~cAudio()
+    cAudioSource::~cAudioSource()
     {
 		cAudioMutexBasicLock lock(Mutex);
 		if(Decoder)
@@ -80,7 +80,7 @@ namespace cAudio
 #endif
     }
 
-	bool cAudio::play()
+	bool cAudioSource::play()
 	{
 		cAudioMutexBasicLock lock(Mutex);
 		if (!isPaused()) 
@@ -117,7 +117,7 @@ namespace cAudio
         return true; 
     }
 
-	bool cAudio::play2d(const bool& toLoop)
+	bool cAudioSource::play2d(const bool& toLoop)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourcei(Source, AL_SOURCE_RELATIVE, true);
@@ -127,7 +127,7 @@ namespace cAudio
 		return state;
     }
 
-	bool cAudio::play3d(const cVector3& position, const float& soundstr, const bool& toLoop)
+	bool cAudioSource::play3d(const cVector3& position, const float& soundstr, const bool& toLoop)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourcei(Source, AL_SOURCE_RELATIVE, false);
@@ -139,7 +139,7 @@ namespace cAudio
 		return state;
     }
 
-	void cAudio::pause()
+	void cAudioSource::pause()
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourcePause(Source);
@@ -147,7 +147,7 @@ namespace cAudio
 		getLogger()->logDebug("Audio Source", "Source paused.");
     }
      
-	void cAudio::stop()
+	void cAudioSource::stop()
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourceStop(Source);
@@ -155,13 +155,13 @@ namespace cAudio
 		getLogger()->logDebug("Audio Source", "Source stopped.");
     }
 
-	void cAudio::loop(const bool& loop)
+	void cAudioSource::loop(const bool& loop)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         Loop = loop;
     }
 
-	bool cAudio::seek(const float& seconds, bool relative)
+	bool cAudioSource::seek(const float& seconds, bool relative)
 	{
 		bool state = false;
 		cAudioMutexBasicLock lock(Mutex);
@@ -172,7 +172,7 @@ namespace cAudio
 		return state;
     }
 
-	bool cAudio::update()
+	bool cAudioSource::update()
 	{
 		cAudioMutexBasicLock lock(Mutex);
         if(!isValid() || !isPlaying())
@@ -206,7 +206,7 @@ namespace cAudio
 		return active;
     }
 
-	void cAudio::release()
+	void cAudioSource::release()
     {
 		cAudioMutexBasicLock lock(Mutex);
 		//Stops the audio Source
@@ -220,66 +220,66 @@ namespace cAudio
 		getLogger()->logDebug("Audio Source", "Audio source released.");
     }
 
-	const bool cAudio::isValid() const
+	const bool cAudioSource::isValid() const
 	{
         return Valid;
 	}
 
-	const bool cAudio::isPlaying() const
+	const bool cAudioSource::isPlaying() const
 	{
 		ALenum state = 0;
         alGetSourcei(Source, AL_SOURCE_STATE, &state);
         return (state == AL_PLAYING);
     }
 
-	const bool cAudio::isPaused() const
+	const bool cAudioSource::isPaused() const
 	{
 		ALenum state = 0;
         alGetSourcei(Source, AL_SOURCE_STATE, &state);
         return (state == AL_PAUSED);
     }
 
-	const bool cAudio::isStopped() const
+	const bool cAudioSource::isStopped() const
 	{
 		ALenum state = 0;
         alGetSourcei(Source, AL_SOURCE_STATE, &state);
 		return (state == AL_STOPPED);
     }
 
-	const bool cAudio::isLooping() const
+	const bool cAudioSource::isLooping() const
 	{
 		return Loop;
 	}
      
-	void cAudio::setPosition(const cVector3& position)
+	void cAudioSource::setPosition(const cVector3& position)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSource3f(Source, AL_POSITION, position.x, position.y, position.z);
 		checkError();
     }
 
-	void cAudio::setVelocity(const cVector3& velocity)
+	void cAudioSource::setVelocity(const cVector3& velocity)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSource3f(Source, AL_VELOCITY, velocity.x, velocity.y, velocity.z);
 		checkError();
     }
 
-	void cAudio::setDirection(const cVector3& direction)
+	void cAudioSource::setDirection(const cVector3& direction)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSource3f(Source, AL_DIRECTION, direction.x, direction.y, direction.z);
 		checkError();
     }
 
-	void cAudio::setRolloffFactor(const float& rolloff)
+	void cAudioSource::setRolloffFactor(const float& rolloff)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_ROLLOFF_FACTOR, rolloff);
 		checkError();
     }
 
-	void cAudio::setStrength(const float& soundstrength)
+	void cAudioSource::setStrength(const float& soundstrength)
 	{
 		float inverseStrength = 0.0f;
 		if(soundstrength > 0.0f)
@@ -290,84 +290,84 @@ namespace cAudio
 		checkError();
     }
 
-	void cAudio::setMinDistance(const float& minDistance)
+	void cAudioSource::setMinDistance(const float& minDistance)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_REFERENCE_DISTANCE, minDistance);
 		checkError();
 	}
 
-	void cAudio::setMaxDistance(const float& maxDistance)
+	void cAudioSource::setMaxDistance(const float& maxDistance)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_MAX_DISTANCE, maxDistance);
 		checkError();
 	}
 
-	void cAudio::setPitch(const float& pitch)
+	void cAudioSource::setPitch(const float& pitch)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourcef (Source, AL_PITCH, pitch);
 		checkError();
     }
 
-	void cAudio::setVolume(const float& volume)
+	void cAudioSource::setVolume(const float& volume)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_GAIN, volume);
 		checkError();
     }
 
-	void cAudio::setMinVolume(const float& minVolume)
+	void cAudioSource::setMinVolume(const float& minVolume)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_MIN_GAIN, minVolume);
 		checkError();
 	}
 
-	void cAudio::setMaxVolume(const float& maxVolume)
+	void cAudioSource::setMaxVolume(const float& maxVolume)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_MAX_GAIN, maxVolume);
 		checkError();
 	}
 
-	void cAudio::setInnerConeAngle(const float& innerAngle)
+	void cAudioSource::setInnerConeAngle(const float& innerAngle)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_CONE_INNER_ANGLE, innerAngle);
 		checkError();
 	}
 
-	void cAudio::setOuterConeAngle(const float& outerAngle)
+	void cAudioSource::setOuterConeAngle(const float& outerAngle)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_CONE_OUTER_ANGLE, outerAngle);
 		checkError();
 	}
 
-	void cAudio::setOuterConeVolume(const float& outerVolume)
+	void cAudioSource::setOuterConeVolume(const float& outerVolume)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_CONE_OUTER_GAIN, outerVolume);
 		checkError();
 	}
 
-	void cAudio::setDopplerStrength(const float& dstrength)
+	void cAudioSource::setDopplerStrength(const float& dstrength)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_DOPPLER_FACTOR, dstrength);
 		checkError();
     }
 
-	void cAudio::setDopplerVelocity(const cVector3& dvelocity)
+	void cAudioSource::setDopplerVelocity(const cVector3& dvelocity)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSource3f(Source, AL_DOPPLER_VELOCITY, dvelocity.x, dvelocity.y, dvelocity.z);
 		checkError();
     }
 
-	void cAudio::move(const cVector3& position)
+	void cAudioSource::move(const cVector3& position)
 	{
 		cAudioMutexBasicLock lock(Mutex);
 		cVector3 oldPos = getPosition();
@@ -378,35 +378,35 @@ namespace cAudio
 		checkError();
 	}
 
-	const cVector3 cAudio::getPosition() const
+	const cVector3 cAudioSource::getPosition() const
 	{
 		cVector3 position;
 		alGetSourcefv(Source, AL_POSITION, &position.x);
 		return position;
 	}
 
-	const cVector3 cAudio::getVelocity() const
+	const cVector3 cAudioSource::getVelocity() const
 	{
 		cVector3 velocity;
 		alGetSourcefv(Source, AL_VELOCITY, &velocity.x);
 		return velocity;
 	}
 
-	const cVector3 cAudio::getDirection() const
+	const cVector3 cAudioSource::getDirection() const
 	{
 		cVector3 direction;
 		alGetSourcefv(Source, AL_DIRECTION, &direction.x);
 		return direction;
 	}
 
-	const float cAudio::getRolloffFactor() const
+	const float cAudioSource::getRolloffFactor() const
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_ROLLOFF_FACTOR, &value);
 		return value;
 	}
 
-	const float cAudio::getStrength() const
+	const float cAudioSource::getStrength() const
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_ROLLOFF_FACTOR, &value);
@@ -418,77 +418,77 @@ namespace cAudio
 		return inverseStrength;
 	}
 
-	const float cAudio::getMinDistance() const
+	const float cAudioSource::getMinDistance() const
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_REFERENCE_DISTANCE, &value);
 		return value;
 	}
 
-	const float cAudio::getMaxDistance() const
+	const float cAudioSource::getMaxDistance() const
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_MAX_DISTANCE, &value);
 		return value;
 	}
 
-	const float cAudio::getPitch() const
+	const float cAudioSource::getPitch() const
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_PITCH, &value);
 		return value;
 	}
 
-	const float cAudio::getVolume() const
+	const float cAudioSource::getVolume() const
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_GAIN, &value);
 		return value;
 	}
 
-	const float cAudio::getMinVolume() const
+	const float cAudioSource::getMinVolume() const
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_MIN_GAIN, &value);
 		return value;
 	}
 
-	const float cAudio::getMaxVolume() const
+	const float cAudioSource::getMaxVolume() const
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_MAX_GAIN, &value);
 		return value;
 	}
 
-	const float cAudio::getInnerConeAngle() const
+	const float cAudioSource::getInnerConeAngle() const
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_CONE_INNER_ANGLE, &value);
 		return value;
 	}
 
-	const float cAudio::getOuterConeAngle() const
+	const float cAudioSource::getOuterConeAngle() const
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_CONE_OUTER_ANGLE, &value);
 		return value;
 	}
 
-	const float cAudio::getOuterConeVolume() const
+	const float cAudioSource::getOuterConeVolume() const
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_CONE_OUTER_GAIN, &value);
 		return value;
 	}
 
-	const float cAudio::getDopplerStrength() const
+	const float cAudioSource::getDopplerStrength() const
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_DOPPLER_FACTOR, &value);
 		return value;
 	}
 
-	const cVector3 cAudio::getDopplerVelocity() const
+	const cVector3 cAudioSource::getDopplerVelocity() const
 	{
 		cVector3 velocity;
 		alGetSourcefv(Source, AL_DOPPLER_VELOCITY, &velocity.x);
@@ -496,12 +496,12 @@ namespace cAudio
 	}
 
 #ifdef CAUDIO_EFX_ENABLED
-	unsigned int cAudio::getNumEffectSlotsAvailable() const
+	unsigned int cAudioSource::getNumEffectSlotsAvailable() const
 	{
 		return EffectSlotsAvailable;
 	}
 
-	bool cAudio::attachEffect(unsigned int slot, IEffect* effect)
+	bool cAudioSource::attachEffect(unsigned int slot, IEffect* effect)
 	{
 		cAudioMutexBasicLock lock(Mutex);
 		if(slot < EffectSlotsAvailable)
@@ -517,7 +517,7 @@ namespace cAudio
 		return false;
 	}
 
-	void cAudio::removeEffect(unsigned int slot)
+	void cAudioSource::removeEffect(unsigned int slot)
 	{
 		cAudioMutexBasicLock lock(Mutex);
 		if(slot < EffectSlotsAvailable)
@@ -531,7 +531,7 @@ namespace cAudio
 		}
 	}
 
-	bool cAudio::attachFilter(IFilter* filter)
+	bool cAudioSource::attachFilter(IFilter* filter)
 	{
 		cAudioMutexBasicLock lock(Mutex);
 		Filter = filter;
@@ -543,7 +543,7 @@ namespace cAudio
 		return true;
 	}
 
-	void cAudio::removeFilter()
+	void cAudioSource::removeFilter()
 	{
 		cAudioMutexBasicLock lock(Mutex);
 		if(Filter)
@@ -554,7 +554,7 @@ namespace cAudio
 	}
 #endif
 
-    void cAudio::empty()
+    void cAudioSource::empty()
     {
         int queued = 0;
         alGetSourcei(Source, AL_BUFFERS_QUEUED, &queued);
@@ -567,7 +567,7 @@ namespace cAudio
         }
     }
 
-	bool cAudio::checkError()
+	bool cAudioSource::checkError()
     {
         int error = alGetError();
 		const char* errorString;
@@ -584,7 +584,7 @@ namespace cAudio
 		return false;
     }
 
-    bool cAudio::stream(ALuint buffer)
+    bool cAudioSource::stream(ALuint buffer)
     {
         if(Decoder)
         {
@@ -634,7 +634,7 @@ namespace cAudio
 		return false;
     }
 
-	ALenum cAudio::convertAudioFormatEnum(AudioFormats format)
+	ALenum cAudioSource::convertAudioFormatEnum(AudioFormats format)
 	{
 		switch(format)
 		{
@@ -652,7 +652,7 @@ namespace cAudio
 	}
 
 #ifdef CAUDIO_EFX_ENABLED
-	void cAudio::updateFilter(bool remove)
+	void cAudioSource::updateFilter(bool remove)
 	{
 		if(!remove)
 		{
@@ -676,7 +676,7 @@ namespace cAudio
 		checkError();
 	}
 
-	void cAudio::updateEffect(unsigned int slot, bool remove)
+	void cAudioSource::updateEffect(unsigned int slot, bool remove)
 	{
 		if(slot < EffectSlotsAvailable)
 		{

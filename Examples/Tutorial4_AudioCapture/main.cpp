@@ -99,7 +99,7 @@ int main(int argc, char* argv[])
 				cout << "Captured " << capture->getCapturedAudio(buffer, currentsize) << " bytes of audio data. \n \n";
 
 				//Create a IAudio object and load a sound from a file
-				cAudio::IAudio* mysound = manager->createFromRaw("sound1", buffer, currentsize, CAPTURE_FREQUENCY, CAPTURE_FORMAT);
+				cAudio::IAudioSource* mysound = manager->createFromRaw("sound1", buffer, currentsize, CAPTURE_FREQUENCY, CAPTURE_FORMAT);
 				
 				delete buffer;
 

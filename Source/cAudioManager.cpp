@@ -162,7 +162,7 @@ namespace cAudio
     }
 
     //!create a sound source
-    IAudio* cAudioManager::createFromFile(const char* name, const char* pathToFile, bool stream)
+    IAudioSource* cAudioManager::createFromFile(const char* name, const char* pathToFile, bool stream)
     {
 		cAudioMutexBasicLock lock(Mutex);
 
@@ -186,7 +186,7 @@ namespace cAudio
 						{
 							if(decoder->isValid())
 							{
-								IAudio* audio = new cAudio(decoder, Context, initEffects.getEFXInterface());
+								IAudioSource* audio = new cAudioSource(decoder, Context, initEffects.getEFXInterface());
 								decoder->drop();
 
 								if(audio)
@@ -236,7 +236,7 @@ namespace cAudio
 						{
 							tempsource->read(tempbuf,length);
 
-							IAudio* guy = createFromMemory(name, tempbuf, length, getExt(path).c_str());
+							IAudioSource* guy = createFromMemory(name, tempbuf, length, getExt(path).c_str());
 							delete[]tempbuf;
 							tempsource->drop();
 							return guy;
@@ -258,7 +258,7 @@ namespace cAudio
     }
 
     //!Loads the ogg file from memory *virtual file systems*
-    IAudio* cAudioManager::createFromMemory(const char* name, const char* data, size_t length, const char* extension)
+    IAudioSource* cAudioManager::createFromMemory(const char* name, const char* data, size_t length, const char* extension)
     {
 		cAudioMutexBasicLock lock(Mutex);
 
@@ -278,7 +278,7 @@ namespace cAudio
 					{
 						if(decoder->isValid())
 						{
-							IAudio* audio = new cAudio(decoder, Context, initEffects.getEFXInterface());
+							IAudioSource* audio = new cAudioSource(decoder, Context, initEffects.getEFXInterface());
 							decoder->drop();
 
 							if(audio)
@@ -319,7 +319,7 @@ namespace cAudio
 		return NULL;
     }
 
-	IAudio* cAudioManager::createFromRaw(const char* name, const char* data, size_t length, unsigned int frequency, AudioFormats format)
+	IAudioSource* cAudioManager::createFromRaw(const char* name, const char* data, size_t length, unsigned int frequency, AudioFormats format)
 	{
 		cAudioMutexBasicLock lock(Mutex);
 
@@ -338,7 +338,7 @@ namespace cAudio
 					{
 						if(decoder->isValid())
 						{
-							IAudio* audio = new cAudio(decoder, Context, initEffects.getEFXInterface());
+							IAudioSource* audio = new cAudioSource(decoder, Context, initEffects.getEFXInterface());
 							decoder->drop();
 
 							if(audio)
@@ -421,11 +421,11 @@ namespace cAudio
 	}
 
     //!grabs the selected audio file via the identifier
-    IAudio* cAudioManager::getSoundByName(const char* name)
+    IAudioSource* cAudioManager::getSoundByName(const char* name)
     {
 		cAudioMutexBasicLock lock(Mutex);
 		std::string audioName = safeCStr(name);
-        std::map<std::string,IAudio*>::iterator i = audioIndex.find(audioName);
+        std::map<std::string,IAudioSource*>::iterator i = audioIndex.find(audioName);
         if (i == audioIndex.end())
 		{
 			return NULL;
@@ -439,7 +439,7 @@ namespace cAudio
 		cAudioMutexBasicLock lock(Mutex);
 		for(unsigned int i=0; i<audioSources.size(); ++i)
 		{
-			IAudio* source = audioSources[i];
+			IAudioSource* source = audioSources[i];
 			if(source)
 				source->drop();
 		}
@@ -447,12 +447,12 @@ namespace cAudio
 		audioIndex.clear();
     }
 
-	void cAudioManager::release(IAudio* source)
+	void cAudioManager::release(IAudioSource* source)
 	{
 		if(source)
 		{
 			cAudioMutexBasicLock lock(Mutex);
-			std::map<std::string,IAudio*>::iterator it = audioIndex.begin();
+			std::map<std::string,IAudioSource*>::iterator it = audioIndex.begin();
 			for ( it=audioIndex.begin(); it != audioIndex.end(); it++ )
 			{
 				if( it->second == source )
@@ -479,7 +479,7 @@ namespace cAudio
 		cAudioMutexBasicLock lock(Mutex);
         for(unsigned int i=0; i<audioSources.size(); ++i)
 		{
-			IAudio* source = audioSources[i];
+			IAudioSource* source = audioSources[i];
             if (source->isValid())
             {
                 if (source->update())

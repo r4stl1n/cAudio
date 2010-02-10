@@ -12,7 +12,7 @@
 //Include IAudioManager so we can easily work with cAudio
 #include "../../include/IAudioManager.h"
 //Include IAudio so we can create cAudio objects
-#include "../../include/IAudio.h"
+#include "../../include/IAudioSource.h"
 //Include The cAudio vector class
 #include "../../include/cVector3.h"
 //Include our version of Sleep to free CPU usage
@@ -25,7 +25,7 @@ using namespace std;
 #define MAXAUDIOSOURCES 64
 #define TESTDURATION 10
 
-cAudio::IAudio* AudioSources[MAXAUDIOSOURCES];
+cAudio::IAudioSource* AudioSources[MAXAUDIOSOURCES];
 
 inline float getRandomFloat(float fMin, float fMax)
 {

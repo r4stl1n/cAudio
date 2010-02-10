@@ -388,10 +388,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\include\IAudio.h"
-				>
-			</File>
-			<File
 				RelativePath=".\include\IAudioCapture.h"
 				>
 			</File>
@@ -413,6 +409,10 @@
 			</File>
 			<File
 				RelativePath=".\include\IAudioPlugin.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\IAudioSource.h"
 				>
 			</File>
 			<File

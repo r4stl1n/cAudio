@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
 				filter->setLowFrequencyVolume(0.1f);
 
 				//Create a IAudio object and load a sound from a file
-				cAudio::IAudio* mysound = manager->createFromFile("bling","../../media/Footsteps.wav",false);
+				cAudio::IAudioSource* mysound = manager->createFromFile("bling","../../media/Footsteps.wav",false);
 
 				if(mysound)
 				{

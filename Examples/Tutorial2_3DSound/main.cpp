@@ -50,7 +50,7 @@ int main(int argc, char* argv[])
 		cAudio::IListener* listener = manager->getListener();
 
 		//Create a IAudio object and load a sound from a file
-		cAudio::IAudio* mysound = manager->createFromFile("bling", "../../media/bling.ogg", false);
+		cAudio::IAudioSource* mysound = manager->createFromFile("bling", "../../media/bling.ogg", false);
 
 		//Set the IAudio Sound to play3d and loop
 		//play3d takes 4 arguments play3d(toloop,x,y,z,strength)

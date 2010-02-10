@@ -12,7 +12,7 @@
 
 namespace cAudio
 {
-	class IAudio;
+	class IAudioSource;
 	class IAudioDecoderFactory;
 
     class IAudioManager
@@ -28,11 +28,11 @@ namespace cAudio
 		//!Updates the cAudio playback
 		virtual void update() = 0;
 		//!Returns an IAudio object by its "name" and 0 if the name is not found
-		virtual IAudio* getSoundByName(const char* name) = 0;
+		virtual IAudioSource* getSoundByName(const char* name) = 0;
 		//!Releases "ALL" cAudio objects (but does not shutdown the manager)
 		virtual void release() = 0;
 		//!Releases a single cAudio source
-		virtual void release(IAudio* source) = 0;
+		virtual void release(IAudioSource* source) = 0;
 
 		//! Returns the name of an available playback device.
 		/** \param index: Specify which name to retrieve ( Range: 0 to getAvailableDeviceCount()-1 ) */
@@ -43,11 +43,11 @@ namespace cAudio
 		virtual const char* getDefaultDeviceName() = 0;
 		
 		//!Creates the cAudio object
-		virtual IAudio* createFromFile(const char* name, const char* pathToFile, bool stream = false) = 0;
+		virtual IAudioSource* createFromFile(const char* name, const char* pathToFile, bool stream = false) = 0;
 		//!Loads audio from memory or virtual file system
-		virtual IAudio* createFromMemory(const char* name, const char* data, size_t length, const char* extension) = 0;
+		virtual IAudioSource* createFromMemory(const char* name, const char* data, size_t length, const char* extension) = 0;
 		//!Loads raw audio from memory.
-		virtual IAudio* createFromRaw(const char* name, const char* data, size_t length, unsigned int frequency, AudioFormats format) = 0;
+		virtual IAudioSource* createFromRaw(const char* name, const char* data, size_t length, unsigned int frequency, AudioFormats format) = 0;
 
 		//!Register Audio Codec
 		virtual bool registerAudioDecoder(IAudioDecoderFactory* factory, const char* extension) = 0;

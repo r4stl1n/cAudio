@@ -21,7 +21,7 @@
 
 namespace cAudio
 {
-	class IAudio;
+	class IAudioSource;
 
     class cAudioManager : public IAudioManager
     {
@@ -36,11 +36,11 @@ namespace cAudio
 		//!Updates the cAudio playback        
 		virtual void update();
 		//!Gets you the cAudio object you want
-		virtual IAudio* getSoundByName(const char* name);
+		virtual IAudioSource* getSoundByName(const char* name);
 		//!Releases "ALL" cAudio objects        
 		virtual void release();
 		//!Releases a single cAudio source
-		virtual void release(IAudio* source);
+		virtual void release(IAudioSource* source);
 
 		//! Returns the name of an available playback device.
 		/** \param index: Specify which name to retrieve ( Range: 0 to getAvailableDeviceCount()-1 ) */
@@ -51,11 +51,11 @@ namespace cAudio
 		virtual const char* getDefaultDeviceName();
 
 		//!Creates the cAudio object
-		virtual IAudio* createFromFile(const char* name, const char* pathToFile, bool stream = false);
+		virtual IAudioSource* createFromFile(const char* name, const char* pathToFile, bool stream = false);
 		//!Loads ogg from memory or virtual file system
-		virtual IAudio* createFromMemory(const char* name, const char* data, size_t length, const char* extension);
+		virtual IAudioSource* createFromMemory(const char* name, const char* data, size_t length, const char* extension);
 		//!Loads raw audio from memory.
-		virtual IAudio* createFromRaw(const char* name, const char* data, size_t length, unsigned int frequency, AudioFormats format);
+		virtual IAudioSource* createFromRaw(const char* name, const char* data, size_t length, unsigned int frequency, AudioFormats format);
 		
 		//!Register Audio Codec        
 		virtual bool registerAudioDecoder(IAudioDecoderFactory* factory, const char* extension);
@@ -90,9 +90,9 @@ namespace cAudio
 		bool Initialized;
 
 		//! Holds an index for fast searching of audio sources by name
-		std::map<std::string, IAudio*> audioIndex;
+		std::map<std::string, IAudioSource*> audioIndex;
 		//! Holds all managed audio sources
-		std::vector<IAudio*> audioSources;
+		std::vector<IAudioSource*> audioSources;
 		//! Decoder map that holds all decoders by file extension
 		std::map<std::string, IAudioDecoderFactory*> decodermap; 
 		//! The listener object        

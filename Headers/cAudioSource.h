@@ -9,7 +9,7 @@
 #include <AL/al.h>
 #include <AL/alc.h>
 
-#include "../include/IAudio.h"
+#include "../include/IAudioSource.h"
 #include "../include/cVector3.h"
 #include "../Headers/cMutex.h"
 #include "../include/ILogger.h"
@@ -17,15 +17,15 @@
 
 namespace cAudio
 {
-    class cAudio : public IAudio
+    class cAudioSource : public IAudioSource
     {
     public:
 #ifdef CAUDIO_EFX_ENABLED
-		cAudio(IAudioDecoder* decoder, ALCcontext* context, cEFXFunctions* oALFunctions);
+		cAudioSource(IAudioDecoder* decoder, ALCcontext* context, cEFXFunctions* oALFunctions);
 #else
-		cAudio(IAudioDecoder* decoder, ALCcontext* context);
+		cAudioSource(IAudioDecoder* decoder, ALCcontext* context);
 #endif
-		~cAudio();
+		~cAudioSource();
 
 		//! Plays the source with the default or last set values
 		virtual bool play();
@@ -223,4 +223,4 @@ namespace cAudio
 #endif
     };
 };
-#endif //! CAUDIO_H_INCLUDED
+#endif //! CAUDIOSOURCE_H_INCLUDED

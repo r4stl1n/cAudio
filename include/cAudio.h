@@ -29,7 +29,7 @@
 #include "cAudioDefines.h"
 #include "cAudioSleep.h"
 #include "EAudioFormats.h"
-#include "IAudio.h"
+#include "IAudioSource.h"
 #include "IAudioCapture.h"
 #include "IAudioDecoder.h"
 #include "IAudioDecoderFactory.h"
