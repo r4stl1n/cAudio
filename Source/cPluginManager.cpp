@@ -2,6 +2,7 @@
 #include "../Headers/cUtils.h"
 #include "../include/cAudioPlatform.h"
 #include "../Headers/cAudioPlugin.h"
+#include "../include/cAudioDefines.h"
 
 namespace cAudio
 {
@@ -33,7 +34,7 @@ bool cPluginManager::installPlugin(IAudioPlugin* plugin, const char* name)
 		if(theName.empty())
 			theName = plugin->getPluginName();
 
-		if(plugin->installPlugin(getLogger()))
+		if(plugin->installPlugin(getLogger(), CAUDIO_VERSION))
 		{
 			RegisteredPlugins[theName] = plugin;
 			return true;

@@ -40,7 +40,7 @@ namespace cAudio
 		IAudioPlugin() { }
 		~IAudioPlugin() { }
 
-		virtual bool installPlugin(ILogger* logger) = 0;
+		virtual bool installPlugin(ILogger* logger, const char* version) = 0;
 		virtual const char* getPluginName() = 0;
 		virtual void uninstallPlugin() = 0;
 

@@ -3,6 +3,8 @@
 
 #include "cAudioPlatform.h"
 
+#define CAUDIO_VERSION "2.0.0"
+
 //Global define for exporting the library
 #ifndef CAUDIO_STATIC_LIB
 

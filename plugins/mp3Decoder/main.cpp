@@ -5,10 +5,15 @@
 #include "ILogger.h"
 
 //Will be called on initial install of the plugin, use this for any first time initialization.
-extern "C" CAUDIO_API bool InstallPlugin(cAudio::ILogger* logger)
+extern "C" CAUDIO_API bool InstallPlugin(cAudio::ILogger* logger, const char* version)
 {
 	//This plugin has no first time initialization to do, so this is an easy function
-	return true;
+	//First, double check that this copy of cAudio matches what we were compiled against
+	if(strcmp(CAUDIO_VERSION, version) == 0)
+	{
+		return true;
+	}
+	return false;
 }
 
 //Must return a unique name that identifies this plugin.

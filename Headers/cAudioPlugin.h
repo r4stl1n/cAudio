@@ -6,7 +6,7 @@
 
 namespace cAudio
 {
-	typedef bool (*pluginInstallFunc)(ILogger* logger);
+	typedef bool (*pluginInstallFunc)(ILogger* logger, const char* version);
 	typedef const char* (*pluginNameFunc)();
 	typedef void (*pluginUninstallFunc)();
 
@@ -32,7 +32,7 @@ namespace cAudio
 		}
 		~cAudioPlugin() { }
 
-		virtual bool installPlugin(ILogger* logger);
+		virtual bool installPlugin(ILogger* logger, const char* version);
 		virtual const char* getPluginName();
 		virtual void uninstallPlugin();
 
