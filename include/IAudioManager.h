@@ -48,6 +48,8 @@ namespace cAudio
 		virtual IAudioSource* createFromMemory(const char* name, const char* data, size_t length, const char* extension) = 0;
 		//!Loads raw audio from memory.
 		virtual IAudioSource* createFromRaw(const char* name, const char* data, size_t length, unsigned int frequency, AudioFormats format) = 0;
+		//!Loads audio from alternative source.
+		virtual IAudioSource* createFromSource(const char* name, const char* source) = 0;
 
 		//!Register Audio Codec
 		virtual bool registerAudioDecoder(IAudioDecoderFactory* factory, const char* extension) = 0;
@@ -59,6 +61,15 @@ namespace cAudio
 		virtual bool isAudioDecoderRegistered(const char* extension) = 0;
 		//!Returns a registered audio decoder factory
 		virtual IAudioDecoderFactory* getAudioDecoderFactory(const char* extension) = 0;
+
+		//!Register a alternative source
+		virtual bool registerSource(const char* identifier, IDataSource* datasource) = 0;
+		//! Unregister source (allows you to prevent creation of audio files from specific source)
+		//!Note that all current sound sources will still continue to use any currently used source.
+		//!Will NOT delete any user added factory instance, you must do that yourself
+		virtual void unRegisterSource(const char* source) = 0;
+		//!Checks if the source type is registered.
+		virtual bool isSourceRegistered(const char* source) = 0;
 
 		//!Returns an interface for the listener
 		virtual IListener* getListener() = 0;

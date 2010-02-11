@@ -326,7 +326,7 @@ namespace cAudio
 		std::string audioName = safeCStr(name);
 		IAudioDecoderFactory* factory = getAudioDecoderFactory("raw");
 		if(factory)
-		{
+		{IAudioDecoderFactory* factory = getAudioDecoderFactory("raw");
 			cMemorySource* source = new cMemorySource(data, length, true);
 			if(source)
 			{
@@ -377,6 +377,105 @@ namespace cAudio
 		}
 		getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Codec (.%s) is not supported.", audioName.c_str(), "raw");
 		return NULL;
+	}
+
+	IAudioSource* cAudioManager::createFromSource(const char* name, const char* source)
+	{
+		std::string audioName = safeCStr(name);
+		std::string src = safeCStr(source);
+
+		std::map<std::string, IDataSource*>::iterator it = datasourcemap.find(src);
+		IAudioDecoderFactory* factory = getAudioDecoderFactory("raw");
+
+		if(it != datasourcemap.end())
+		{
+			if(it->second)
+			{
+				if(it->second->isValid())
+				{
+					IAudioDecoder* decoder = factory->CreateAudioDecoder(it->second);
+
+					if(decoder)
+					{
+						if(decoder->isValid())
+						{
+							IAudioSource* audio = new cAudioSource(decoder, Context, initEffects.getEFXInterface());
+							decoder->drop();
+							if(audio)
+							{
+								if(audio->isValid())
+								{
+									if(!audioName.empty())
+										audioIndex[audioName] = audio;
+
+									audioSources.push_back(audio);
+
+									getLogger()->logInfo("AudioManager", "Audio Source (%s) successfully created from raw data. Using ($s) source", audioName.c_str(),src.c_str());
+									
+									return audio;
+								}
+								
+								audio->drop();
+								getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Error creating audio source. Using ($) source", audioName.c_str(),src.c_str());
+								return NULL;
+							}
+							
+							getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Could not allocate enough memory.", audioName.c_str());
+							return NULL;
+						}
+						
+						decoder->drop();
+						getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Audio data could not be decoded by (.%s) decoder.", audioName.c_str(), "raw");
+						return NULL;
+					}
+
+					getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Could not allocate enough memory for decoder.", audioName.c_str());
+					return NULL;
+				}
+				
+				getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Audio data is corrupt.", audioName.c_str());
+				return NULL;
+			}
+			
+			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Could not allocate enough memory.", audioName.c_str());
+			return NULL;
+		}
+
+		getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Codec (.%s) is not supported.", audioName.c_str(), "raw");
+		return NULL;
+
+	}
+
+	bool cAudioManager::registerSource(const char* identifier,IDataSource* datasource)
+	{
+		cAudioMutexBasicLock lock(Mutex);
+		std::string ident = safeCStr(identifier);
+		datasourcemap[ident] = datasource;
+		getLogger()->logInfo("AudioManager","Audio source %s registered.", ident.c_str());
+
+		return true;
+
+	}
+
+	bool cAudioManager::isSourceRegistered(const char* source)
+	{
+		cAudioMutexBasicLock lock(Mutex);
+		std::string src = safeCStr(source);
+		std::map<std::string, IDataSource*>::iterator it = datasourcemap.find(src);
+		return (it != datasourcemap.end());
+
+	}
+
+	void cAudioManager::unRegisterSource(const char* source)
+	{
+		cAudioMutexBasicLock lock(Mutex);
+		std::string src = safeCStr(source);
+		std::map<std::string, IDataSource*>::iterator it = datasourcemap.find(src);
+		if(it != datasourcemap.end())
+		{
+			datasourcemap.erase(it);
+			getLogger()->logInfo("AudioManager", "DataSource .%s unregistered.", src.c_str());
+		}
 	}
 
     bool cAudioManager::registerAudioDecoder(IAudioDecoderFactory* factory, const char* extension)

@@ -54,6 +54,7 @@ int main(int argc, char* argv[])
 			//Wait for the sound to finish playing
 			while(mysound->isPlaying())
 				cAudio::cAudioSleep(10);
+
 		}
 
 		//Delete all IAudio sounds

@@ -52,11 +52,13 @@ namespace cAudio
 
 		//!Creates the cAudio object
 		virtual IAudioSource* createFromFile(const char* name, const char* pathToFile, bool stream = false);
-		//!Loads ogg from memory or virtual file system
+		//!Loads data from memory or virtual file system
 		virtual IAudioSource* createFromMemory(const char* name, const char* data, size_t length, const char* extension);
 		//!Loads raw audio from memory.
 		virtual IAudioSource* createFromRaw(const char* name, const char* data, size_t length, unsigned int frequency, AudioFormats format);
-		
+		//!Loads audio from alternative data source.
+		virtual IAudioSource* createFromSource(const char* name, const char* source);
+
 		//!Register Audio Codec        
 		virtual bool registerAudioDecoder(IAudioDecoderFactory* factory, const char* extension);
 		//!Unregister Audio Codec (allows you to prevent an file type from being playable with new sound sources)
@@ -67,6 +69,16 @@ namespace cAudio
 		virtual bool isAudioDecoderRegistered(const char* extension);
 		//!Returns a registered audio decoder factory
 		virtual IAudioDecoderFactory* getAudioDecoderFactory(const char* extension);
+
+		//!Register a alternative source
+		virtual bool registerSource(const char* identifier,IDataSource* datasource);
+		//! Unregister source (allows you to prevent creation of audio files from specific source)
+		//!Note that all current sound sources will still continue to use any currently used source.
+		//!Will NOT delete any user added factory instance, you must do that yourself
+		virtual void unRegisterSource(const char* source);
+		//!Checks if the source type is registered.
+		virtual bool isSourceRegistered(const char* source);
+
 
 		//! Grabs a list of available devices, as well as the default system one
 		void getAvailableDevices();
@@ -95,6 +107,9 @@ namespace cAudio
 		std::vector<IAudioSource*> audioSources;
 		//! Decoder map that holds all decoders by file extension
 		std::map<std::string, IAudioDecoderFactory*> decodermap; 
+		//! Archive map that holds all datasource types
+		std::map<std::string, IDataSource*> datasourcemap;
+
 		//! The listener object        
 		cListener initlistener;
 		//! Interface for audio effects
