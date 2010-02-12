@@ -20,7 +20,6 @@
  * stand-alone mpaudec library.  Based on mpegaudiodec.c from libavcodec.
  */
 
-/*#define DEBUG*/
 #include "internal.h"
 #include "mpegaudio.h"
 
@@ -333,13 +332,13 @@ int mpaudec_init(MPAuDecContext * mpctx)
             scale_factor_mult[i][0] = MULL(FIXR(1.0 * 2.0), norm);
             scale_factor_mult[i][1] = MULL(FIXR(0.7937005259 * 2.0), norm);
             scale_factor_mult[i][2] = MULL(FIXR(0.6299605249 * 2.0), norm);
-#ifdef DEBUG
+/*#ifdef DEBUG
             printf("%d: norm=%x s=%x %x %x\n",
                    i, norm, 
                    scale_factor_mult[i][0],
                    scale_factor_mult[i][1],
                    scale_factor_mult[i][2]);
-#endif
+#endif*/
         }
         
         /* window */
@@ -429,10 +428,10 @@ int mpaudec_init(MPAuDecContext * mpctx)
                 k = i & 1;
                 is_table_lsf[j][k ^ 1][i] = FIXR(f);
                 is_table_lsf[j][k][i] = FIXR(1.0);
-#ifdef DEBUG
+/*#ifdef DEBUG
                 printf("is_table_lsf %d %d: %x %x\n", 
                        i, j, is_table_lsf[j][0][i], is_table_lsf[j][1][i]);
-#endif
+#endif*/
             }
         }
 
@@ -475,14 +474,14 @@ int mpaudec_init(MPAuDecContext * mpctx)
             }
         }
 
-#if defined(DEBUG)
+/*#if defined(DEBUG)
         for(j=0;j<8;j++) {
             printf("win%d=\n", j);
             for(i=0;i<36;i++)
                 printf("%f, ", (double)mdct_win[j][i] / FRAC_ONE);
             printf("\n");
         }
-#endif
+#endif*/
         init = 1;
     }
 
@@ -1150,7 +1149,7 @@ static int decode_header(MPADecodeContext *s, uint32_t header)
         }
     }
     
-#if defined(DEBUG)
+/*#if defined(DEBUG)
     printf("layer%d, %d Hz, %d kbits/s, ",
            s->layer, s->sample_rate, s->bit_rate);
     if (s->nb_channels == 2) {
@@ -1165,7 +1164,7 @@ static int decode_header(MPADecodeContext *s, uint32_t header)
         printf("mono");
     }
     printf("\n");
-#endif
+#endif*/
     return 0;
 }
 
@@ -1279,9 +1278,9 @@ static int mp_decode_layer2(MPADecodeContext *s)
     else
         bound = sblimit;
 
-#ifdef DEBUG
+/*#ifdef DEBUG
     printf("bound=%d sblimit=%d\n", bound, sblimit);
-#endif
+#endif*/
     /* parse bit allocation */
     j = 0;
     for(i=0;i<bound;i++) {
@@ -1299,7 +1298,7 @@ static int mp_decode_layer2(MPADecodeContext *s)
         j += 1 << bit_alloc_bits;
     }
 
-#ifdef DEBUG
+/*#ifdef DEBUG
     {
         for(ch=0;ch<s->nb_channels;ch++) {
             for(i=0;i<sblimit;i++)
@@ -1307,7 +1306,7 @@ static int mp_decode_layer2(MPADecodeContext *s)
             printf("\n");
         }
     }
-#endif
+#endif*/
 
     /* scale codes */
     for(i=0;i<sblimit;i++) {
@@ -1349,7 +1348,7 @@ static int mp_decode_layer2(MPADecodeContext *s)
         }
     }
 
-#ifdef DEBUG
+/*#ifdef DEBUG
     for(ch=0;ch<s->nb_channels;ch++) {
         for(i=0;i<sblimit;i++) {
             if (bit_alloc[ch][i]) {
@@ -1361,7 +1360,7 @@ static int mp_decode_layer2(MPADecodeContext *s)
         }
         printf("\n");
     }
-#endif
+#endif*/
 
     /* samples */
     for(k=0;k<3;k++) {
@@ -1593,10 +1592,10 @@ static int huffman_decode(MPADecodeContext *s, GranuleDef *g,
                 x = 0;
                 y = 0;
             }
-#ifdef DEBUG
+/*#ifdef DEBUG
             printf("region=%d n=%d x=%d y=%d exp=%d\n", 
                    i, g->region_size[i] - j, x, y, exponents[s_index]);
-#endif
+#endif*/
             if (x) {
                 if (x == 15)
                     x += get_bitsz(&s->gb, linbits);
@@ -1637,9 +1636,9 @@ static int huffman_decode(MPADecodeContext *s, GranuleDef *g,
         last_gb= s->gb;
 
         code = get_vlc(&s->gb, vlc);
-#ifdef DEBUG
+/*#ifdef DEBUG
         printf("t=%d code=%d\n", g->count1table_select, code);
-#endif
+#endif*/
         if (code < 0)
             return -1;
         for(i=0;i<4;i++) {
@@ -1990,9 +1989,9 @@ static int mp_decode_layer3(MPADecodeContext *s)
     
     for(gr=0;gr<nb_granules;gr++) {
         for(ch=0;ch<s->nb_channels;ch++) {
-#ifdef DEBUG
+/*#ifdef DEBUG
             printf("gr=%d ch=%d: side_info\n", gr, ch);
-#endif
+#endif*/
             g = &granules[ch][gr];
             g->part2_3_length = get_bits(&s->gb, 12);
             g->big_values = get_bits(&s->gb, 9);
@@ -2037,10 +2036,10 @@ static int mp_decode_layer3(MPADecodeContext *s)
                 /* compute huffman coded region sizes */
                 region_address1 = get_bits(&s->gb, 4);
                 region_address2 = get_bits(&s->gb, 3);
-#ifdef DEBUG
+/*#ifdef DEBUG
                 printf("region1=%d region2=%d\n", 
                        region_address1, region_address2);
-#endif
+#endif*/
                 g->region_size[0] = 
                     band_index_long[s->sample_rate_index][region_address1 + 1] >> 1;
                 l = region_address1 + region_address2 + 2;
@@ -2093,17 +2092,17 @@ static int mp_decode_layer3(MPADecodeContext *s)
                 g->preflag = get_bits(&s->gb, 1);
             g->scalefac_scale = get_bits(&s->gb, 1);
             g->count1table_select = get_bits(&s->gb, 1);
-#ifdef DEBUG
+/*#ifdef DEBUG
             printf("block_type=%d switch_point=%d\n",
                    g->block_type, g->switch_point);
-#endif
+#endif*/
         }
     }
 
     /* now we get bits from the main_data_begin offset */
-#ifdef DEBUG
+/*#ifdef DEBUG
     printf("seekback: %d\n", main_data_begin);
-#endif
+#endif*/
     seek_to_maindata(s, main_data_begin);
 
     for(gr=0;gr<nb_granules;gr++) {
@@ -2119,9 +2118,9 @@ static int mp_decode_layer3(MPADecodeContext *s)
                 /* MPEG1 scale factors */
                 slen1 = slen_table[0][g->scalefac_compress];
                 slen2 = slen_table[1][g->scalefac_compress];
-#ifdef DEBUG
+/*#ifdef DEBUG
                 printf("slen1=%d slen2=%d\n", slen1, slen2);
-#endif
+#endif*/
                 if (g->block_type == 2) {
                     n = g->switch_point ? 17 : 18;
                     j = 0;
@@ -2150,7 +2149,7 @@ static int mp_decode_layer3(MPADecodeContext *s)
                     }
                     g->scale_factors[j++] = 0;
                 }
-#if defined(DEBUG)
+/*#if defined(DEBUG)
                 {
                     printf("scfsi=%x gr=%d ch=%d scale_factors:\n", 
                            g->scfsi, gr, ch);
@@ -2158,7 +2157,7 @@ static int mp_decode_layer3(MPADecodeContext *s)
                         printf(" %d", g->scale_factors[i]);
                     printf("\n");
                 }
-#endif
+#endif*/
             } else {
                 int tindex, tindex2, slen[4], sl, sf;
 
@@ -2207,7 +2206,7 @@ static int mp_decode_layer3(MPADecodeContext *s)
                 /* XXX: should compute exact size */
                 for(;j<40;j++)
                     g->scale_factors[j] = 0;
-#if defined(DEBUG)
+/*#if defined(DEBUG)
                 {
                     printf("gr=%d ch=%d scale_factors:\n", 
                            gr, ch);
@@ -2215,7 +2214,7 @@ static int mp_decode_layer3(MPADecodeContext *s)
                         printf(" %d", g->scale_factors[i]);
                     printf("\n");
                 }
-#endif
+#endif*/
             }
 
             exponents_from_scale_factors(s, g, exponents);
@@ -2228,9 +2227,9 @@ static int mp_decode_layer3(MPADecodeContext *s)
             /* skip extension bits */
             bits_left = g->part2_3_length - (get_bits_count(&s->gb) - bits_pos);
             if (bits_left < 0) {
-#ifdef DEBUG
+/*#ifdef DEBUG
                 printf("bits_left=%d\n", bits_left);
-#endif
+#endif*/
                 return -1;
             }
             while (bits_left >= 16) {
@@ -2268,9 +2267,9 @@ static int mp_decode_frame(MPADecodeContext *s,
     if (s->error_protection)
         get_bits(&s->gb, 16);
 
-#ifdef DEBUG
+/*#ifdef DEBUG
     printf("frame %d:\n", s->frame_count);
-#endif
+#endif*/
     switch(s->layer) {
     case 1:
         nb_frames = mp_decode_layer1(s);
@@ -2283,7 +2282,7 @@ static int mp_decode_frame(MPADecodeContext *s,
         nb_frames = mp_decode_layer3(s);
         break;
     }
-#if defined(DEBUG)
+/*#if defined(DEBUG)
     for(i=0;i<nb_frames;i++) {
         for(ch=0;ch<s->nb_channels;ch++) {
             int j;
@@ -2293,7 +2292,7 @@ static int mp_decode_frame(MPADecodeContext *s,
             printf("\n");
         }
     }
-#endif
+#endif*/
     /* apply the synthesis filter */
     for(ch=0;ch<s->nb_channels;ch++) {
         samples_ptr = samples + ch;
@@ -2345,9 +2344,9 @@ int mpaudec_decode_frame(MPAuDecContext * mpctx,
                     /* no sync found : move by one byte (inefficient, but simple!) */
                     memmove(s->inbuf, s->inbuf + 1, s->inbuf_ptr - s->inbuf - 1);
                     s->inbuf_ptr--;
-#ifdef DEBUG
+/*#ifdef DEBUG
                     printf("skip %x\n", header);
-#endif
+#endif*/
                     /* reset free format frame size to give a chance
                        to get a new bitrate */
                     s->free_format_frame_size = 0;
@@ -2418,10 +2417,10 @@ int mpaudec_decode_frame(MPAuDecContext * mpctx,
                             s->free_format_frame_size -= padding * 4;
                         else
                             s->free_format_frame_size -= padding;
-#ifdef DEBUG
+/*#ifdef DEBUG
                         printf("free frame size=%d padding=%d\n", 
                                s->free_format_frame_size, padding);
-#endif
+#endif*/
                         decode_header(s, header1);
                     } else
                         p++;

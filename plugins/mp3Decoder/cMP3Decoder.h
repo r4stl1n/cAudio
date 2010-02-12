@@ -2,8 +2,28 @@
 #define CMP3DECODER_H
 
 #include "IAudioDecoder.h"
+#include "mpaudec/mpaudec.h"
 
 using namespace cAudio;
+
+class cMP3Packet
+{
+public:
+	cMP3Packet()
+	{
+		data = 0x0;
+		reset();
+	}
+
+	void reset()
+	{
+		size = 0;
+		read = 0;
+	}
+	int size;
+	int read;
+	unsigned char* data;
+};
 
 class cMP3Decoder : public IAudioDecoder
 {
@@ -31,6 +51,15 @@ class cMP3Decoder : public IAudioDecoder
 
 		//!If seeking is supported, will seek the stream to seconds
 		virtual bool seek(float seconds, bool relative);
+
+	protected:
+		MPAuDecContext* Context;
+		bool Valid;
+		unsigned int DataOffset;
+		int NumChannels;
+		int Frequency;
+
+		cMP3Packet CurrentPacket;
 };
 
 #endif //! CMP3DECODER_H
