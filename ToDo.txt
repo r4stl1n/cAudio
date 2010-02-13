@@ -1,7 +1,6 @@
 Effect Presets
 File log reciever
 File source caching
-Possible rework of custom IDataSource to make it transparent with normal filesystem loading
 Final quality check
 Final documentation pass
 Demonstate via tutorial adding a log reciever, event handler, and custom plugin
