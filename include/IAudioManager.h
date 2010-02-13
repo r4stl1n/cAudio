@@ -73,7 +73,10 @@ namespace cAudio
 
 		//!Returns an interface for the listener
 		virtual IListener* getListener() = 0;
+
+#ifdef CAUDIO_EFX_ENABLED
 		virtual IAudioEffects* getEffects() = 0;
+#endif
 
     protected:
     private:

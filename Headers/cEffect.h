@@ -9,6 +9,8 @@
 #include "../Headers/cMutex.h"
 #include "../Headers/cEFXFunctions.h"
 
+#ifdef CAUDIO_EFX_ENABLED
+
 #include <AL/al.h>
 #include <AL/alc.h>
 
@@ -117,5 +119,8 @@ namespace cAudio
 		sEqualizerParameters		EqualizerParam;
 	};
 };
+
+
+#endif
 
 #endif //! CEFFECT_H

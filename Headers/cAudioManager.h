@@ -84,7 +84,10 @@ namespace cAudio
 		void getAvailableDevices();
 
 		virtual IListener* getListener() { return &initlistener; }
+
+#ifdef CAUDIO_EFX_ENABLED
 		virtual IAudioEffects* getEffects() { return &initEffects; }
+#endif
 
 	private:
 		//Mutex for thread syncronization
@@ -112,8 +115,10 @@ namespace cAudio
 
 		//! The listener object        
 		cListener initlistener;
+#ifdef CAUDIO_EFX_ENABLED
 		//! Interface for audio effects
 		cAudioEffects initEffects;
+#endif
 		//! Check for OpenAL errors
 		bool checkError();
 

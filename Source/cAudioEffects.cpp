@@ -6,6 +6,8 @@
 #include "../Headers/cFilter.h"
 #include "../Headers/cEffect.h"
 
+#ifdef CAUDIO_EFX_ENABLED
+
 //Number of effect slots to try to create
 #define EFFECT_SLOTS_TO_TEST 256
 
@@ -168,3 +170,5 @@ void cAudioEffects::checkEFXSupportDetails()
 }
 
 };
+
+#endif

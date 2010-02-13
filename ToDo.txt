@@ -1,4 +1,3 @@
-Make sure #undef CAUDIO_EFX_ENABLED works properly
 Effect Presets
 File log reciever
 File source caching
@@ -6,3 +5,4 @@ Possible rework of custom IDataSource to make it transparent with normal filesys
 Final quality check
 Final documentation pass
 Demonstate via tutorial adding a log reciever, event handler, and custom plugin
+Change all tutorials to say cAudio 2.0.0

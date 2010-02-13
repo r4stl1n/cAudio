@@ -9,6 +9,8 @@
 #include "../Headers/cMutex.h"
 #include "../Headers/cEFXFunctions.h"
 
+#ifdef CAUDIO_EFX_ENABLED
+
 namespace cAudio
 {
 	class cAudioEffects : public IAudioEffects
@@ -35,5 +37,7 @@ namespace cAudio
 		bool SupportedFilters[EFT_COUNT];
     };
 };
+
+#endif
 
 #endif //! CAUDIOEFFECTS_H

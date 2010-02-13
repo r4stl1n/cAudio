@@ -27,6 +27,7 @@
 #define CAUDIO_H
 
 #include "cAudioDefines.h"
+#include "cAudioPlatform.h"
 #include "cAudioSleep.h"
 #include "EAudioFormats.h"
 #include "IAudioSource.h"
@@ -42,6 +43,7 @@
 #include "IListener.h"
 #include "ILogger.h"
 #include "ILogReceiver.h"
+#include "IPluginManager.h"
 #include "IRefCounted.h"
 
 #endif

@@ -42,6 +42,7 @@ int main(int argc, char* argv[])
 		//Initialize the manager with the user settings
 		manager->initialize(manager->getAvailableDeviceName(deviceSelection));
 
+#ifdef CAUDIO_EFX_ENABLED
 		cAudio::IAudioEffects* effects = manager->getEffects();
 		if(effects)
 		{
@@ -341,6 +342,7 @@ int main(int argc, char* argv[])
 				effect->drop();
 			}
 		}
+#endif
 
 		//Delete all IAudio sounds
 		manager->release();

@@ -6,6 +6,8 @@
 #include "../Headers/cLogger.h"
 #include "../Headers/cUtils.h"
 
+#ifdef CAUDIO_EFX_ENABLED
+
 namespace cAudio
 {
 	cFilter::cFilter(cEFXFunctions* oALFunctions) : EFX(oALFunctions), Type(EFT_NULL), 
@@ -177,3 +179,5 @@ namespace cAudio
 		};
 	}
 };
+
+#endif

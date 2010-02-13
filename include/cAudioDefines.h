@@ -35,7 +35,6 @@
 //These defines control which of the default audio codecs are compiled into the library
 #define CAUDIO_COMPILE_WITH_OGG_DECODER
 #define CAUDIO_COMPILE_WITH_WAV_DECODER
-#define CAUDIO_COMPILE_WITH_RAW_DECODER
 
 ////////////////////////
 //Audio Source Settings

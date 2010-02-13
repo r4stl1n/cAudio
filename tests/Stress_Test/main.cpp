@@ -10,15 +10,7 @@
 #include <stdlib.h>
 
 //Include IAudioManager so we can easily work with cAudio
-#include "../../include/IAudioManager.h"
-//Include IAudio so we can create cAudio objects
-#include "../../include/IAudioSource.h"
-//Include The cAudio vector class
-#include "../../include/cVector3.h"
-//Include our version of Sleep to free CPU usage
-#include "../../include/cAudioSleep.h"
-//Include the logger interface
-#include "../../include/ILogger.h"
+#include "../../include/cAudio.h"
 
 using namespace std;
 

@@ -5,6 +5,10 @@
 #ifndef COGGDECODER_H_INCLUDED
 #define COGGDECODER_H_INCLUDED
 
+#include "../include/cAudioDefines.h"
+
+#ifdef CAUDIO_COMPILE_WITH_OGG_DECODER
+
 #include "../include/IAudioDecoder.h"
 #include <ogg/ogg.h>
 #include <vorbis/codec.h>
@@ -55,5 +59,7 @@ namespace cAudio
     };
 
 }
+
+#endif
 
 #endif //! COGGDECODER_H_INCLUDED

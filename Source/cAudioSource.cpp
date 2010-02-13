@@ -86,8 +86,6 @@ namespace cAudio
 		if (!isPaused()) 
         { 
             int queueSize = 0;
-			//Resets the audio to the beginning
-			Decoder->setPosition(0, false);
 			//Purges all buffers from the source
 			alSourcei(Source, AL_BUFFER, 0);
 			checkError();
@@ -151,6 +149,8 @@ namespace cAudio
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourceStop(Source);
+		//Resets the audio to the beginning
+		Decoder->setPosition(0, false);
 		checkError();
 		getLogger()->logDebug("Audio Source", "Source stopped.");
     }

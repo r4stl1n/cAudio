@@ -9,6 +9,8 @@
 #include "cWavDecoder.h"
 #include "../Headers/cMutex.h"
 
+#ifdef CAUDIO_COMPILE_WITH_WAV_DECODER
+
 namespace cAudio
 {
 
@@ -31,5 +33,7 @@ class cWavAudioDecoderFactory : public IAudioDecoderFactory
 };
 
 };
+
+#endif
 
 #endif //! CWAVAUDIODECODERFACOTRY_H_INCLUDED

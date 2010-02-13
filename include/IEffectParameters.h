@@ -6,6 +6,9 @@
 #define IEFFECTPARAMETERS_H
 
 #include "cVector3.h"
+#include "cAudioDefines.h"
+
+#ifdef CAUDIO_EFX_ENABLED
 
 namespace cAudio
 {
@@ -364,5 +367,7 @@ namespace cAudio
 		float HighCutoff;
 	};
 };
+
+#endif
 
 #endif //! IEFFECTPARAMETERS_H

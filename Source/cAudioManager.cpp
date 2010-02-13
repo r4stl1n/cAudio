@@ -18,6 +18,8 @@
 #include <set>
 #include <string.h>
 
+#ifdef CAUDIO_EFX_ENABLED
+
 #ifdef CAUDIO_PLATFORM_WIN
 	#include <AL/efx.h>
 	#include <AL/efx-creative.h>
@@ -26,6 +28,8 @@
 
 #ifdef CAUDIO_PLATFORM_LINUX
 	#include <AL/alext.h>
+#endif
+
 #endif
 
 #define LOAD_AL_FUNC(x) (x = (typeof(x))alGetProcAddress(#x))
@@ -40,9 +44,8 @@ namespace cAudio
 #ifdef CAUDIO_COMPILE_WITH_WAV_DECODER
 	static cWavAudioDecoderFactory WavDecoderFactory;
 #endif
-#ifdef CAUDIO_COMPILE_WITH_RAW_DECODER
+
 	static cRawAudioDecoderFactory RawDecoderFactory;
-#endif
 
 	//Note: OpenAL is threadsafe, so a mutex only needs to protect the class state
 #ifdef CAUDIO_USE_INTERNAL_THREAD
@@ -83,11 +86,13 @@ namespace cAudio
 			attribs[currentAttrib++] = ALC_FREQUENCY;
 			attribs[currentAttrib++] = outputFrequency;
 		}
+#ifdef CAUDIO_EFX_ENABLED
 		if(eaxEffectSlots > 0)
 		{
 			attribs[currentAttrib++] = ALC_MAX_AUXILIARY_SENDS;
 			attribs[currentAttrib++] = eaxEffectSlots;
 		}
+#endif
 
 		//Create a new device
 		Device = alcOpenDevice(deviceName);
@@ -186,7 +191,11 @@ namespace cAudio
 						{
 							if(decoder->isValid())
 							{
+#ifdef CAUDIO_EFX_ENABLED
 								IAudioSource* audio = new cAudioSource(decoder, Context, initEffects.getEFXInterface());
+#else
+								IAudioSource* audio = new cAudioSource(decoder, Context);
+#endif
 								decoder->drop();
 
 								if(audio)
@@ -278,7 +287,11 @@ namespace cAudio
 					{
 						if(decoder->isValid())
 						{
+#ifdef CAUDIO_EFX_ENABLED
 							IAudioSource* audio = new cAudioSource(decoder, Context, initEffects.getEFXInterface());
+#else
+							IAudioSource* audio = new cAudioSource(decoder, Context);
+#endif
 							decoder->drop();
 
 							if(audio)
@@ -338,7 +351,11 @@ namespace cAudio
 					{
 						if(decoder->isValid())
 						{
+#ifdef CAUDIO_EFX_ENABLED
 							IAudioSource* audio = new cAudioSource(decoder, Context, initEffects.getEFXInterface());
+#else
+							IAudioSource* audio = new cAudioSource(decoder, Context);
+#endif
 							decoder->drop();
 
 							if(audio)
@@ -399,7 +416,11 @@ namespace cAudio
 					{
 						if(decoder->isValid())
 						{
+#ifdef CAUDIO_EFX_ENABLED
 							IAudioSource* audio = new cAudioSource(decoder, Context, initEffects.getEFXInterface());
+#else
+							IAudioSource* audio = new cAudioSource(decoder, Context);
+#endif
 							decoder->drop();
 							if(audio)
 							{

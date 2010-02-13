@@ -5,6 +5,10 @@
 #ifndef CEFXFUNCTIONS_H
 #define CEFXFUNCTIONS_H
 
+#include "../include/cAudioDefines.h"
+
+#ifdef CAUDIO_EFX_ENABLED
+
 #include <AL/al.h>
 #include <AL/alc.h>
 #include <AL/efx.h>
@@ -183,5 +187,7 @@ namespace cAudio
 		}
 	};
 };
+
+#endif
 
 #endif //! CEFXFUNCTIONS_H

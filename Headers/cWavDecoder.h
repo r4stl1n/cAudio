@@ -6,6 +6,9 @@
 #define CWAVDECODER_H_INCLUDED
 
 #include "../include/IAudioDecoder.h"
+#include "../include/cAudioDefines.h"
+
+#ifdef CAUDIO_COMPILE_WITH_WAV_DECODER
 
 namespace cAudio
 {
@@ -50,7 +53,9 @@ namespace cAudio
 			bool Valid;
     };
 
-}
+};
+
+#endif
 
 #endif //! CFLACDECODER_H_INCLUDED
 

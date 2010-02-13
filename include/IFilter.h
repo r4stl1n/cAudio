@@ -6,6 +6,9 @@
 #define IFILTER_H
 
 #include "IRefCounted.h"
+#include "cAudioDefines.h"
+
+#ifdef CAUDIO_EFX_ENABLED
 
 namespace cAudio
 {
@@ -40,5 +43,7 @@ namespace cAudio
 		virtual bool isValid() const = 0;
 	};
 };
+
+#endif
 
 #endif //! IFILTER_H

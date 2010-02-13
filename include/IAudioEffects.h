@@ -9,6 +9,8 @@
 #include "IFilter.h"
 #include "cAudioDefines.h"
 
+#ifdef CAUDIO_EFX_ENABLED
+
 namespace cAudio
 {
     class IAudioEffects
@@ -42,5 +44,7 @@ namespace cAudio
     private:
     };
 };
+
+#endif
 
 #endif //! IAUDIOEFFECTS_H

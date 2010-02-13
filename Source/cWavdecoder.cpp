@@ -5,6 +5,8 @@
 #include "../Headers/cWavDecoder.h"
 #include <string.h>
 
+#ifdef CAUDIO_COMPILE_WITH_WAV_DECODER
+
 namespace cAudio
 {
 	cWavDecoder::cWavDecoder(IDataSource* stream) : IAudioDecoder(stream), Valid(false)
@@ -201,6 +203,8 @@ namespace cAudio
     }
 
 
-}
+};
+
+#endif
 
 

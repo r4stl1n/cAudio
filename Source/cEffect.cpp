@@ -6,6 +6,8 @@
 #include "../Headers/cLogger.h"
 #include "../Headers/cUtils.h"
 
+#ifdef CAUDIO_EFX_ENABLED
+
 namespace cAudio
 {
 	cEffect::cEffect(cEFXFunctions* oALFunctions) : EFX(oALFunctions), Type(EET_NULL),
@@ -699,3 +701,5 @@ namespace cAudio
 		};
 	}
 };
+
+#endif

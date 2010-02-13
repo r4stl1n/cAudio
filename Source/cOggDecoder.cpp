@@ -3,6 +3,9 @@
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
 #include "../Headers/cOggDecoder.h"
+
+#ifdef CAUDIO_COMPILE_WITH_OGG_DECODER
+
 namespace cAudio
 {
     //!Read Vorbis Data
@@ -143,4 +146,6 @@ namespace cAudio
 		}
         return false;
     }
-}
+};
+
+#endif

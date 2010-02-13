@@ -9,6 +9,8 @@
 #include "cOggDecoder.h"
 #include "../Headers/cMutex.h"
 
+#ifdef CAUDIO_COMPILE_WITH_OGG_DECODER
+
 namespace cAudio
 {
 
@@ -32,5 +34,7 @@ class cOggAudioDecoderFactory : public IAudioDecoderFactory
 };
 
 };
+
+#endif
 
 #endif //! COGGAUDIODECODERFACTORY_H
