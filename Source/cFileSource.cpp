@@ -4,16 +4,18 @@
 
 #include "../Headers/cFileSource.h"
 #include <cstring>
+#include "../Headers/cUtils.h"
 
 namespace cAudio
 {
 
 //!Init Takes a string for file name
-cFileSource::cFileSource(const std::string& filename) : pFile(NULL), Valid(false), Filesize(0)
+cFileSource::cFileSource(const char* filename) : pFile(NULL), Valid(false), Filesize(0)
 {
-    if(filename.length() != 0)
+	std::string safeFilename = safeCStr(filename);
+    if(safeFilename.length() != 0)
     {
-		pFile = fopen(filename.c_str(),"rb");
+		pFile = fopen(safeFilename.c_str(),"rb");
 		if(pFile)
 			Valid = true;
     }

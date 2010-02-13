@@ -9,6 +9,7 @@
 #include "cAudioDefines.h"
 #include "EAudioFormats.h"
 #include "IAudioEffects.h"
+#include "IDataSourceFactory.h"
 #include "IManagerEventHandler.h"
 
 namespace cAudio
@@ -31,7 +32,7 @@ namespace cAudio
 		//!Returns an IAudio object by its "name" and 0 if the name is not found
 		virtual IAudioSource* getSoundByName(const char* name) = 0;
 		//!Releases "ALL" cAudio objects (but does not shutdown the manager)
-		virtual void release() = 0;
+		virtual void releaseAllSources() = 0;
 		//!Releases a single cAudio source
 		virtual void release(IAudioSource* source) = 0;
 
@@ -43,14 +44,12 @@ namespace cAudio
 		//! Returns the name of the default system playback device.
 		virtual const char* getDefaultDeviceName() = 0;
 		
-		//!Creates the cAudio object
-		virtual IAudioSource* createFromFile(const char* name, const char* pathToFile, bool stream = false) = 0;
+		//!Creates the cAudio object using the highest priority data source that has it
+		virtual IAudioSource* create(const char* name, const char* filename, bool stream = false) = 0;
 		//!Loads audio from memory or virtual file system
 		virtual IAudioSource* createFromMemory(const char* name, const char* data, size_t length, const char* extension) = 0;
 		//!Loads raw audio from memory.
 		virtual IAudioSource* createFromRaw(const char* name, const char* data, size_t length, unsigned int frequency, AudioFormats format) = 0;
-		//!Loads audio from alternative source.
-		virtual IAudioSource* createFromSource(const char* name, const char* source) = 0;
 
 		//!Register Audio Codec
 		virtual bool registerAudioDecoder(IAudioDecoderFactory* factory, const char* extension) = 0;
@@ -62,15 +61,16 @@ namespace cAudio
 		virtual bool isAudioDecoderRegistered(const char* extension) = 0;
 		//!Returns a registered audio decoder factory
 		virtual IAudioDecoderFactory* getAudioDecoderFactory(const char* extension) = 0;
-
-		//!Register a alternative source
-		virtual bool registerSource(const char* identifier, IDataSource* datasource) = 0;
-		//! Unregister source (allows you to prevent creation of audio files from specific source)
-		//!Note that all current sound sources will still continue to use any currently used source.
+		//!Unregisters all Audio Codecs
+		//!Note that all current sound sources will still continue to use any currently allocated decoders.
 		//!Will NOT delete any user added factory instance, you must do that yourself
-		virtual void unRegisterSource(const char* source) = 0;
-		//!Checks if the source type is registered.
-		virtual bool isSourceRegistered(const char* source) = 0;
+		virtual void unRegisterAllAudioDecoders() = 0;
+
+		virtual bool registerDataSource(IDataSourceFactory* factory, const char* name, int priority) = 0;
+		virtual void unRegisterDataSource(const char* name) = 0;
+		virtual bool isDataSourceRegistered(const char* name) = 0;
+		virtual IDataSourceFactory* getDataSourceFactory(const char* name) = 0;
+		virtual void unRegisterAllDataSources() = 0;
 
 		//!Registers a new event handler to the manager
 		virtual void registerEventHandler(IManagerEventHandler* handler) = 0;

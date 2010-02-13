@@ -26,7 +26,6 @@ namespace cAudio
     class cAudioManager : public IAudioManager
     {
     public:
-
 		enum Events{
 			ON_INIT,
 			ON_UPDATE,
@@ -48,7 +47,7 @@ namespace cAudio
 		//!Gets you the cAudio object you want
 		virtual IAudioSource* getSoundByName(const char* name);
 		//!Releases "ALL" cAudio objects        
-		virtual void release();
+		virtual void releaseAllSources();
 		//!Releases a single cAudio source
 		virtual void release(IAudioSource* source);
 
@@ -61,13 +60,11 @@ namespace cAudio
 		virtual const char* getDefaultDeviceName();
 
 		//!Creates the cAudio object
-		virtual IAudioSource* createFromFile(const char* name, const char* pathToFile, bool stream = false);
+		virtual IAudioSource* create(const char* name, const char* filename, bool stream = false);
 		//!Loads data from memory or virtual file system
 		virtual IAudioSource* createFromMemory(const char* name, const char* data, size_t length, const char* extension);
 		//!Loads raw audio from memory.
 		virtual IAudioSource* createFromRaw(const char* name, const char* data, size_t length, unsigned int frequency, AudioFormats format);
-		//!Loads audio from alternative data source.
-		virtual IAudioSource* createFromSource(const char* name, const char* source);
 
 		//!Register Audio Codec        
 		virtual bool registerAudioDecoder(IAudioDecoderFactory* factory, const char* extension);
@@ -79,15 +76,16 @@ namespace cAudio
 		virtual bool isAudioDecoderRegistered(const char* extension);
 		//!Returns a registered audio decoder factory
 		virtual IAudioDecoderFactory* getAudioDecoderFactory(const char* extension);
-
-		//!Register a alternative source
-		virtual bool registerSource(const char* identifier,IDataSource* datasource);
-		//! Unregister source (allows you to prevent creation of audio files from specific source)
-		//!Note that all current sound sources will still continue to use any currently used source.
+		//!Unregisters all Audio Codecs
+		//!Note that all current sound sources will still continue to use any currently allocated decoders.
 		//!Will NOT delete any user added factory instance, you must do that yourself
-		virtual void unRegisterSource(const char* source);
-		//!Checks if the source type is registered.
-		virtual bool isSourceRegistered(const char* source);
+		virtual void unRegisterAllAudioDecoders();
+
+		virtual bool registerDataSource(IDataSourceFactory* factory, const char* name, int priority);
+		virtual void unRegisterDataSource(const char* name);
+		virtual bool isDataSourceRegistered(const char* name);
+		virtual IDataSourceFactory* getDataSourceFactory(const char* name);
+		virtual void unRegisterAllDataSources();
 
 		//!Registers a new event handler to the manager
 		virtual void registerEventHandler(IManagerEventHandler* handler);
@@ -106,10 +104,6 @@ namespace cAudio
 #endif
 
 	private:
-
-		//Signals a event to all event handlers
-		void signalEvent(Events sevent);
-
 		//Mutex for thread syncronization
 		cAudioMutex Mutex;
 
@@ -131,10 +125,8 @@ namespace cAudio
 		//! Decoder map that holds all decoders by file extension
 		std::map<std::string, IAudioDecoderFactory*> decodermap; 
 		//! Archive map that holds all datasource types
-		std::map<std::string, IDataSource*> datasourcemap;
-		//! List of all attached event handlers
-		std::list<IManagerEventHandler*> eventHandlerList;
-
+		std::map<std::string, IDataSourceFactory*> datasourcemap;
+		std::vector< std::pair<int, std::string> > dataSourcePriorityList;
 
 		//! The listener object        
 		cListener initlistener;
@@ -147,6 +139,12 @@ namespace cAudio
 
 		std::vector<std::string> AvailableDevices;
 		std::string DefaultDevice;
+
+		//Signals a event to all event handlers
+		void signalEvent(Events sevent);
+		
+		//! List of all attached event handlers
+		std::list<IManagerEventHandler*> eventHandlerList;
     };
 }
 

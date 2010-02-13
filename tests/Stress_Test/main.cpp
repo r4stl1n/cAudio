@@ -73,7 +73,7 @@ int main(int argc, char* argv[])
 		unsigned int startTick = clock();
 		for(unsigned int i=0; i<MAXAUDIOSOURCES; ++i)
 		{
-			AudioSources[i] = manager->createFromFile("bling", "../../media/bling.ogg", false);
+			AudioSources[i] = manager->create("bling", "../../media/bling.ogg", false);
 		}
 		unsigned int endTick = clock();
 		unsigned int elaspedTicks = endTick - startTick;
@@ -118,7 +118,7 @@ int main(int argc, char* argv[])
 		cout << "Deleting " << MAXAUDIOSOURCES << " sources. \n";
 		startTick = clock();
 		//Delete all IAudio sounds
-		manager->release();
+		manager->releaseAllSources();
 		endTick = clock();
 		elaspedTicks = endTick - startTick;
 		cout << "Took " << (float)elaspedTicks/(float)CLOCKS_PER_SEC << " seconds. \n \n";

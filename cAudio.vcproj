@@ -216,6 +216,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Headers\cFileSourceFactory.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Headers\cFilter.h"
 				>
 			</File>
@@ -421,6 +425,10 @@
 			</File>
 			<File
 				RelativePath=".\include\IDataSource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\IDataSourceFactory.h"
 				>
 			</File>
 			<File

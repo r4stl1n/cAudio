@@ -16,7 +16,7 @@ namespace cAudio
 class cFileSource : public IDataSource
 {
     public:
-        cFileSource(const std::string& filename);
+        cFileSource(const char* filename);
         ~cFileSource();
 
         //!Returns whether the source is valid (in case of an error, like the file couldn't be found)

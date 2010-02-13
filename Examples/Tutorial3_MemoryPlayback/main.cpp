@@ -60,7 +60,7 @@ int main(int argc, char* argv[])
 		}
 
 		//Delete all IAudio sounds
-		manager->release();
+		manager->releaseAllSources();
 		//Shutdown cAudio
 		manager->shutDown();
 
