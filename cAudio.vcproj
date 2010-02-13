@@ -416,6 +416,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\ICaptureEventHandler.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\IDataSource.h"
 				>
 			</File>
@@ -444,11 +448,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\include\IManagerEventHandler.h"
+				>
+			</File>
+			<File
 				RelativePath=".\include\IPluginManager.h"
 				>
 			</File>
 			<File
 				RelativePath=".\include\IRefCounted.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\ISourceEventHandler.h"
 				>
 			</File>
 		</Filter>

@@ -11,12 +11,23 @@
 #include <AL/alc.h>
 #include "../Headers/cMutex.h"
 #include <string>
+#include <list>
 
 namespace cAudio
 {
 	class cAudioCapture : public IAudioCapture
 	{
 	public:
+		
+		enum Events{
+			ON_INIT,
+			ON_UPDATE,
+			ON_RELEASE,
+			ON_BEGINCAPTURE,
+			ON_ENDCAPTURE,
+			ON_USERREQUESTEDBUFFER,
+		};
+
 		cAudioCapture();
 		~cAudioCapture();
 
@@ -91,6 +102,17 @@ namespace cAudio
 
 		//! Grabs a list of available devices, as well as the default system one
 		void getAvailableDevices();
+
+		//!Registers a new event handler to audio capture
+		virtual void registerEventHandler(ICaptureEventHandler* handler);
+		//!Unregisters specified event handler from audio capture
+		virtual void unRegisterEventHandler(ICaptureEventHandler* handler);
+		//!Unregisters all event handlers attached to audio capture
+		virtual void unRegisterAllEventHandlers();
+	
+	private:
+		void signalEvent(Events sevent);
+
 	protected:
 		//Mutex for thread syncronization
 		cAudioMutex Mutex;
@@ -106,6 +128,7 @@ namespace cAudio
 		std::vector<char> CaptureBuffer;
 		std::vector<std::string> AvailableDevices;
 		std::string DefaultDevice;
+		std::list<ICaptureEventHandler*> eventHandlerList;
 
 		bool Supported;
 		bool Ready;

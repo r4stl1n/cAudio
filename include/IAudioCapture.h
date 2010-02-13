@@ -7,6 +7,7 @@
 
 #include "EAudioFormats.h"
 #include "cAudioDefines.h"
+#include "ICaptureEventHandler.h"
 
 namespace cAudio
 {
@@ -91,6 +92,14 @@ namespace cAudio
 
 		//! Returns the current size of the internal audio buffer in bytes
 		virtual unsigned int getCurrentCapturedAudioSize() = 0;
+
+		//!Registers a new event handler to audio capture
+		virtual void registerEventHandler(ICaptureEventHandler* handler) = 0;
+		//!Unregisters specified event handler from audio capture
+		virtual void unRegisterEventHandler(ICaptureEventHandler* handler) = 0;
+		//!Unregisters all event handlers attached to audio capture
+		virtual void unRegisterAllEventHandlers() = 0;
+	
 	};
 
 	//! Creates an interface to an Audio Capture Object

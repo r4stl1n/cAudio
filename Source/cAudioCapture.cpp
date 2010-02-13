@@ -75,6 +75,7 @@ namespace cAudio
 				Ready = true;
 				checkError();
 				getLogger()->logDebug("AudioCapture", "OpenAL Capture Device Opened.");
+
 				return true;
 			}
 		}
@@ -96,6 +97,7 @@ namespace cAudio
 				CaptureDevice = NULL;
 				Ready = false;
 				getLogger()->logDebug("AudioCapture", "OpenAL Capture Device Closed.");
+				signalEvent(ON_RELEASE);
 			}
 			checkError();
 			CaptureBuffer.clear();
@@ -106,6 +108,7 @@ namespace cAudio
 	{
 		cAudioMutexBasicLock lock(Mutex);
 		shutdownOpenALDevice();
+		signalEvent(ON_RELEASE);
 	}
 
 	void cAudioCapture::getAvailableDevices()
@@ -175,6 +178,7 @@ namespace cAudio
 					alcCaptureSamples(CaptureDevice, &CaptureBuffer[oldBufferSize], AvailableSamples);
 					checkError();
 					getLogger()->logDebug("AudioCapture", "Captured %i bytes of audio data.", availbuffersize);
+					signalEvent(ON_UPDATE);
 				}
 			}
 		}
@@ -191,6 +195,7 @@ namespace cAudio
 				alcCaptureStart(CaptureDevice);
 				Capturing = true;
 				getLogger()->logDebug("AudioCapture", "OpenAL Capture Started.");
+				signalEvent(ON_BEGINCAPTURE);
 			}
 			checkError();
 			return Capturing;
@@ -208,6 +213,7 @@ namespace cAudio
 			updateCaptureBuffer(true);
 			checkError();
 			getLogger()->logDebug("AudioCapture", "OpenAL Capture Stopped.");
+			signalEvent(ON_ENDCAPTURE);
 		}
 		Capturing = false;
 	}
@@ -223,7 +229,7 @@ namespace cAudio
 			CaptureBuffer.erase(CaptureBuffer.begin(), CaptureBuffer.begin()+sizeToCopy);
 
 			getLogger()->logDebug("AudioCapture", "Copied out %i bytes of data out of %i bytes in the buffer at user request.", sizeToCopy, internalBufferSize);
-
+			signalEvent(ON_USERREQUESTEDBUFFER);
 			return sizeToCopy;
 		}
 		return 0;
@@ -296,6 +302,7 @@ namespace cAudio
 			SampleSize = 4;
 
 		shutdownOpenALDevice();
+		signalEvent(ON_INIT);
 		return initOpenALDevice();
 	}
 
@@ -386,4 +393,96 @@ namespace cAudio
 	{
 		return RunAudioCaptureThread;
 	}
+
+
+	void cAudioCapture::registerEventHandler(ICaptureEventHandler* handler)
+	{
+		if(handler)
+		{
+			eventHandlerList.push_back(handler);
+		}
+	}
+
+	void cAudioCapture::unRegisterEventHandler(ICaptureEventHandler* handler)
+	{
+		if(handler)
+		{
+			eventHandlerList.remove(handler);
+		}
+	}
+
+	void cAudioCapture::unRegisterAllEventHandlers()
+	{
+		std::list<ICaptureEventHandler*>::iterator it = eventHandlerList.begin();
+
+		if(it != eventHandlerList.end())
+		{
+			for(it; it != eventHandlerList.end(); it++){
+				eventHandlerList.remove((*it));
+
+			}
+
+		}
+	}
+
+	void cAudioCapture::signalEvent(Events sevent)
+	{
+		std::list<ICaptureEventHandler*>::iterator it = eventHandlerList.begin();
+
+		if(it != eventHandlerList.end()){
+
+			switch(sevent){
+
+				case ON_INIT: 
+					
+					for(it; it != eventHandlerList.end(); it++){
+						(*it)->onInit();
+					}
+
+					break;
+				
+				case ON_UPDATE:
+
+					for(it; it != eventHandlerList.end(); it++){
+						(*it)->onUpdate();
+					}
+
+					break;
+
+				case ON_RELEASE:
+
+					for(it; it != eventHandlerList.end(); it++){
+						(*it)->onRelease();
+					}
+
+					break;
+
+				case ON_BEGINCAPTURE:
+
+					for(it; it != eventHandlerList.end(); it++){
+						(*it)->onBeginCapture();
+					}
+
+
+					break;
+
+				case ON_ENDCAPTURE:
+
+					for(it; it != eventHandlerList.end(); it++){
+						(*it)->onEndCapture();
+					}
+
+					break;
+
+				case ON_USERREQUESTEDBUFFER:
+
+					for(it; it != eventHandlerList.end(); it++){
+						(*it)->onUserRequestBuffer();
+					}
+
+					break;
+			}
+		}
+	}
 };
+

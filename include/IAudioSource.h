@@ -11,6 +11,7 @@
 #include "cVector3.h"
 #include "IEffect.h"
 #include "IFilter.h"
+#include "ISourceEventHandler.h"
 
 namespace cAudio
 {
@@ -150,6 +151,13 @@ namespace cAudio
 		virtual const float getDopplerStrength() const = 0;
 		//! Returns the override for the doppler velocity vector
 		virtual const cVector3 getDopplerVelocity() const = 0;
+
+		//!Registers a new event handler to source
+		virtual void registerEventHandler(ISourceEventHandler* handler) = 0;
+		//!Unregisters specified event handler from source
+		virtual void unRegisterEventHandler(ISourceEventHandler* handler) = 0;
+		//!Unregisters all event handlers attached to source
+		virtual void unRegisterAllEventHandlers() = 0;
 
 #ifdef CAUDIO_EFX_ENABLED
 		//! Returns the number of effects at one time this source can support

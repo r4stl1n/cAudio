@@ -9,6 +9,7 @@
 #include "cAudioDefines.h"
 #include "EAudioFormats.h"
 #include "IAudioEffects.h"
+#include "IManagerEventHandler.h"
 
 namespace cAudio
 {
@@ -70,6 +71,13 @@ namespace cAudio
 		virtual void unRegisterSource(const char* source) = 0;
 		//!Checks if the source type is registered.
 		virtual bool isSourceRegistered(const char* source) = 0;
+
+		//!Registers a new event handler to the manager
+		virtual void registerEventHandler(IManagerEventHandler* handler) = 0;
+		//!Unregisters specified event handler from manager
+		virtual void unRegisterEventHandler(IManagerEventHandler* handler) = 0;
+		//!Unregisters all event handlers attached to the manager
+		virtual void unRegisterAllEventHandlers() = 0;
 
 		//!Returns an interface for the listener
 		virtual IListener* getListener() = 0;

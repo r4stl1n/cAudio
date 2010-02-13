@@ -4,6 +4,7 @@
 
 #ifndef CAUDIOSOURCE_H_INCLUDED
 #define CAUDIOSOURCE_H_INCLUDED
+#include <list>
 #include <string>
 #include <vector>
 #include <AL/al.h>
@@ -17,9 +18,20 @@
 
 namespace cAudio
 {
+
     class cAudioSource : public IAudioSource
     {
     public:
+
+		enum Events{
+			ON_INIT,
+			ON_UPDATE,
+			ON_RELEASE,
+			ON_PLAY,
+			ON_PAUSE,
+			ON_STOP,
+		};
+
 #ifdef CAUDIO_EFX_ENABLED
 		cAudioSource(IAudioDecoder* decoder, ALCcontext* context, cEFXFunctions* oALFunctions);
 #else
@@ -158,6 +170,13 @@ namespace cAudio
 		//!Returns the override for the doppler velocity vector
 		virtual const cVector3 getDopplerVelocity() const;
 
+		//!Registers a new event handler to source
+		virtual void registerEventHandler(ISourceEventHandler* handler);
+		//!Unregisters specified event handler from source
+		virtual void unRegisterEventHandler(ISourceEventHandler* handler);
+		//!Unregisters all event handlers attached to source
+		virtual void unRegisterAllEventHandlers();
+
 #ifdef CAUDIO_EFX_ENABLED
 		//! Returns the number of effects at one time this source can support
 		virtual unsigned int getNumEffectSlotsAvailable() const;
@@ -184,6 +203,8 @@ namespace cAudio
 		bool checkError();
 		//Streams audio data from the decoder into a buffer
 		bool stream(ALuint buffer);
+		//Signals a event to all event handlers
+		void signalEvent(Events sevent);
 		//Converts our audio format enum to OpenAL's
 		ALenum convertAudioFormatEnum(AudioFormats format);
 
@@ -201,6 +222,8 @@ namespace cAudio
 		bool Loop;
 		//Stores whether the source is ready to be used
 		bool Valid;
+
+		std::list<ISourceEventHandler*> eventHandlerList;
 
 #ifdef CAUDIO_EFX_ENABLED
 		//Holds pointers to all the EFX related functions

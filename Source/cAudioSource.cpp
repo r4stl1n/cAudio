@@ -58,6 +58,7 @@ namespace cAudio
 
 		EffectSlotsAvailable = (numSlots <= CAUDIO_SOURCE_MAX_EFFECT_SLOTS) ? numSlots : CAUDIO_SOURCE_MAX_EFFECT_SLOTS;
 #endif
+		signalEvent(ON_INIT);
     }
 
     cAudioSource::~cAudioSource()
@@ -78,6 +79,7 @@ namespace cAudio
 			Filter->drop();
 		Filter = NULL;
 #endif
+		unRegisterAllEventHandlers();
     }
 
 	bool cAudioSource::play()
@@ -112,6 +114,7 @@ namespace cAudio
         alSourcePlay(Source);
 		checkError();
 		getLogger()->logDebug("Audio Source", "Source playing.");
+		signalEvent(ON_PLAY);
         return true; 
     }
 
@@ -143,6 +146,7 @@ namespace cAudio
         alSourcePause(Source);
 		checkError();
 		getLogger()->logDebug("Audio Source", "Source paused.");
+		signalEvent(ON_PAUSE);
     }
      
 	void cAudioSource::stop()
@@ -153,6 +157,7 @@ namespace cAudio
 		Decoder->setPosition(0, false);
 		checkError();
 		getLogger()->logDebug("Audio Source", "Source stopped.");
+		signalEvent(ON_STOP);
     }
 
 	void cAudioSource::loop(const bool& loop)
@@ -203,6 +208,7 @@ namespace cAudio
 
 			checkError();
         }
+		signalEvent(ON_UPDATE);
 		return active;
     }
 
@@ -218,6 +224,7 @@ namespace cAudio
 		alDeleteBuffers(CAUDIO_SOURCE_NUM_BUFFERS, Buffers);
 		checkError();
 		getLogger()->logDebug("Audio Source", "Audio source released.");
+		signalEvent(ON_RELEASE);
     }
 
 	const bool cAudioSource::isValid() const
@@ -709,4 +716,95 @@ namespace cAudio
 		}
 	}
 #endif
+
+	void cAudioSource::registerEventHandler(ISourceEventHandler* handler)
+	{
+		if(handler)
+		{
+			eventHandlerList.push_back(handler);
+		}
+	}
+
+	void cAudioSource::unRegisterEventHandler(ISourceEventHandler* handler)
+	{
+		if(handler)
+		{
+			eventHandlerList.remove(handler);
+		}
+	}
+
+	void cAudioSource::unRegisterAllEventHandlers()
+	{
+		std::list<ISourceEventHandler*>::iterator it = eventHandlerList.begin();
+
+		if(it != eventHandlerList.end())
+		{
+			for(it; it != eventHandlerList.end(); it++){
+				eventHandlerList.remove((*it));
+
+			}
+
+		}
+
+	}
+
+	void cAudioSource::signalEvent(Events sevent)
+	{
+		std::list<ISourceEventHandler*>::iterator it = eventHandlerList.begin();
+
+		if(it != eventHandlerList.end()){
+
+			switch(sevent){
+
+				case ON_INIT: 
+					
+					for(it; it != eventHandlerList.end(); it++){
+						(*it)->onInit();
+					}
+
+					break;
+				
+				case ON_UPDATE:
+
+					for(it; it != eventHandlerList.end(); it++){
+						(*it)->onUpdate();
+					}
+
+					break;
+
+				case ON_RELEASE:
+
+					for(it; it != eventHandlerList.end(); it++){
+						(*it)->onRelease();
+					}
+
+					break;
+
+				case ON_PLAY:
+
+					for(it; it != eventHandlerList.end(); it++){
+						(*it)->onPlay();
+					}
+
+
+					break;
+
+				case ON_PAUSE:
+
+					for(it; it != eventHandlerList.end(); it++){
+						(*it)->onPause();
+					}
+
+					break;
+
+				case ON_STOP:
+
+					for(it; it != eventHandlerList.end(); it++){
+						(*it)->onStop();
+					}
+
+					break;
+			}
+		}
+	}
 }

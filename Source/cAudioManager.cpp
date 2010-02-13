@@ -163,6 +163,7 @@ namespace cAudio
 #endif
 
 		Initialized = true;
+		signalEvent(ON_INIT);
 		return true;
     }
 
@@ -208,7 +209,7 @@ namespace cAudio
 										audioSources.push_back(audio);
 
 										getLogger()->logInfo("AudioManager", "Streaming Audio Source (%s) created from file %s.", audioName.c_str(), path.c_str());
-										
+										signalEvent(ON_SOURCECREATE);
 										return audio;
 									}
 									getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Error creating audio source.", audioName.c_str());
@@ -248,6 +249,7 @@ namespace cAudio
 							IAudioSource* guy = createFromMemory(name, tempbuf, length, getExt(path).c_str());
 							delete[]tempbuf;
 							tempsource->drop();
+							signalEvent(ON_SOURCECREATE);
 							return guy;
 						}
 						getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Could not allocate enough memory.", audioName.c_str());
@@ -304,7 +306,7 @@ namespace cAudio
 									audioSources.push_back(audio);
 
 									getLogger()->logInfo("AudioManager", "Audio Source (%s) successfully created from memory.", audioName.c_str());
-									
+									signalEvent(ON_SOURCECREATE);
 									return audio;
 								}
 								audio->drop();
@@ -368,7 +370,7 @@ namespace cAudio
 									audioSources.push_back(audio);
 
 									getLogger()->logInfo("AudioManager", "Audio Source (%s) successfully created from raw data.", audioName.c_str());
-									
+									signalEvent(ON_SOURCECREATE);
 									return audio;
 								}
 								audio->drop();
@@ -432,7 +434,7 @@ namespace cAudio
 									audioSources.push_back(audio);
 
 									getLogger()->logInfo("AudioManager", "Audio Source (%s) successfully created from raw data. Using ($s) source", audioName.c_str(),src.c_str());
-									
+									signalEvent(ON_SOURCECREATE);
 									return audio;
 								}
 								
@@ -473,7 +475,7 @@ namespace cAudio
 		std::string ident = safeCStr(identifier);
 		datasourcemap[ident] = datasource;
 		getLogger()->logInfo("AudioManager","Audio source %s registered.", ident.c_str());
-
+		signalEvent(ON_DATASOURCEREGISTER);
 		return true;
 
 	}
@@ -505,6 +507,7 @@ namespace cAudio
 		std::string ext = safeCStr(extension);
         decodermap[ext] = factory;
 		getLogger()->logInfo("AudioManager", "Audio Decoder for extension .%s registered.", ext.c_str());
+		signalEvent(ON_DECODERREGISTER);
 		return true;
     }
 
@@ -526,6 +529,96 @@ namespace cAudio
 		std::string ext = safeCStr(extension);
 		std::map<std::string, IAudioDecoderFactory*>::iterator it = decodermap.find(ext);
 		return (it != decodermap.end());
+	}
+
+	void cAudioManager::registerEventHandler(IManagerEventHandler* handler)
+	{
+		if(handler)
+		{
+			eventHandlerList.push_back(handler);
+		}
+	}
+
+	void cAudioManager::unRegisterEventHandler(IManagerEventHandler* handler)
+	{
+		if(handler)
+		{
+			eventHandlerList.remove(handler);
+		}
+	}
+
+	void cAudioManager::unRegisterAllEventHandlers()
+	{
+		std::list<IManagerEventHandler*>::iterator it = eventHandlerList.begin();
+
+		if(it != eventHandlerList.end())
+		{
+			for(it; it != eventHandlerList.end(); it++){
+				eventHandlerList.remove((*it));
+
+			}
+
+		}
+	}
+
+	void cAudioManager::signalEvent(Events sevent)
+	{
+		std::list<IManagerEventHandler*>::iterator it = eventHandlerList.begin();
+
+		if(it != eventHandlerList.end()){
+
+			switch(sevent){
+
+				case ON_INIT: 
+					
+					for(it; it != eventHandlerList.end(); it++){
+						(*it)->onInit();
+					}
+
+					break;
+				
+				case ON_UPDATE:
+
+					for(it; it != eventHandlerList.end(); it++){
+						(*it)->onUpdate();
+					}
+
+					break;
+
+				case ON_RELEASE:
+
+					for(it; it != eventHandlerList.end(); it++){
+						(*it)->onRelease();
+					}
+
+					break;
+
+				case ON_SOURCECREATE:
+
+					for(it; it != eventHandlerList.end(); it++){
+						(*it)->onSourceCreate();
+					}
+
+
+					break;
+
+				case ON_DECODERREGISTER:
+
+					for(it; it != eventHandlerList.end(); it++){
+						(*it)->onDecoderRegister();
+					}
+
+					break;
+
+				case ON_DATASOURCEREGISTER:
+
+					for(it; it != eventHandlerList.end(); it++){
+						(*it)->onDataSourceRegister();
+					}
+
+					break;
+			}
+		}
 	}
 
 	IAudioDecoderFactory* cAudioManager::getAudioDecoderFactory(const char* extension)
@@ -565,6 +658,8 @@ namespace cAudio
 		}
 		audioSources.clear();
 		audioIndex.clear();
+		signalEvent(ON_RELEASE);
+
     }
 
 	void cAudioManager::release(IAudioSource* source)
@@ -608,6 +703,7 @@ namespace cAudio
                 }
             }
         }
+		signalEvent(ON_UPDATE);
     }
 
     //!Shuts down cAudio. Deletes all audio sources in process

@@ -26,6 +26,16 @@ namespace cAudio
     class cAudioManager : public IAudioManager
     {
     public:
+
+		enum Events{
+			ON_INIT,
+			ON_UPDATE,
+			ON_RELEASE,
+			ON_SOURCECREATE,
+			ON_DECODERREGISTER,
+			ON_DATASOURCEREGISTER,
+		};
+
 		cAudioManager() : Device(NULL), Context(NULL), EFXSupported(false), Initialized(false) { }
 		virtual ~cAudioManager() { }
 
@@ -79,6 +89,12 @@ namespace cAudio
 		//!Checks if the source type is registered.
 		virtual bool isSourceRegistered(const char* source);
 
+		//!Registers a new event handler to the manager
+		virtual void registerEventHandler(IManagerEventHandler* handler);
+		//!Unregisters specified event handler from manager
+		virtual void unRegisterEventHandler(IManagerEventHandler* handler) ;
+		//!Unregisters all event handlers attached to the manager
+		virtual void unRegisterAllEventHandlers();
 
 		//! Grabs a list of available devices, as well as the default system one
 		void getAvailableDevices();
@@ -90,6 +106,10 @@ namespace cAudio
 #endif
 
 	private:
+
+		//Signals a event to all event handlers
+		void signalEvent(Events sevent);
+
 		//Mutex for thread syncronization
 		cAudioMutex Mutex;
 
@@ -112,6 +132,9 @@ namespace cAudio
 		std::map<std::string, IAudioDecoderFactory*> decodermap; 
 		//! Archive map that holds all datasource types
 		std::map<std::string, IDataSource*> datasourcemap;
+		//! List of all attached event handlers
+		std::list<IManagerEventHandler*> eventHandlerList;
+
 
 		//! The listener object        
 		cListener initlistener;
