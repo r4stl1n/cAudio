@@ -1,5 +1,5 @@
 //****************************************************************
-//cAudio 2.0 Tutorial 5
+//cAudio 2.0.0 Tutorial 5
 //Audio effects
 //****************************************************************
 
@@ -14,7 +14,7 @@ using namespace std;
 int main(int argc, char* argv[])
 {
     //Some fancy text
-    cout << "cAudio 1.7.1 Tutorial 5: Audio Effects \n \n";
+    cout << "cAudio 2.0.0 Tutorial 5: Audio Effects \n \n";
 
 	//Create an uninitialized Audio Manager
     cAudio::IAudioManager* manager = cAudio::createAudioManager(false);

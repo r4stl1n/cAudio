@@ -1,7 +1,19 @@
+//Items with a * by them have been completed
+
 Effect Presets
 File log reciever
 File source caching
 Final quality check
 Final documentation pass
 Demonstate via tutorial adding a log reciever, event handler, and custom plugin
-Change all tutorials to say cAudio 2.0.0
+Change all tutorials to say cAudio 2.0.0 *
+Log to file ~html based file~
+
+
+
+--Not Engine Related --
+Qt media player - cAudio backend
+Setup new site
+Setup new forum (phpbb3 installed need to customize)
+Setup each release package
+Convert Doxygen tutorails to website

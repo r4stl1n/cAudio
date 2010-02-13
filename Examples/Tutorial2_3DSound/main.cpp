@@ -1,5 +1,5 @@
 //****************************************************************
-//cAudio 2.0 Tutorial 2
+//cAudio 2.0.0 Tutorial 2
 //Basic 3d Audio. Moving Audio source. Must be mono sound source
 //****************************************************************
 
@@ -15,7 +15,7 @@ using namespace std;
 int main(int argc, char* argv[])
 {
     //Some fancy text
-    cout << "cAudio 1.7.1 Tutorial 2: 3dSound \n \n";
+    cout << "cAudio 2.0.0 Tutorial 2: 3dSound \n \n";
     //Hold audio source x position
     float rot = 0;
 
