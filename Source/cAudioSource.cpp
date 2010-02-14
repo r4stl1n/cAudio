@@ -735,17 +735,7 @@ namespace cAudio
 
 	void cAudioSource::unRegisterAllEventHandlers()
 	{
-		std::list<ISourceEventHandler*>::iterator it = eventHandlerList.begin();
-
-		if(it != eventHandlerList.end())
-		{
-			for(it; it != eventHandlerList.end(); it++){
-				eventHandlerList.remove((*it));
-
-			}
-
-		}
-
+		eventHandlerList.clear();
 	}
 
 	void cAudioSource::signalEvent(Events sevent)

@@ -413,16 +413,7 @@ namespace cAudio
 
 	void cAudioCapture::unRegisterAllEventHandlers()
 	{
-		std::list<ICaptureEventHandler*>::iterator it = eventHandlerList.begin();
-
-		if(it != eventHandlerList.end())
-		{
-			for(it; it != eventHandlerList.end(); it++){
-				eventHandlerList.remove((*it));
-
-			}
-
-		}
+		eventHandlerList.clear();
 	}
 
 	void cAudioCapture::signalEvent(Events sevent)

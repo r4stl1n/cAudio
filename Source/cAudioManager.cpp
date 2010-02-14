@@ -493,15 +493,7 @@ namespace cAudio
 
 	void cAudioManager::unRegisterAllEventHandlers()
 	{
-		std::list<IManagerEventHandler*>::iterator it = eventHandlerList.begin();
-
-		if(it != eventHandlerList.end())
-		{
-			for(it; it != eventHandlerList.end(); it++)
-			{
-				eventHandlerList.remove((*it));
-			}
-		}
+		eventHandlerList.clear();
 	}
 
 	void cAudioManager::signalEvent(Events sevent)
