@@ -6,8 +6,6 @@
 #define CFILELOGERCEIVER_H_INCLUDED
 
 #include "../include/ILogReceiver.h"
-#include <string>
-#include <list>
 
 namespace cAudio
 {

@@ -1,6 +1,6 @@
 //****************************************************************
 //cAudio 2.0.0 Tutorial 7
-//Custom log receiver
+//Custom log receiver 
 //****************************************************************
 
 #include <iostream>
@@ -9,18 +9,28 @@
 //Include cAudio.h so we can work wtih cAudio
 #include "../../include/cAudio.h"
 
+//Include the new log receiver
+#include "cTestLogReceiver.h"
+
 using namespace std;
 
 int main(int argc, char* argv[])
 {
     //Some fancy text
-    cout << "cAudio 2.0.0 Tutorial 6: Custom event handler. \n \n";
+    cout << "cAudio 2.0.0 Tutorial 7: Custom log recevier. \n \n";
 
 	//Create an uninitialized Audio Manager
     cAudio::IAudioManager* manager = cAudio::createAudioManager(false);
 	
-	//Make a pointer to our handler
-	cTestHandler *handle = new cTestHandler;
+	//Now we make a new pointer to our receiver
+	cTestLogReceiver *loggin = new cTestLogReceiver;
+
+	//Once the manager is created we grab instance of the cAudio logger
+	cAudio::ILogger *log = cAudio::getLogger();
+
+
+	//Then we pass our new receiver to it with a unique name
+	log->registerLogReceiver(loggin,"Loggin");
 
 	if(manager)
 	{
