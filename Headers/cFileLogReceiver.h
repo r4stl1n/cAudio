@@ -19,11 +19,10 @@ namespace cAudio
 		~cFileLogReceiver();
 
 		bool OnLogMessage(const char* sender, const char* message, LogLevel level, float time);
-		void dumpMessages();
 
 	private:
-		std::list<std::string> logs;
-		std::list<int> levels;
+
+		bool firsttime;
 
 	};
 };

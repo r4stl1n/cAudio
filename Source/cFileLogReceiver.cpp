@@ -10,7 +10,7 @@ namespace cAudio
 {
 	cFileLogReceiver::cFileLogReceiver()
 	{
-
+		firsttime = false;
 	}
 
 	cFileLogReceiver::~cFileLogReceiver()
@@ -20,27 +20,19 @@ namespace cAudio
 
     bool cFileLogReceiver::OnLogMessage(const char* sender, const char* message, LogLevel level, float time)
 	{
-
-		levels.push_back(level);
-		logs.push_back(message);
-		return true;
-	}
-
-	void cFileLogReceiver::dumpMessages()
-	{
-		std::list<std::string>::iterator it = logs.begin();
-		std::list<int>::iterator it2 = levels.begin();
-
 		std::ofstream outf;
-		if( !outf.is_open() )
+		
+		if(firsttime == false)
 		{
+			if( !outf.is_open() )
+			{
 			// Reset log file
 			outf.setf( std::ios::fixed );
 			outf.precision( 3 );
 			outf.open( "cAudioEngineLog.html", std::ios::out );
 			
 			if( !outf ){
-				return;
+				return false;
 			}
 
 			outf<<"<html>\n";
@@ -108,17 +100,25 @@ namespace cAudio
 			outf<<"<table>\n";
 
 			outf.flush();
+			
+			}
+			firsttime = true;
 		}
-
-		for(it;it != logs.end(); it++)
+		else
 		{
+			outf.open( "cAudioEngineLog.html", std::ios::out | std::ios::app );
+			
+			if( !outf ){
+				return false;
+			}
+
 			outf<<"<tr>\n";
 			outf<<"<td width=\"100\">";
-			outf<<"Log: ";
+			outf<<time;
 			outf <<"</td>\n";
 			outf<<"<td class=\"";
 		
-			switch( *it2 )
+			switch( level )
 			{
 			case ELL_DEBUG:
 				outf<<"debug";
@@ -149,16 +149,15 @@ namespace cAudio
 			}
 		
 			outf<<"\"><pre>\n";
-			outf<<*it;
+			outf<<message;
 			outf<<"\n</pre></td>\n";
 			outf<<"</tr>\n";
 
 			outf.flush();
-			if(it2 != levels.end())
-			{
-				it2++;
-			}
+
 		}
+		
+		return true;
 	}
 };
 

@@ -36,8 +36,6 @@ namespace cAudio
 		virtual bool isLogReceiverRegistered(const char* name) = 0;
 		//!Returns a registered log receiver
 		virtual ILogReceiver* getLogReceiver(const char* name) = 0;
-		//!Dumps the log messages to a file
-		virtual void dumpMessages() = 0;
 
 	protected:
 	private:

@@ -142,11 +142,6 @@ namespace cAudio
 		return NULL;
 	}
 
-	void cLogger::dumpMessages()
-	{
-		((cFileLogReceiver*)Logger.getLogReceiver("File"))->dumpMessages();
-	}
-
 	CAUDIO_API ILogger* getLogger()
 	{
 		if(!FirstTimeLogInit)
