@@ -24,7 +24,6 @@ namespace cAudio
     public:
 
 		enum Events{
-			ON_INIT,
 			ON_UPDATE,
 			ON_RELEASE,
 			ON_PLAY,

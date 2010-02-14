@@ -35,6 +35,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tutorial5_AudioEffects", "E
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mp3Decoder", "plugins\mp3Decoder\mp3Decoder.vcproj", "{F1741962-FBBB-4BA2-AC74-A97E2DDF6B2E}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tutorial6_CustomEventHandler", "Examples\Tutorial6_CustomEventHandler\Tutorial6_CustomEventHandler.vcproj", "{21C636EF-FC36-4FC5-AFB4-0711F5C44B5D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -73,6 +75,10 @@ Global
 		{F1741962-FBBB-4BA2-AC74-A97E2DDF6B2E}.Debug|Win32.Build.0 = Debug|Win32
 		{F1741962-FBBB-4BA2-AC74-A97E2DDF6B2E}.Release|Win32.ActiveCfg = Release|Win32
 		{F1741962-FBBB-4BA2-AC74-A97E2DDF6B2E}.Release|Win32.Build.0 = Release|Win32
+		{21C636EF-FC36-4FC5-AFB4-0711F5C44B5D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{21C636EF-FC36-4FC5-AFB4-0711F5C44B5D}.Debug|Win32.Build.0 = Debug|Win32
+		{21C636EF-FC36-4FC5-AFB4-0711F5C44B5D}.Release|Win32.ActiveCfg = Release|Win32
+		{21C636EF-FC36-4FC5-AFB4-0711F5C44B5D}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -11,8 +11,7 @@ namespace cAudio{
 	{
 
 	public:
-		//! This function calls on source initalization
-		virtual void onInit() = 0;
+
 		//! This function calls on source update
 		virtual void onUpdate() = 0;
 		//! This function calls on source release

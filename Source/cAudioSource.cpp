@@ -58,7 +58,7 @@ namespace cAudio
 
 		EffectSlotsAvailable = (numSlots <= CAUDIO_SOURCE_MAX_EFFECT_SLOTS) ? numSlots : CAUDIO_SOURCE_MAX_EFFECT_SLOTS;
 #endif
-		signalEvent(ON_INIT);
+
     }
 
     cAudioSource::~cAudioSource()
@@ -756,14 +756,6 @@ namespace cAudio
 
 			switch(sevent){
 
-				case ON_INIT: 
-					
-					for(it; it != eventHandlerList.end(); it++){
-						(*it)->onInit();
-					}
-
-					break;
-				
 				case ON_UPDATE:
 
 					for(it; it != eventHandlerList.end(); it++){
