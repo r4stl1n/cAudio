@@ -1,11 +1,13 @@
 #include "../Headers/cPluginManager.h"
 #include "../Headers/cUtils.h"
 #include "../include/cAudioPlatform.h"
-#include "../Headers/cAudioPlugin.h"
 #include "../include/cAudioDefines.h"
+#include "../include/ILogger.h"
 
 namespace cAudio
 {
+
+typedef IAudioPlugin* (*GetPluginModule)(const char* version);
 
 cPluginManager::cPluginManager()
 {
@@ -18,11 +20,11 @@ cPluginManager::~cPluginManager()
 	for(it = DynamicallyLoadedPlugins.begin(); it != DynamicallyLoadedPlugins.end(); it++)
 	{
 		//Found a plugin we loaded from the filesystem, unload it and delete the plugin
+		it->first->drop();
 		if(DYNLIB_UNLOAD(it->second))
 		{
 			//Could be an error, not reporting it for now
 		}
-		delete it->first;
 	}
 }
 
@@ -34,7 +36,7 @@ bool cPluginManager::installPlugin(IAudioPlugin* plugin, const char* name)
 		if(theName.empty())
 			theName = plugin->getPluginName();
 
-		if(plugin->installPlugin(getLogger(), CAUDIO_VERSION))
+		if(plugin->installPlugin(getLogger()))
 		{
 			RegisteredPlugins[theName] = plugin;
 			return true;
@@ -48,18 +50,13 @@ bool cPluginManager::installPlugin(const char* filename, const char* name)
 	DYNLIB_HANDLE m_hInst = DYNLIB_LOAD(filename);
 	if(m_hInst)
 	{
-		cAudioPlugin* plugin = new cAudioPlugin();
-		if(plugin)
-		{
-			plugin->initFunc = (pluginInstallFunc)DYNLIB_GETSYM(m_hInst, "InstallPlugin");
-			plugin->nameFunc = (pluginNameFunc)DYNLIB_GETSYM(m_hInst, "GetPluginName");
-			plugin->uninstalledFunc = (pluginUninstallFunc)DYNLIB_GETSYM(m_hInst, "UninstallPlugin");
-			plugin->createAudioManagerFunc = (pluginOnCreateAudioManager)DYNLIB_GETSYM(m_hInst, "OnCreateAudioManager");
-			plugin->createAudioCaptureFunc = (pluginOnCreateAudioCapture)DYNLIB_GETSYM(m_hInst, "OnCreateAudioCapture");
-			plugin->destroyAudioManagerFunc = (pluginOnDestroyAudioManager)DYNLIB_GETSYM(m_hInst, "OnDestroyAudioManager");
-			plugin->destroyAudioCaptureFunc = (pluginOnDestroyAudioCapture)DYNLIB_GETSYM(m_hInst, "OnDestroyAudioCapture");
+		GetPluginModule moduleFunc = (GetPluginModule)DYNLIB_GETSYM(m_hInst, "GetPluginModule");
 
-			if(plugin->initFunc && plugin->nameFunc && plugin->uninstalledFunc)
+		if(moduleFunc)
+		{
+			IAudioPlugin* plugin = moduleFunc(CAUDIO_VERSION);
+
+			if(plugin)
 			{
 				DynamicallyLoadedPlugins[plugin] = m_hInst;
 

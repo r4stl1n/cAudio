@@ -189,6 +189,10 @@
 				RelativePath=".\cMP3DecoderFactory.h"
 				>
 			</File>
+			<File
+				RelativePath=".\cMP3Plugin.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="mpaudec"
