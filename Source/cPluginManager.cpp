@@ -157,4 +157,9 @@ void cPluginManager::autoLoadPlugins()
 	}
 }
 
+CAUDIO_API IPluginManager* getPluginManager()
+{
+	return cPluginManager::Instance();
+}
+
 };

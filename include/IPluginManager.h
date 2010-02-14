@@ -21,6 +21,12 @@ namespace cAudio
 		virtual void uninstallPlugin(IAudioPlugin* plugin) = 0;
 		virtual void uninstallPlugin(const char* name) = 0;
 	};
+
+	//! Gets the interface to the plugin manager
+	/** Note: This is the only way to get access to the plugin capabilities of cAudio.
+	\return A pointer to the manager
+	*/
+	CAUDIO_API IPluginManager* getPluginManager();
 };
 
 #endif //! IPLUGINMANAGER_H_INCLUDED

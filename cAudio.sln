@@ -37,6 +37,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mp3Decoder", "plugins\mp3De
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tutorial6_CustomEventHandler", "Examples\Tutorial6_CustomEventHandler\Tutorial6_CustomEventHandler.vcproj", "{21C636EF-FC36-4FC5-AFB4-0711F5C44B5D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EAXLegacyPreset", "plugins\EAXLegacyPreset\EAXLegacyPreset.vcproj", "{0C1D584C-FBE8-4F9C-BBBF-22D40E2BF421}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -79,6 +81,10 @@ Global
 		{21C636EF-FC36-4FC5-AFB4-0711F5C44B5D}.Debug|Win32.Build.0 = Debug|Win32
 		{21C636EF-FC36-4FC5-AFB4-0711F5C44B5D}.Release|Win32.ActiveCfg = Release|Win32
 		{21C636EF-FC36-4FC5-AFB4-0711F5C44B5D}.Release|Win32.Build.0 = Release|Win32
+		{0C1D584C-FBE8-4F9C-BBBF-22D40E2BF421}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0C1D584C-FBE8-4F9C-BBBF-22D40E2BF421}.Debug|Win32.Build.0 = Debug|Win32
+		{0C1D584C-FBE8-4F9C-BBBF-22D40E2BF421}.Release|Win32.ActiveCfg = Release|Win32
+		{0C1D584C-FBE8-4F9C-BBBF-22D40E2BF421}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
