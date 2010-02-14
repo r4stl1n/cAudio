@@ -1,6 +1,6 @@
 //****************************************************************
-//cAudio 2.0.0 Tutorial 7
-//Custom log receiver
+//cAudio 2.0.0 Tutorial 6
+//Custom Event Handler
 //****************************************************************
 
 #include <iostream>
@@ -8,6 +8,9 @@
 
 //Include cAudio.h so we can work wtih cAudio
 #include "../../include/cAudio.h"
+
+//Include the custom handler
+#include "cTestHandler.h"
 
 using namespace std;
 
@@ -47,6 +50,7 @@ int main(int argc, char* argv[])
 
 		//Create a IAudio object and load a sound from a file
 		cAudio::IAudioSource* mysound = manager->create("bling","../../media/cAudioTheme1.ogg",true);
+		mysound->registerEventHandler(handle);
 
 		if(mysound)
 		{
