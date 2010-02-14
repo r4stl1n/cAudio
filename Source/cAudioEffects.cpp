@@ -5,6 +5,7 @@
 #include "../Headers/cAudioEffects.h"
 #include "../Headers/cFilter.h"
 #include "../Headers/cEffect.h"
+#include "../Headers/cUtils.h"
 
 #ifdef CAUDIO_EFX_ENABLED
 
@@ -63,6 +64,428 @@ bool cAudioEffects::isEffectSupported(const EffectTypes& type) const
 bool cAudioEffects::isFilterSupported(const FilterTypes& type) const
 {
 	return SupportedFilters[type];
+}
+
+bool cAudioEffects::addEAXReverbEffectPreset(const char* name, const sEAXReverbParameters& setting)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	EAXReverbPresets[safeName] = setting;
+	return true;
+}
+
+bool cAudioEffects::addReverbEffectPreset(const char* name, const sReverbParameters& setting)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	ReverbPresets[safeName] = setting;
+	return true;
+}
+
+bool cAudioEffects::addChorusEffectPreset(const char* name, const sChorusParameters& setting)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	ChorusPresets[safeName] = setting;
+	return true;
+}
+
+bool cAudioEffects::addDistortionEffectPreset(const char* name, const sDistortionParameters& setting)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	DistortionPresets[safeName] = setting;
+	return true;
+}
+
+bool cAudioEffects::addEchoEffectPreset(const char* name, const sEchoParameters& setting)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	EchoPresets[safeName] = setting;
+	return true;
+}
+
+bool cAudioEffects::addFlangerEffectPreset(const char* name, const sFlangerParameters& setting)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	FlangerPresets[safeName] = setting;
+	return true;
+}
+
+bool cAudioEffects::addFrequencyShiftEffectPreset(const char* name, const sFrequencyShiftParameters& setting)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	FrequencyShiftPresets[safeName] = setting;
+	return true;
+}
+
+bool cAudioEffects::addVocalMorpherEffectPreset(const char* name, const sVocalMorpherParameters& setting)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	VocalMorpherPresets[safeName] = setting;
+	return true;
+}
+
+bool cAudioEffects::addPitchShifterEffectPreset(const char* name, const sPitchShifterParameters& setting)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	PitchShifterPresets[safeName] = setting;
+	return true;
+}
+
+bool cAudioEffects::addRingModulatorEffectPreset(const char* name, const sRingModulatorParameters& setting)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	RingModulatorPresets[safeName] = setting;
+	return true;
+}
+
+bool cAudioEffects::addAutowahEffectPreset(const char* name, const sAutowahParameters& setting)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	AutowahPresets[safeName] = setting;
+	return true;
+}
+
+bool cAudioEffects::addCompressorEffectPreset(const char* name, const sCompressorParameters& setting)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	CompressorPresets[safeName] = setting;
+	return true;
+}
+
+bool cAudioEffects::addEqualizerEffectPreset(const char* name, const sEqualizerParameters& setting)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	EqualizerPresets[safeName] = setting;
+	return true;
+}
+
+sEAXReverbParameters cAudioEffects::getEAXReverbEffectPreset(const char* name)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	std::map<std::string, sEAXReverbParameters>::iterator it = EAXReverbPresets.find(safeName);
+	if(it != EAXReverbPresets.end())
+	{
+		return it->second;
+	}
+	return sEAXReverbParameters();
+}
+
+sReverbParameters cAudioEffects::getReverbEffectPreset(const char* name)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	std::map<std::string, sReverbParameters>::iterator it = ReverbPresets.find(safeName);
+	if(it != ReverbPresets.end())
+	{
+		return it->second;
+	}
+	return sReverbParameters();
+}
+
+sChorusParameters cAudioEffects::getChorusEffectPreset(const char* name)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	std::map<std::string, sChorusParameters>::iterator it = ChorusPresets.find(safeName);
+	if(it != ChorusPresets.end())
+	{
+		return it->second;
+	}
+	return sChorusParameters();
+}
+
+sDistortionParameters cAudioEffects::getDistortionEffectPreset(const char* name)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	std::map<std::string, sDistortionParameters>::iterator it = DistortionPresets.find(safeName);
+	if(it != DistortionPresets.end())
+	{
+		return it->second;
+	}
+	return sDistortionParameters();
+}
+
+sEchoParameters cAudioEffects::getEchoEffectPreset(const char* name)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	std::map<std::string, sEchoParameters>::iterator it = EchoPresets.find(safeName);
+	if(it != EchoPresets.end())
+	{
+		return it->second;
+	}
+	return sEchoParameters();
+}
+
+sFlangerParameters cAudioEffects::getFlangerEffectPreset(const char* name)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	std::map<std::string, sFlangerParameters>::iterator it = FlangerPresets.find(safeName);
+	if(it != FlangerPresets.end())
+	{
+		return it->second;
+	}
+	return sFlangerParameters();
+}
+
+sFrequencyShiftParameters cAudioEffects::getFrequencyShiftEffectPreset(const char* name)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	std::map<std::string, sFrequencyShiftParameters>::iterator it = FrequencyShiftPresets.find(safeName);
+	if(it != FrequencyShiftPresets.end())
+	{
+		return it->second;
+	}
+	return sFrequencyShiftParameters();
+}
+
+sVocalMorpherParameters cAudioEffects::getVocalMorpherEffectPreset(const char* name)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	std::map<std::string, sVocalMorpherParameters>::iterator it = VocalMorpherPresets.find(safeName);
+	if(it != VocalMorpherPresets.end())
+	{
+		return it->second;
+	}
+	return sVocalMorpherParameters();
+}
+
+sPitchShifterParameters cAudioEffects::getPitchShifterEffectPreset(const char* name)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	std::map<std::string, sPitchShifterParameters>::iterator it = PitchShifterPresets.find(safeName);
+	if(it != PitchShifterPresets.end())
+	{
+		return it->second;
+	}
+	return sPitchShifterParameters();
+}
+
+sRingModulatorParameters cAudioEffects::getRingModulatorEffectPreset(const char* name)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	std::map<std::string, sRingModulatorParameters>::iterator it = RingModulatorPresets.find(safeName);
+	if(it != RingModulatorPresets.end())
+	{
+		return it->second;
+	}
+	return sRingModulatorParameters();
+}
+
+sAutowahParameters cAudioEffects::getAutowahEffectPreset(const char* name)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	std::map<std::string, sAutowahParameters>::iterator it = AutowahPresets.find(safeName);
+	if(it != AutowahPresets.end())
+	{
+		return it->second;
+	}
+	return sAutowahParameters();
+}
+
+sCompressorParameters cAudioEffects::getCompressorEffectPreset(const char* name)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	std::map<std::string, sCompressorParameters>::iterator it = CompressorPresets.find(safeName);
+	if(it != CompressorPresets.end())
+	{
+		return it->second;
+	}
+	return sCompressorParameters();
+}
+
+sEqualizerParameters cAudioEffects::getEqualizerEffectPreset(const char* name)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	std::map<std::string, sEqualizerParameters>::iterator it = EqualizerPresets.find(safeName);
+	if(it != EqualizerPresets.end())
+	{
+		return it->second;
+	}
+	return sEqualizerParameters();
+}
+
+void cAudioEffects::removePreset(const EffectTypes& type, const char* name)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	switch(type)
+	{
+	case EET_EAX_REVERB:
+		EAXReverbPresets.erase(safeName);
+		break;
+	case EET_REVERB:
+		ReverbPresets.erase(safeName);
+		break;
+	case EET_CHORUS:
+		ChorusPresets.erase(safeName);
+		break;
+	case EET_DISTORTION:
+		DistortionPresets.erase(safeName);
+		break;
+	case EET_ECHO:
+		EchoPresets.erase(safeName);
+		break;
+	case EET_FLANGER:
+		FlangerPresets.erase(safeName);
+		break;
+	case EET_FREQUENCY_SHIFTER:
+		FrequencyShiftPresets.erase(safeName);
+		break;
+	case EET_VOCAL_MORPHER:
+		VocalMorpherPresets.erase(safeName);
+		break;
+	case EET_PITCH_SHIFTER:
+		PitchShifterPresets.erase(safeName);
+		break;
+	case EET_RING_MODULATOR:
+		RingModulatorPresets.erase(safeName);
+		break;
+	case EET_AUTOWAH:
+		AutowahPresets.erase(safeName);
+		break;
+	case EET_COMPRESSOR:
+		CompressorPresets.erase(safeName);
+		break;
+	case EET_EQUALIZER:
+		EqualizerPresets.erase(safeName);
+		break;
+	default:
+		break;
+	}
+}
+
+bool cAudioEffects::isPresetRegistered(const EffectTypes& type, const char* name)
+{
+	cAudioMutexBasicLock lock(Mutex);
+	std::string safeName = safeCStr(name);
+	switch(type)
+	{
+	case EET_EAX_REVERB:
+		return (EAXReverbPresets.find(safeName) != EAXReverbPresets.end());
+		break;
+	case EET_REVERB:
+		return (ReverbPresets.find(safeName) != ReverbPresets.end());
+		break;
+	case EET_CHORUS:
+		return (ChorusPresets.find(safeName) != ChorusPresets.end());
+		break;
+	case EET_DISTORTION:
+		return (DistortionPresets.find(safeName) != DistortionPresets.end());
+		break;
+	case EET_ECHO:
+		return (EchoPresets.find(safeName) != EchoPresets.end());
+		break;
+	case EET_FLANGER:
+		return (FlangerPresets.find(safeName) != FlangerPresets.end());
+		break;
+	case EET_FREQUENCY_SHIFTER:
+		return (FrequencyShiftPresets.find(safeName) != FrequencyShiftPresets.end());
+		break;
+	case EET_VOCAL_MORPHER:
+		return (VocalMorpherPresets.find(safeName) != VocalMorpherPresets.end());
+		break;
+	case EET_PITCH_SHIFTER:
+		return (PitchShifterPresets.find(safeName) != PitchShifterPresets.end());
+		break;
+	case EET_RING_MODULATOR:
+		return (RingModulatorPresets.find(safeName) != RingModulatorPresets.end());
+		break;
+	case EET_AUTOWAH:
+		return (AutowahPresets.find(safeName) != AutowahPresets.end());
+		break;
+	case EET_COMPRESSOR:
+		return (CompressorPresets.find(safeName) != CompressorPresets.end());
+		break;
+	case EET_EQUALIZER:
+		return (EqualizerPresets.find(safeName) != EqualizerPresets.end());
+		break;
+	default:
+		return false;
+		break;
+	}
+}
+
+void cAudioEffects::removeAllPresets(const EffectTypes& type)
+{
+	switch(type)
+	{
+	case EET_EAX_REVERB:
+		EAXReverbPresets.clear();
+		break;
+	case EET_REVERB:
+		ReverbPresets.clear();
+		break;
+	case EET_CHORUS:
+		ChorusPresets.clear();
+		break;
+	case EET_DISTORTION:
+		DistortionPresets.clear();
+		break;
+	case EET_ECHO:
+		EchoPresets.clear();
+		break;
+	case EET_FLANGER:
+		FlangerPresets.clear();
+		break;
+	case EET_FREQUENCY_SHIFTER:
+		FrequencyShiftPresets.clear();
+		break;
+	case EET_VOCAL_MORPHER:
+		VocalMorpherPresets.clear();
+		break;
+	case EET_PITCH_SHIFTER:
+		PitchShifterPresets.clear();
+		break;
+	case EET_RING_MODULATOR:
+		RingModulatorPresets.clear();
+		break;
+	case EET_AUTOWAH:
+		AutowahPresets.clear();
+		break;
+	case EET_COMPRESSOR:
+		CompressorPresets.clear();
+		break;
+	case EET_EQUALIZER:
+		EqualizerPresets.clear();
+		break;
+	default:
+		EAXReverbPresets.clear();
+		ReverbPresets.clear();
+		ChorusPresets.clear();
+		DistortionPresets.clear();
+		EchoPresets.clear();
+		FlangerPresets.clear();
+		FrequencyShiftPresets.clear();
+		VocalMorpherPresets.clear();
+		PitchShifterPresets.clear();
+		RingModulatorPresets.clear();
+		AutowahPresets.clear();
+		CompressorPresets.clear();
+		EqualizerPresets.clear();
+		break;
+	}
 }
 
 cEFXFunctions* cAudioEffects::getEFXInterface()

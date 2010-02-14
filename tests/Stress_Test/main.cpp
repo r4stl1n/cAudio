@@ -30,7 +30,7 @@ inline float getRandomFloat(float fMin, float fMax)
 int main(int argc, char* argv[])
 {
     //Some fancy text
-    cout << "cAudio 1.7.1 Stress Test \n \n";
+    cout << "cAudio 2.0.0 Stress Test \n \n";
 	srand(time(NULL));
 
 	unsigned int startTick = clock();

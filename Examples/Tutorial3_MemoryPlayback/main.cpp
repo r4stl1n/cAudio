@@ -19,7 +19,7 @@ using namespace std;
 int main(int argc, char* argv[])
 {
     //Some fancy text
-    cout << "cAudio 2.0.0 Tutorial 3: MemoryPlayback \n \n";
+    cout << "cAudio 2.0.0 Tutorial 3: Memory Playback. \n \n"
     
 	//Create an uninitialized Audio Manager
     cAudio::IAudioManager* manager = cAudio::createAudioManager(false);
