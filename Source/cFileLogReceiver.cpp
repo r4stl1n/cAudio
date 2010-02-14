@@ -156,7 +156,7 @@ namespace cAudio
 			outf.flush();
 
 		}
-		
+		outf.close();
 		return true;
 	}
 };
