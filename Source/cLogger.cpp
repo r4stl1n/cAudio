@@ -5,6 +5,7 @@
 #include <time.h>
 #include "../Headers/cLogger.h"
 #include "../Headers/cConsoleLogReceiver.h"
+#include "../Headers/cFileLogReceiver.h"
 #include "../Headers/cUtils.h"
 
 namespace cAudio
@@ -12,6 +13,7 @@ namespace cAudio
 	static cLogger Logger;
 	static bool FirstTimeLogInit(false);
 	static cConsoleLogReceiver ConsoleLog;
+	static cFileLogReceiver FileLog;
 
 	cLogger::cLogger() : StartTime(0), MinLogLevel(ELL_INFO)
 	{
@@ -140,12 +142,18 @@ namespace cAudio
 		return NULL;
 	}
 
+	void cLogger::dumpMessages()
+	{
+		((cFileLogReceiver*)Logger.getLogReceiver("File"))->dumpMessages();
+	}
+
 	CAUDIO_API ILogger* getLogger()
 	{
 		if(!FirstTimeLogInit)
 		{
 			FirstTimeLogInit = true;
 			Logger.registerLogReceiver(&ConsoleLog, "Console");
+			Logger.registerLogReceiver(&FileLog,"File");
 		}
 		return &Logger;
 	}
