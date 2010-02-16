@@ -1,7 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
-	<ActiveTarget name="ALL" />
-	<File name="include\IAudioManager.h" open="1" top="1" tabpos="1">
-		<Cursor position="312" topLine="1" />
+	<ActiveTarget name="Release" />
+	<File name="Headers\cAudioEffects.h" open="1" top="1" tabpos="3">
+		<Cursor position="3299" topLine="57" />
+	</File>
+	<File name="Headers\cAudioManager.h" open="1" top="0" tabpos="7">
+		<Cursor position="5151" topLine="116" />
+	</File>
+	<File name="Headers\cEFXFunctions.h" open="1" top="0" tabpos="2">
+		<Cursor position="3171" topLine="64" />
+	</File>
+	<File name="Source\cAudioManager.cpp" open="1" top="0" tabpos="8">
+		<Cursor position="8005" topLine="77" />
+	</File>
+	<File name="Source\cEffect.cpp" open="1" top="0" tabpos="10">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="include\IAudioEffects.h" open="1" top="0" tabpos="4">
+		<Cursor position="0" topLine="16" />
+	</File>
+	<File name="include\IAudioManager.h" open="1" top="0" tabpos="1">
+		<Cursor position="126" topLine="6" />
+	</File>
+	<File name="include\IEffect.h" open="1" top="0" tabpos="6">
+		<Cursor position="0" topLine="68" />
+	</File>
+	<File name="include\IEffectParameters.h" open="1" top="0" tabpos="5">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="include\cAudioDefines.h" open="1" top="0" tabpos="9">
+		<Cursor position="1663" topLine="27" />
 	</File>
 </CodeBlocks_layout_file>
