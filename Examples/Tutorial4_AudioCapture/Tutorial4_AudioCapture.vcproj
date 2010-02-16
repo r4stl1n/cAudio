@@ -57,7 +57,8 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="cAudio.lib"
+				AdditionalDependencies="cAudio_d.lib"
+				OutputFile="$(OutDir)\$(ProjectName)_d.exe"
 				AdditionalLibraryDirectories="&quot;..\..\lib\win32-visual&quot;"
 				GenerateDebugInformation="true"
 				TargetMachine="1"

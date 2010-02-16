@@ -1,4 +1,4 @@
-#include "cAudioDefines.h"
+#include "../../include/cAudioDefines.h"
 #include "cEAXLegacyPresetPlugin.h"
 #include <string>
 

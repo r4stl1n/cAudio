@@ -1,9 +1,9 @@
 #ifndef CMP3DECODERFACTORY_H
 #define CMP3DECODERFACTORY_H
 
-#include "IAudioDecoderFactory.h"
+#include "../../include/IAudioDecoderFactory.h"
 #include "cMP3Decoder.h"
-#include "../Headers/cMutex.h"
+#include "../../Headers/cMutex.h"
 
 using namespace cAudio;
 

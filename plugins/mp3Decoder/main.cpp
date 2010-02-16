@@ -1,4 +1,4 @@
-#include "cAudioDefines.h"
+#include "../../include/cAudioDefines.h"
 #include "cMP3Plugin.h"
 
 //Gives back the plugin class for cAudio to install and use.

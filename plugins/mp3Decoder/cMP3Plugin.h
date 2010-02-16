@@ -1,7 +1,7 @@
 #ifndef CMP3DECODERPLUGIN_H
 #define CMP3DECODERPLUGIN_H
 
-#include "IAudioPlugin.h"
+#include "../../include/IAudioPlugin.h"
 #include "cMP3DecoderFactory.h"
 
 using namespace cAudio;

@@ -1,7 +1,7 @@
 #ifndef CMP3DECODER_H
 #define CMP3DECODER_H
 
-#include "IAudioDecoder.h"
+#include "../../include/IAudioDecoder.h"
 #include "mpaudec/mpaudec.h"
 
 using namespace cAudio;

@@ -1,7 +1,7 @@
 #ifndef CEAXLEGACYPRESETPLUGIN_H
 #define CEAXLEGACYPRESETPLUGIN_H
 
-#include "IAudioPlugin.h"
+#include "../../include/IAudioPlugin.h"
 
 using namespace cAudio;
 
