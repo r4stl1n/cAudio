@@ -11,6 +11,7 @@
 #include "IAudioEffects.h"
 #include "IDataSourceFactory.h"
 #include "IManagerEventHandler.h"
+#include <string>
 
 namespace cAudio
 {
@@ -43,7 +44,7 @@ namespace cAudio
 		virtual unsigned int getAvailableDeviceCount() = 0;
 		//! Returns the name of the default system playback device.
 		virtual const char* getDefaultDeviceName() = 0;
-		
+
 		//!Creates the cAudio object using the highest priority data source that has it
 		virtual IAudioSource* create(const char* name, const char* filename, bool stream = false) = 0;
 		//!Loads audio from memory or virtual file system
@@ -99,7 +100,7 @@ namespace cAudio
 	CAUDIO_API IAudioManager* createAudioManager(bool initializeDefault = true);
 
 	//! Destroys an interface to a previously created Audio Manager and frees the memory allocated for it
-	/** 
+	/**
 	\param capture: The object to destroy
 	*/
 	CAUDIO_API void destroyAudioManager(IAudioManager* manager);

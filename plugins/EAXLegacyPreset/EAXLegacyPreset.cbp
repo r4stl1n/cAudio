@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="EAXLegacyPreset" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="mingw\cAp_EAXLegacyPreset_d" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Debug\" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add library="cAudio_d" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="mingw\cAp_EAXLegacyPreset" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Release\" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="cAudio" />
+				</Linker>
+			</Target>
+			<Target title="Debug Visual">
+				<Option output="Debug\cAp_EAXLegacyPreset_d" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\visual" />
+				<Option type="3" />
+				<Option compiler="msvc8" />
+				<Compiler>
+					<Add option="/Zi /D_DEBUG" />
+				</Compiler>
+				<Linker>
+					<Add option="/DEBUG" />
+					<Add library="cAudio_d.lib" />
+					<Add directory="..\..\bin\win32-visual" />
+				</Linker>
+			</Target>
+			<Target title="Release Visual">
+				<Option output="Release\cAp_EAXLegacyPreset" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\visual" />
+				<Option type="3" />
+				<Option compiler="msvc8" />
+				<Linker>
+					<Add library="cAudio.lib" />
+					<Add directory="..\..\bin\win32-visual" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Linker>
+			<Add directory="..\..\bin\win32-gcc" />
+		</Linker>
+		<Unit filename="cEAXLegacyPresetPlugin.h" />
+		<Unit filename="main.cpp" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
