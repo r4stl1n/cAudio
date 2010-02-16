@@ -2,21 +2,24 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Tutorial:MemoryPlayback" />
+		<Option title="Tutorial3:MemoryPlayback" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="..\..\bin\win32-gcc\TutorialMemoryPlayback" prefix_auto="1" extension_auto="1" />
+				<Option output="..\..\bin\win32-gcc\Tutorial3_MemoryPlayback_d" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj\Debug\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
+				<Linker>
+					<Add library="cAudio_d" />
+				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="..\..\bin\win32-gcc\TutorialMemoryPlayback" prefix_auto="1" extension_auto="1" />
+				<Option output="..\..\bin\win32-gcc\Tutorial3_MemoryPlayback" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj\Release\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -25,10 +28,26 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add library="cAudio" />
 				</Linker>
 			</Target>
-			<Target title="Visual">
-				<Option output="..\..\bin\win32-visual\TutorialMemoryPlayback" prefix_auto="1" extension_auto="1" />
+			<Target title="Debug Visual">
+				<Option output="..\..\bin\win32-visual\Tutorial3_MemoryPlayback_d" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\visual" />
+				<Option type="1" />
+				<Option compiler="msvc8" />
+				<Option use_console_runner="0" />
+				<Compiler>
+					<Add option="/Zi /D_DEBUG" />
+				</Compiler>
+				<Linker>
+					<Add option="/DEBUG" />
+					<Add library="cAudio_d.lib" />
+					<Add directory="..\..\bin\win32-visual" />
+				</Linker>
+			</Target>
+			<Target title="Release Visual">
+				<Option output="..\..\bin\win32-visual\Tutorial3_MemoryPlayback" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj\visual" />
 				<Option type="1" />
 				<Option compiler="msvc8" />
@@ -43,7 +62,6 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Linker>
-			<Add library="cAudio" />
 			<Add directory="..\..\bin\win32-gcc" />
 		</Linker>
 		<Unit filename="main.cpp" />

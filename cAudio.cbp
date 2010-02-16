@@ -6,8 +6,32 @@
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
+			<Target title="Debug">
+				<Option output="bin\win32-gcc\cAudio_d" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\gcc\" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-O3" />
+					<Add option="-g" />
+					<Add option="-DHAVE_MALLOC_H" />
+					<Add directory="include" />
+					<Add directory="Headers" />
+					<Add directory="dependencies\Headers" />
+					<Add directory="dependencies\Headers\AL" />
+				</Compiler>
+				<Linker>
+					<Add library="vorbisfile" />
+					<Add library="vorbisenc" />
+					<Add library="vorbis" />
+					<Add library="ogg" />
+					<Add library="OpenAL32" />
+					<Add directory="dependencies\Libs\windows-mingw" />
+				</Linker>
+			</Target>
 			<Target title="Release">
-				<Option output="bin\gcc\cAudio" prefix_auto="1" extension_auto="1" />
+				<Option output="bin\win32-gcc\cAudio" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj\gcc\" />
 				<Option type="3" />
 				<Option compiler="gcc" />
@@ -28,6 +52,34 @@
 					<Add library="ogg" />
 					<Add library="OpenAL32" />
 					<Add directory="dependencies\Libs\windows-mingw" />
+				</Linker>
+			</Target>
+			<Target title="Debug Visual">
+				<Option output="bin\visual\cAudio_d" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\visual\" />
+				<Option type="3" />
+				<Option compiler="msvc8" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="/EHc" />
+					<Add option="/EHa" />
+					<Add option="/EHs" />
+					<Add option="/Ot" />
+					<Add option="/O2" />
+					<Add option="/Zi /D_DEBUG" />
+					<Add directory="include" />
+					<Add directory="Headers" />
+					<Add directory="dependencies\Headers" />
+					<Add directory="dependencies\Headers\AL" />
+				</Compiler>
+				<Linker>
+					<Add option="/DEBUG" />
+					<Add option="-s" />
+					<Add library="vorbisfile_static" />
+					<Add library="vorbisenc_static" />
+					<Add library="vorbis_static" />
+					<Add library="ogg_static" />
+					<Add library="OpenAL32" />
 				</Linker>
 			</Target>
 			<Target title="Release Visual">
@@ -57,9 +109,6 @@
 				</Linker>
 			</Target>
 		</Build>
-		<VirtualTargets>
-			<Add alias="ALL" targets="Release;Release Visual;" />
-		</VirtualTargets>
 		<Compiler>
 			<Add option="-DCOMPILE_FOR_WINDOWS" />
 			<Add option="-DCAUDIO_EXPORTS" />
@@ -91,6 +140,7 @@
 		<Unit filename="Headers\cUtils.h" />
 		<Unit filename="Headers\cWavAudioDecoderFactory.h" />
 		<Unit filename="Headers\cWavDecoder.h" />
+		<Unit filename="Source\cAudioCapture.cpp" />
 		<Unit filename="Source\cAudioEffects.cpp" />
 		<Unit filename="Source\cAudioManager.cpp" />
 		<Unit filename="Source\cAudioSleep.cpp" />

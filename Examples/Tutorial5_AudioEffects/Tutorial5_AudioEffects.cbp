@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Tutorial2:3DSound" />
+		<Option title="Tutorial5:AudioEffects" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="..\..\bin\win32-gcc\Tutorial2_3DSound_d" prefix_auto="1" extension_auto="1" />
+				<Option output="..\..\bin\win32-gcc\Tutorial5_AudioEffects_d" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj\Debug\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -19,7 +19,7 @@
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="..\..\bin\win32-gcc\Tutorial2_3DSound" prefix_auto="1" extension_auto="1" />
+				<Option output="..\..\bin\win32-gcc\Tutorial5_AudioEffects" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj\Release\" />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -32,7 +32,7 @@
 				</Linker>
 			</Target>
 			<Target title="Debug Visual">
-				<Option output="..\..\bin\win32-visual\Tutorial2_3DSound_d" prefix_auto="1" extension_auto="1" />
+				<Option output="..\..\bin\win32-visual\Tutorial5_AudioEffects_d" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj\visual" />
 				<Option type="1" />
 				<Option compiler="msvc8" />
@@ -47,7 +47,7 @@
 				</Linker>
 			</Target>
 			<Target title="Release Visual">
-				<Option output="..\..\bin\win32-visual\Tutorial2_3DSound" prefix_auto="1" extension_auto="1" />
+				<Option output="..\..\bin\win32-visual\Tutorial5_AudioEffects" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj\visual" />
 				<Option type="1" />
 				<Option compiler="msvc8" />
