@@ -5,13 +5,11 @@
 #ifndef ISOURCEEVENTHANDLER_H
 #define ISOURCEEVENTHANDLER_H
 
-namespace cAudio{
-
+namespace cAudio
+{
 	class ISourceEventHandler
 	{
-
 	public:
-
 		//! This function calls on source update
 		virtual void onUpdate() = 0;
 		//! This function calls on source release
@@ -22,9 +20,7 @@ namespace cAudio{
 		virtual void onStop() = 0;
 		//! This function calls on source pause
 		virtual void onPause() = 0;
-
 	};
-
 };
 
 #endif //! ISOURCEEVENTHANDLER_H

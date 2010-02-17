@@ -12,6 +12,7 @@
 
 namespace cAudio
 {
+	//! Enum of all available filter types in cAudio.
 	enum FilterTypes
 	{
 		EFT_NULL,

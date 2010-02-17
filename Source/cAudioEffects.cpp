@@ -326,7 +326,7 @@ sEqualizerParameters cAudioEffects::getEqualizerEffectPreset(const char* name)
 	return sEqualizerParameters();
 }
 
-void cAudioEffects::removePreset(const EffectTypes& type, const char* name)
+void cAudioEffects::removeEffectPreset(const EffectTypes& type, const char* name)
 {
 	cAudioMutexBasicLock lock(Mutex);
 	std::string safeName = safeCStr(name);
@@ -376,7 +376,7 @@ void cAudioEffects::removePreset(const EffectTypes& type, const char* name)
 	}
 }
 
-bool cAudioEffects::isPresetRegistered(const EffectTypes& type, const char* name)
+bool cAudioEffects::isEffectPresetRegistered(const EffectTypes& type, const char* name)
 {
 	cAudioMutexBasicLock lock(Mutex);
 	std::string safeName = safeCStr(name);
@@ -427,7 +427,7 @@ bool cAudioEffects::isPresetRegistered(const EffectTypes& type, const char* name
 	}
 }
 
-void cAudioEffects::removeAllPresets(const EffectTypes& type)
+void cAudioEffects::removeAllEffectPresets(const EffectTypes& type)
 {
 	switch(type)
 	{

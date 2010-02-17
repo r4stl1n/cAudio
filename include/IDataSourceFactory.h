@@ -9,18 +9,22 @@
 
 namespace cAudio
 {
+	//! Interface for creating data sources for use with the engine.
+	class IDataSourceFactory
+	{
+		public:
+			IDataSourceFactory() { }
+			virtual ~IDataSourceFactory() { }
 
-class IDataSourceFactory
-{
-    public:
-		IDataSourceFactory() { }
-		virtual ~IDataSourceFactory() { }
-
-		virtual IDataSource* CreateDataSource(const char* filename, bool streamingRequested) = 0;
-	protected:
-	private:
-};
-
+			//! Creates a data source instance for use with the engine.
+			/**
+			\param filename: Filename of the file to get a stream for. 
+			\param streamingRequested: True if the user requested streaming capabilities from the data source.
+			\return A pointer to a data source instance or NULL on failure to allocate. */
+			virtual IDataSource* CreateDataSource(const char* filename, bool streamingRequested) = 0;
+		protected:
+		private:
+	};
 };
 
 #endif //! IDATASOURCEFACTORY_H

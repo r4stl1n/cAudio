@@ -46,4 +46,9 @@
 #include "IPluginManager.h"
 #include "IRefCounted.h"
 
+//! Main namespace for the entire cAudio library
+namespace cAudio
+{
+};
+
 #endif

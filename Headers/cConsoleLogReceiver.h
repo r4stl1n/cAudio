@@ -14,7 +14,6 @@ namespace cAudio
     {
         public:
 			virtual bool OnLogMessage(const char* sender, const char* message, LogLevel level, float time);
- 
     };
 
 };

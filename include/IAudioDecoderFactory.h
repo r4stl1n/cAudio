@@ -9,18 +9,21 @@
 
 namespace cAudio
 {
+	//! Interface for factories that create Audio Decoders for cAudio
+	class IAudioDecoderFactory
+	{
+		public:
+			IAudioDecoderFactory() {}
+			virtual ~IAudioDecoderFactory() {}
 
-class IAudioDecoderFactory
-{
-    public:
-        IAudioDecoderFactory() {}
-        virtual ~IAudioDecoderFactory() {}
-
-        virtual IAudioDecoder* CreateAudioDecoder(IDataSource* stream) = 0;
-    protected:
-    private:
-};
-
+			//! Returns an audio decoder.
+			/**
+			\param stream: Data Source to attach to this decoder.
+			\return A pointer to a decoder instance, or NULL on failure to allocate. */
+			virtual IAudioDecoder* CreateAudioDecoder(IDataSource* stream) = 0;
+		protected:
+		private:
+	};
 };
 
 #endif //! IAUDIODECODERFACTORY_H

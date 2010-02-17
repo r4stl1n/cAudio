@@ -32,8 +32,8 @@ namespace cAudio
 					{
 						source->read(tempbuf, length);
 						IDataSource* memSource = new cMemorySource(tempbuf, length, true);
-
 						delete[] tempbuf;
+
 						if(memSource && memSource->isValid())
 						{
 							source->drop();

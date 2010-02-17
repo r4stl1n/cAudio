@@ -17,8 +17,8 @@
 
 namespace cAudio
 {
-	//Basic mutex class used for internal thread locking
 #ifdef CAUDIO_MAKE_THREAD_SAFE
+	//! Basic mutex class used for internal thread locking
 	class cAudioMutex
 	{
 	public:

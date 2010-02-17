@@ -29,16 +29,9 @@ namespace cAudio
 		virtual const LogLevel& getLogLevel() const { return MinLogLevel; }
 		virtual void setLogLevel( const LogLevel& logLevel );
 
-		//! Register Log Receiver
-		//! Note: Any class registered will become owned by the internal thread.
-		//! If threading is enabled, you MUST make the receiver threadsafe if you plan to access it in your application while it is registered
 		virtual bool registerLogReceiver(ILogReceiver* receiver, const char* name);
-		//!Unregister a Log Receiver
-		//!Will NOT delete any user added receiver, you must do that yourself
 		virtual void unRegisterLogReceiver(const char* name);
-		//!Returns whether an log receiver is currently registered
 		virtual bool isLogReceiverRegistered(const char* name);
-		//!Returns a registered log receiver
 		virtual ILogReceiver* getLogReceiver(const char* name);
 
 	protected:

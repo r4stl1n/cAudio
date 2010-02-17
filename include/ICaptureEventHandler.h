@@ -5,27 +5,32 @@
 #ifndef ICAPTUREEVENTHANDLER_H
 #define ICAPTUREEVENTHANDLER_H
 
-namespace cAudio{
-
+namespace cAudio
+{
+	//! Interface for recieving Capture Manager Events
 	class ICaptureEventHandler
 	{
 
 	public:
-		//! This function is called on capture device intialize
+		//! This function is called on capture device intialize.
 		virtual void onInit() = 0;
-		//! This function is called on capture buffer update
+
+		//! This function is called when the capture manager update's its internal buffers.
 		virtual void onUpdate() = 0;
-		//! This function is called on capture device shutdown
+
+		//! This function is called on capture device shutdown.
 		virtual void onRelease() = 0;
-		//! This function is called on capture begin
+
+		//! This function is called when the user begins capturing audio.
 		virtual void onBeginCapture() = 0;
-		//! This function is called on capture end
+
+		//! This function is called when the user ends a capture operation.
 		virtual void onEndCapture() = 0;
-		//! This function is called whe user request capture buffer
+
+		//! This function is called whe user requests data from the capture buffer.
 		virtual void onUserRequestBuffer() = 0;
 
 	};
-
 };
 
 #endif //! ICAPTUREEVENTHANDLER_H

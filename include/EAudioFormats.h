@@ -7,7 +7,7 @@
 
 namespace cAudio
 {
-
+	//! Enumeration of audio formats supported by the engine.
 	enum AudioFormats
 	{
 	  EAF_8BIT_MONO, 

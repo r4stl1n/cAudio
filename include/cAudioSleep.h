@@ -9,9 +9,8 @@
 
 namespace cAudio
 {
-	/*! Amount of time to sleep in milliseconds
-		*\param ms: amount of miliseconds to sleep
-	*/
+	//! Causes the current thread to give up control for a certain duration. 
+	/** \param ms: amount of miliseconds to sleep */
 	CAUDIO_API void cAudioSleep(unsigned int ms);
 };
 

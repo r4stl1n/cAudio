@@ -43,9 +43,9 @@
 #define ALC_MAX_AUXILIARY_SENDS                            0x20003
 #endif  
 
-// EFX Extension function pointer variables
 namespace cAudio
 {
+	//! EFX Extension function pointers and setup
 	struct cEFXFunctions
 	{
 		cEFXFunctions::cEFXFunctions()

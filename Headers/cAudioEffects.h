@@ -55,9 +55,9 @@ namespace cAudio
 		virtual sCompressorParameters getCompressorEffectPreset(const char* name);
 		virtual sEqualizerParameters getEqualizerEffectPreset(const char* name);
 
-		virtual void removePreset(const EffectTypes& type, const char* name);
-		virtual bool isPresetRegistered(const EffectTypes& type, const char* name);
-		virtual void removeAllPresets(const EffectTypes& type);
+		virtual void removeEffectPreset(const EffectTypes& type, const char* name);
+		virtual bool isEffectPresetRegistered(const EffectTypes& type, const char* name);
+		virtual void removeAllEffectPresets(const EffectTypes& type);
 
 		cEFXFunctions* getEFXInterface();
 		void checkEFXSupportDetails();

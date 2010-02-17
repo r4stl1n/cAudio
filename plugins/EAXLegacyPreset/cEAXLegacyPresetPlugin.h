@@ -661,32 +661,32 @@ class cEAXLegacyPresetPlugin : public IAudioPlugin
 	void onDestroyAudioManager(IAudioManager* manager)
 	{
 #ifdef CAUDIO_EFX_ENABLED
-		manager->getEffects()->removePreset(EET_EAX_REVERB, "Generic");
-		manager->getEffects()->removePreset(EET_EAX_REVERB, "Padded Cell");
-		manager->getEffects()->removePreset(EET_EAX_REVERB, "Room");
-		manager->getEffects()->removePreset(EET_EAX_REVERB, "Bath Room");
-		manager->getEffects()->removePreset(EET_EAX_REVERB, "Living Room");
-		manager->getEffects()->removePreset(EET_EAX_REVERB, "Stone Room");
-		manager->getEffects()->removePreset(EET_EAX_REVERB, "Auditorium");
-		manager->getEffects()->removePreset(EET_EAX_REVERB, "Concert Hall");
-		manager->getEffects()->removePreset(EET_EAX_REVERB, "Cave");
-		manager->getEffects()->removePreset(EET_EAX_REVERB, "Arena");
-		manager->getEffects()->removePreset(EET_EAX_REVERB, "Hangar");
-		manager->getEffects()->removePreset(EET_EAX_REVERB, "Carpeted Hallway");
-		manager->getEffects()->removePreset(EET_EAX_REVERB, "Hallway");
-		manager->getEffects()->removePreset(EET_EAX_REVERB, "Stone Corridor");
-		manager->getEffects()->removePreset(EET_EAX_REVERB, "Alley");
-		manager->getEffects()->removePreset(EET_EAX_REVERB, "Forest");
-		manager->getEffects()->removePreset(EET_EAX_REVERB, "City");
-		manager->getEffects()->removePreset(EET_EAX_REVERB, "Mountains");
-		manager->getEffects()->removePreset(EET_EAX_REVERB, "Quarry");
-		manager->getEffects()->removePreset(EET_EAX_REVERB, "Plain");
-		manager->getEffects()->removePreset(EET_EAX_REVERB, "Parking Lot");
-		manager->getEffects()->removePreset(EET_EAX_REVERB, "Sewer Pipe");
-		manager->getEffects()->removePreset(EET_EAX_REVERB, "Under Water");
-		manager->getEffects()->removePreset(EET_EAX_REVERB, "Drugged");
-		manager->getEffects()->removePreset(EET_EAX_REVERB, "Dizzy");
-		manager->getEffects()->removePreset(EET_EAX_REVERB, "Psychotic");
+		manager->getEffects()->removeEffectPreset(EET_EAX_REVERB, "Generic");
+		manager->getEffects()->removeEffectPreset(EET_EAX_REVERB, "Padded Cell");
+		manager->getEffects()->removeEffectPreset(EET_EAX_REVERB, "Room");
+		manager->getEffects()->removeEffectPreset(EET_EAX_REVERB, "Bath Room");
+		manager->getEffects()->removeEffectPreset(EET_EAX_REVERB, "Living Room");
+		manager->getEffects()->removeEffectPreset(EET_EAX_REVERB, "Stone Room");
+		manager->getEffects()->removeEffectPreset(EET_EAX_REVERB, "Auditorium");
+		manager->getEffects()->removeEffectPreset(EET_EAX_REVERB, "Concert Hall");
+		manager->getEffects()->removeEffectPreset(EET_EAX_REVERB, "Cave");
+		manager->getEffects()->removeEffectPreset(EET_EAX_REVERB, "Arena");
+		manager->getEffects()->removeEffectPreset(EET_EAX_REVERB, "Hangar");
+		manager->getEffects()->removeEffectPreset(EET_EAX_REVERB, "Carpeted Hallway");
+		manager->getEffects()->removeEffectPreset(EET_EAX_REVERB, "Hallway");
+		manager->getEffects()->removeEffectPreset(EET_EAX_REVERB, "Stone Corridor");
+		manager->getEffects()->removeEffectPreset(EET_EAX_REVERB, "Alley");
+		manager->getEffects()->removeEffectPreset(EET_EAX_REVERB, "Forest");
+		manager->getEffects()->removeEffectPreset(EET_EAX_REVERB, "City");
+		manager->getEffects()->removeEffectPreset(EET_EAX_REVERB, "Mountains");
+		manager->getEffects()->removeEffectPreset(EET_EAX_REVERB, "Quarry");
+		manager->getEffects()->removeEffectPreset(EET_EAX_REVERB, "Plain");
+		manager->getEffects()->removeEffectPreset(EET_EAX_REVERB, "Parking Lot");
+		manager->getEffects()->removeEffectPreset(EET_EAX_REVERB, "Sewer Pipe");
+		manager->getEffects()->removeEffectPreset(EET_EAX_REVERB, "Under Water");
+		manager->getEffects()->removeEffectPreset(EET_EAX_REVERB, "Drugged");
+		manager->getEffects()->removeEffectPreset(EET_EAX_REVERB, "Dizzy");
+		manager->getEffects()->removeEffectPreset(EET_EAX_REVERB, "Psychotic");
 #endif
 	}
 

@@ -38,47 +38,25 @@ namespace cAudio
 		cAudioManager() : Device(NULL), Context(NULL), EFXSupported(false), Initialized(false) { }
 		virtual ~cAudioManager() { }
 
-		//!Inits the audio manager calling the alut/etc start ups
-		virtual bool initialize(const char* deviceName = 0x0, int outputFrequency = -1, int eaxEffectSlots = 4); 
-		//!Shuts everything down        
-		virtual void shutDown();
-		//!Updates the cAudio playback        
+		virtual bool initialize(const char* deviceName = 0x0, int outputFrequency = -1, int eaxEffectSlots = 4);      
+		virtual void shutDown();     
 		virtual void update();
-		//!Gets you the cAudio object you want
-		virtual IAudioSource* getSoundByName(const char* name);
-		//!Releases "ALL" cAudio objects        
+		virtual IAudioSource* getSoundByName(const char* name);       
 		virtual void releaseAllSources();
-		//!Releases a single cAudio source
 		virtual void release(IAudioSource* source);
 
-		//! Returns the name of an available playback device.
-		/** \param index: Specify which name to retrieve ( Range: 0 to getAvailableDeviceCount()-1 ) */
 		virtual const char* getAvailableDeviceName(unsigned int index);
-		//! Returns the number of playback devices available for use.
 		virtual unsigned int getAvailableDeviceCount();
-		//! Returns the name of the default system playback device.
 		virtual const char* getDefaultDeviceName();
 
-		//!Creates the cAudio object
 		virtual IAudioSource* create(const char* name, const char* filename, bool stream = false);
-		//!Loads data from memory or virtual file system
 		virtual IAudioSource* createFromMemory(const char* name, const char* data, size_t length, const char* extension);
-		//!Loads raw audio from memory.
 		virtual IAudioSource* createFromRaw(const char* name, const char* data, size_t length, unsigned int frequency, AudioFormats format);
-
-		//!Register Audio Codec        
+      
 		virtual bool registerAudioDecoder(IAudioDecoderFactory* factory, const char* extension);
-		//!Unregister Audio Codec (allows you to prevent an file type from being playable with new sound sources)
-		//!Note that all current sound sources will still continue to use any currently allocated decoders.
-		//!Will NOT delete any user added factory instance, you must do that yourself
 		virtual void unRegisterAudioDecoder(const char* extension);
-		//!Returns whether an audio decoder is currently registered for this file type
 		virtual bool isAudioDecoderRegistered(const char* extension);
-		//!Returns a registered audio decoder factory
 		virtual IAudioDecoderFactory* getAudioDecoderFactory(const char* extension);
-		//!Unregisters all Audio Codecs
-		//!Note that all current sound sources will still continue to use any currently allocated decoders.
-		//!Will NOT delete any user added factory instance, you must do that yourself
 		virtual void unRegisterAllAudioDecoders();
 
 		virtual bool registerDataSource(IDataSourceFactory* factory, const char* name, int priority);
@@ -87,11 +65,8 @@ namespace cAudio
 		virtual IDataSourceFactory* getDataSourceFactory(const char* name);
 		virtual void unRegisterAllDataSources();
 
-		//!Registers a new event handler to the manager
 		virtual void registerEventHandler(IManagerEventHandler* handler);
-		//!Unregisters specified event handler from manager
 		virtual void unRegisterEventHandler(IManagerEventHandler* handler) ;
-		//!Unregisters all event handlers attached to the manager
 		virtual void unRegisterAllEventHandlers();
 
 		//! Grabs a list of available devices, as well as the default system one
@@ -104,18 +79,18 @@ namespace cAudio
 #endif
 
 	private:
-		//Mutex for thread syncronization
+		//! Mutex for thread syncronization
 		cAudioMutex Mutex;
 
-		//Make a Openal context pointer
+		//! An OpenAL context pointer
 		ALCcontext* Context;
-		//Make a openal device pointer
+		//! An OpenAL device pointer
 		ALCdevice* Device;
 
-		//Holds whether EFX is supported
+		//! Holds whether EFX is supported
 		bool EFXSupported;
 
-		//Whether the manager is currently initialized and ready to go.
+		//! Whether the manager is currently initialized and ready to go.
 		bool Initialized;
 
 		//! Holds an index for fast searching of audio sources by name
@@ -140,7 +115,7 @@ namespace cAudio
 		std::vector<std::string> AvailableDevices;
 		std::string DefaultDevice;
 
-		//Signals a event to all event handlers
+		//! Signals a event to all event handlers
 		void signalEvent(Events sevent);
 		
 		//! List of all attached event handlers
