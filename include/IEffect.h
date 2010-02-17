@@ -160,7 +160,7 @@ namespace cAudio
 
 		//! Sets the master volume for this effect.
 		/** This volume scales the amount of effect audible from all attached sources.
-		\param volume: Volume to set the master volume to.  1.0f equal no volume change.  Range: 0.0f to inf.*/
+		\param volume: Volume to set the master volume to.  1.0f equal no volume change.  Range: 0.0f to 1.0.*/
 		virtual void setMasterVolume(const float& volume) = 0;
 
 		//! Returns if the effect for each attached source is attenuated by distance.

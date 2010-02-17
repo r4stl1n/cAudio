@@ -7,17 +7,20 @@
 
 namespace cAudio
 {
+	//! Applies reference counting to certain cAudio objects.
 	class IRefCounted
 	{
 	public:
 		IRefCounted() : RefCount(1) { }
 		virtual ~IRefCounted() { }
 
+		//! Increments the reference count by one.
 		void grab()
 		{
 			++RefCount; 
 		}
 
+		//! Decrements the reference count by one.  If it hits zero, this object is deleted.
 		bool drop()
 		{
 			--RefCount;
@@ -29,6 +32,7 @@ namespace cAudio
 			return false;
 		}
 
+		//! Returns the current reference count of this object.
 		int getReferenceCount() const
 		{
 			return RefCount;

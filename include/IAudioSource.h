@@ -15,78 +15,123 @@
 
 namespace cAudio
 {
+	//! Interface for a single audio source, which allow you to manipulate sound sources (speakers) in 2D or 3D space.
     class IAudioSource : public IRefCounted
     {
     public:
 		IAudioSource() {}
 		virtual ~IAudioSource() {}
 
-		//! Plays the source with the default or last set values
+		//! Plays the source with the last set parameters.
+		/**
+		\return True if the source is playing, false if not. */
 		virtual bool play() = 0;
-		//! Plays the source in 2D mode
+
+		//! Plays the source in 2D mode.
+		/** No automatic attenuation or panning will take place in this mode, but using setPosition will allow you to manually pan mono audio streams.
+		\param toLoop: Whether to loop (restart) the audio when the end is reached.
+		\return True if the source is playing, false if not. */
 		virtual bool play2d(const bool& toLoop = false) = 0;
-		//! Plays the source in 3D mode
+
+		//! Plays the source in 3D mode.
+		/**
+		\param position: Position to start the sound off at.
+		\param soundstr: Affects how the source attenuates due to distance.  Higher values cause the source to stand out more over distance.
+		\param toLoop: Whether to loop (restart) the audio when the end is reached.
+		\return True if the source is playing, false if not. */
 		virtual bool play3d(const cVector3& position, const float& soundstr = 1.0 , const bool& toLoop = false) = 0;
 		
-		//! Pauses playback of the sound source 
+		//! Pauses playback of the sound source.
 		virtual void pause() = 0;
-		//! Stops playback of the sound source       
+
+		//! Stops playback of the sound source.    
 		virtual void stop() = 0;
-		//! Controls whether the source should loop or not
+
+		//! Controls whether the source should loop or not.
+		/** \param toLoop: Whether to loop (restart) the audio when the end is reached. */
 		virtual void loop(const bool& toLoop) = 0;
-		//! Seeks through the audio stream to a specific spot
-		/** Note: May not be supported by all codecs
-		\param seconds: Number of seconds to seek
-		\param relative: Whether to seek from the current position or the start of the stream
+
+		//! Seeks through the audio stream to a specific spot.
+		/** Note: May not be supported by all codecs.
+		\param seconds: Number of seconds to seek.
+		\param relative: Whether to seek from the current position or the start of the stream.
 		\return True on success, False if the codec does not support seeking. */
 		virtual bool seek(const float& seconds, bool relative = false) = 0;
 
+		//! Returns the total amount of time in the audio stream.  See IAudioDecoder for details.
 		virtual float getTotalAudioTime() = 0;
+
+		//! Returns the total decoded size of the audio stream.  See IAudioDecoder for details.
 		virtual int getTotalAudioSize() = 0;
+
+		//! Returns the original size of the audio stream.  See IAudioDecoder for details.
 		virtual int getCompressedAudioSize() = 0;
 
+		//! Returns the current position in the audio stream in seconds.  See IAudioDecoder for details.
 		virtual float getCurrentAudioTime() = 0;
+
+		//! Returns the current position in the decoded audio stream in bytes.  See IAudioDecoder for details.
 		virtual int getCurrentAudioPosition() = 0;
+
+		//! Returns the current position in the original audio stream in bytes.  See IAudioDecoder for details.
 		virtual int getCurrentCompressedAudioPosition() = 0;
 
-		//! Normally called every frame by the audio manager to update the internal buffers
-		//! Note: For internal use only.
+		//! Normally called every frame by the audio manager to update the internal buffers.  Note: For internal use only.
 		virtual bool update() = 0;
-		//! Releases all resources used by the audio source, normally used to clean up before deletion
-		//! Note: For internal use only.
+
+		//! Releases all resources used by the audio source, normally used to clean up before deletion.  Note: For internal use only.
 		virtual void release() = 0;
 
-		//! Returns if the source is ready to be used
+		//! Returns if the source is ready to be used.
 		virtual const bool isValid() const = 0;
-		//! Returns if the source is playing
+
+		//! Returns if the source is playing.
 		virtual const bool isPlaying() const = 0;
-		//! Returns if the source is paused
+
+		//! Returns if the source is paused.
 		virtual const bool isPaused() const = 0;
-		//! Returns if the source is stopped
+
+		//! Returns if the source is stopped.
 		virtual const bool isStopped() const = 0;
-		//! Returns if the source is looping
+
+		//! Returns if the source is looping.
 		virtual const bool isLooping() const = 0;
 
-		//! Sets the position of the source in 3D space       
+		//! Sets the position of the source in 3D space.
+		/**
+		\param position: A 3D vector giving the new location to put this source. */
 		virtual void setPosition(const cVector3& position) = 0;
-		//! Sets the current velocity of the source for doppler effects
+
+		//! Sets the current velocity of the source for doppler effects.
+		/**
+		\param velocity: A 3D vector giving the speed and direction that the source is moving. */
 		virtual void setVelocity(const cVector3& velocity) = 0;
-		//! Sets the direction the source is facing
+
+		//! Sets the direction the source is facing.
+		/**
+		\param direction: A 3D vector giving the direction that the source is aiming. */
 		virtual void setDirection(const cVector3& direction) = 0;
 
-		//! Sets the factor used in attenuating the source over distance
-		//! Larger values make it attenuate faster, smaller values make the source carry better
-		//! Range: 0.0f to +inf (Default: 1.0f)
+		//! Sets the factor used in attenuating the source over distance.
+		/** Larger values make it attenuate faster, smaller values make the source carry better.
+		Range: 0.0f to +inf (Default: 1.0f).
+		\param rolloff: The rolloff factor to apply to the attenuation calculation. */
 		virtual void setRolloffFactor(const float& rolloff) = 0;
-		//! Sets how well the source carries over distance
-		//! Same as setRolloffFactor(1.0f/soundstrength)
-		//! Range: 0.0f to +inf (Default: 1.0f)
+
+		//! Sets how well the source carries over distance.
+		/** Same as setRolloffFactor(1.0f/soundstrength).
+		Range: 0.0f to +inf (Default: 1.0f).
+		\param soundstrength: How well the sound carries over distance. */
 		virtual void setStrength(const float& soundstrength) = 0;
-		//! Sets the distance from the source where attenuation will begin
-		//! Range: 0.0f to +inf
+
+		//! Sets the distance from the source where attenuation will begin.
+		/** Range: 0.0f to +inf
+		\param minDistance: Distance from the source where attenuation begins. */
 		virtual void setMinDistance(const float& minDistance) = 0;
+
 		//! Sets the distance from the source where attenuation will stop
-		//! Range: 0.0f to +inf
+		/** Range: 0.0f to +inf
+		\param maxDistance: Distance where attenuation will cease.  Normally the farthest range you can heard the source. */
 		virtual void setMaxDistance(const float& maxDistance) = 0;
 
 		//! Sets the pitch of the source
@@ -177,7 +222,7 @@ namespace cAudio
 		//! Range (slot): 0 to getNumEffectSlotsAvailable()
 		virtual void removeEffect(unsigned int slot) = 0;
 
-		//! Attaches an audio filter to this sound source that will operate on the direct feed, seperate from any effects
+		//! Attaches an audio filter to this sound source that will operate on the direct feed, separate from any effects
 		virtual bool attachFilter(IFilter* filter) = 0;
 		//! Removes the previously attached filter
 		virtual void removeFilter() = 0;

@@ -7,18 +7,23 @@
 
 namespace cAudio
 {
+	//! Interface for event handlers on Audio Sources.
 	class ISourceEventHandler
 	{
 	public:
-		//! This function calls on source update
+		//! This function is called when a source updates its buffers.
 		virtual void onUpdate() = 0;
-		//! This function calls on source release
+
+		//! This function is called when a source is released and soon to be deleted.
 		virtual void onRelease() = 0;
-		//! This function calls on source play
+
+		//! This function is called when a source starts playing.
 		virtual void onPlay() = 0;
-		//! This function calls on source stop
+
+		//! This function is called when a source stopped playback.
 		virtual void onStop() = 0;
-		//! This function calls on source pause
+
+		//! This function is called when a source is paused.
 		virtual void onPause() = 0;
 	};
 };
