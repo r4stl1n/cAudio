@@ -52,12 +52,23 @@ class cMP3Decoder : public IAudioDecoder
 		//!If seeking is supported, will seek the stream to seconds
 		virtual bool seek(float seconds, bool relative);
 
+		virtual float getTotalTime();
+		virtual int getTotalSize();
+		virtual int getCompressedSize();
+
+		virtual float getCurrentTime();
+		virtual int getCurrentPosition();
+		virtual int getCurrentCompressedPosition();
+
 	protected:
 		MPAuDecContext* Context;
 		bool Valid;
 		unsigned int DataOffset;
 		int NumChannels;
 		int Frequency;
+
+		int TotalSize;
+		int CurrentPosition;
 
 		cMP3Packet CurrentPacket;
 };

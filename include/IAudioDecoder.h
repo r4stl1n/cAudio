@@ -52,6 +52,24 @@ namespace cAudio
 			\param relative: Whether the number in position is relative to the current position.
 			\return True on success, False on failure. */
 			virtual bool seek(float seconds, bool relative) = 0;
+
+			//! If seeking is supported, will return the length of the audio steam in seconds.  Returns a negative number if the total time cannot be determined.
+			virtual float getTotalTime() = 0;
+
+			//! If available, returns the total decoded size of the audio stream.  Returns a negative number if this cannot be determined.
+			virtual int getTotalSize() = 0;
+
+			//! Returns the compressed (original) size of the audio stream, before decoding.
+			virtual int getCompressedSize() = 0;
+
+			//! If seeking is supported, will return the current position in the stream in seconds.  Returns a negative number if the current time cannot be determined.
+			virtual float getCurrentTime() = 0;
+
+			//! If available, returns the current position in the decoded audio stream in bytes.  Returns a negative number if this cannot be determined.
+			virtual int getCurrentPosition() = 0;
+
+			//! Returns the position in the compressed (original) audio stream before decoding.
+			virtual int getCurrentCompressedPosition() = 0;
 		protected:
 			//! Pointer to the data source to take audio data from.
 			IDataSource* Stream;

@@ -32,6 +32,12 @@ namespace cAudio
             virtual int readAudioData(void* output, int amount);
             virtual bool setPosition(int position, bool relative);
             virtual bool seek(float seconds,bool relative);
+			virtual float getTotalTime();
+			virtual int getTotalSize();
+			virtual int getCompressedSize();
+			virtual float getCurrentTime();
+			virtual int getCurrentPosition();
+			virtual int getCurrentCompressedPosition();
 
         protected:
        	    //! Callbacks used for read memory

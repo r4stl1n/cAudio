@@ -3,7 +3,7 @@
 #include <string.h>
 
 cMP3Decoder::cMP3Decoder(IDataSource* stream) : IAudioDecoder(stream), Context(0x0), 
-		Valid(false), DataOffset(0), NumChannels(0), Frequency(0)
+		Valid(false), DataOffset(0), NumChannels(0), Frequency(0), TotalSize(0), CurrentPosition(0)
 {
 	if(Stream && Stream->isValid() && Stream->getSize() > 0)
 	{
@@ -63,6 +63,29 @@ cMP3Decoder::cMP3Decoder(IDataSource* stream) : IAudioDecoder(stream), Context(0
 
 		Context->parse_only = 0;
 		Stream->seek(DataOffset, false);
+
+		//Now, calculate our max size
+		Context->parse_only = 1;
+		int curPos = DataOffset;
+		while(curPos < Stream->getSize())
+		{
+			outputSize = 0;
+			inputSize = Stream->read(inputBuffer, 4096);
+			int rv = mpaudec_decode_frame( Context, tempBuffer, &outputSize, inputBuffer, inputSize);
+			
+			if(rv < 0)
+				return;
+			
+			curPos += rv;
+			TotalSize += Context->frame_size;
+			Stream->seek(curPos, false);
+		}
+		Context->parse_only = 0;
+
+		Stream->seek(DataOffset, false);
+
+		//This is a hack, for some reason on every mp3 I tested, Total Size was roughly 4 times less than the real value.
+		TotalSize *= 4;
 
 		Valid = true;
 	}
@@ -135,8 +158,6 @@ int cMP3Decoder::readAudioData(void* output, int amount)
 				return 0;
 
 			int rv = mpaudec_decode_frame( Context, CurrentPacket.data, &CurrentPacket.size, inputBuffer, inputSize);
-
-			Stream->seek(oldPos + rv, false);
 			
 			//Oops, error...
 			if(rv < 0)
@@ -149,12 +170,7 @@ int cMP3Decoder::readAudioData(void* output, int amount)
 			if(Frequency != Context->sample_rate)
 				return -1;
 
-			//Error from reading, but we need to try to move ahead to avoid stopping the feed since it may be recoverable
-			if(CurrentPacket.size < 0)
-			{
-				CurrentPacket.size = Context->frame_size;
-				memset(CurrentPacket.data, 0, CurrentPacket.size);
-			}
+			Stream->seek(oldPos + rv, false);
 		}
 
 		//If we have data left since last time, put it in if we have space
@@ -166,6 +182,7 @@ int cMP3Decoder::readAudioData(void* output, int amount)
 				//Dump in all our data
 				memcpy(output, CurrentPacket.data + CurrentPacket.read, amountLeft);
 				CurrentPacket.read += amountLeft;
+				CurrentPosition += amountLeft;
 				return amountLeft;
 			}
 			else
@@ -173,6 +190,7 @@ int cMP3Decoder::readAudioData(void* output, int amount)
 				//Not enough space for all our data, put in a little bit
 				memcpy(output, CurrentPacket.data + CurrentPacket.read, amount);
 				CurrentPacket.read += amount;
+				CurrentPosition += amount;
 				return amount;
 			}
 		}
@@ -204,6 +222,8 @@ bool cMP3Decoder::setPosition(int position, bool relative)
 		Context->frame_size = oldContext.frame_size;
 		Context->sample_rate = oldContext.sample_rate;
 
+		CurrentPosition = 0;
+
 		Context->parse_only = 1;
 		int lastFrameSize = 0;
 		while(Stream->getCurrentPos() < position)
@@ -223,8 +243,6 @@ bool cMP3Decoder::setPosition(int position, bool relative)
 			int outputSize = 0;
 
 			int rv = mpaudec_decode_frame( Context, tempBuffer, &outputSize, inputBuffer, inputSize);
-
-			Stream->seek(oldPos + rv, false);
 			
 			//Oops, error...
 			if(rv < 0)
@@ -233,6 +251,9 @@ bool cMP3Decoder::setPosition(int position, bool relative)
 				return false;
 			}
 
+			Stream->seek(oldPos + rv, false);
+
+			CurrentPosition += Context->frame_size;
 			lastFrameSize = rv;
 		}
 		Context->parse_only = 0;
@@ -253,3 +274,34 @@ bool cMP3Decoder::seek(float seconds, bool relative)
 	}
 	return false;
 }
+
+float cMP3Decoder::getTotalTime()
+{
+	return (float)TotalSize / ((float)Frequency * (float)NumChannels * 2.0f);
+}
+
+int cMP3Decoder::getTotalSize()
+{
+	return TotalSize;
+}
+
+int cMP3Decoder::getCompressedSize()
+{
+	return Stream->getSize();
+}
+
+float cMP3Decoder::getCurrentTime()
+{
+	return (float)CurrentPosition / ((float)Frequency * (float)NumChannels * 2.0f);
+}
+
+int cMP3Decoder::getCurrentPosition()
+{
+	return CurrentPosition;
+}
+
+int cMP3Decoder::getCurrentCompressedPosition()
+{
+	return Stream->getCurrentPos();
+}
+

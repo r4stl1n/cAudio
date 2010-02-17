@@ -41,6 +41,14 @@ namespace cAudio
 		\return True on success, False if the codec does not support seeking. */
 		virtual bool seek(const float& seconds, bool relative = false) = 0;
 
+		virtual float getTotalAudioTime() = 0;
+		virtual int getTotalAudioSize() = 0;
+		virtual int getCompressedAudioSize() = 0;
+
+		virtual float getCurrentAudioTime() = 0;
+		virtual int getCurrentAudioPosition() = 0;
+		virtual int getCurrentCompressedAudioPosition() = 0;
+
 		//! Normally called every frame by the audio manager to update the internal buffers
 		//! Note: For internal use only.
 		virtual bool update() = 0;

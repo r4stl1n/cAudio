@@ -47,6 +47,14 @@ namespace cAudio
 		virtual void loop(const bool& toLoop);
 		virtual bool seek(const float& seconds, bool relative = false);
 
+		virtual float getTotalAudioTime();
+		virtual int getTotalAudioSize();
+		virtual int getCompressedAudioSize();
+
+		virtual float getCurrentAudioTime();
+		virtual int getCurrentAudioPosition();
+		virtual int getCurrentCompressedAudioPosition();
+
 		virtual bool update();
 		virtual void release();
 

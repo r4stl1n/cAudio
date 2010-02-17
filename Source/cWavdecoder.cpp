@@ -202,7 +202,35 @@ namespace cAudio
         return setPosition(amountToSeek, relative);
     }
 
+	float cWavDecoder::getTotalTime()
+	{
+		return (float)Stream->getSize() / ((float)SampleRate * (float)Channels * (float)(BitsPerSample/8));
+	}
 
+	int cWavDecoder::getTotalSize()
+	{
+		return Stream->getSize();
+	}
+
+	int cWavDecoder::getCompressedSize()
+	{
+		return Stream->getSize();
+	}
+
+	float cWavDecoder::getCurrentTime()
+	{
+		return (float)Stream->getCurrentPos() / ((float)SampleRate * (float)Channels * (float)(BitsPerSample/8));
+	}
+
+	int cWavDecoder::getCurrentPosition()
+	{
+		return Stream->getCurrentPos();
+	}
+
+	int cWavDecoder::getCurrentCompressedPosition()
+	{
+		return Stream->getCurrentPos();
+	}
 };
 
 #endif

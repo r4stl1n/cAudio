@@ -146,6 +146,36 @@ namespace cAudio
 		}
         return false;
     }
+
+	float cOggDecoder::getTotalTime()
+	{
+		return ov_time_total(&oggStream, -1);
+	}
+
+	int cOggDecoder::getTotalSize()
+	{
+		return ov_pcm_total(&oggStream, -1) * vorbisInfo->channels;
+	}
+
+	int cOggDecoder::getCompressedSize()
+	{
+		return ov_raw_total(&oggStream, -1);
+	}
+
+	float cOggDecoder::getCurrentTime()
+	{
+		return ov_time_tell(&oggStream);
+	}
+
+	int cOggDecoder::getCurrentPosition()
+	{
+		return ov_pcm_tell(&oggStream) * vorbisInfo->channels;
+	}
+
+	int cOggDecoder::getCurrentCompressedPosition()
+	{
+		return ov_raw_tell(&oggStream);
+	}
 };
 
 #endif

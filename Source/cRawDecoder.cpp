@@ -68,4 +68,53 @@ namespace cAudio{
         int amountToSeek = seconds * (float)Frequency * (float)SampleSize;
         return setPosition(amountToSeek, relative);
     }
+
+	float cRawDecoder::getTotalTime()
+	{
+		int SampleSize = 0;
+		if(Format == EAF_8BIT_MONO)
+			SampleSize = 1;
+		else if(Format == EAF_8BIT_STEREO)
+			SampleSize = 2;
+		else if(Format == EAF_16BIT_MONO)
+			SampleSize = 2;
+		else
+			SampleSize = 4;
+		return (float)Stream->getSize() / ((float)Frequency * (float)SampleSize);
+	}
+
+	int cRawDecoder::getTotalSize()
+	{
+		return Stream->getSize();
+	}
+
+	int cRawDecoder::getCompressedSize()
+	{
+		return Stream->getSize();
+	}
+
+	float cRawDecoder::getCurrentTime()
+	{
+		int SampleSize = 0;
+		if(Format == EAF_8BIT_MONO)
+			SampleSize = 1;
+		else if(Format == EAF_8BIT_STEREO)
+			SampleSize = 2;
+		else if(Format == EAF_16BIT_MONO)
+			SampleSize = 2;
+		else
+			SampleSize = 4;
+
+		return (float)Stream->getCurrentPos() / ((float)Frequency * (float)SampleSize);
+	}
+
+	int cRawDecoder::getCurrentPosition()
+	{
+		return Stream->getCurrentPos();
+	}
+
+	int cRawDecoder::getCurrentCompressedPosition()
+	{
+		return Stream->getCurrentPos();
+	}
 }

@@ -177,6 +177,36 @@ namespace cAudio
 		return state;
     }
 
+	float cAudioSource::getTotalAudioTime()
+	{
+		return Decoder->getTotalTime();
+	}
+
+	int cAudioSource::getTotalAudioSize()
+	{
+		return Decoder->getTotalSize();
+	}
+
+	int cAudioSource::getCompressedAudioSize()
+	{
+		return Decoder->getCompressedSize();
+	}
+
+	float cAudioSource::getCurrentAudioTime()
+	{
+		return Decoder->getCurrentTime();
+	}
+
+	int cAudioSource::getCurrentAudioPosition()
+	{
+		return Decoder->getCurrentPosition();
+	}
+
+	int cAudioSource::getCurrentCompressedAudioPosition()
+	{
+		return Decoder->getCurrentCompressedPosition();
+	}
+
 	bool cAudioSource::update()
 	{
 		cAudioMutexBasicLock lock(Mutex);
