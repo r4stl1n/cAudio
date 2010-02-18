@@ -498,6 +498,7 @@ namespace cAudio
 
 	void cAudioManager::signalEvent(Events sevent)
 	{
+		cAudioMutexBasicLock lock(Mutex);
 		std::list<IManagerEventHandler*>::iterator it = eventHandlerList.begin();
 
 		if(it != eventHandlerList.end())

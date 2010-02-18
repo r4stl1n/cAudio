@@ -418,6 +418,7 @@ namespace cAudio
 
 	void cAudioCapture::signalEvent(Events sevent)
 	{
+		cAudioMutexBasicLock lock(Mutex);
 		std::list<ICaptureEventHandler*>::iterator it = eventHandlerList.begin();
 
 		if(it != eventHandlerList.end()){

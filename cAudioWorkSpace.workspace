@@ -9,7 +9,7 @@
 		<Project filename="Examples\Tutorial5_AudioEffects\Tutorial5_AudioEffects.cbp" />
 		<Project filename="Examples\Tutorial6_CustomEventHandler\Tutorial6_CustomEventHandler.cbp" />
 		<Project filename="Examples\Tutorial7_CustomLogReceiver\Tutorial7_CustomLogReceiver.cbp" />
-		<Project filename="plugins\mp3Decoder\mp3Decoder.cbp" />
-		<Project filename="plugins\EAXLegacyPreset\EAXLegacyPreset.cbp" active="1" />
+		<Project filename="plugins\mp3Decoder\mp3Decoder.cbp" active="1" />
+		<Project filename="plugins\EAXLegacyPreset\EAXLegacyPreset.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>
