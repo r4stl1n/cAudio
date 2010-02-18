@@ -115,6 +115,7 @@ namespace cAudio
 		checkError();
 		getLogger()->logDebug("Audio Source", "Source playing.");
 		signalEvent(ON_PLAY);
+		oldState = AL_PLAYING;
         return true; 
     }
 
@@ -147,6 +148,7 @@ namespace cAudio
 		checkError();
 		getLogger()->logDebug("Audio Source", "Source paused.");
 		signalEvent(ON_PAUSE);
+		oldState = AL_PAUSED;
     }
      
 	void cAudioSource::stop()
@@ -158,6 +160,7 @@ namespace cAudio
 		checkError();
 		getLogger()->logDebug("Audio Source", "Source stopped.");
 		signalEvent(ON_STOP);
+		oldState = AL_STOPPED;
     }
 
 	void cAudioSource::loop(const bool& loop)
@@ -210,47 +213,46 @@ namespace cAudio
 	bool cAudioSource::update()
 	{
 		cAudioMutexBasicLock lock(Mutex);
-        if(!isValid() || !isPlaying())
-		{
-            return false;
-		}
-        int processed = 0;
-        bool active = true;
 
+		int processed = 0;
+		bool active = true;
+        if(isValid() || isPlaying())
+		{
 #ifdef CAUDIO_EFX_ENABLED
-		updateFilter();
-		for(unsigned int i=0; i<CAUDIO_SOURCE_MAX_EFFECT_SLOTS; ++i)
-			updateEffect(i);
+			updateFilter();
+			for(unsigned int i=0; i<CAUDIO_SOURCE_MAX_EFFECT_SLOTS; ++i)
+				updateEffect(i);
 #endif
 
-		//gets the sound source processed buffers
-        alGetSourcei(Source, AL_BUFFERS_PROCESSED, &processed);
+			//gets the sound source processed buffers
+			alGetSourcei(Source, AL_BUFFERS_PROCESSED, &processed);
 
-		//while there is more data refill buffers with audio data.
-		bool wasUpdated = false;
-		while (processed--)
-        {
-            ALuint buffer;
-            alSourceUnqueueBuffers(Source, 1, &buffer);
-            active = stream(buffer);
-
-			//if more in stream continue playing.
-            if(active)
+			//while there is more data refill buffers with audio data.
+			while (processed--)
 			{
-				wasUpdated = true;
-                alSourceQueueBuffers(Source, 1, &buffer);
+				ALuint buffer;
+				alSourceUnqueueBuffers(Source, 1, &buffer);
+				active = stream(buffer);
+
+				//if more in stream continue playing.
+				if(active)
+				{
+					alSourceQueueBuffers(Source, 1, &buffer);
+				}
+
+				checkError();
 			}
 
-			checkError();
-        }
+			signalEvent(ON_UPDATE);
+		}
 
-		signalEvent(ON_UPDATE);
-
-		int currentBuffers = 0;
-		alGetSourcei(Source, AL_BUFFERS_QUEUED, &currentBuffers);
-		if(currentBuffers <= 1 && !wasUpdated)
+		ALenum state;
+		alGetSourcei(Source, AL_SOURCE_STATE, &state);
+		if(state == AL_STOPPED && oldState != state)
 		{
-			stop();
+			//Resets the audio to the beginning
+			Decoder->setPosition(0, false);
+			oldState = state;
 		}
 
 		return active;

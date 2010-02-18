@@ -143,6 +143,8 @@ namespace cAudio
 		ALuint Buffers[CAUDIO_SOURCE_NUM_BUFFERS]; 
 		//! OpenAL source
 		ALuint Source; 
+
+		ALenum oldState;
 		//! cAudio decoder being used to stream data
 		IAudioDecoder* Decoder;
 
