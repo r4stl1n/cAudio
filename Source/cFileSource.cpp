@@ -9,7 +9,6 @@
 namespace cAudio
 {
 
-//!Init Takes a string for file name
 cFileSource::cFileSource(const char* filename) : pFile(NULL), Valid(false), Filesize(0)
 {
 	std::string safeFilename = safeCStr(filename);
@@ -34,31 +33,26 @@ cFileSource::~cFileSource()
 		fclose(pFile);
 }
 
-//!Returns true if the FileSource is valid
 bool cFileSource::isValid()
 {
     return Valid;
 }
 
-//!Returns the current position of the file stream.
 int cFileSource::getCurrentPos()
 {
     return ftell(pFile);
 }
 
-//!Returns the file size
 int cFileSource::getSize()
 {
     return Filesize;
 }
 
-//!Read current FileSource Data
 int cFileSource::read(void* output, int size)
 {
 	return fread(output, sizeof(char), size, pFile);
 }
 
-//!Seek the file stream
 bool cFileSource::seek(int amount, bool relative)
 {
     if(relative == true)

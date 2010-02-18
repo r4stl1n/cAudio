@@ -71,7 +71,6 @@ namespace cAudio
 	}
 #endif
 
-    //!Initialize the listener,openal,and mikmod
     bool cAudioManager::initialize(const char* deviceName, int outputFrequency, int eaxEffectSlots)
     {
 		cAudioMutexBasicLock lock(Mutex);
@@ -169,7 +168,6 @@ namespace cAudio
 		return true;
     }
 
-    //!create a sound source
     IAudioSource* cAudioManager::create(const char* name, const char* filename, bool stream)
     {
 		cAudioMutexBasicLock lock(Mutex);
@@ -231,7 +229,6 @@ namespace cAudio
 		return NULL;
     }
 
-    //!Loads the ogg file from memory *virtual file systems*
     IAudioSource* cAudioManager::createFromMemory(const char* name, const char* data, size_t length, const char* extension)
     {
 		cAudioMutexBasicLock lock(Mutex);
@@ -562,7 +559,6 @@ namespace cAudio
 		}
 	}
 
-    //!grabs the selected audio file via the identifier
     IAudioSource* cAudioManager::getSoundByName(const char* name)
     {
 		cAudioMutexBasicLock lock(Mutex);
@@ -575,7 +571,6 @@ namespace cAudio
         return i->second;
     }
 
-    //!Releases the selected audio source
     void cAudioManager::releaseAllSources()
     {
 		cAudioMutexBasicLock lock(Mutex);
@@ -615,7 +610,6 @@ namespace cAudio
 		}
 	}
 
-    //!Updates all audiosources created
     void cAudioManager::update()
     {
 		cAudioMutexBasicLock lock(Mutex);
@@ -632,7 +626,6 @@ namespace cAudio
         }
     }
 
-    //!Shuts down cAudio. Deletes all audio sources in process
     void cAudioManager::shutDown()
     {
 		if(Initialized)

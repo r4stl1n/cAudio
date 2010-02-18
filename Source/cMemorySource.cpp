@@ -34,25 +34,21 @@ cMemorySource::~cMemorySource()
     delete[] Data;
 }
 
-//!Returns true if the DataStream is valid
 bool cMemorySource::isValid()
 {
     return Valid;
 }
 
-//!Returns the current position of the data stream.
 int cMemorySource::getCurrentPos()
 {
     return Pos;
 }
 
-//!Returns the data stream size
 int cMemorySource::getSize()
 {
     return Size;
 }
 
-//!Read current Data Stream Data
 int cMemorySource::read(void* output, int size)
 {
  
@@ -73,7 +69,6 @@ int cMemorySource::read(void* output, int size)
     }
 }
 
-//!Seek the data stream
 bool cMemorySource::seek(int amount, bool relative)
 {
     if(relative)

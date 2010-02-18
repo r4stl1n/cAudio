@@ -116,7 +116,6 @@ namespace cAudio
 		Valid = false;
     }
 
-    //!Returns wav channel format
     AudioFormats cWavDecoder::getFormat()
     {
         if(Channels == 1 && BitsPerSample == 8)
@@ -129,13 +128,11 @@ namespace cAudio
             return EAF_16BIT_STEREO;
     }
 
-    //!Returns wav data frequency
     int cWavDecoder::getFrequency()
     {
         return SampleRate;
     }
 
-    //!Returns if seeking is supported
     bool cWavDecoder::isSeekingSupported()
     {
         return true;
@@ -146,7 +143,6 @@ namespace cAudio
 		return Valid;
 	}
 
-    //!Reads wav data
     int cWavDecoder::readAudioData(void* output, int amount)
     {
 		int currentPos = Stream->getCurrentPos();
@@ -174,7 +170,6 @@ namespace cAudio
 
     }
 
-    //!Sets data reader position
     bool cWavDecoder::setPosition(int position, bool relative)
     {
 		int currentPos = Stream->getCurrentPos();
@@ -195,7 +190,6 @@ namespace cAudio
         return true;
     }
 
-    //!Seeks wav data
     bool cWavDecoder::seek(float seconds,bool relative)
     {
 		int amountToSeek = seconds * (float)SampleRate * (float)Channels * (float)(BitsPerSample/8);

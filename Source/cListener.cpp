@@ -50,14 +50,12 @@ namespace cAudio
 		alListener3f(AL_VELOCITY, Velocity.x, Velocity.y, Velocity.z);
 	}
 #ifdef CAUDIO_EFX_ENABLED
-		//!Sets the meters per user world unit for use with sound effects
 		void cListener::setMetersPerUnit(const float& meters)
 		{
 			cAudioMutexBasicLock lock(Mutex);
 			alListenerf(AL_METERS_PER_UNIT, meters);
 		}
 
-		//!Returns the meters per user world unit for use with sound effects
 		float cListener::getMetersPerUnit(void) const
 		{
 			float value = 1.0f;

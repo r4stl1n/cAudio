@@ -8,14 +8,14 @@
 
 namespace cAudio
 {
-    //!Read Vorbis Data
+    //! Read Vorbis Data
     size_t VorbisRead(void *ptr, size_t byteSize,size_t sizeToRead, void *datasource)
     {
         IDataSource* Stream = (IDataSource*)datasource;
         return Stream->read(ptr,byteSize*sizeToRead);
     }
 
-    //!Seek Vorbis Data
+    //! Seek Vorbis Data
     int VorbisSeek(void *datasource,ogg_int64_t offset,int whence)
     {
         IDataSource* Stream = (IDataSource*)datasource;
@@ -36,7 +36,7 @@ namespace cAudio
         return 0;
     }
 
-    //!Returns the vorbis data that was stored.
+    //! Returns the vorbis data that was stored.
     long VorbisTell(void *datasource)
     {
         return ((IDataSource*)datasource)->getCurrentPos();
@@ -61,7 +61,7 @@ namespace cAudio
     {
         ov_clear(&oggStream);
     }
-    //!Returns given vorbis channel format
+
     AudioFormats cOggDecoder::getFormat()
     {
 		if(Valid)
@@ -77,7 +77,7 @@ namespace cAudio
 		}
 		return EAF_8BIT_MONO;
     }
-    //!Returns vorbis file frequency
+
     int cOggDecoder::getFrequency()
     {
 		if(Valid)
@@ -87,7 +87,6 @@ namespace cAudio
 		return 0;
     }
 
-    //!Returns if vorbis file is seekable
     bool cOggDecoder::isSeekingSupported()
     {
 		if(Valid)
@@ -102,7 +101,6 @@ namespace cAudio
 		return Valid;
 	}
 
-    //!Reads the vorbis data
     int cOggDecoder::readAudioData(void* output, int amount)
     {
 		if(Valid)
@@ -115,7 +113,6 @@ namespace cAudio
 		return 0;
     }
 
-    //!Sets the postion for vorbis data reader
     bool cOggDecoder::setPosition(int position, bool relative)
     {
 		if(Valid)
@@ -128,7 +125,6 @@ namespace cAudio
 		return false;
     }
 
-    //!Seeks the vorbis data
     bool cOggDecoder::seek(float seconds, bool relative)
     {
 		if(Valid)

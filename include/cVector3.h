@@ -9,18 +9,22 @@
 
 namespace cAudio
 {
+	//! Smallest number that can be represented with a 32 bit float (may not match your compiler/os varient)
 	const float Epsilon = 0.000001f;
 
+	//! Internal function that compared two floats while keeping the Epsilon in mind.
 	inline bool float_equals(const float a, const float b)
 	{
 		return (a + Epsilon >= b) && (a - Epsilon <= b);
 	}
 
+	//! Class for manipulating vectors in 3D space.
 	class cVector3
 	{
 	public:
 		float x, y, z;
 
+		//! Default constructor, initializes everything to 0.
 		cVector3(void) : x(0), y(0), z(0)
 		{
 		}
@@ -29,6 +33,7 @@ namespace cAudio
 		{
 		}
 
+		//! Constructor, initializes all 3 axes to the same value.
 		cVector3(float n) : x(n), y(n), z(n)
 		{
 		}
@@ -86,11 +91,13 @@ namespace cAudio
 
 		float &operator[] ( int i ) { return ( ( float* ) &x ) [i]; }
 
+		//! Returns the length (magnitude) of the vector.
 		float length() const
 		{
 			return sqrtf( x*x + y*y + z*z );
 		}
 
+		//! Forces the current vector to have a length of 1 while preserving the ratio of components.
 		void normalize()
 		{
 			float invLen = 1.0f / length();
@@ -99,16 +106,19 @@ namespace cAudio
 			z *= invLen;
 		}
 
+		//! Returns the dot product of this vector with the input vector.
 		float dot( const cVector3& other ) const
 		{
 			return ( x * other.x + y * other.y + z * other.z );
 		}
 
+		//! Returns the cross product of this vector with the input vector.
 		cVector3 cross( const cVector3& other ) const
 		{
 			return cVector3( y * other.z - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x );
 		}
 
+		//! Sets the components of this vector.
 		void set( float nx, float ny, float nz )
 		{
 			x = nx;
@@ -116,11 +126,13 @@ namespace cAudio
 			z = nz;
 		}
 
+		//! Sets all components of this vector to the same number.
 		void set( float n )
 		{
 			x = y = z = n;
 		}
 
+		//! Sets this vector's components to match the input vector's.
 		void set( const cVector3& other )
 		{
 			x = other.x;

@@ -225,7 +225,9 @@ namespace cAudio
 
 		//gets the sound source processed buffers
         alGetSourcei(Source, AL_BUFFERS_PROCESSED, &processed);
+
 		//while there is more data refill buffers with audio data.
+		bool wasUpdated = false;
 		while (processed--)
         {
             ALuint buffer;
@@ -234,11 +236,23 @@ namespace cAudio
 
 			//if more in stream continue playing.
             if(active)
+			{
+				wasUpdated = true;
                 alSourceQueueBuffers(Source, 1, &buffer);
+			}
 
 			checkError();
         }
+
 		signalEvent(ON_UPDATE);
+
+		int currentBuffers = 0;
+		alGetSourcei(Source, AL_BUFFERS_QUEUED, &currentBuffers);
+		if(currentBuffers <= 1 && !wasUpdated)
+		{
+			stop();
+		}
+
 		return active;
     }
 
@@ -643,7 +657,10 @@ namespace cAudio
 					++errorcount;
 					getLogger()->logDebug("Audio Source", "Decoder returned an error: %i (%i of 3)", actualread, errorcount);
 					if(errorcount >= 3)
+					{
+						stop();
 						break;
+					}
 				}
 				if(actualread == 0)
 				{
@@ -661,7 +678,7 @@ namespace cAudio
 	        //Second check, in case looping is not enabled, we will return false for end of stream
 	        if(totalread == 0)
 	       	{
-	       		 return false;
+	       		return false;
 	        }
 			getLogger()->logDebug("Audio Source", "Buffered %i bytes of data into buffer %i at %i hz.", totalread, buffer, Decoder->getFrequency());
             alBufferData(buffer, convertAudioFormatEnum(Decoder->getFormat()), tempbuffer, totalread, Decoder->getFrequency());

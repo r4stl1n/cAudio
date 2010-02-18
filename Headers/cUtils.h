@@ -34,6 +34,7 @@ static std::string safeCStr(const char* str)
 	else return std::string("");
 }
 
+//! Returns a list of files/directories in the supplied directory.  Used internally for auto-installation of plugins.
 static std::vector<std::string> getFilesInDirectory(std::string path)
 {
 	std::vector<std::string> FileList;

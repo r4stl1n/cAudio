@@ -16,19 +16,16 @@ namespace cAudio{
 
     }
 
-    //!Returns wav channel format
     AudioFormats cRawDecoder::getFormat()
     {
         return Format;
     }
 
-    //!Returns wav data frequency
     int cRawDecoder::getFrequency()
     {
         return Frequency;
     }
 
-    //!Returns if seeking is supported
     bool cRawDecoder::isSeekingSupported()
     {
         return true;
@@ -39,20 +36,17 @@ namespace cAudio{
 		return true;
 	}
 
-    //!Reads wav data
     int cRawDecoder::readAudioData(void* output, int amount)
     {
         return Stream->read(output,amount);
     }
 
-    //!Sets data reader position
     bool cRawDecoder::setPosition(int position, bool relative)
     {
         Stream->seek(position,relative);
         return true;
     }
 
-    //!Seeks wav data
     bool cRawDecoder::seek(float seconds,bool relative)
     {
 		int SampleSize = 1;
