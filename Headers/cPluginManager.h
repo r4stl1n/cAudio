@@ -19,6 +19,10 @@
 #   include <dlfcn.h>
 #endif
 
+#ifdef CAUDIO_PLATFORM_LINUX
+#	include <dlfcn.h>
+#endif
+
 #ifdef CAUDIO_PLATFORM_WIN
 #    define DYNLIB_HANDLE hInstance
 #    define DYNLIB_LOAD( a ) LoadLibraryEx( a, NULL, LOAD_WITH_ALTERED_SEARCH_PATH )
