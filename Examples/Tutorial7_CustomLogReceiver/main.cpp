@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
 	if(manager)
 	{
 		//Allow the user to choose a playback device
-		cout << "Available Playback Devices: \n";
+		cout << "\nAvailable Playback Devices: \n";
 		unsigned int deviceCount = manager->getAvailableDeviceCount();
 		std::string defaultDeviceName = manager->getDefaultDeviceName();
 		for(unsigned int i=0; i<deviceCount; ++i)

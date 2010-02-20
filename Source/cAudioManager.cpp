@@ -153,17 +153,6 @@ namespace cAudio
 #endif
 		getLogger()->logInfo("AudioManager", "Supported Extensions: %s", alGetString(AL_EXTENSIONS));
 
-#ifdef CAUDIO_COMPILE_WITH_OGG_DECODER
-        registerAudioDecoder(&OggDecoderFactory, "ogg");
-#endif
-#ifdef CAUDIO_COMPILE_WITH_WAV_DECODER
-        registerAudioDecoder(&WavDecoderFactory, "wav");
-#endif
-
-		registerAudioDecoder(&RawDecoderFactory, "raw");
-
-		registerDataSource(&FileSourceFactory, "FileSystem", 0);
-
 		Initialized = true;
 		return true;
     }
@@ -743,6 +732,17 @@ namespace cAudio
 
 			manager->getAvailableDevices();
 
+#ifdef CAUDIO_COMPILE_WITH_OGG_DECODER
+			manager->registerAudioDecoder(&OggDecoderFactory, "ogg");
+#endif
+#ifdef CAUDIO_COMPILE_WITH_WAV_DECODER
+			manager->registerAudioDecoder(&WavDecoderFactory, "wav");
+#endif
+
+			manager->registerAudioDecoder(&RawDecoderFactory, "raw");
+
+			manager->registerDataSource(&FileSourceFactory, "FileSystem", 0);
+
 			std::vector<IAudioPlugin*> plugins = cPluginManager::Instance()->getPluginList();
 			for(unsigned int i = 0; i < plugins.size(); ++i)
 			{
@@ -780,6 +780,10 @@ namespace cAudio
 			{
 				plugins[i]->onDestroyAudioManager(manager);
 			}
+
+			manager->unRegisterAllAudioDecoders();
+			manager->unRegisterAllDataSources();
+			manager->unRegisterAllEventHandlers();
 			manager->shutDown();
 
 			delete manager;
