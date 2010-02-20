@@ -1,6 +1,9 @@
 #include "../../include/cAudioDefines.h"
 #include "cEAXLegacyPresetPlugin.h"
 #include <string>
+#ifdef CAUDIO_PLATFORM_LINUX
+#include <cstring>
+#endif 
 
 //Gives back the plugin class for cAudio to install and use.
 extern "C" CAUDIO_API IAudioPlugin* GetPluginModule(const char* version)
