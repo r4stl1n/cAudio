@@ -18,7 +18,7 @@
 #ifdef CAUDIO_PLATFORM_LINUX
 #	include <dirent.h> 
 #	include <stdio.h> 
-#	include <string>
+#	include <cstring>
 #endif
 
 //! Grabs the current extention of a given string.
