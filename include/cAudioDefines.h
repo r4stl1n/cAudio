@@ -50,12 +50,17 @@
 //Audio Effects Settings
 /////////////////////////
 
+//! Since linux has license issues with OpenAL EFX, we cannot release the header files necessary for it.  Therefore, we must disable EFX on linux.  Remove this ifndef if you have EFX available on linux.
+#ifndef CAUDIO_PLATFORM_LINUX
+
 //! Comment out to remove all EFX support from the library
 #define CAUDIO_EFX_ENABLED
 
 #ifdef CAUDIO_EFX_ENABLED
 	//! Max number of effects that can be attached to a single sound source
 	#define CAUDIO_SOURCE_MAX_EFFECT_SLOTS 4
+#endif
+
 #endif
 
 #endif //! CAUDIODEFINES_H

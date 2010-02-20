@@ -22,6 +22,9 @@ New:
 Updated:
     Better doxygen documentation.
     Numerous bug fixes (Too many to list here)
+	
+Note for linux users:
+By default, EFX is disabled on linux with an ifdef in cAudioDefines. We are doing this because of licensing issues with EFX on linux.  We cannot provide in our packages key EFX headers, so if you want EFX support on linux, you must provide them yourself.
 
 //////////////////
 // INSTALLATION //
