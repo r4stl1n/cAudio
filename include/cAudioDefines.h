@@ -11,10 +11,12 @@
 
 //! Global define for exporting the library
 #ifdef CAUDIO_EXPORTS
-	#define CAUDIO_API __declspec(dllexport)
-#else
-	#define CAUDIO_API//! __declspec(dllimport)
-#endif // CAUDIO_EXPORTS
+	#ifdef CAUDIO_PLATFORM_WIN
+		#define CAUDIO_API __declspec(dllexport)
+	#else
+		#define CAUDIO_API extern "C"
+	#endif // CAUDIO_EXPORTS
+#endif
 
 #else
 	#define CAUDIO_API extern "C"
