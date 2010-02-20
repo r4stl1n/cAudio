@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories=".\dependencies\Headers;.\dependencies\Headers\al"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;CAUDIO_EXPORTS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"

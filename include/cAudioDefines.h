@@ -7,16 +7,13 @@
 //! This is used primarily by plugins to make sure they are linking to the right library.
 #define CAUDIO_VERSION "2.0.0"
 
-#ifndef CAUDIO_STATIC_LIB
-
 //! Global define for exporting the library
-#ifdef CAUDIO_EXPORTS
+#ifndef CAUDIO_STATIC_LIB
 	#ifdef CAUDIO_PLATFORM_WIN
 		#define CAUDIO_API __declspec(dllexport)
 	#else
 		#define CAUDIO_API extern "C"
 	#endif // CAUDIO_EXPORTS
-#endif
 
 #else
 	#define CAUDIO_API extern "C"
