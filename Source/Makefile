@@ -2,8 +2,10 @@ VERSION=2.0.0
 SONAME=libcAudio.$(VERSION).so
 DIR=../bin/Linux/x86 #x86_64/home/wildicv/Documents/cAudio/Trunk/Source
 
-DEPEND=-logg -lopenal -lvorbis -lvorbisenc -lvorbisfile\
+DEPEND=-logg -lopenal -lvorbis -lvorbisenc -lvorbisfile -ldl\
  -I../dependencies/Headers
+
+STATICDEPEND=/usr/lib/libogg.a /usr/lib/libopenal.so /usr/lib/libvorbis.a /usr/lib/libvorbisenc.a /usr/lib/libvorbisfile.a /usr/lib/libdl.a
 
 OBJECT= cAudioCapture.o cAudioEffects.o cAudioManager.o cAudioSleep.o cAudioSource.o cConsoleLogReceiver.o cEffect.o cFileSource.o cFilter.o cFileLogReceiver.o cListener.o cLogger.o cMemorySource.o cMutex.o cOggAudioDecoderFactory.o cOggDecoder.o cPluginManager.o cRawDecoder.o cThread.o cWavAudioDecoderFactory.o cWavDecoder.o 
 
@@ -14,46 +16,65 @@ CC=g++
 all: shared
 
 shared: $(OBJECT)
-	$(CC) -o $(SONAME) $(OBJECT) $(LINK_OPTIONS) $(DEPEND)
-	cp libcAudio.2.0.0.so ../bin/linux-x86/
-	ln -s ../bin/linux-x86/libcAudio.2.0.0.so ../bin/linux-x86/libcAudio.so
-	
+	$(CC) -o $(SONAME) $(OBJECT) $(LINK_OPTIONS) $(DEPEND) 
+	cp libcAudio.2.0.0.so ../bin/linux-x86
+	if test -f ../bin/linux-x86/libcAudio.so;\
+	then rm ../bin/linux-x86/libcAudio.so;\
+	ln -s libcAudio.2.0.0.so ../bin/linux-x86/libcAudio.so;\
+	else ln -s libcAudio.2.0.0.so ../bin/linux-x86/libcAudio.so;\
+	fi
+
 static: $(OBJECT)
-	ar cr libcAudio.$(VERSION).a *.o
-	ranlib libcAudio.$(VERSION).a
-	cp libcAudio.2.0.0.a ../bin/linux-x86/
-	ln -s ../bin/linux-x86/libcAudio.2.0.0.a ../bin/linux-x86/libcAudio.a
-	
+	ar cr libcAudio.$(VERSION).a *.o $(STATICDEPEND)
+	ranlib libcAudio.$(VERSION).a 
+	cp libcAudio.$(VERSION).a ../bin/linux-x86
+	if test -f ../bin/linux-x86/libcAudio.a;\
+	then rm ../bin/linux-x86/libcAudio.a;\
+	ln -s libcAudio.$(VERSION).a ../bin/linux-x86/libcAudio.a;\
+	else ln -s libcAudio.$(VERSION).a ../bin/linux-x86/libcAudio.a;\
+	fi;
+
 install: $(OBJECT)
-	if test -d /usr/local/lib/cAudio2.0.0; \
-	then sudo cp libcAudio.$(VERSION).a /usr/local/lib/cAudio2.0.0; \
-	else mkdir /usr/local/lib/cAudio2.0.0;  \
-	sudo cp libcAudio.$(VERSION).a /us/home/wildicv/Documents/cAudio/Trunk/Sourcer/local/lib/cAudio2.0.0;\
+	if test -d /usr/local/lib/cAudio$(VERSION); \
+	then sudo cp libcAudio.$(VERSION).so /usr/local/lib/cAudio$(VERSION); \
+	else mkdir /usr/local/lib/cAudio$(VERSION);  \
+	sudo cp libcAudio.$(VERSION).so /usr/local/lib/cAudio$(VERSION);\
 	fi
 	
-	if test -d /usr/local/include/cAudio2.0.0; \
-	then sudo cp -r ../include/* /usr/local/include/cAudio2.0.0; \
-	else mkdir /usr/local/include/cAudio2.0.0; \
-	sudo cp -r ../include/* /usr/local/include/cAudio2.0.0;\
+	if test -d /usr/local/include/cAudio; \
+	then sudo cp -r ../include/* /usr/local/include/cAudio; \
+	else mkdir /usr/local/include/cAudio; \
+	sudo cp -r ../include/* /usr/local/include/cAudio;\
 	fi
-	sudo rm /usr/local/lib/libcAudio.a
-	sudo ln -s /usr/local/lib/cAudio2.0.0/libcAudio.2.0.0.a /usr/local/lib/libcAudio.a
+
+	if test -f /usr/local/lib/libcAudio.so;\
+	then sudo rm /usr/local/lib/libcAudio.so;\
+	sudo ln -s /usr/local/lib/cAudio$(VERSION)/libcAudio.$(VERSION).so /usr/local/lib/libcAudio.so;\
+	else sudo ln -s /usr/local/lib/cAudio$(VERSION)/libcAudio.$(VERSION).so /usr/local/lib/libcAudio.so;\
+	fi
+	
 	ldconfig
 
-installShared: $(OBJECT)
-	if test -d /usr/local/lib/cAudio2.0.0; \
-	then sudo cp libcAudio.$(VERSION).so /usr/local/lib/cAudio2.0.0; \
-	else mkdir /usr/local/lib/cAudio2.0.0;  \
-	sudo cp libcAudio.$(VERSION).so /usr/local/lib/cAudio2.0.0;\
+
+installStatic: $(OBJECT)
+	if test -d /usr/local/lib/cAudio$(VERSION); \
+	then sudo cp libcAudio.$(VERSION).a /usr/lib/cAudio$(VERSION); \
+	else mkdir /usr/local/lib/cAudio$(VERSION);  \
+	sudo cp libcAudio.$(VERSION).a /usr/local/lib/cAudio$(VERSION);\
 	fi
 	
-	if test -d /usr/local/include/cAudio2.0.0; \
-	then sudo cp -r ../include/* /usr/local/include/cAudio2.0.0; \
-	else mkdir /usr/local/include/cAudio2.0.0; \
-	sudo cp -r ../include/* /usr/local/include/cAudio2.0.0;\
+	if test -d /usr/local/include/cAudio; \
+	then sudo cp -r ../include/* /usr/local/include/cAudio; \
+	else mkdir /usr/local/include/cAudio; \
+	sudo cp -r ../include/* /usr/local/include/cAudio;\
 	fi
-	sudo rm /usr/local/lib/libcAudio.so
-	sudo ln -s /usr/local/lib/cAudio2.0.0/libcAudio.2.0.0.so /usr/local/lib/libcAudio.so
+	
+	if test -f /usr/local/lib/libcAudio.a;\
+	then sudo rm /usr/local/lib/libcAudio.a;\
+	sudo ln -s /usr/local/lib/cAudio$(VERSION)/libcAudio.$(VERSION).a /usr/local/lib/libcAudio.a;\
+	else sudo ln -s /usr/local/lib/cAudio$(VERSION)/libcAudio.$(VERSION).a /usr/local/lib/libcAudio.a;\
+	fi
+
 	ldconfig
 
 buildExamples: $(OBJECT)
