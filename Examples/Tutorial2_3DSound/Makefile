@@ -1,6 +1,6 @@
 CC=g++
 CFLAGS=-Wall
-LDFLAGS=-L../../Source -lcAudio
+LDFLAGS=-L../../bin/linux-x86 -lcAudio
 
 OBJECT=main.o
 

@@ -11,19 +11,22 @@ LINK_OPTIONS=-shared
 COMPILE_OPTIONS=-fPIC
 CC=g++
 
-all: shared static
+all: shared
 
 shared: $(OBJECT)
-	$(CC) -o $(SONAME) $(OBJECT) $(LINK_OPTIONS) $(DEPEND) 
-	ln -s libcAudio.2.0.0.so libcAudio.so
+	$(CC) -o $(SONAME) $(OBJECT) $(LINK_OPTIONS) $(DEPEND)
+	cp libcAudio.2.0.0.so ../bin/linux-x86/
+	ln -s ../bin/linux-x86/libcAudio.2.0.0.so ../bin/linux-x86/libcAudio.so
 	
 static: $(OBJECT)
 	ar cr libcAudio.$(VERSION).a *.o
 	ranlib libcAudio.$(VERSION).a
-	ln -s libcAudio.2.0.0.a libcAudio.a
+	cp libcAudio.2.0.0.a ../bin/linux-x86/
+	ln -s ../bin/linux-x86/libcAudio.2.0.0.a ../bin/linux-x86/libcAudio.a
+	
 install: $(OBJECT)
 	if test -d /usr/local/lib/cAudio2.0.0; \
-	then sudo cp libcAudio.$(VERSION).a /usr/lib/cAudio2.0.0; \
+	then sudo cp libcAudio.$(VERSION).a /usr/local/lib/cAudio2.0.0; \
 	else mkdir /usr/local/lib/cAudio2.0.0;  \
 	sudo cp libcAudio.$(VERSION).a /us/home/wildicv/Documents/cAudio/Trunk/Sourcer/local/lib/cAudio2.0.0;\
 	fi
