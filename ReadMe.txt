@@ -1,35 +1,62 @@
-This is the new cAudio 1.7.1 Source Release. This is a bug fix release for cAudio also better packaged..
+This is the new cAudio 2.0.0 Source Release. This release incorporates major bug fixes, API changes, and new features.
+
+Visit our site at http://caudio.deathtouchstudios.com/ for news and information.
+
+To get help, report bugs, or talk about cAudio visit our forums at: http://www.deathtouchstudios.com/phpBB3/index.php
 
 New:  
-	Examples Directory:
-		Tutorial1:2dSound 	 - Shows how to play a basic 2dSound
-		Tutorial2:3dSound 	 - Shows how to play a basic 3dSound
-		Tutorial3:MemoryPlayback - Shows how to playback Audio from memory useful for virtual file system.
+	Audio Capturing
+    Logging (File and Console)
+    User Log Recievers
+    Audio Effects and Filters
+    Custom User Audio Decoders
+    Plugin System
+    Event System
+    Custom User Data Sources
+    Threading (and Thread Safety)
+    Raw audio format support
+    New wav decoder
+    EAX Preset plugin
+    MP3 Decoder plugin
 
-Bug fix:
-	You no longer have to create a new object each time you want to play a audio file.
+Updated:
+    Better doxygen documentation.
+    Numerous bug fixes (Too many to list here)
 
-Source:
-	Cleaned up the source code and fixed the commenting format
-
+//////////////////
+// INSTALLATION //
+//////////////////
 
 To compile:
 
-	Windows: Open up the cAudio codeblocks project and build with your perfered compiler
+	Windows: Open up the cAudio Microsoft Visual C++ 2008 solution (or codeblocks project file for MinGW) and select Build Solution after you set Debug or Release.
 
 	Linux/Unix: Cd to the Source directory and run make.
 
-	Mac: Good luck..... Belive running make would work not sure though.
+	Mac: Not officially supported, but community members have been able to get it to build with XCode.
+
+Libraries will end up in:
+
+    Windows: lib/win32-visual (MSVC) or lib/win32-gcc (Codeblocks).
+
+    Linux: lib/linux-x86.
+
+    Mac: Not officially supported, but should land up in lib/linux-x86.
 
 To compile examples:
 
-	Windows: Open up codeblocks projects in the Examples directory select perfered compiler.
+	Windows: Automatically built by the MSVC Solution.  For codeblocks, open up the projects in the Examples directory select perferred compiler and build configuration.
 	
 	Linux/Unix: Cd to the Examples directory and run ./buildAll.sh
 
-	Mac: Good luck..... Belive runing ./buildAll.sh would work
+	Mac: Not officially supported, but community members have been able to get it to build with XCode.
 	
-	Compiled examples will be in bin/gcc bin/visual bin/linux depending
+Compiled examples will be in:
 
+    Windows: bin/win32-visual (MSVC) or bin/win32-gcc (Codeblocks).
+
+    Linux: bin/linux-x86.
+
+    Mac: Not officially supported, but should land up in bin/linux-x86.
 
 
