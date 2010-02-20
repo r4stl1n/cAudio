@@ -18,7 +18,10 @@
 
 #include <AL/al.h>
 #include <AL/alc.h>
+
+#ifdef CAUDIO_PLATFORM_LINUX
 #include <AL/alext.h>
+#endif
 
 namespace cAudio
 {

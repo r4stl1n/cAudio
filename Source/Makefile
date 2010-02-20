@@ -12,8 +12,18 @@ COMPILE_OPTIONS=-fPIC
 
 CC=g++
 
-all: $(OBJECT)
-	$(CC) -o $(SONAME) $(OBJECT) $(LINK_OPTIONS) $(DEPEND)
+all: shared static
+	
 
+shared: $(OBJECT)
+	$(CC) -o $(SONAME) $(OBJECT) $(LINK_OPTIONS) $(DEPEND)
+	
+static: $(OBJECT)
+	ar cr libcAudio.$(VERSION).a *.o
+	ranlib libcAudio.$(VERSION).a
+	
+clean:
+	rm -f *.o *.so lib*.so libcAudio.$(VERSION).a *~
+	
 %.o: %.cpp
 	$(CC) -c -o $@ $< $(COMPILE_OPTIONS)
