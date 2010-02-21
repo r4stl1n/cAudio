@@ -92,7 +92,7 @@
 #endif
 
 #include "../Headers/cMemoryManager.h"
-
+#include "../include/cAudioDefines.h"
 // ---------------------------------------------------------------------------------------------------------------------------------
 // -DOC- If you're like me, it's hard to gain trust in foreign code. This memory manager will try to INDUCE your code to crash (for
 // very good reasons... like making bugs obvious as early as possible.) Some people may be inclined to remove this memory tracking
