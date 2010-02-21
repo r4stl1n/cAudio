@@ -6,7 +6,7 @@
 #include <iostream>
 
 #ifndef CAUDIO_USE_MMGR
-#include "../Headers/cMemorymanager.h"
+#include "../Headers/cMemoryManager.h"
 #endif
 
 #include "../Headers/cMemorySource.h"
