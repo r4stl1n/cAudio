@@ -1,6 +1,6 @@
 VERSION=2.0.0
 SONAME=libcAudio.$(VERSION).so
-DIR=../bin/Linux/x86 #x86_64/home/wildicv/Documents/cAudio/Trunk/Source
+DIR=../bin/Linux/x86 #x86_64
 
 DEPEND=-logg -lopenal -lvorbis -lvorbisenc -lvorbisfile -ldl\
  -I../dependencies/Headers
