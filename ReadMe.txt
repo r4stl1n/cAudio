@@ -63,3 +63,9 @@ Compiled examples will be in:
     Mac: Not officially supported, but should land up in bin/linux-x86.
 
 
+//////////////////
+//   Credits    //
+//////////////////
+The memory manager code written by Paul Nettie. 
+Orignally named mmgr.h changed to cMemoryManager.h and modified to fit cAudio.
+Original can be found at http://www.paulnettle.com/
