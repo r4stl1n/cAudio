@@ -82,11 +82,9 @@
 #include <string.h>
 #include <time.h>
 #include <stdarg.h>
+
+#ifndef	CAUDIO_PLATFORM_WIN
 #include <new.h>
-
-
-#ifndef	WIN32
-#include <unistd.h>
 #endif
 
 #include "../Headers/cMemoryManager.h"
