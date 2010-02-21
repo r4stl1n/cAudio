@@ -151,7 +151,7 @@ void cPluginManager::autoLoadPlugins()
 #endif
 			{
 				//Found a plugin, load it
-				installPlugin(fileList[i].c_str(), NULL);
+				installPlugin(std::string("./" + fileList[i]).c_str(), NULL);
 			}
 		}
 	}
