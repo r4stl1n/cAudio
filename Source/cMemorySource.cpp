@@ -5,9 +5,10 @@
 #include <cstring>
 #include <iostream>
 
-#ifdef CAUDIO_USE_MMGR
+#ifndef CAUDIO_USE_MMGR
 #include "../Headers/cMemoryManager.h"
 #endif
+
 
 #include "../Headers/cMemorySource.h"
 

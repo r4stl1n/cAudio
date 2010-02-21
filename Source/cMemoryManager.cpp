@@ -254,8 +254,10 @@ static		void		doCleanupLogOnFirstRun();
 // Local functions only
 // ---------------------------------------------------------------------------------------------------------------------------------
 
+
 static	void	log(const char *format, ...)
 {
+    #ifdef CAUDIO_USE_MMGR
 	// Cleanup the log?
 
 	if (cleanupLogOnFirstRun) doCleanupLogOnFirstRun();
@@ -282,7 +284,9 @@ static	void	log(const char *format, ...)
 
 	fprintf(fp, "%s\r\n", buffer);
 	fclose(fp);
+    #endif
 }
+
 
 // ---------------------------------------------------------------------------------------------------------------------------------
 
@@ -531,6 +535,7 @@ static	void	dumpAllocations(FILE *fp)
 
 static	void	dumpLeakReport()
 {
+    #ifdef CAUDIO_USE_MMGR
 	// Open the report file
 
 	FILE	*fp = fopen(memoryLeakLogFile, "w+b");
@@ -583,6 +588,7 @@ static	void	dumpLeakReport()
 	}
 
 	fclose(fp);
+	#endif
 }
 
 // ---------------------------------------------------------------------------------------------------------------------------------
