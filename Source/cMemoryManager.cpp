@@ -87,6 +87,10 @@
 #include <new.h>
 #endif
 
+#ifndef CAUDIO_PLATFORM_LINUX
+#include <mpatrol.h>
+#endif
+
 #include "../Headers/cMemoryManager.h"
 
 // ---------------------------------------------------------------------------------------------------------------------------------
