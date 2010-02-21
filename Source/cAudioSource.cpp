@@ -252,6 +252,8 @@ namespace cAudio
 		{
 			//Resets the audio to the beginning
 			Decoder->setPosition(0, false);
+			getLogger()->logDebug("Audio Source", "Source stopped.");
+			signalEvent(ON_STOP);
 			oldState = state;
 		}
 
