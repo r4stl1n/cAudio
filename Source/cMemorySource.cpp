@@ -5,7 +5,7 @@
 #include <cstring>
 #include <iostream>
 
-#ifdef CAUDIO_USE_MMGR
+#ifndef CAUDIO_USE_MMGR
 #include "../Headers/cMemorymanager.h"
 #endif
 
@@ -56,7 +56,7 @@ int cMemorySource::getSize()
 
 int cMemorySource::read(void* output, int size)
 {
- 
+
     //memset(output, 0, size);
     if(Pos+size <= Size)
     {

@@ -63,6 +63,6 @@
 #endif
 
 //! Memory Managment Comment out to use the memory manager
-//#define CAUDO_USE_MMGR
+//#define CAUDIO_USE_MMGR
 
 #endif //! CAUDIODEFINES_H
