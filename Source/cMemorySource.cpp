@@ -2,9 +2,14 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#include "../Headers/cMemorySource.h"
 #include <cstring>
 #include <iostream>
+
+#ifdef CAUDIO_USE_MMGR
+#include "../Headers/cMemorymanager.h"
+#endif
+
+#include "../Headers/cMemorySource.h"
 
 namespace cAudio
 {
