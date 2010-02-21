@@ -83,11 +83,11 @@
 #include <time.h>
 #include <stdarg.h>
 
-#ifndef	CAUDIO_PLATFORM_WIN
+#ifdef	CAUDIO_PLATFORM_WIN
 #include <new.h>
 #endif
 
-#ifndef CAUDIO_PLATFORM_LINUX
+#ifdef CAUDIO_PLATFORM_LINUX
 #include <mpatrol.h>
 #endif
 
@@ -792,7 +792,7 @@ void	*operator new(size_t reportedSize)
 		// There isn't a way to determine the new handler, except through setting it. So we'll just set it to NULL, then
 		// set it back again.
 
-		new_handler	nh = std::set_new_handler(0);
+		std::new_handler	nh = std::set_new_handler(0);
 		std::set_new_handler(nh);
 
 		// If there is an error handler, call it
@@ -850,7 +850,7 @@ void	*operator new[](size_t reportedSize)
 		// There isn't a way to determine the new handler, except through setting it. So we'll just set it to NULL, then
 		// set it back again.
 
-		new_handler	nh = std::set_new_handler(0);
+		std::new_handler	nh = std::set_new_handler(0);
 		std::set_new_handler(nh);
 
 		// If there is an error handler, call it
@@ -908,7 +908,7 @@ void	*operator new(size_t reportedSize, const char *sourceFile, int sourceLine)
 		// There isn't a way to determine the new handler, except through setting it. So we'll just set it to NULL, then
 		// set it back again.
 
-		new_handler	nh = std::set_new_handler(0);
+		std::new_handler	nh = std::set_new_handler(0);
 		std::set_new_handler(nh);
 
 		// If there is an error handler, call it
@@ -960,7 +960,7 @@ void	*operator new[](size_t reportedSize, const char *sourceFile, int sourceLine
 		// There isn't a way to determine the new handler, except through setting it. So we'll just set it to NULL, then
 		// set it back again.
 
-		new_handler	nh = std::set_new_handler(0);
+		std::new_handler	nh = std::set_new_handler(0);
 		std::set_new_handler(nh);
 
 		// If there is an error handler, call it
