@@ -115,12 +115,12 @@ void cPluginManager::uninstallPlugin(IAudioPlugin* plugin)
 		if(it2 != DynamicallyLoadedPlugins.end())
 		{
 			//Found a plugin we loaded from the filesystem, unload it and delete the plugin
+			it2->first->drop();
 			if(DYNLIB_UNLOAD(it2->second))
 			{
 				//Could be an error, not reporting it for now
 			}
 			DynamicallyLoadedPlugins.erase(it2->first);
-			delete plugin;
 		}
 	}
 }
