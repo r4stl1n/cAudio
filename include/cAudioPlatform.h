@@ -8,7 +8,7 @@
 #endif
 
 #if !defined( CAUDIO_PLATFORM_MAC ) || !defined( CAUDIO_PLATFORM_IPHONE )
-#   if defined( __APPLE__ ) || defined( __APPLE_CC__ )
+#   if defined( __APPLE__ ) || defined( __APPLE_CC__ ) || defined( MACOSX )
 #		if __ENVIRONMENT_IPHONE_OS_VERSION_MIN_REQUIRED__ >= 30000 || __IPHONE_OS_VERSION_MIN_REQUIRED >= 30000
 #			define CAUDIO_PLATFORM_IPHONE
 #		else
