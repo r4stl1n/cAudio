@@ -346,11 +346,13 @@ namespace cAudio
 			if(initializeDefault)
 				capture->initialize();
 
+#ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
 			std::vector<IAudioPlugin*> plugins = cPluginManager::Instance()->getPluginList();
 			for(unsigned int i = 0; i < plugins.size(); ++i)
 			{
 				plugins[i]->onCreateAudioCapture(capture);
 			}
+#endif
 
 #ifdef CAUDIO_USE_INTERNAL_THREAD
 			AudioCaptureObjectsMutex.lock();
@@ -378,11 +380,14 @@ namespace cAudio
 				RunAudioCaptureThread = false;
 			AudioCaptureObjectsMutex.unlock();
 #endif
+
+#ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
 			std::vector<IAudioPlugin*> plugins = cPluginManager::Instance()->getPluginList();
 			for(unsigned int i = 0; i < plugins.size(); ++i)
 			{
 				plugins[i]->onDestoryAudioCapture(capture);
 			}
+#endif
 
 			delete capture;
 			capture = NULL;

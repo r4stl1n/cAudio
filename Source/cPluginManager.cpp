@@ -4,6 +4,8 @@
 #include "../include/cAudioDefines.h"
 #include "../include/ILogger.h"
 
+#ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
+
 namespace cAudio
 {
 
@@ -163,3 +165,5 @@ CAUDIO_API IPluginManager* getPluginManager()
 }
 
 };
+
+#endif //! CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT

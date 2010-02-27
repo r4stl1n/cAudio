@@ -31,6 +31,9 @@
 //! This define controls whether the RIFF/Wav decoder is compiled into the library.
 #define CAUDIO_COMPILE_WITH_WAV_DECODER
 
+//! This define controls whether plugin support is added into the library, commenting it out will prevent any plugins from working
+#define CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
+
 //! Size of the internal buffer per source for audio data (total amount buffered is CAUDIO_SOURCE_BUFFER_SIZE * CAUDIO_SOURCE_NUM_BUFFERS)
 #define CAUDIO_SOURCE_BUFFER_SIZE ( 1024 * 64 )
 //! Number of internal buffers to cycle through per source (Note: using only 1 leads to choppy sound or premature ending of sources)
@@ -63,6 +66,9 @@
 #define CAUDIO_COMPILE_WITH_OGG_DECODER
 //! This define controls whether the RIFF/Wav decoder is compiled into the library.
 #define CAUDIO_COMPILE_WITH_WAV_DECODER
+
+//! This define controls whether plugin support is added into the library, commenting it out will prevent any plugins from working
+#define CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
 
 //! Size of the internal buffer per source for audio data (total amount buffered is CAUDIO_SOURCE_BUFFER_SIZE * CAUDIO_SOURCE_NUM_BUFFERS)
 #define CAUDIO_SOURCE_BUFFER_SIZE ( 1024 * 64 )
@@ -123,6 +129,9 @@
 #define CAUDIO_COMPILE_WITH_OGG_DECODER
 //! This define controls whether the RIFF/Wav decoder is compiled into the library.
 #define CAUDIO_COMPILE_WITH_WAV_DECODER
+
+//! This define controls whether plugin support is added into the library, commenting it out will prevent any plugins from working
+#define CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
 
 //! Size of the internal buffer per source for audio data (total amount buffered is CAUDIO_SOURCE_BUFFER_SIZE * CAUDIO_SOURCE_NUM_BUFFERS)
 #define CAUDIO_SOURCE_BUFFER_SIZE ( 1024 * 64 )

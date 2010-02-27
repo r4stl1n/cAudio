@@ -2,7 +2,9 @@
 #define IPLUGINMANAGER_H_INCLUDED
 
 #include "IAudioPlugin.h"
+#include "cAudioDefines.h"
 
+#ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
 namespace cAudio
 {
 	//! Interface for the plugin capabilities of cAudio.
@@ -57,5 +59,7 @@ namespace cAudio
 	*/
 	CAUDIO_API IPluginManager* getPluginManager();
 };
+
+#endif //! CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
 
 #endif //! IPLUGINMANAGER_H_INCLUDED

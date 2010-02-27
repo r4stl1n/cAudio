@@ -743,11 +743,13 @@ namespace cAudio
 
 			manager->registerDataSource(&FileSourceFactory, "FileSystem", 0);
 
+#ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
 			std::vector<IAudioPlugin*> plugins = cPluginManager::Instance()->getPluginList();
 			for(unsigned int i = 0; i < plugins.size(); ++i)
 			{
 				plugins[i]->onCreateAudioManager(manager);
 			}
+#endif
 
 #ifdef CAUDIO_USE_INTERNAL_THREAD
 			AudioManagerObjectsMutex.lock();
@@ -775,11 +777,14 @@ namespace cAudio
 				RunAudioManagerThread = false;
 			AudioManagerObjectsMutex.unlock();
 #endif
+
+#ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
 			std::vector<IAudioPlugin*> plugins = cPluginManager::Instance()->getPluginList();
 			for(unsigned int i = 0; i < plugins.size(); ++i)
 			{
 				plugins[i]->onDestroyAudioManager(manager);
 			}
+#endif
 
 			manager->unRegisterAllAudioDecoders();
 			manager->unRegisterAllDataSources();
