@@ -41,11 +41,16 @@ namespace cAudio
     {
         return ((IDataSource*)datasource)->getCurrentPos();
     }
+	
+	int VorbisCloseFunc(void *datasource)
+	{
+		return 0;
+	}
 
     cOggDecoder::cOggDecoder(IDataSource* stream) : IAudioDecoder(stream)
     {
         vorbisCallbacks.read_func = VorbisRead;
-        vorbisCallbacks.close_func = NULL;
+        vorbisCallbacks.close_func = VorbisCloseFunc;
         vorbisCallbacks.seek_func = VorbisSeek;
         vorbisCallbacks.tell_func = VorbisTell;
         Valid = (ov_open_callbacks(Stream,&oggStream,NULL,0,vorbisCallbacks) == 0);
