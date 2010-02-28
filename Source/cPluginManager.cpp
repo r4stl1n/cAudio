@@ -9,15 +9,20 @@
 namespace cAudio
 {
 
+#ifdef CAUDIO_COMPILE_WITH_DYNAMIC_PLUGIN_SUPPORT
 typedef IAudioPlugin* (*GetPluginModule)(const char* version);
+#endif
 
 cPluginManager::cPluginManager()
 {
+#ifdef CAUDIO_COMPILE_WITH_DYNAMIC_PLUGIN_SUPPORT
 	autoLoadPlugins();
+#endif
 }
 
 cPluginManager::~cPluginManager()
 {
+#ifdef CAUDIO_COMPILE_WITH_DYNAMIC_PLUGIN_SUPPORT
 	std::map<IAudioPlugin*, DYNLIB_HANDLE>::iterator it;
 	for(it = DynamicallyLoadedPlugins.begin(); it != DynamicallyLoadedPlugins.end(); it++)
 	{
@@ -28,6 +33,7 @@ cPluginManager::~cPluginManager()
 			//Could be an error, not reporting it for now
 		}
 	}
+#endif
 }
 
 bool cPluginManager::installPlugin(IAudioPlugin* plugin, const char* name)
@@ -49,6 +55,7 @@ bool cPluginManager::installPlugin(IAudioPlugin* plugin, const char* name)
 
 bool cPluginManager::installPlugin(const char* filename, const char* name)
 {
+#ifdef CAUDIO_COMPILE_WITH_DYNAMIC_PLUGIN_SUPPORT
 	DYNLIB_HANDLE m_hInst = DYNLIB_LOAD(filename);
 	if(m_hInst)
 	{
@@ -66,6 +73,7 @@ bool cPluginManager::installPlugin(const char* filename, const char* name)
 			}
 		}
 	}
+#endif
 	return false;
 }
 
@@ -113,6 +121,7 @@ void cPluginManager::uninstallPlugin(IAudioPlugin* plugin)
 			}
 		}
 
+#ifdef CAUDIO_COMPILE_WITH_DYNAMIC_PLUGIN_SUPPORT
 		std::map<IAudioPlugin*, DYNLIB_HANDLE>::iterator it2 = DynamicallyLoadedPlugins.find(plugin);
 		if(it2 != DynamicallyLoadedPlugins.end())
 		{
@@ -124,6 +133,7 @@ void cPluginManager::uninstallPlugin(IAudioPlugin* plugin)
 			}
 			DynamicallyLoadedPlugins.erase(it2->first);
 		}
+#endif
 	}
 }
 
@@ -135,6 +145,7 @@ void cPluginManager::uninstallPlugin(const char* name)
 	}
 }
 
+#ifdef CAUDIO_COMPILE_WITH_DYNAMIC_PLUGIN_SUPPORT
 void cPluginManager::autoLoadPlugins()
 {
 	std::vector<std::string> fileList = getFilesInDirectory(".");
@@ -158,6 +169,7 @@ void cPluginManager::autoLoadPlugins()
 		}
 	}
 }
+#endif
 
 CAUDIO_API IPluginManager* getPluginManager()
 {

@@ -34,6 +34,11 @@
 //! This define controls whether plugin support is added into the library, commenting it out will prevent any plugins from working
 #define CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
 
+#ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
+	//! Define enabled support for plugins as dynamic libs
+	#define CAUDIO_COMPILE_WITH_DYNAMIC_PLUGIN_SUPPORT
+#endif //CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
+
 //! Size of the internal buffer per source for audio data (total amount buffered is CAUDIO_SOURCE_BUFFER_SIZE * CAUDIO_SOURCE_NUM_BUFFERS)
 #define CAUDIO_SOURCE_BUFFER_SIZE ( 1024 * 64 )
 //! Number of internal buffers to cycle through per source (Note: using only 1 leads to choppy sound or premature ending of sources)
@@ -69,6 +74,11 @@
 
 //! This define controls whether plugin support is added into the library, commenting it out will prevent any plugins from working
 #define CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
+
+#ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
+	//! Define enabled support for plugins as dynamic libs
+	#define CAUDIO_COMPILE_WITH_DYNAMIC_PLUGIN_SUPPORT
+#endif //CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
 
 //! Size of the internal buffer per source for audio data (total amount buffered is CAUDIO_SOURCE_BUFFER_SIZE * CAUDIO_SOURCE_NUM_BUFFERS)
 #define CAUDIO_SOURCE_BUFFER_SIZE ( 1024 * 64 )
@@ -129,6 +139,11 @@
 
 //! This define controls whether plugin support is added into the library, commenting it out will prevent any plugins from working
 #define CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
+
+#ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
+	//! Define enabled support for plugins as dynamic libs
+	#define CAUDIO_COMPILE_WITH_DYNAMIC_PLUGIN_SUPPORT
+#endif //CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
 
 //! Size of the internal buffer per source for audio data (total amount buffered is CAUDIO_SOURCE_BUFFER_SIZE * CAUDIO_SOURCE_NUM_BUFFERS)
 #define CAUDIO_SOURCE_BUFFER_SIZE ( 1024 * 64 )

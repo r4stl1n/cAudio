@@ -11,6 +11,8 @@
 
 #ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
 
+#ifdef CAUDIO_COMPILE_WITH_DYNAMIC_PLUGIN_SUPPORT
+
 #ifdef CAUDIO_PLATFORM_WIN
 #	define WIN32_LEAN_AND_MEAN
 #	include <windows.h>
@@ -40,6 +42,8 @@ typedef struct HINSTANCE__* hInstance;
 #	define DYNLIB_UNLOAD( a ) dlclose( a )
 #endif
 
+#endif //! CAUDIO_COMPILE_WITH_DYNAMIC_PLUGIN_SUPPORT
+
 namespace cAudio
 {
 	class cPluginManager : public IPluginManager
@@ -65,10 +69,14 @@ namespace cAudio
 		virtual void uninstallPlugin(IAudioPlugin* plugin);
 		virtual void uninstallPlugin(const char* name);
 
+#ifdef CAUDIO_COMPILE_WITH_DYNAMIC_PLUGIN_SUPPORT
 		void autoLoadPlugins();
+#endif
 	protected:
 		std::map<std::string, IAudioPlugin*> RegisteredPlugins;
+#ifdef CAUDIO_COMPILE_WITH_DYNAMIC_PLUGIN_SUPPORT
 		std::map<IAudioPlugin*, DYNLIB_HANDLE> DynamicallyLoadedPlugins;
+#endif
 	};
 };
 
