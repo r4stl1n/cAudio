@@ -1,8 +1,6 @@
 #ifndef CPLUGINMANAGER_H_INCLUDED
 #define CPLUGINMANAGER_H_INCLUDED
 
-#ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
-
 #include <string>
 #include <map>
 #include <vector>
@@ -10,6 +8,8 @@
 #include "../include/IPluginManager.h"
 #include "../include/IAudioPlugin.h"
 #include "../Headers/cMutex.h"
+
+#ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
 
 #ifdef CAUDIO_PLATFORM_WIN
 #	define WIN32_LEAN_AND_MEAN
