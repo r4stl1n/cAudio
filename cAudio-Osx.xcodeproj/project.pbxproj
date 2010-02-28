@@ -229,8 +229,8 @@
 		7B09C61E113A17E5008C46C9 /* IRefCounted.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRefCounted.h; sourceTree = "<group>"; };
 		7B09C61F113A17E5008C46C9 /* ISourceEventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISourceEventHandler.h; sourceTree = "<group>"; };
 		7B09C63A113A17F5008C46C9 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = /System/Library/Frameworks/OpenAL.framework; sourceTree = "<absolute>"; };
-		7B891F72113A21C9001CDBC6 /* liblibcAudio.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibcAudio.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		D2AAC09D05546B4700DB518D /* libcAudio.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libcAudio.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+		7B891F72113A21C9001CDBC6 /* liblibcAudio_d.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibcAudio_d.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2AAC09D05546B4700DB518D /* libcAudio_d.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libcAudio_d.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -256,8 +256,8 @@
 		034768DDFF38A45A11DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D2AAC09D05546B4700DB518D /* libcAudio.dylib */,
-				7B891F72113A21C9001CDBC6 /* liblibcAudio.a */,
+				D2AAC09D05546B4700DB518D /* libcAudio_d.dylib */,
+				7B891F72113A21C9001CDBC6 /* liblibcAudio_d.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -509,7 +509,7 @@
 			);
 			name = "cAudio-Osx(static)";
 			productName = "cAudio-Osx(static)";
-			productReference = 7B891F72113A21C9001CDBC6 /* liblibcAudio.a */;
+			productReference = 7B891F72113A21C9001CDBC6 /* liblibcAudio_d.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		D2AAC09C05546B4700DB518D /* cAudio-Osx */ = {
@@ -526,7 +526,7 @@
 			);
 			name = "cAudio-Osx";
 			productName = "libcAudio-Osx";
-			productReference = D2AAC09D05546B4700DB518D /* libcAudio.dylib */;
+			productReference = D2AAC09D05546B4700DB518D /* libcAudio_d.dylib */;
 			productType = "com.apple.product-type.library.dynamic";
 		};
 /* End PBXNativeTarget section */

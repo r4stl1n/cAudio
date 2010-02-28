@@ -156,7 +156,7 @@
 		7B8F7E151139F8C40092C2FD /* cWavDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cWavDecoder.h; path = Headers/cWavDecoder.h; sourceTree = SOURCE_ROOT; };
 		7BA918FD1139A9BE00A9144B /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = /System/Library/Frameworks/OpenAL.framework; sourceTree = "<absolute>"; };
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		D2AAC07E0554694100DB518D /* libcAudio_Iphone.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libcAudio_Iphone.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2AAC07E0554694100DB518D /* libcAudio_Iphone_d.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libcAudio_Iphone_d.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,7 +175,7 @@
 		034768DFFF38A50411DB9C8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				D2AAC07E0554694100DB518D /* libcAudio_Iphone.a */,
+				D2AAC07E0554694100DB518D /* libcAudio_Iphone_d.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -378,7 +378,7 @@
 			);
 			name = "cAudio-Iphone";
 			productName = "cAudio-Iphone";
-			productReference = D2AAC07E0554694100DB518D /* libcAudio_Iphone.a */;
+			productReference = D2AAC07E0554694100DB518D /* libcAudio_Iphone_d.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 /* End PBXNativeTarget section */
@@ -492,6 +492,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PREBINDING = NO;
 				SDKROOT = iphoneos3.1.3;
+				SYMROOT = "bin/Osx-iphone";
 			};
 			name = Debug;
 		};
