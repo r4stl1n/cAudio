@@ -1,0 +1,781 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7B09C5BE113A17D9008C46C9 /* cAudioCapture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5A8113A17D9008C46C9 /* cAudioCapture.cpp */; };
+		7B09C5BF113A17D9008C46C9 /* cAudioEffects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5A9113A17D9008C46C9 /* cAudioEffects.cpp */; };
+		7B09C5C0113A17D9008C46C9 /* cAudioManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5AA113A17D9008C46C9 /* cAudioManager.cpp */; };
+		7B09C5C1113A17D9008C46C9 /* cAudioSleep.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5AB113A17D9008C46C9 /* cAudioSleep.cpp */; };
+		7B09C5C2113A17D9008C46C9 /* cAudioSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5AC113A17D9008C46C9 /* cAudioSource.cpp */; };
+		7B09C5C3113A17D9008C46C9 /* cConsoleLogReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5AD113A17D9008C46C9 /* cConsoleLogReceiver.cpp */; };
+		7B09C5C4113A17D9008C46C9 /* cEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5AE113A17D9008C46C9 /* cEffect.cpp */; };
+		7B09C5C5113A17D9008C46C9 /* cFileLogReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5AF113A17D9008C46C9 /* cFileLogReceiver.cpp */; };
+		7B09C5C6113A17D9008C46C9 /* cFileSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5B0113A17D9008C46C9 /* cFileSource.cpp */; };
+		7B09C5C7113A17D9008C46C9 /* cFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5B1113A17D9008C46C9 /* cFilter.cpp */; };
+		7B09C5C8113A17D9008C46C9 /* cListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5B2113A17D9008C46C9 /* cListener.cpp */; };
+		7B09C5C9113A17D9008C46C9 /* cLogger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5B3113A17D9008C46C9 /* cLogger.cpp */; };
+		7B09C5CA113A17D9008C46C9 /* cMemorySource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5B4113A17D9008C46C9 /* cMemorySource.cpp */; };
+		7B09C5CB113A17D9008C46C9 /* cMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5B5113A17D9008C46C9 /* cMutex.cpp */; };
+		7B09C5CC113A17D9008C46C9 /* cOggAudioDecoderFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5B6113A17D9008C46C9 /* cOggAudioDecoderFactory.cpp */; };
+		7B09C5CD113A17D9008C46C9 /* cOggDecoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5B7113A17D9008C46C9 /* cOggDecoder.cpp */; };
+		7B09C5CE113A17D9008C46C9 /* cPluginManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5B8113A17D9008C46C9 /* cPluginManager.cpp */; };
+		7B09C5CF113A17D9008C46C9 /* cRawDecoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5B9113A17D9008C46C9 /* cRawDecoder.cpp */; };
+		7B09C5D0113A17D9008C46C9 /* cThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5BA113A17D9008C46C9 /* cThread.cpp */; };
+		7B09C5D1113A17D9008C46C9 /* cWavAudioDecoderFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5BB113A17D9008C46C9 /* cWavAudioDecoderFactory.cpp */; };
+		7B09C5D2113A17D9008C46C9 /* cWavDecoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5BC113A17D9008C46C9 /* cWavDecoder.cpp */; };
+		7B09C5D3113A17D9008C46C9 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5BD113A17D9008C46C9 /* Makefile */; };
+		7B09C5ED113A17DD008C46C9 /* cAudioCapture.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5D5113A17DD008C46C9 /* cAudioCapture.h */; };
+		7B09C5EE113A17DD008C46C9 /* cAudioEffects.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5D6113A17DD008C46C9 /* cAudioEffects.h */; };
+		7B09C5EF113A17DD008C46C9 /* cAudioManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5D7113A17DD008C46C9 /* cAudioManager.h */; };
+		7B09C5F0113A17DD008C46C9 /* cAudioSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5D8113A17DD008C46C9 /* cAudioSource.h */; };
+		7B09C5F1113A17DD008C46C9 /* cConsoleLogReceiver.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5D9113A17DD008C46C9 /* cConsoleLogReceiver.h */; };
+		7B09C5F2113A17DD008C46C9 /* cEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5DA113A17DD008C46C9 /* cEffect.h */; };
+		7B09C5F3113A17DD008C46C9 /* cEFXFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5DB113A17DD008C46C9 /* cEFXFunctions.h */; };
+		7B09C5F4113A17DD008C46C9 /* cFileLogReceiver.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5DC113A17DD008C46C9 /* cFileLogReceiver.h */; };
+		7B09C5F5113A17DD008C46C9 /* cFileSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5DD113A17DD008C46C9 /* cFileSource.h */; };
+		7B09C5F6113A17DD008C46C9 /* cFileSourceFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5DE113A17DD008C46C9 /* cFileSourceFactory.h */; };
+		7B09C5F7113A17DD008C46C9 /* cFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5DF113A17DD008C46C9 /* cFilter.h */; };
+		7B09C5F8113A17DD008C46C9 /* cListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5E0113A17DD008C46C9 /* cListener.h */; };
+		7B09C5F9113A17DD008C46C9 /* cLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5E1113A17DD008C46C9 /* cLogger.h */; };
+		7B09C5FA113A17DD008C46C9 /* cMemorySource.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5E2113A17DD008C46C9 /* cMemorySource.h */; };
+		7B09C5FB113A17DD008C46C9 /* cMutex.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5E3113A17DD008C46C9 /* cMutex.h */; };
+		7B09C5FC113A17DD008C46C9 /* cOggAudioDecoderFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5E4113A17DD008C46C9 /* cOggAudioDecoderFactory.h */; };
+		7B09C5FD113A17DD008C46C9 /* cOggDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5E5113A17DD008C46C9 /* cOggDecoder.h */; };
+		7B09C5FE113A17DD008C46C9 /* cPluginManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5E6113A17DD008C46C9 /* cPluginManager.h */; };
+		7B09C5FF113A17DD008C46C9 /* cRawAudioDecoderFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5E7113A17DD008C46C9 /* cRawAudioDecoderFactory.h */; };
+		7B09C600113A17DD008C46C9 /* cRawDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5E8113A17DD008C46C9 /* cRawDecoder.h */; };
+		7B09C601113A17DD008C46C9 /* cThread.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5E9113A17DD008C46C9 /* cThread.h */; };
+		7B09C602113A17DD008C46C9 /* cUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5EA113A17DD008C46C9 /* cUtils.h */; };
+		7B09C603113A17DD008C46C9 /* cWavAudioDecoderFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5EB113A17DD008C46C9 /* cWavAudioDecoderFactory.h */; };
+		7B09C604113A17DD008C46C9 /* cWavDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5EC113A17DD008C46C9 /* cWavDecoder.h */; };
+		7B09C620113A17E5008C46C9 /* cAudio.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C606113A17E5008C46C9 /* cAudio.h */; };
+		7B09C621113A17E5008C46C9 /* cAudioDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C607113A17E5008C46C9 /* cAudioDefines.h */; };
+		7B09C622113A17E5008C46C9 /* cAudioPlatform.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C608113A17E5008C46C9 /* cAudioPlatform.h */; };
+		7B09C623113A17E5008C46C9 /* cAudioSleep.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C609113A17E5008C46C9 /* cAudioSleep.h */; };
+		7B09C624113A17E5008C46C9 /* cVector3.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C60A113A17E5008C46C9 /* cVector3.h */; };
+		7B09C625113A17E5008C46C9 /* EAudioFormats.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C60B113A17E5008C46C9 /* EAudioFormats.h */; };
+		7B09C626113A17E5008C46C9 /* IAudioCapture.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C60C113A17E5008C46C9 /* IAudioCapture.h */; };
+		7B09C627113A17E5008C46C9 /* IAudioDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C60D113A17E5008C46C9 /* IAudioDecoder.h */; };
+		7B09C628113A17E5008C46C9 /* IAudioDecoderFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C60E113A17E5008C46C9 /* IAudioDecoderFactory.h */; };
+		7B09C629113A17E5008C46C9 /* IAudioEffects.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C60F113A17E5008C46C9 /* IAudioEffects.h */; };
+		7B09C62A113A17E5008C46C9 /* IAudioManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C610113A17E5008C46C9 /* IAudioManager.h */; };
+		7B09C62B113A17E5008C46C9 /* IAudioPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C611113A17E5008C46C9 /* IAudioPlugin.h */; };
+		7B09C62C113A17E5008C46C9 /* IAudioSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C612113A17E5008C46C9 /* IAudioSource.h */; };
+		7B09C62D113A17E5008C46C9 /* ICaptureEventHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C613113A17E5008C46C9 /* ICaptureEventHandler.h */; };
+		7B09C62E113A17E5008C46C9 /* IDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C614113A17E5008C46C9 /* IDataSource.h */; };
+		7B09C62F113A17E5008C46C9 /* IDataSourceFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C615113A17E5008C46C9 /* IDataSourceFactory.h */; };
+		7B09C630113A17E5008C46C9 /* IEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C616113A17E5008C46C9 /* IEffect.h */; };
+		7B09C631113A17E5008C46C9 /* IEffectParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C617113A17E5008C46C9 /* IEffectParameters.h */; };
+		7B09C632113A17E5008C46C9 /* IFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C618113A17E5008C46C9 /* IFilter.h */; };
+		7B09C633113A17E5008C46C9 /* IListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C619113A17E5008C46C9 /* IListener.h */; };
+		7B09C634113A17E5008C46C9 /* ILogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C61A113A17E5008C46C9 /* ILogger.h */; };
+		7B09C635113A17E5008C46C9 /* ILogReceiver.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C61B113A17E5008C46C9 /* ILogReceiver.h */; };
+		7B09C636113A17E5008C46C9 /* IManagerEventHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C61C113A17E5008C46C9 /* IManagerEventHandler.h */; };
+		7B09C637113A17E5008C46C9 /* IPluginManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C61D113A17E5008C46C9 /* IPluginManager.h */; };
+		7B09C638113A17E5008C46C9 /* IRefCounted.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C61E113A17E5008C46C9 /* IRefCounted.h */; };
+		7B09C639113A17E5008C46C9 /* ISourceEventHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C61F113A17E5008C46C9 /* ISourceEventHandler.h */; };
+		7B09C63B113A17F5008C46C9 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B09C63A113A17F5008C46C9 /* OpenAL.framework */; };
+		7B891F76113A221E001CDBC6 /* cAudio.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C606113A17E5008C46C9 /* cAudio.h */; };
+		7B891F77113A221E001CDBC6 /* cAudioDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C607113A17E5008C46C9 /* cAudioDefines.h */; };
+		7B891F78113A221E001CDBC6 /* cAudioPlatform.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C608113A17E5008C46C9 /* cAudioPlatform.h */; };
+		7B891F79113A221E001CDBC6 /* cAudioSleep.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C609113A17E5008C46C9 /* cAudioSleep.h */; };
+		7B891F7A113A221E001CDBC6 /* cVector3.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C60A113A17E5008C46C9 /* cVector3.h */; };
+		7B891F7B113A221E001CDBC6 /* EAudioFormats.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C60B113A17E5008C46C9 /* EAudioFormats.h */; };
+		7B891F7C113A221E001CDBC6 /* IAudioCapture.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C60C113A17E5008C46C9 /* IAudioCapture.h */; };
+		7B891F7D113A221E001CDBC6 /* IAudioDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C60D113A17E5008C46C9 /* IAudioDecoder.h */; };
+		7B891F7E113A221E001CDBC6 /* IAudioDecoderFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C60E113A17E5008C46C9 /* IAudioDecoderFactory.h */; };
+		7B891F7F113A221E001CDBC6 /* IAudioEffects.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C60F113A17E5008C46C9 /* IAudioEffects.h */; };
+		7B891F80113A221E001CDBC6 /* IAudioManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C610113A17E5008C46C9 /* IAudioManager.h */; };
+		7B891F81113A221E001CDBC6 /* IAudioPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C611113A17E5008C46C9 /* IAudioPlugin.h */; };
+		7B891F82113A221E001CDBC6 /* IAudioSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C612113A17E5008C46C9 /* IAudioSource.h */; };
+		7B891F83113A221E001CDBC6 /* ICaptureEventHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C613113A17E5008C46C9 /* ICaptureEventHandler.h */; };
+		7B891F84113A221E001CDBC6 /* IDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C614113A17E5008C46C9 /* IDataSource.h */; };
+		7B891F85113A221E001CDBC6 /* IDataSourceFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C615113A17E5008C46C9 /* IDataSourceFactory.h */; };
+		7B891F86113A221E001CDBC6 /* IEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C616113A17E5008C46C9 /* IEffect.h */; };
+		7B891F87113A221E001CDBC6 /* IEffectParameters.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C617113A17E5008C46C9 /* IEffectParameters.h */; };
+		7B891F88113A221E001CDBC6 /* IFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C618113A17E5008C46C9 /* IFilter.h */; };
+		7B891F89113A221E001CDBC6 /* IListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C619113A17E5008C46C9 /* IListener.h */; };
+		7B891F8A113A221E001CDBC6 /* ILogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C61A113A17E5008C46C9 /* ILogger.h */; };
+		7B891F8B113A221E001CDBC6 /* ILogReceiver.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C61B113A17E5008C46C9 /* ILogReceiver.h */; };
+		7B891F8C113A221E001CDBC6 /* IManagerEventHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C61C113A17E5008C46C9 /* IManagerEventHandler.h */; };
+		7B891F8D113A221E001CDBC6 /* IPluginManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C61D113A17E5008C46C9 /* IPluginManager.h */; };
+		7B891F8E113A221E001CDBC6 /* IRefCounted.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C61E113A17E5008C46C9 /* IRefCounted.h */; };
+		7B891F8F113A221E001CDBC6 /* ISourceEventHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C61F113A17E5008C46C9 /* ISourceEventHandler.h */; };
+		7B891F90113A2222001CDBC6 /* cAudioCapture.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5D5113A17DD008C46C9 /* cAudioCapture.h */; };
+		7B891F91113A2222001CDBC6 /* cAudioEffects.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5D6113A17DD008C46C9 /* cAudioEffects.h */; };
+		7B891F92113A2222001CDBC6 /* cAudioManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5D7113A17DD008C46C9 /* cAudioManager.h */; };
+		7B891F93113A2222001CDBC6 /* cAudioSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5D8113A17DD008C46C9 /* cAudioSource.h */; };
+		7B891F94113A2222001CDBC6 /* cConsoleLogReceiver.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5D9113A17DD008C46C9 /* cConsoleLogReceiver.h */; };
+		7B891F95113A2222001CDBC6 /* cEffect.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5DA113A17DD008C46C9 /* cEffect.h */; };
+		7B891F96113A2222001CDBC6 /* cEFXFunctions.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5DB113A17DD008C46C9 /* cEFXFunctions.h */; };
+		7B891F97113A2222001CDBC6 /* cFileLogReceiver.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5DC113A17DD008C46C9 /* cFileLogReceiver.h */; };
+		7B891F98113A2222001CDBC6 /* cFileSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5DD113A17DD008C46C9 /* cFileSource.h */; };
+		7B891F99113A2222001CDBC6 /* cFileSourceFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5DE113A17DD008C46C9 /* cFileSourceFactory.h */; };
+		7B891F9A113A2222001CDBC6 /* cFilter.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5DF113A17DD008C46C9 /* cFilter.h */; };
+		7B891F9B113A2222001CDBC6 /* cListener.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5E0113A17DD008C46C9 /* cListener.h */; };
+		7B891F9C113A2222001CDBC6 /* cLogger.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5E1113A17DD008C46C9 /* cLogger.h */; };
+		7B891F9D113A2222001CDBC6 /* cMemorySource.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5E2113A17DD008C46C9 /* cMemorySource.h */; };
+		7B891F9E113A2222001CDBC6 /* cMutex.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5E3113A17DD008C46C9 /* cMutex.h */; };
+		7B891F9F113A2222001CDBC6 /* cOggAudioDecoderFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5E4113A17DD008C46C9 /* cOggAudioDecoderFactory.h */; };
+		7B891FA0113A2222001CDBC6 /* cOggDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5E5113A17DD008C46C9 /* cOggDecoder.h */; };
+		7B891FA1113A2222001CDBC6 /* cPluginManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5E6113A17DD008C46C9 /* cPluginManager.h */; };
+		7B891FA2113A2222001CDBC6 /* cRawAudioDecoderFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5E7113A17DD008C46C9 /* cRawAudioDecoderFactory.h */; };
+		7B891FA3113A2222001CDBC6 /* cRawDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5E8113A17DD008C46C9 /* cRawDecoder.h */; };
+		7B891FA4113A2222001CDBC6 /* cThread.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5E9113A17DD008C46C9 /* cThread.h */; };
+		7B891FA5113A2222001CDBC6 /* cUtils.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5EA113A17DD008C46C9 /* cUtils.h */; };
+		7B891FA6113A2222001CDBC6 /* cWavAudioDecoderFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5EB113A17DD008C46C9 /* cWavAudioDecoderFactory.h */; };
+		7B891FA7113A2222001CDBC6 /* cWavDecoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C5EC113A17DD008C46C9 /* cWavDecoder.h */; };
+		7B891FA8113A2227001CDBC6 /* cAudioCapture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5A8113A17D9008C46C9 /* cAudioCapture.cpp */; };
+		7B891FA9113A2227001CDBC6 /* cAudioEffects.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5A9113A17D9008C46C9 /* cAudioEffects.cpp */; };
+		7B891FAA113A2227001CDBC6 /* cAudioManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5AA113A17D9008C46C9 /* cAudioManager.cpp */; };
+		7B891FAB113A2227001CDBC6 /* cAudioSleep.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5AB113A17D9008C46C9 /* cAudioSleep.cpp */; };
+		7B891FAC113A2227001CDBC6 /* cAudioSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5AC113A17D9008C46C9 /* cAudioSource.cpp */; };
+		7B891FAD113A2227001CDBC6 /* cConsoleLogReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5AD113A17D9008C46C9 /* cConsoleLogReceiver.cpp */; };
+		7B891FAE113A2227001CDBC6 /* cEffect.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5AE113A17D9008C46C9 /* cEffect.cpp */; };
+		7B891FAF113A2227001CDBC6 /* cFileLogReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5AF113A17D9008C46C9 /* cFileLogReceiver.cpp */; };
+		7B891FB0113A2227001CDBC6 /* cFileSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5B0113A17D9008C46C9 /* cFileSource.cpp */; };
+		7B891FB1113A2227001CDBC6 /* cFilter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5B1113A17D9008C46C9 /* cFilter.cpp */; };
+		7B891FB2113A2227001CDBC6 /* cListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5B2113A17D9008C46C9 /* cListener.cpp */; };
+		7B891FB3113A2227001CDBC6 /* cLogger.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5B3113A17D9008C46C9 /* cLogger.cpp */; };
+		7B891FB4113A2227001CDBC6 /* cMemorySource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5B4113A17D9008C46C9 /* cMemorySource.cpp */; };
+		7B891FB5113A2227001CDBC6 /* cMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5B5113A17D9008C46C9 /* cMutex.cpp */; };
+		7B891FB6113A2227001CDBC6 /* cOggAudioDecoderFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5B6113A17D9008C46C9 /* cOggAudioDecoderFactory.cpp */; };
+		7B891FB7113A2227001CDBC6 /* cOggDecoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5B7113A17D9008C46C9 /* cOggDecoder.cpp */; };
+		7B891FB8113A2227001CDBC6 /* cPluginManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5B8113A17D9008C46C9 /* cPluginManager.cpp */; };
+		7B891FB9113A2227001CDBC6 /* cRawDecoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5B9113A17D9008C46C9 /* cRawDecoder.cpp */; };
+		7B891FBA113A2227001CDBC6 /* cThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5BA113A17D9008C46C9 /* cThread.cpp */; };
+		7B891FBB113A2227001CDBC6 /* cWavAudioDecoderFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5BB113A17D9008C46C9 /* cWavAudioDecoderFactory.cpp */; };
+		7B891FBC113A2227001CDBC6 /* cWavDecoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5BC113A17D9008C46C9 /* cWavDecoder.cpp */; };
+		7B891FBD113A2227001CDBC6 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = 7B09C5BD113A17D9008C46C9 /* Makefile */; };
+		7B891FC2113A222C001CDBC6 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B09C63A113A17F5008C46C9 /* OpenAL.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		7B09C5A8113A17D9008C46C9 /* cAudioCapture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cAudioCapture.cpp; sourceTree = "<group>"; };
+		7B09C5A9113A17D9008C46C9 /* cAudioEffects.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cAudioEffects.cpp; sourceTree = "<group>"; };
+		7B09C5AA113A17D9008C46C9 /* cAudioManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cAudioManager.cpp; sourceTree = "<group>"; };
+		7B09C5AB113A17D9008C46C9 /* cAudioSleep.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cAudioSleep.cpp; sourceTree = "<group>"; };
+		7B09C5AC113A17D9008C46C9 /* cAudioSource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cAudioSource.cpp; sourceTree = "<group>"; };
+		7B09C5AD113A17D9008C46C9 /* cConsoleLogReceiver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cConsoleLogReceiver.cpp; sourceTree = "<group>"; };
+		7B09C5AE113A17D9008C46C9 /* cEffect.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cEffect.cpp; sourceTree = "<group>"; };
+		7B09C5AF113A17D9008C46C9 /* cFileLogReceiver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cFileLogReceiver.cpp; sourceTree = "<group>"; };
+		7B09C5B0113A17D9008C46C9 /* cFileSource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cFileSource.cpp; sourceTree = "<group>"; };
+		7B09C5B1113A17D9008C46C9 /* cFilter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cFilter.cpp; sourceTree = "<group>"; };
+		7B09C5B2113A17D9008C46C9 /* cListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cListener.cpp; sourceTree = "<group>"; };
+		7B09C5B3113A17D9008C46C9 /* cLogger.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cLogger.cpp; sourceTree = "<group>"; };
+		7B09C5B4113A17D9008C46C9 /* cMemorySource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cMemorySource.cpp; sourceTree = "<group>"; };
+		7B09C5B5113A17D9008C46C9 /* cMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cMutex.cpp; sourceTree = "<group>"; };
+		7B09C5B6113A17D9008C46C9 /* cOggAudioDecoderFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cOggAudioDecoderFactory.cpp; sourceTree = "<group>"; };
+		7B09C5B7113A17D9008C46C9 /* cOggDecoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cOggDecoder.cpp; sourceTree = "<group>"; };
+		7B09C5B8113A17D9008C46C9 /* cPluginManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cPluginManager.cpp; sourceTree = "<group>"; };
+		7B09C5B9113A17D9008C46C9 /* cRawDecoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cRawDecoder.cpp; sourceTree = "<group>"; };
+		7B09C5BA113A17D9008C46C9 /* cThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cThread.cpp; sourceTree = "<group>"; };
+		7B09C5BB113A17D9008C46C9 /* cWavAudioDecoderFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cWavAudioDecoderFactory.cpp; sourceTree = "<group>"; };
+		7B09C5BC113A17D9008C46C9 /* cWavDecoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cWavDecoder.cpp; sourceTree = "<group>"; };
+		7B09C5BD113A17D9008C46C9 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		7B09C5D5113A17DD008C46C9 /* cAudioCapture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cAudioCapture.h; sourceTree = "<group>"; };
+		7B09C5D6113A17DD008C46C9 /* cAudioEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cAudioEffects.h; sourceTree = "<group>"; };
+		7B09C5D7113A17DD008C46C9 /* cAudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cAudioManager.h; sourceTree = "<group>"; };
+		7B09C5D8113A17DD008C46C9 /* cAudioSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cAudioSource.h; sourceTree = "<group>"; };
+		7B09C5D9113A17DD008C46C9 /* cConsoleLogReceiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cConsoleLogReceiver.h; sourceTree = "<group>"; };
+		7B09C5DA113A17DD008C46C9 /* cEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cEffect.h; sourceTree = "<group>"; };
+		7B09C5DB113A17DD008C46C9 /* cEFXFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cEFXFunctions.h; sourceTree = "<group>"; };
+		7B09C5DC113A17DD008C46C9 /* cFileLogReceiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cFileLogReceiver.h; sourceTree = "<group>"; };
+		7B09C5DD113A17DD008C46C9 /* cFileSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cFileSource.h; sourceTree = "<group>"; };
+		7B09C5DE113A17DD008C46C9 /* cFileSourceFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cFileSourceFactory.h; sourceTree = "<group>"; };
+		7B09C5DF113A17DD008C46C9 /* cFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cFilter.h; sourceTree = "<group>"; };
+		7B09C5E0113A17DD008C46C9 /* cListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cListener.h; sourceTree = "<group>"; };
+		7B09C5E1113A17DD008C46C9 /* cLogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cLogger.h; sourceTree = "<group>"; };
+		7B09C5E2113A17DD008C46C9 /* cMemorySource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cMemorySource.h; sourceTree = "<group>"; };
+		7B09C5E3113A17DD008C46C9 /* cMutex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cMutex.h; sourceTree = "<group>"; };
+		7B09C5E4113A17DD008C46C9 /* cOggAudioDecoderFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cOggAudioDecoderFactory.h; sourceTree = "<group>"; };
+		7B09C5E5113A17DD008C46C9 /* cOggDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cOggDecoder.h; sourceTree = "<group>"; };
+		7B09C5E6113A17DD008C46C9 /* cPluginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cPluginManager.h; sourceTree = "<group>"; };
+		7B09C5E7113A17DD008C46C9 /* cRawAudioDecoderFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cRawAudioDecoderFactory.h; sourceTree = "<group>"; };
+		7B09C5E8113A17DD008C46C9 /* cRawDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cRawDecoder.h; sourceTree = "<group>"; };
+		7B09C5E9113A17DD008C46C9 /* cThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cThread.h; sourceTree = "<group>"; };
+		7B09C5EA113A17DD008C46C9 /* cUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cUtils.h; sourceTree = "<group>"; };
+		7B09C5EB113A17DD008C46C9 /* cWavAudioDecoderFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cWavAudioDecoderFactory.h; sourceTree = "<group>"; };
+		7B09C5EC113A17DD008C46C9 /* cWavDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cWavDecoder.h; sourceTree = "<group>"; };
+		7B09C606113A17E5008C46C9 /* cAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cAudio.h; sourceTree = "<group>"; };
+		7B09C607113A17E5008C46C9 /* cAudioDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cAudioDefines.h; sourceTree = "<group>"; };
+		7B09C608113A17E5008C46C9 /* cAudioPlatform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cAudioPlatform.h; sourceTree = "<group>"; };
+		7B09C609113A17E5008C46C9 /* cAudioSleep.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cAudioSleep.h; sourceTree = "<group>"; };
+		7B09C60A113A17E5008C46C9 /* cVector3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cVector3.h; sourceTree = "<group>"; };
+		7B09C60B113A17E5008C46C9 /* EAudioFormats.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAudioFormats.h; sourceTree = "<group>"; };
+		7B09C60C113A17E5008C46C9 /* IAudioCapture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAudioCapture.h; sourceTree = "<group>"; };
+		7B09C60D113A17E5008C46C9 /* IAudioDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAudioDecoder.h; sourceTree = "<group>"; };
+		7B09C60E113A17E5008C46C9 /* IAudioDecoderFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAudioDecoderFactory.h; sourceTree = "<group>"; };
+		7B09C60F113A17E5008C46C9 /* IAudioEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAudioEffects.h; sourceTree = "<group>"; };
+		7B09C610113A17E5008C46C9 /* IAudioManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAudioManager.h; sourceTree = "<group>"; };
+		7B09C611113A17E5008C46C9 /* IAudioPlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAudioPlugin.h; sourceTree = "<group>"; };
+		7B09C612113A17E5008C46C9 /* IAudioSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IAudioSource.h; sourceTree = "<group>"; };
+		7B09C613113A17E5008C46C9 /* ICaptureEventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICaptureEventHandler.h; sourceTree = "<group>"; };
+		7B09C614113A17E5008C46C9 /* IDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDataSource.h; sourceTree = "<group>"; };
+		7B09C615113A17E5008C46C9 /* IDataSourceFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDataSourceFactory.h; sourceTree = "<group>"; };
+		7B09C616113A17E5008C46C9 /* IEffect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IEffect.h; sourceTree = "<group>"; };
+		7B09C617113A17E5008C46C9 /* IEffectParameters.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IEffectParameters.h; sourceTree = "<group>"; };
+		7B09C618113A17E5008C46C9 /* IFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IFilter.h; sourceTree = "<group>"; };
+		7B09C619113A17E5008C46C9 /* IListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IListener.h; sourceTree = "<group>"; };
+		7B09C61A113A17E5008C46C9 /* ILogger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILogger.h; sourceTree = "<group>"; };
+		7B09C61B113A17E5008C46C9 /* ILogReceiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ILogReceiver.h; sourceTree = "<group>"; };
+		7B09C61C113A17E5008C46C9 /* IManagerEventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IManagerEventHandler.h; sourceTree = "<group>"; };
+		7B09C61D113A17E5008C46C9 /* IPluginManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IPluginManager.h; sourceTree = "<group>"; };
+		7B09C61E113A17E5008C46C9 /* IRefCounted.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRefCounted.h; sourceTree = "<group>"; };
+		7B09C61F113A17E5008C46C9 /* ISourceEventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISourceEventHandler.h; sourceTree = "<group>"; };
+		7B09C63A113A17F5008C46C9 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = /System/Library/Frameworks/OpenAL.framework; sourceTree = "<absolute>"; };
+		7B891F72113A21C9001CDBC6 /* liblibcAudio.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibcAudio.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D2AAC09D05546B4700DB518D /* libcAudio.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libcAudio.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7B891F70113A21C9001CDBC6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B891FC2113A222C001CDBC6 /* OpenAL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2AAC09B05546B4700DB518D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B09C63B113A17F5008C46C9 /* OpenAL.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		034768DDFF38A45A11DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D2AAC09D05546B4700DB518D /* libcAudio.dylib */,
+				7B891F72113A21C9001CDBC6 /* liblibcAudio.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* cAudio-Osx */ = {
+			isa = PBXGroup;
+			children = (
+				7B09C605113A17E5008C46C9 /* include */,
+				7B09C5D4113A17DD008C46C9 /* Headers */,
+				7B09C5A7113A17D9008C46C9 /* Source */,
+				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				034768DDFF38A45A11DB9C8B /* Products */,
+			);
+			name = "cAudio-Osx";
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				7B09C63A113A17F5008C46C9 /* OpenAL.framework */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		7B09C5A7113A17D9008C46C9 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				7B09C5A8113A17D9008C46C9 /* cAudioCapture.cpp */,
+				7B09C5A9113A17D9008C46C9 /* cAudioEffects.cpp */,
+				7B09C5AA113A17D9008C46C9 /* cAudioManager.cpp */,
+				7B09C5AB113A17D9008C46C9 /* cAudioSleep.cpp */,
+				7B09C5AC113A17D9008C46C9 /* cAudioSource.cpp */,
+				7B09C5AD113A17D9008C46C9 /* cConsoleLogReceiver.cpp */,
+				7B09C5AE113A17D9008C46C9 /* cEffect.cpp */,
+				7B09C5AF113A17D9008C46C9 /* cFileLogReceiver.cpp */,
+				7B09C5B0113A17D9008C46C9 /* cFileSource.cpp */,
+				7B09C5B1113A17D9008C46C9 /* cFilter.cpp */,
+				7B09C5B2113A17D9008C46C9 /* cListener.cpp */,
+				7B09C5B3113A17D9008C46C9 /* cLogger.cpp */,
+				7B09C5B4113A17D9008C46C9 /* cMemorySource.cpp */,
+				7B09C5B5113A17D9008C46C9 /* cMutex.cpp */,
+				7B09C5B6113A17D9008C46C9 /* cOggAudioDecoderFactory.cpp */,
+				7B09C5B7113A17D9008C46C9 /* cOggDecoder.cpp */,
+				7B09C5B8113A17D9008C46C9 /* cPluginManager.cpp */,
+				7B09C5B9113A17D9008C46C9 /* cRawDecoder.cpp */,
+				7B09C5BA113A17D9008C46C9 /* cThread.cpp */,
+				7B09C5BB113A17D9008C46C9 /* cWavAudioDecoderFactory.cpp */,
+				7B09C5BC113A17D9008C46C9 /* cWavDecoder.cpp */,
+				7B09C5BD113A17D9008C46C9 /* Makefile */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		7B09C5D4113A17DD008C46C9 /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				7B09C5D5113A17DD008C46C9 /* cAudioCapture.h */,
+				7B09C5D6113A17DD008C46C9 /* cAudioEffects.h */,
+				7B09C5D7113A17DD008C46C9 /* cAudioManager.h */,
+				7B09C5D8113A17DD008C46C9 /* cAudioSource.h */,
+				7B09C5D9113A17DD008C46C9 /* cConsoleLogReceiver.h */,
+				7B09C5DA113A17DD008C46C9 /* cEffect.h */,
+				7B09C5DB113A17DD008C46C9 /* cEFXFunctions.h */,
+				7B09C5DC113A17DD008C46C9 /* cFileLogReceiver.h */,
+				7B09C5DD113A17DD008C46C9 /* cFileSource.h */,
+				7B09C5DE113A17DD008C46C9 /* cFileSourceFactory.h */,
+				7B09C5DF113A17DD008C46C9 /* cFilter.h */,
+				7B09C5E0113A17DD008C46C9 /* cListener.h */,
+				7B09C5E1113A17DD008C46C9 /* cLogger.h */,
+				7B09C5E2113A17DD008C46C9 /* cMemorySource.h */,
+				7B09C5E3113A17DD008C46C9 /* cMutex.h */,
+				7B09C5E4113A17DD008C46C9 /* cOggAudioDecoderFactory.h */,
+				7B09C5E5113A17DD008C46C9 /* cOggDecoder.h */,
+				7B09C5E6113A17DD008C46C9 /* cPluginManager.h */,
+				7B09C5E7113A17DD008C46C9 /* cRawAudioDecoderFactory.h */,
+				7B09C5E8113A17DD008C46C9 /* cRawDecoder.h */,
+				7B09C5E9113A17DD008C46C9 /* cThread.h */,
+				7B09C5EA113A17DD008C46C9 /* cUtils.h */,
+				7B09C5EB113A17DD008C46C9 /* cWavAudioDecoderFactory.h */,
+				7B09C5EC113A17DD008C46C9 /* cWavDecoder.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		7B09C605113A17E5008C46C9 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				7B09C606113A17E5008C46C9 /* cAudio.h */,
+				7B09C607113A17E5008C46C9 /* cAudioDefines.h */,
+				7B09C608113A17E5008C46C9 /* cAudioPlatform.h */,
+				7B09C609113A17E5008C46C9 /* cAudioSleep.h */,
+				7B09C60A113A17E5008C46C9 /* cVector3.h */,
+				7B09C60B113A17E5008C46C9 /* EAudioFormats.h */,
+				7B09C60C113A17E5008C46C9 /* IAudioCapture.h */,
+				7B09C60D113A17E5008C46C9 /* IAudioDecoder.h */,
+				7B09C60E113A17E5008C46C9 /* IAudioDecoderFactory.h */,
+				7B09C60F113A17E5008C46C9 /* IAudioEffects.h */,
+				7B09C610113A17E5008C46C9 /* IAudioManager.h */,
+				7B09C611113A17E5008C46C9 /* IAudioPlugin.h */,
+				7B09C612113A17E5008C46C9 /* IAudioSource.h */,
+				7B09C613113A17E5008C46C9 /* ICaptureEventHandler.h */,
+				7B09C614113A17E5008C46C9 /* IDataSource.h */,
+				7B09C615113A17E5008C46C9 /* IDataSourceFactory.h */,
+				7B09C616113A17E5008C46C9 /* IEffect.h */,
+				7B09C617113A17E5008C46C9 /* IEffectParameters.h */,
+				7B09C618113A17E5008C46C9 /* IFilter.h */,
+				7B09C619113A17E5008C46C9 /* IListener.h */,
+				7B09C61A113A17E5008C46C9 /* ILogger.h */,
+				7B09C61B113A17E5008C46C9 /* ILogReceiver.h */,
+				7B09C61C113A17E5008C46C9 /* IManagerEventHandler.h */,
+				7B09C61D113A17E5008C46C9 /* IPluginManager.h */,
+				7B09C61E113A17E5008C46C9 /* IRefCounted.h */,
+				7B09C61F113A17E5008C46C9 /* ISourceEventHandler.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		7B891F6E113A21C9001CDBC6 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B891F76113A221E001CDBC6 /* cAudio.h in Headers */,
+				7B891F77113A221E001CDBC6 /* cAudioDefines.h in Headers */,
+				7B891F78113A221E001CDBC6 /* cAudioPlatform.h in Headers */,
+				7B891F79113A221E001CDBC6 /* cAudioSleep.h in Headers */,
+				7B891F7A113A221E001CDBC6 /* cVector3.h in Headers */,
+				7B891F7B113A221E001CDBC6 /* EAudioFormats.h in Headers */,
+				7B891F7C113A221E001CDBC6 /* IAudioCapture.h in Headers */,
+				7B891F7D113A221E001CDBC6 /* IAudioDecoder.h in Headers */,
+				7B891F7E113A221E001CDBC6 /* IAudioDecoderFactory.h in Headers */,
+				7B891F7F113A221E001CDBC6 /* IAudioEffects.h in Headers */,
+				7B891F80113A221E001CDBC6 /* IAudioManager.h in Headers */,
+				7B891F81113A221E001CDBC6 /* IAudioPlugin.h in Headers */,
+				7B891F82113A221E001CDBC6 /* IAudioSource.h in Headers */,
+				7B891F83113A221E001CDBC6 /* ICaptureEventHandler.h in Headers */,
+				7B891F84113A221E001CDBC6 /* IDataSource.h in Headers */,
+				7B891F85113A221E001CDBC6 /* IDataSourceFactory.h in Headers */,
+				7B891F86113A221E001CDBC6 /* IEffect.h in Headers */,
+				7B891F87113A221E001CDBC6 /* IEffectParameters.h in Headers */,
+				7B891F88113A221E001CDBC6 /* IFilter.h in Headers */,
+				7B891F89113A221E001CDBC6 /* IListener.h in Headers */,
+				7B891F8A113A221E001CDBC6 /* ILogger.h in Headers */,
+				7B891F8B113A221E001CDBC6 /* ILogReceiver.h in Headers */,
+				7B891F8C113A221E001CDBC6 /* IManagerEventHandler.h in Headers */,
+				7B891F8D113A221E001CDBC6 /* IPluginManager.h in Headers */,
+				7B891F8E113A221E001CDBC6 /* IRefCounted.h in Headers */,
+				7B891F8F113A221E001CDBC6 /* ISourceEventHandler.h in Headers */,
+				7B891F90113A2222001CDBC6 /* cAudioCapture.h in Headers */,
+				7B891F91113A2222001CDBC6 /* cAudioEffects.h in Headers */,
+				7B891F92113A2222001CDBC6 /* cAudioManager.h in Headers */,
+				7B891F93113A2222001CDBC6 /* cAudioSource.h in Headers */,
+				7B891F94113A2222001CDBC6 /* cConsoleLogReceiver.h in Headers */,
+				7B891F95113A2222001CDBC6 /* cEffect.h in Headers */,
+				7B891F96113A2222001CDBC6 /* cEFXFunctions.h in Headers */,
+				7B891F97113A2222001CDBC6 /* cFileLogReceiver.h in Headers */,
+				7B891F98113A2222001CDBC6 /* cFileSource.h in Headers */,
+				7B891F99113A2222001CDBC6 /* cFileSourceFactory.h in Headers */,
+				7B891F9A113A2222001CDBC6 /* cFilter.h in Headers */,
+				7B891F9B113A2222001CDBC6 /* cListener.h in Headers */,
+				7B891F9C113A2222001CDBC6 /* cLogger.h in Headers */,
+				7B891F9D113A2222001CDBC6 /* cMemorySource.h in Headers */,
+				7B891F9E113A2222001CDBC6 /* cMutex.h in Headers */,
+				7B891F9F113A2222001CDBC6 /* cOggAudioDecoderFactory.h in Headers */,
+				7B891FA0113A2222001CDBC6 /* cOggDecoder.h in Headers */,
+				7B891FA1113A2222001CDBC6 /* cPluginManager.h in Headers */,
+				7B891FA2113A2222001CDBC6 /* cRawAudioDecoderFactory.h in Headers */,
+				7B891FA3113A2222001CDBC6 /* cRawDecoder.h in Headers */,
+				7B891FA4113A2222001CDBC6 /* cThread.h in Headers */,
+				7B891FA5113A2222001CDBC6 /* cUtils.h in Headers */,
+				7B891FA6113A2222001CDBC6 /* cWavAudioDecoderFactory.h in Headers */,
+				7B891FA7113A2222001CDBC6 /* cWavDecoder.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2AAC09905546B4700DB518D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B09C5ED113A17DD008C46C9 /* cAudioCapture.h in Headers */,
+				7B09C5EE113A17DD008C46C9 /* cAudioEffects.h in Headers */,
+				7B09C5EF113A17DD008C46C9 /* cAudioManager.h in Headers */,
+				7B09C5F0113A17DD008C46C9 /* cAudioSource.h in Headers */,
+				7B09C5F1113A17DD008C46C9 /* cConsoleLogReceiver.h in Headers */,
+				7B09C5F2113A17DD008C46C9 /* cEffect.h in Headers */,
+				7B09C5F3113A17DD008C46C9 /* cEFXFunctions.h in Headers */,
+				7B09C5F4113A17DD008C46C9 /* cFileLogReceiver.h in Headers */,
+				7B09C5F5113A17DD008C46C9 /* cFileSource.h in Headers */,
+				7B09C5F6113A17DD008C46C9 /* cFileSourceFactory.h in Headers */,
+				7B09C5F7113A17DD008C46C9 /* cFilter.h in Headers */,
+				7B09C5F8113A17DD008C46C9 /* cListener.h in Headers */,
+				7B09C5F9113A17DD008C46C9 /* cLogger.h in Headers */,
+				7B09C5FA113A17DD008C46C9 /* cMemorySource.h in Headers */,
+				7B09C5FB113A17DD008C46C9 /* cMutex.h in Headers */,
+				7B09C5FC113A17DD008C46C9 /* cOggAudioDecoderFactory.h in Headers */,
+				7B09C5FD113A17DD008C46C9 /* cOggDecoder.h in Headers */,
+				7B09C5FE113A17DD008C46C9 /* cPluginManager.h in Headers */,
+				7B09C5FF113A17DD008C46C9 /* cRawAudioDecoderFactory.h in Headers */,
+				7B09C600113A17DD008C46C9 /* cRawDecoder.h in Headers */,
+				7B09C601113A17DD008C46C9 /* cThread.h in Headers */,
+				7B09C602113A17DD008C46C9 /* cUtils.h in Headers */,
+				7B09C603113A17DD008C46C9 /* cWavAudioDecoderFactory.h in Headers */,
+				7B09C604113A17DD008C46C9 /* cWavDecoder.h in Headers */,
+				7B09C620113A17E5008C46C9 /* cAudio.h in Headers */,
+				7B09C621113A17E5008C46C9 /* cAudioDefines.h in Headers */,
+				7B09C622113A17E5008C46C9 /* cAudioPlatform.h in Headers */,
+				7B09C623113A17E5008C46C9 /* cAudioSleep.h in Headers */,
+				7B09C624113A17E5008C46C9 /* cVector3.h in Headers */,
+				7B09C625113A17E5008C46C9 /* EAudioFormats.h in Headers */,
+				7B09C626113A17E5008C46C9 /* IAudioCapture.h in Headers */,
+				7B09C627113A17E5008C46C9 /* IAudioDecoder.h in Headers */,
+				7B09C628113A17E5008C46C9 /* IAudioDecoderFactory.h in Headers */,
+				7B09C629113A17E5008C46C9 /* IAudioEffects.h in Headers */,
+				7B09C62A113A17E5008C46C9 /* IAudioManager.h in Headers */,
+				7B09C62B113A17E5008C46C9 /* IAudioPlugin.h in Headers */,
+				7B09C62C113A17E5008C46C9 /* IAudioSource.h in Headers */,
+				7B09C62D113A17E5008C46C9 /* ICaptureEventHandler.h in Headers */,
+				7B09C62E113A17E5008C46C9 /* IDataSource.h in Headers */,
+				7B09C62F113A17E5008C46C9 /* IDataSourceFactory.h in Headers */,
+				7B09C630113A17E5008C46C9 /* IEffect.h in Headers */,
+				7B09C631113A17E5008C46C9 /* IEffectParameters.h in Headers */,
+				7B09C632113A17E5008C46C9 /* IFilter.h in Headers */,
+				7B09C633113A17E5008C46C9 /* IListener.h in Headers */,
+				7B09C634113A17E5008C46C9 /* ILogger.h in Headers */,
+				7B09C635113A17E5008C46C9 /* ILogReceiver.h in Headers */,
+				7B09C636113A17E5008C46C9 /* IManagerEventHandler.h in Headers */,
+				7B09C637113A17E5008C46C9 /* IPluginManager.h in Headers */,
+				7B09C638113A17E5008C46C9 /* IRefCounted.h in Headers */,
+				7B09C639113A17E5008C46C9 /* ISourceEventHandler.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		7B891F71113A21C9001CDBC6 /* cAudio-Osx(static) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7B891F75113A21EA001CDBC6 /* Build configuration list for PBXNativeTarget "cAudio-Osx(static)" */;
+			buildPhases = (
+				7B891F6E113A21C9001CDBC6 /* Headers */,
+				7B891F6F113A21C9001CDBC6 /* Sources */,
+				7B891F70113A21C9001CDBC6 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "cAudio-Osx(static)";
+			productName = "cAudio-Osx(static)";
+			productReference = 7B891F72113A21C9001CDBC6 /* liblibcAudio.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		D2AAC09C05546B4700DB518D /* cAudio-Osx */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1DEB916008733D950010E9CD /* Build configuration list for PBXNativeTarget "cAudio-Osx" */;
+			buildPhases = (
+				D2AAC09905546B4700DB518D /* Headers */,
+				D2AAC09B05546B4700DB518D /* Frameworks */,
+				D2AAC09A05546B4700DB518D /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "cAudio-Osx";
+			productName = "libcAudio-Osx";
+			productReference = D2AAC09D05546B4700DB518D /* libcAudio.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB916408733D950010E9CD /* Build configuration list for PBXProject "cAudio-Osx" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 0867D691FE84028FC02AAC07 /* cAudio-Osx */;
+			productRefGroup = 034768DDFF38A45A11DB9C8B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D2AAC09C05546B4700DB518D /* cAudio-Osx */,
+				7B891F71113A21C9001CDBC6 /* cAudio-Osx(static) */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7B891F6F113A21C9001CDBC6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B891FA8113A2227001CDBC6 /* cAudioCapture.cpp in Sources */,
+				7B891FA9113A2227001CDBC6 /* cAudioEffects.cpp in Sources */,
+				7B891FAA113A2227001CDBC6 /* cAudioManager.cpp in Sources */,
+				7B891FAB113A2227001CDBC6 /* cAudioSleep.cpp in Sources */,
+				7B891FAC113A2227001CDBC6 /* cAudioSource.cpp in Sources */,
+				7B891FAD113A2227001CDBC6 /* cConsoleLogReceiver.cpp in Sources */,
+				7B891FAE113A2227001CDBC6 /* cEffect.cpp in Sources */,
+				7B891FAF113A2227001CDBC6 /* cFileLogReceiver.cpp in Sources */,
+				7B891FB0113A2227001CDBC6 /* cFileSource.cpp in Sources */,
+				7B891FB1113A2227001CDBC6 /* cFilter.cpp in Sources */,
+				7B891FB2113A2227001CDBC6 /* cListener.cpp in Sources */,
+				7B891FB3113A2227001CDBC6 /* cLogger.cpp in Sources */,
+				7B891FB4113A2227001CDBC6 /* cMemorySource.cpp in Sources */,
+				7B891FB5113A2227001CDBC6 /* cMutex.cpp in Sources */,
+				7B891FB6113A2227001CDBC6 /* cOggAudioDecoderFactory.cpp in Sources */,
+				7B891FB7113A2227001CDBC6 /* cOggDecoder.cpp in Sources */,
+				7B891FB8113A2227001CDBC6 /* cPluginManager.cpp in Sources */,
+				7B891FB9113A2227001CDBC6 /* cRawDecoder.cpp in Sources */,
+				7B891FBA113A2227001CDBC6 /* cThread.cpp in Sources */,
+				7B891FBB113A2227001CDBC6 /* cWavAudioDecoderFactory.cpp in Sources */,
+				7B891FBC113A2227001CDBC6 /* cWavDecoder.cpp in Sources */,
+				7B891FBD113A2227001CDBC6 /* Makefile in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D2AAC09A05546B4700DB518D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7B09C5BE113A17D9008C46C9 /* cAudioCapture.cpp in Sources */,
+				7B09C5BF113A17D9008C46C9 /* cAudioEffects.cpp in Sources */,
+				7B09C5C0113A17D9008C46C9 /* cAudioManager.cpp in Sources */,
+				7B09C5C1113A17D9008C46C9 /* cAudioSleep.cpp in Sources */,
+				7B09C5C2113A17D9008C46C9 /* cAudioSource.cpp in Sources */,
+				7B09C5C3113A17D9008C46C9 /* cConsoleLogReceiver.cpp in Sources */,
+				7B09C5C4113A17D9008C46C9 /* cEffect.cpp in Sources */,
+				7B09C5C5113A17D9008C46C9 /* cFileLogReceiver.cpp in Sources */,
+				7B09C5C6113A17D9008C46C9 /* cFileSource.cpp in Sources */,
+				7B09C5C7113A17D9008C46C9 /* cFilter.cpp in Sources */,
+				7B09C5C8113A17D9008C46C9 /* cListener.cpp in Sources */,
+				7B09C5C9113A17D9008C46C9 /* cLogger.cpp in Sources */,
+				7B09C5CA113A17D9008C46C9 /* cMemorySource.cpp in Sources */,
+				7B09C5CB113A17D9008C46C9 /* cMutex.cpp in Sources */,
+				7B09C5CC113A17D9008C46C9 /* cOggAudioDecoderFactory.cpp in Sources */,
+				7B09C5CD113A17D9008C46C9 /* cOggDecoder.cpp in Sources */,
+				7B09C5CE113A17D9008C46C9 /* cPluginManager.cpp in Sources */,
+				7B09C5CF113A17D9008C46C9 /* cRawDecoder.cpp in Sources */,
+				7B09C5D0113A17D9008C46C9 /* cThread.cpp in Sources */,
+				7B09C5D1113A17D9008C46C9 /* cWavAudioDecoderFactory.cpp in Sources */,
+				7B09C5D2113A17D9008C46C9 /* cWavDecoder.cpp in Sources */,
+				7B09C5D3113A17D9008C46C9 /* Makefile in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB916108733D950010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"_GLIBCXX_DEBUG=1",
+					"_GLIBCXX_DEBUG_PEDANTIC=1",
+				);
+				HEADER_SEARCH_PATHS = (
+					"\"Headers\"",
+					"\"dependencies/Headers\"",
+				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"\"dependencies/Libs/Osx/libvorbisfile.a\"",
+					"\"dependencies/Libs/Osx/libogg.a\"",
+					"\"dependencies/Libs/Osx/libvorbis.a\"",
+					"\"dependencies/Libs/Osx/libvorbisenc.a\"",
+				);
+			};
+			name = Debug;
+		};
+		1DEB916208733D950010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = NO;
+				GCC_PREFIX_HEADER = "";
+				HEADER_SEARCH_PATHS = (
+					"\"Headers\"",
+					"\"dependencies/Headers\"",
+				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
+				OTHER_LDFLAGS = (
+					"\"dependencies/Libs/Osx/libvorbisenc.a\"",
+					"\"dependencies/Libs/Osx/libvorbis.a\"",
+					"\"dependencies/Libs/Osx/libvorbisfile.a\"",
+					"\"dependencies/Libs/Osx/libogg.a\"",
+				);
+				STRIP_INSTALLED_PRODUCT = YES;
+				STRIP_STYLE = "non-global";
+			};
+			name = Release;
+		};
+		1DEB916508733D950010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				PRODUCT_NAME = libcAudio_d;
+				SDKROOT = macosx10.5;
+				SYMROOT = bin/Osx;
+			};
+			name = Debug;
+		};
+		1DEB916608733D950010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				PRODUCT_NAME = libcAudio;
+				SDKROOT = macosx10.5;
+				SYMROOT = bin/Osx;
+			};
+			name = Release;
+		};
+		7B891F73113A21CA001CDBC6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = (
+					"\"Headers\"",
+					"\"dependencies/Headers\"",
+				);
+				INSTALL_PATH = /usr/local/lib;
+				OTHER_LDFLAGS = (
+					"\"dependencies/Libs/Osx/libvorbisfile.a\"",
+					"\"dependencies/Libs/Osx/libogg.a\"",
+					"\"dependencies/Libs/Osx/libvorbis.a\"",
+					"\"dependencies/Libs/Osx/libvorbisenc.a\"",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = libcAudio_d;
+				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = static;
+			};
+			name = Debug;
+		};
+		7B891F74113A21CA001CDBC6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				HEADER_SEARCH_PATHS = (
+					"\"Headers\"",
+					"\"dependencies/Headers\"",
+				);
+				INSTALL_PATH = /usr/local/lib;
+				OTHER_LDFLAGS = (
+					"\"dependencies/Libs/Osx/libvorbisfile.a\"",
+					"\"dependencies/Libs/Osx/libogg.a\"",
+					"\"dependencies/Libs/Osx/libvorbis.a\"",
+					"\"dependencies/Libs/Osx/libvorbisenc.a\"",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = libcAudio;
+				STANDARD_C_PLUS_PLUS_LIBRARY_TYPE = static;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB916008733D950010E9CD /* Build configuration list for PBXNativeTarget "cAudio-Osx" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB916108733D950010E9CD /* Debug */,
+				1DEB916208733D950010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1DEB916408733D950010E9CD /* Build configuration list for PBXProject "cAudio-Osx" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB916508733D950010E9CD /* Debug */,
+				1DEB916608733D950010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7B891F75113A21EA001CDBC6 /* Build configuration list for PBXNativeTarget "cAudio-Osx(static)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7B891F73113A21CA001CDBC6 /* Debug */,
+				7B891F74113A21CA001CDBC6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}

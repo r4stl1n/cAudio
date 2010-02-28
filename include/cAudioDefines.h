@@ -75,9 +75,6 @@
 //! Number of internal buffers to cycle through per source (Note: using only 1 leads to choppy sound or premature ending of sources)
 #define CAUDIO_SOURCE_NUM_BUFFERS 3
 
-//! Comment out to remove all EFX support from the library
-#define CAUDIO_EFX_ENABLED
-
 //! Max number of effects that can be attached to a single sound source
 #define CAUDIO_SOURCE_MAX_EFFECT_SLOTS 4
 
