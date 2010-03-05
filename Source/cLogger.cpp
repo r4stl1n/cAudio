@@ -12,8 +12,14 @@ namespace cAudio
 {
 	static cLogger Logger;
 	static bool FirstTimeLogInit(false);
+	
+#ifdef CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER
 	static cConsoleLogReceiver ConsoleLog;
+#endif
+
+#ifdef CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER
 	static cFileLogReceiver FileLog;
+#endif
 
 	cLogger::cLogger() : StartTime(0), MinLogLevel(ELL_INFO)
 	{
@@ -147,8 +153,12 @@ namespace cAudio
 		if(!FirstTimeLogInit)
 		{
 			FirstTimeLogInit = true;
+#ifdef CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER
 			Logger.registerLogReceiver(&ConsoleLog, "Console");
+#endif
+#ifdef CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER
 			Logger.registerLogReceiver(&FileLog,"File");
+#endif
 		}
 		return &Logger;
 	}

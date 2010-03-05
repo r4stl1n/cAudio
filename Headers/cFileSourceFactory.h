@@ -6,6 +6,9 @@
 #define CFILESOURCEFACTORY_H
 
 #include "../include/IDataSourceFactory.h"
+
+#ifdef CAUDIO_COMPILE_WITH_FILE_SOURCE
+
 #include "../Headers/cFileSource.h"
 #include "../Headers/cMemorySource.h"
 #include "../Headers/cMutex.h"
@@ -51,5 +54,7 @@ namespace cAudio
 		private:
 	};
 };
+
+#endif
 
 #endif //! CFILESOURCEFACTORY_H

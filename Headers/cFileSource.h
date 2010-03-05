@@ -6,8 +6,10 @@
 #define CFILESOURCE_H
 
 #include "../include/IDataSource.h"
-#include <string>
-#include <iostream>
+#include "../include/cAudioDefines.h"
+
+#ifdef CAUDIO_COMPILE_WITH_FILE_SOURCE
+
 #include <fstream>
 
 namespace cAudio
@@ -36,5 +38,7 @@ class cFileSource : public IDataSource
 };
 
 };
+
+#endif
 
 #endif //! CFILESOURCE_H

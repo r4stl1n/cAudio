@@ -3,6 +3,8 @@
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
 #include "../Headers/cFileLogReceiver.h"
+
+#ifdef CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER
 #include <iostream>
 #include <fstream>
 
@@ -160,5 +162,9 @@ namespace cAudio
 		return true;
 	}
 };
+
+#endif
+
+
 
 

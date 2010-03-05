@@ -30,6 +30,12 @@
 #define CAUDIO_COMPILE_WITH_OGG_DECODER
 //! This define controls whether the RIFF/Wav decoder is compiled into the library.
 #define CAUDIO_COMPILE_WITH_WAV_DECODER
+//! This define controls whether the default filesystem data source is compiled into the library
+#define CAUDIO_COMPILE_WITH_FILE_SOURCE
+//! This define controls whether the default file logger (html) is compiled into the library
+#define CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER
+//! This define controls whether the default console logger is compiled into the library
+#define CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER
 
 //! This define controls whether plugin support is added into the library, commenting it out will prevent any plugins from working
 #define CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
@@ -71,6 +77,12 @@
 #define CAUDIO_COMPILE_WITH_OGG_DECODER
 //! This define controls whether the RIFF/Wav decoder is compiled into the library.
 #define CAUDIO_COMPILE_WITH_WAV_DECODER
+//! This define controls whether the default filesystem data source is compiled into the library
+#define CAUDIO_COMPILE_WITH_FILE_SOURCE
+//! This define controls whether the default file logger (html) is compiled into the library
+#define CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER
+//! This define controls whether the default console logger is compiled into the library
+#define CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER
 
 //! This define controls whether plugin support is added into the library, commenting it out will prevent any plugins from working
 #define CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
@@ -109,6 +121,12 @@
 #define CAUDIO_COMPILE_WITH_OGG_DECODER
 //! This define controls whether the RIFF/Wav decoder is compiled into the library.
 #define CAUDIO_COMPILE_WITH_WAV_DECODER
+//! This define controls whether the default filesystem data source is compiled into the library
+#define CAUDIO_COMPILE_WITH_FILE_SOURCE
+//! This define controls whether the default file logger (html) is compiled into the library
+#define CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER
+//! This define controls whether the default console logger is compiled into the library
+#define CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER
 
 //! Size of the internal buffer per source for audio data (total amount buffered is CAUDIO_SOURCE_BUFFER_SIZE * CAUDIO_SOURCE_NUM_BUFFERS)
 #define CAUDIO_SOURCE_BUFFER_SIZE ( 1024 * 64 )
@@ -136,6 +154,12 @@
 #define CAUDIO_COMPILE_WITH_OGG_DECODER
 //! This define controls whether the RIFF/Wav decoder is compiled into the library.
 #define CAUDIO_COMPILE_WITH_WAV_DECODER
+//! This define controls whether the default filesystem data source is compiled into the library
+#define CAUDIO_COMPILE_WITH_FILE_SOURCE
+//! This define controls whether the default file logger (html) is compiled into the library
+#define CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER
+//! This define controls whether the default console logger is compiled into the library
+#define CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER
 
 //! This define controls whether plugin support is added into the library, commenting it out will prevent any plugins from working
 #define CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT

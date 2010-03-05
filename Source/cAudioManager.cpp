@@ -47,7 +47,9 @@ namespace cAudio
 
 	static cRawAudioDecoderFactory RawDecoderFactory;
 
+#ifdef CAUDIO_COMPILE_WITH_FILE_SOURCE
 	static cFileSourceFactory FileSourceFactory;
+#endif
 
 	//Note: OpenAL is threadsafe, so a mutex only needs to protect the class state
 #ifdef CAUDIO_USE_INTERNAL_THREAD
@@ -741,7 +743,9 @@ namespace cAudio
 
 			manager->registerAudioDecoder(&RawDecoderFactory, "raw");
 
+#ifdef CAUDIO_COMPILE_WITH_FILE_SOURCE
 			manager->registerDataSource(&FileSourceFactory, "FileSystem", 0);
+#endif
 
 #ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
 			std::vector<IAudioPlugin*> plugins = cPluginManager::Instance()->getPluginList();

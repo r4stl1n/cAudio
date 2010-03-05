@@ -6,7 +6,9 @@
 #define CCONSOLELOGRECEIVER_H_INCLUDED
 
 #include "../include/ILogReceiver.h"
+#include "../include/cAudioDefines.h"
 
+#ifdef CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER
 namespace cAudio
 {
 
@@ -17,6 +19,7 @@ namespace cAudio
     };
 
 };
+#endif
 
 #endif //! CCONSOLELOGRECEIVER_H_INCLUDED
 

@@ -6,7 +6,9 @@
 #define CFILELOGERCEIVER_H_INCLUDED
 
 #include "../include/ILogReceiver.h"
+#include "../include/cAudioDefines.h"
 
+#ifdef CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER
 namespace cAudio
 {
 	
@@ -24,5 +26,6 @@ namespace cAudio
 
 	};
 };
+#endif
 
 #endif //!CFILELOGRECEIVER_H_INCLUDED

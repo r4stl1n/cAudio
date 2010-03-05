@@ -3,6 +3,8 @@
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
 #include "../Headers/cConsoleLogReceiver.h"
+
+#ifdef CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER
 #include <iostream>
 
 namespace cAudio
@@ -14,5 +16,7 @@ namespace cAudio
 		return true;
 	}
 };
+
+#endif
 
 

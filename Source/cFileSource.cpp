@@ -3,8 +3,11 @@
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
 #include "../Headers/cFileSource.h"
-#include <cstring>
 #include "../Headers/cUtils.h"
+
+#ifdef CAUDIO_COMPILE_WITH_FILE_SOURCE
+
+#include <cstring>
 
 namespace cAudio
 {
@@ -75,3 +78,5 @@ bool cFileSource::seek(int amount, bool relative)
 }
 
 };
+
+#endif
