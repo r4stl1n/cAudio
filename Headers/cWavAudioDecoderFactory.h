@@ -23,7 +23,7 @@ class cWavAudioDecoderFactory : public IAudioDecoderFactory
         IAudioDecoder* CreateAudioDecoder(IDataSource* stream)
         {
 			Mutex.lock();
-            IAudioDecoder* decoder = new cWavDecoder(stream);
+            IAudioDecoder* decoder = CAUDIO_NEW cWavDecoder(stream);
 			Mutex.unlock();
 			return decoder;
         }

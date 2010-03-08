@@ -7,6 +7,7 @@
 
 #include "../include/IDataSource.h"
 #include "../include/cAudioDefines.h"
+#include "../Headers/cMemoryOverride.h"
 
 #ifdef CAUDIO_COMPILE_WITH_FILE_SOURCE
 
@@ -15,7 +16,7 @@
 namespace cAudio
 {
 
-class cFileSource : public IDataSource
+class cFileSource : public IDataSource, public cMemoryOverride
 {
     public:
         cFileSource(const char* filename);

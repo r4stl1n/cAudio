@@ -792,7 +792,7 @@ namespace cAudio
 	void cAudioSource::signalEvent(Events sevent)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		std::list<ISourceEventHandler*>::iterator it = eventHandlerList.begin();
+		std::list<ISourceEventHandler*, cSTLAllocator<ISourceEventHandler*>>::iterator it = eventHandlerList.begin();
 
 		if(it != eventHandlerList.end()){
 

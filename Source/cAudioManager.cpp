@@ -54,14 +54,14 @@ namespace cAudio
 	//Note: OpenAL is threadsafe, so a mutex only needs to protect the class state
 #ifdef CAUDIO_USE_INTERNAL_THREAD
 	static cAudioMutex AudioManagerObjectsMutex;
-	static std::set<IAudioManager*> AudioManagerObjects;
+	static std::set<IAudioManager*, std::less<IAudioManager*>, cSTLAllocator<IAudioManager*>> AudioManagerObjects;
 
 	CAUDIO_DECLARE_THREAD_FUNCTION(AudioManagerUpdateThread)
 	{
 		while(RunAudioManagerThread)
 		{
 			AudioManagerObjectsMutex.lock();
-			std::set<IAudioManager*>::iterator it;
+			std::set<IAudioManager*, std::less<IAudioManager*>, cSTLAllocator<IAudioManager*>>::iterator it;
 			for ( it=AudioManagerObjects.begin() ; it != AudioManagerObjects.end(); it++ )
 			{
 				(*it)->update();
@@ -184,9 +184,9 @@ namespace cAudio
 						if(decoder && decoder->isValid())
 						{
 #ifdef CAUDIO_EFX_ENABLED
-							IAudioSource* audio = new cAudioSource(decoder, Context, initEffects.getEFXInterface());
+							IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, Context, initEffects.getEFXInterface());
 #else
-							IAudioSource* audio = new cAudioSource(decoder, Context);
+							IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, Context);
 #endif
 							decoder->drop();
 
@@ -229,7 +229,7 @@ namespace cAudio
 		IAudioDecoderFactory* factory = getAudioDecoderFactory(ext.c_str());
 		if(factory)
 		{
-			cMemorySource* source = new cMemorySource(data, length, true);
+			cMemorySource* source = CAUDIO_NEW cMemorySource(data, length, true);
 			if(source)
 			{
 				if(source->isValid())
@@ -241,9 +241,9 @@ namespace cAudio
 						if(decoder->isValid())
 						{
 #ifdef CAUDIO_EFX_ENABLED
-							IAudioSource* audio = new cAudioSource(decoder, Context, initEffects.getEFXInterface());
+							IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, Context, initEffects.getEFXInterface());
 #else
-							IAudioSource* audio = new cAudioSource(decoder, Context);
+							IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, Context);
 #endif
 							decoder->drop();
 
@@ -293,7 +293,7 @@ namespace cAudio
 		IAudioDecoderFactory* factory = getAudioDecoderFactory("raw");
 		if(factory)
 		{
-			cMemorySource* source = new cMemorySource(data, length, true);
+			cMemorySource* source = CAUDIO_NEW cMemorySource(data, length, true);
 			if(source)
 			{
 				if(source->isValid())
@@ -305,9 +305,9 @@ namespace cAudio
 						if(decoder->isValid())
 						{
 #ifdef CAUDIO_EFX_ENABLED
-							IAudioSource* audio = new cAudioSource(decoder, Context, initEffects.getEFXInterface());
+							IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, Context, initEffects.getEFXInterface());
 #else
-							IAudioSource* audio = new cAudioSource(decoder, Context);
+							IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, Context);
 #endif
 							decoder->drop();
 
@@ -362,7 +362,7 @@ namespace cAudio
 	{
 		cAudioMutexBasicLock lock(Mutex);
 		std::string ext = safeCStr(extension);
-		std::map<std::string, IAudioDecoderFactory*>::iterator it = decodermap.find(ext);
+		decodermapIterator it = decodermap.find(ext);
 		if(it != decodermap.end())
 		{
 			decodermap.erase(it);
@@ -374,7 +374,7 @@ namespace cAudio
 	{
 		cAudioMutexBasicLock lock(Mutex);
 		std::string ext = safeCStr(extension);
-		std::map<std::string, IAudioDecoderFactory*>::iterator it = decodermap.find(ext);
+		decodermapIterator it = decodermap.find(ext);
 		return (it != decodermap.end());
 	}
 
@@ -382,7 +382,7 @@ namespace cAudio
 	{
 		cAudioMutexBasicLock lock(Mutex);
 		std::string ext = safeCStr(extension);
-		std::map<std::string, IAudioDecoderFactory*>::iterator it = decodermap.find(ext);
+		decodermapIterator it = decodermap.find(ext);
 		if(it != decodermap.end())
 		{
 			return it->second;
@@ -417,7 +417,7 @@ namespace cAudio
 	{
 		cAudioMutexBasicLock lock(Mutex);
 		std::string safeName = safeCStr(name);
-		std::map<std::string, IDataSourceFactory*>::iterator it = datasourcemap.find(safeName);
+		datasourcemapIterator it = datasourcemap.find(safeName);
 		if(it != datasourcemap.end())
 		{
 			datasourcemap.erase(it);
@@ -440,7 +440,7 @@ namespace cAudio
 	{
 		cAudioMutexBasicLock lock(Mutex);
 		std::string safeName = safeCStr(name);
-		std::map<std::string, IDataSourceFactory*>::iterator it = datasourcemap.find(safeName);
+		datasourcemapIterator it = datasourcemap.find(safeName);
 		return (it != datasourcemap.end());
 	}
 
@@ -448,7 +448,7 @@ namespace cAudio
 	{
 		cAudioMutexBasicLock lock(Mutex);
 		std::string safeName = safeCStr(name);
-		std::map<std::string, IDataSourceFactory*>::iterator it = datasourcemap.find(safeName);
+		datasourcemapIterator it = datasourcemap.find(safeName);
 		if(it != datasourcemap.end())
 		{
 			return it->second;
@@ -487,7 +487,7 @@ namespace cAudio
 	void cAudioManager::signalEvent(Events sevent)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		std::list<IManagerEventHandler*>::iterator it = eventHandlerList.begin();
+		std::list<IManagerEventHandler*, cSTLAllocator<IManagerEventHandler*>>::iterator it = eventHandlerList.begin();
 
 		if(it != eventHandlerList.end())
 		{
@@ -554,7 +554,7 @@ namespace cAudio
     {
 		cAudioMutexBasicLock lock(Mutex);
 		std::string audioName = safeCStr(name);
-        std::map<std::string,IAudioSource*>::iterator i = audioIndex.find(audioName);
+        audioIndexIterator i = audioIndex.find(audioName);
         if (i == audioIndex.end())
 		{
 			return NULL;
@@ -580,7 +580,7 @@ namespace cAudio
 		if(source)
 		{
 			cAudioMutexBasicLock lock(Mutex);
-			std::map<std::string,IAudioSource*>::iterator it = audioIndex.begin();
+			audioIndexIterator it = audioIndex.begin();
 			for ( it=audioIndex.begin(); it != audioIndex.end(); it++ )
 			{
 				if( it->second == source )
@@ -726,7 +726,7 @@ namespace cAudio
 
 	CAUDIO_API IAudioManager* createAudioManager(bool initializeDefault)
 	{
-		cAudioManager* manager = new cAudioManager;
+		cAudioManager* manager = CAUDIO_NEW cAudioManager;
 		if(manager)
 		{
 			if(initializeDefault)
@@ -795,7 +795,7 @@ namespace cAudio
 			manager->unRegisterAllEventHandlers();
 			manager->shutDown();
 
-			delete manager;
+			CAUDIO_DELETE manager;
 			manager = NULL;
 		}
 	}

@@ -32,7 +32,7 @@ cAudioEffects::~cAudioEffects()
 IEffect* cAudioEffects::createEffect()
 {
 	cAudioMutexBasicLock lock(Mutex);
-	IEffect* effect = new cEffect(&EFXInterface);
+	IEffect* effect = CAUDIO_NEW cEffect(&EFXInterface);
 
 	if(effect && effect->isValid())
 		return effect;
@@ -43,7 +43,7 @@ IEffect* cAudioEffects::createEffect()
 IFilter* cAudioEffects::createFilter()
 {
 	cAudioMutexBasicLock lock(Mutex);
-	IFilter* filter = new cFilter(&EFXInterface);
+	IFilter* filter = CAUDIO_NEW cFilter(&EFXInterface);
 
 	if(filter && filter->isValid())
 		return filter;
@@ -174,7 +174,7 @@ sEAXReverbParameters cAudioEffects::getEAXReverbEffectPreset(const char* name)
 {
 	cAudioMutexBasicLock lock(Mutex);
 	std::string safeName = safeCStr(name);
-	std::map<std::string, sEAXReverbParameters>::iterator it = EAXReverbPresets.find(safeName);
+	std::map<std::string, sEAXReverbParameters, std::less<std::string>, cSTLAllocator<std::pair<std::string, sEAXReverbParameters>> >::iterator it = EAXReverbPresets.find(safeName);
 	if(it != EAXReverbPresets.end())
 	{
 		return it->second;
@@ -186,7 +186,7 @@ sReverbParameters cAudioEffects::getReverbEffectPreset(const char* name)
 {
 	cAudioMutexBasicLock lock(Mutex);
 	std::string safeName = safeCStr(name);
-	std::map<std::string, sReverbParameters>::iterator it = ReverbPresets.find(safeName);
+	std::map<std::string, sReverbParameters, std::less<std::string>, cSTLAllocator<std::pair<std::string, sReverbParameters>> >::iterator it = ReverbPresets.find(safeName);
 	if(it != ReverbPresets.end())
 	{
 		return it->second;
@@ -198,7 +198,7 @@ sChorusParameters cAudioEffects::getChorusEffectPreset(const char* name)
 {
 	cAudioMutexBasicLock lock(Mutex);
 	std::string safeName = safeCStr(name);
-	std::map<std::string, sChorusParameters>::iterator it = ChorusPresets.find(safeName);
+	std::map<std::string, sChorusParameters, std::less<std::string>, cSTLAllocator<std::pair<std::string, sChorusParameters>> >::iterator it = ChorusPresets.find(safeName);
 	if(it != ChorusPresets.end())
 	{
 		return it->second;
@@ -210,7 +210,7 @@ sDistortionParameters cAudioEffects::getDistortionEffectPreset(const char* name)
 {
 	cAudioMutexBasicLock lock(Mutex);
 	std::string safeName = safeCStr(name);
-	std::map<std::string, sDistortionParameters>::iterator it = DistortionPresets.find(safeName);
+	std::map<std::string, sDistortionParameters, std::less<std::string>, cSTLAllocator<std::pair<std::string, sDistortionParameters>> >::iterator it = DistortionPresets.find(safeName);
 	if(it != DistortionPresets.end())
 	{
 		return it->second;
@@ -222,7 +222,7 @@ sEchoParameters cAudioEffects::getEchoEffectPreset(const char* name)
 {
 	cAudioMutexBasicLock lock(Mutex);
 	std::string safeName = safeCStr(name);
-	std::map<std::string, sEchoParameters>::iterator it = EchoPresets.find(safeName);
+	std::map<std::string, sEchoParameters, std::less<std::string>, cSTLAllocator<std::pair<std::string, sEchoParameters>> >::iterator it = EchoPresets.find(safeName);
 	if(it != EchoPresets.end())
 	{
 		return it->second;
@@ -234,7 +234,7 @@ sFlangerParameters cAudioEffects::getFlangerEffectPreset(const char* name)
 {
 	cAudioMutexBasicLock lock(Mutex);
 	std::string safeName = safeCStr(name);
-	std::map<std::string, sFlangerParameters>::iterator it = FlangerPresets.find(safeName);
+	std::map<std::string, sFlangerParameters, std::less<std::string>, cSTLAllocator<std::pair<std::string, sFlangerParameters>> >::iterator it = FlangerPresets.find(safeName);
 	if(it != FlangerPresets.end())
 	{
 		return it->second;
@@ -246,7 +246,7 @@ sFrequencyShiftParameters cAudioEffects::getFrequencyShiftEffectPreset(const cha
 {
 	cAudioMutexBasicLock lock(Mutex);
 	std::string safeName = safeCStr(name);
-	std::map<std::string, sFrequencyShiftParameters>::iterator it = FrequencyShiftPresets.find(safeName);
+	std::map<std::string, sFrequencyShiftParameters, std::less<std::string>, cSTLAllocator<std::pair<std::string, sFrequencyShiftParameters>> >::iterator it = FrequencyShiftPresets.find(safeName);
 	if(it != FrequencyShiftPresets.end())
 	{
 		return it->second;
@@ -258,7 +258,7 @@ sVocalMorpherParameters cAudioEffects::getVocalMorpherEffectPreset(const char* n
 {
 	cAudioMutexBasicLock lock(Mutex);
 	std::string safeName = safeCStr(name);
-	std::map<std::string, sVocalMorpherParameters>::iterator it = VocalMorpherPresets.find(safeName);
+	std::map<std::string, sVocalMorpherParameters, std::less<std::string>, cSTLAllocator<std::pair<std::string, sVocalMorpherParameters>> >::iterator it = VocalMorpherPresets.find(safeName);
 	if(it != VocalMorpherPresets.end())
 	{
 		return it->second;
@@ -270,7 +270,7 @@ sPitchShifterParameters cAudioEffects::getPitchShifterEffectPreset(const char* n
 {
 	cAudioMutexBasicLock lock(Mutex);
 	std::string safeName = safeCStr(name);
-	std::map<std::string, sPitchShifterParameters>::iterator it = PitchShifterPresets.find(safeName);
+	std::map<std::string, sPitchShifterParameters, std::less<std::string>, cSTLAllocator<std::pair<std::string, sPitchShifterParameters>> >::iterator it = PitchShifterPresets.find(safeName);
 	if(it != PitchShifterPresets.end())
 	{
 		return it->second;
@@ -282,7 +282,7 @@ sRingModulatorParameters cAudioEffects::getRingModulatorEffectPreset(const char*
 {
 	cAudioMutexBasicLock lock(Mutex);
 	std::string safeName = safeCStr(name);
-	std::map<std::string, sRingModulatorParameters>::iterator it = RingModulatorPresets.find(safeName);
+	std::map<std::string, sRingModulatorParameters, std::less<std::string>, cSTLAllocator<std::pair<std::string, sRingModulatorParameters>> >::iterator it = RingModulatorPresets.find(safeName);
 	if(it != RingModulatorPresets.end())
 	{
 		return it->second;
@@ -294,7 +294,7 @@ sAutowahParameters cAudioEffects::getAutowahEffectPreset(const char* name)
 {
 	cAudioMutexBasicLock lock(Mutex);
 	std::string safeName = safeCStr(name);
-	std::map<std::string, sAutowahParameters>::iterator it = AutowahPresets.find(safeName);
+	std::map<std::string, sAutowahParameters, std::less<std::string>, cSTLAllocator<std::pair<std::string, sAutowahParameters>> >::iterator it = AutowahPresets.find(safeName);
 	if(it != AutowahPresets.end())
 	{
 		return it->second;
@@ -306,7 +306,7 @@ sCompressorParameters cAudioEffects::getCompressorEffectPreset(const char* name)
 {
 	cAudioMutexBasicLock lock(Mutex);
 	std::string safeName = safeCStr(name);
-	std::map<std::string, sCompressorParameters>::iterator it = CompressorPresets.find(safeName);
+	std::map<std::string, sCompressorParameters, std::less<std::string>, cSTLAllocator<std::pair<std::string, sCompressorParameters>> >::iterator it = CompressorPresets.find(safeName);
 	if(it != CompressorPresets.end())
 	{
 		return it->second;
@@ -318,7 +318,7 @@ sEqualizerParameters cAudioEffects::getEqualizerEffectPreset(const char* name)
 {
 	cAudioMutexBasicLock lock(Mutex);
 	std::string safeName = safeCStr(name);
-	std::map<std::string, sEqualizerParameters>::iterator it = EqualizerPresets.find(safeName);
+	std::map<std::string, sEqualizerParameters, std::less<std::string>, cSTLAllocator<std::pair<std::string, sEqualizerParameters>> >::iterator it = EqualizerPresets.find(safeName);
 	if(it != EqualizerPresets.end())
 	{
 		return it->second;

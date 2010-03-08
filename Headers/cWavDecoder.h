@@ -7,12 +7,13 @@
 
 #include "../include/IAudioDecoder.h"
 #include "../include/cAudioDefines.h"
+#include "../Headers/cMemoryOverride.h"
 
 #ifdef CAUDIO_COMPILE_WITH_WAV_DECODER
 
 namespace cAudio
 {
-    class cWavDecoder : public IAudioDecoder
+    class cWavDecoder : public IAudioDecoder, public cMemoryOverride
     {
         public:
 

@@ -6,10 +6,11 @@
 #define CRAWDECODER_H_INCLUDED
 
 #include "../include/IAudioDecoder.h"
+#include "../Headers/cMemoryOverride.h"
 
 namespace cAudio
 {
-    class cRawDecoder : public IAudioDecoder
+    class cRawDecoder : public IAudioDecoder, public cMemoryOverride
     {
         public:
 

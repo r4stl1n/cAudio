@@ -19,14 +19,14 @@ namespace cAudio
 	//Note: OpenAL is threadsafe, so a mutex only needs to protect the class state
 #ifdef CAUDIO_USE_INTERNAL_THREAD
 	static cAudioMutex AudioCaptureObjectsMutex;
-	static std::set<IAudioCapture*> AudioCaptureObjects;
+	static std::set<IAudioCapture*, std::less<IAudioCapture*>, cSTLAllocator<IAudioCapture*>> AudioCaptureObjects;
 
 	CAUDIO_DECLARE_THREAD_FUNCTION(AudioCaptureUpdateThread)
 	{
 		while(RunAudioCaptureThread)
 		{
 			AudioCaptureObjectsMutex.lock();
-			std::set<IAudioCapture*>::iterator it;
+			std::set<IAudioCapture*, std::less<IAudioCapture*>, cSTLAllocator<IAudioCapture*>>::iterator it;
 			for ( it=AudioCaptureObjects.begin() ; it != AudioCaptureObjects.end(); it++ )
 			{
 				(*it)->updateCaptureBuffer();
@@ -340,7 +340,7 @@ namespace cAudio
 
 	CAUDIO_API IAudioCapture* createAudioCapture(bool initializeDefault)
 	{
-		cAudioCapture* capture = new cAudioCapture;
+		cAudioCapture* capture = CAUDIO_NEW cAudioCapture;
 		if(capture)
 		{
 			if(initializeDefault)
@@ -389,7 +389,7 @@ namespace cAudio
 			}
 #endif
 
-			delete capture;
+			CAUDIO_DELETE capture;
 			capture = NULL;
 		}
 	}
@@ -424,7 +424,7 @@ namespace cAudio
 	void cAudioCapture::signalEvent(Events sevent)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		std::list<ICaptureEventHandler*>::iterator it = eventHandlerList.begin();
+		std::list<ICaptureEventHandler*, cSTLAllocator<ICaptureEventHandler*> >::iterator it = eventHandlerList.begin();
 
 		if(it != eventHandlerList.end()){
 

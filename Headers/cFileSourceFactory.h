@@ -24,7 +24,7 @@ namespace cAudio
 			virtual IDataSource* CreateDataSource(const char* filename, bool streamingRequested)
 			{
 				cAudioMutexBasicLock lock(Mutex);
-				IDataSource* source = new cFileSource(filename);
+				IDataSource* source = CAUDIO_NEW cFileSource(filename);
 
 				if(!streamingRequested && source && source->isValid())
 				{
@@ -34,7 +34,7 @@ namespace cAudio
 					if(tempbuf)
 					{
 						source->read(tempbuf, length);
-						IDataSource* memSource = new cMemorySource(tempbuf, length, true);
+						IDataSource* memSource = CAUDIO_NEW cMemorySource(tempbuf, length, true);
 						delete[] tempbuf;
 
 						if(memSource && memSource->isValid())

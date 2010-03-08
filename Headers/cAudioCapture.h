@@ -12,10 +12,12 @@
 #include "../Headers/cMutex.h"
 #include <string>
 #include <list>
+#include "../Headers/cMemoryOverride.h"
+#include "../Headers/cSTLAllocator.h"
 
 namespace cAudio
 {
-	class cAudioCapture : public IAudioCapture
+	class cAudioCapture : public IAudioCapture, public cMemoryOverride
 	{
 	public:
 		
@@ -77,10 +79,10 @@ namespace cAudio
 		unsigned int InternalBufferSize;
 		int SampleSize;
 
-		std::vector<char> CaptureBuffer;
-		std::vector<std::string> AvailableDevices;
+		std::vector<char, cSTLAllocator<char> > CaptureBuffer;
+		std::vector<std::string, cSTLAllocator<std::string> > AvailableDevices;
 		std::string DefaultDevice;
-		std::list<ICaptureEventHandler*> eventHandlerList;
+		std::list<ICaptureEventHandler*, cSTLAllocator<ICaptureEventHandler*> > eventHandlerList;
 
 		bool Supported;
 		bool Ready;

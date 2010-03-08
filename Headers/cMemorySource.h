@@ -6,12 +6,13 @@
 #define CMEMORYSOURCE_H
 
 #include "../include/IDataSource.h"
+#include "../Headers/cMemoryOverride.h"
 
 namespace cAudio
 {
 
 //!Class used to read from a memory buffer.
-class cMemorySource : public IDataSource
+class cMemorySource : public IDataSource, public cMemoryOverride
 {
     public:
 		/** Default Constructor

@@ -120,7 +120,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="3"
 				AdditionalIncludeDirectories=".\dependencies\Headers;.\dependencies\Headers\al"
-				PreprocessorDefinitions="WIN32;_WINDOWS;_USRDLL;CAUDIO_EXPORTS"
+				PreprocessorDefinitions="WIN32;_WINDOWS;_USRDLL;"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -138,7 +138,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="OpenAL32.lib ogg_static.lib vorbis_static.lib vorbisenc_static.lib vorbisfile_static.lib"
+				AdditionalDependencies="OpenAL32.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib"
 				LinkIncremental="2"
 				AdditionalLibraryDirectories=".\dependencies\Libs\windows"
 				GenerateManifest="false"
@@ -233,6 +233,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Headers\cMemoryOverride.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Headers\cMemorySource.h"
 				>
 			</File>
@@ -258,6 +262,14 @@
 			</File>
 			<File
 				RelativePath=".\Headers\cRawDecoder.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Headers\cStandardMemoryProvider.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Headers\cSTLAllocator.h"
 				>
 			</File>
 			<File
@@ -294,6 +306,10 @@
 			</File>
 			<File
 				RelativePath=".\Source\cAudioManager.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\Source\cAudioMemory.cpp"
 				>
 			</File>
 			<File
@@ -357,6 +373,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Source\cStandardMemoryProvider.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\Source\cThread.cpp"
 				>
 			</File>
@@ -378,6 +398,10 @@
 			</File>
 			<File
 				RelativePath=".\include\cAudioDefines.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\cAudioMemory.h"
 				>
 			</File>
 			<File
@@ -458,6 +482,10 @@
 			</File>
 			<File
 				RelativePath=".\include\IManagerEventHandler.h"
+				>
+			</File>
+			<File
+				RelativePath=".\include\IMemoryProvider.h"
 				>
 			</File>
 			<File

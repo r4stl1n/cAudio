@@ -11,6 +11,7 @@
 
 #include "../include/ILogger.h"
 #include "../Headers/cMutex.h"
+#include "../Headers/cSTLAllocator.h"
 
 namespace cAudio
 {
@@ -41,7 +42,8 @@ namespace cAudio
 		unsigned long StartTime;
 		char TempTextBuf[2048];
 		LogLevel MinLogLevel;
-		std::map<std::string, ILogReceiver*> Receivers;
+		std::map<std::string, ILogReceiver*, std::less<std::string>, cSTLAllocator<std::pair<std::string, ILogReceiver*>>> Receivers;
+		typedef std::map<std::string, ILogReceiver*, std::less<std::string>, cSTLAllocator<std::pair<std::string, ILogReceiver*>>>::iterator ReceiversIterator;
 	private:
     };
 };

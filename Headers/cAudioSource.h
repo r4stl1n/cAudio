@@ -15,11 +15,13 @@
 #include "../Headers/cMutex.h"
 #include "../include/ILogger.h"
 #include "../Headers/cEFXFunctions.h"
+#include "../Headers/cMemoryOverride.h"
+#include "../Headers/cSTLAllocator.h"
 
 namespace cAudio
 {
 
-    class cAudioSource : public IAudioSource
+    class cAudioSource : public IAudioSource, public cMemoryOverride
     {
     public:
 
@@ -154,7 +156,7 @@ namespace cAudio
 		bool Valid;
 
 		//! List of registered event handlers
-		std::list<ISourceEventHandler*> eventHandlerList;
+		std::list<ISourceEventHandler*, cSTLAllocator<ISourceEventHandler*>> eventHandlerList;
 
 #ifdef CAUDIO_EFX_ENABLED
 		//! Holds pointers to all the EFX related functions

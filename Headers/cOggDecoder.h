@@ -13,11 +13,12 @@
 #include <ogg/ogg.h>
 #include <vorbis/codec.h>
 #include <vorbis/vorbisfile.h>
+#include "../Headers/cMemoryOverride.h"
 
 namespace cAudio
 {
 
-    class cOggDecoder : public IAudioDecoder
+    class cOggDecoder : public IAudioDecoder, public cMemoryOverride
     {
         public:
 

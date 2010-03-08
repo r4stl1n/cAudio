@@ -23,7 +23,7 @@ cPluginManager::cPluginManager()
 cPluginManager::~cPluginManager()
 {
 #ifdef CAUDIO_COMPILE_WITH_DYNAMIC_PLUGIN_SUPPORT
-	std::map<IAudioPlugin*, DYNLIB_HANDLE>::iterator it;
+	DynamicallyLoadedPluginsIterator it;
 	for(it = DynamicallyLoadedPlugins.begin(); it != DynamicallyLoadedPlugins.end(); it++)
 	{
 		//Found a plugin we loaded from the filesystem, unload it and delete the plugin
@@ -99,7 +99,7 @@ unsigned int cPluginManager::getPluginCount()
 std::vector<IAudioPlugin*> cPluginManager::getPluginList()
 {
 	std::vector<IAudioPlugin*> list;
-	std::map<std::string, IAudioPlugin*>::iterator it;
+	RegisteredPluginsIterator it;
 	for(it = RegisteredPlugins.begin(); it != RegisteredPlugins.end(); it++)
 	{
 		list.push_back(it->second);
@@ -111,7 +111,7 @@ void cPluginManager::uninstallPlugin(IAudioPlugin* plugin)
 {
 	if(plugin)
 	{
-		std::map<std::string, IAudioPlugin*>::iterator it;
+		RegisteredPluginsIterator it;
 		for(it = RegisteredPlugins.begin(); it != RegisteredPlugins.end(); it++)
 		{
 			if(it->second == plugin)
@@ -122,7 +122,7 @@ void cPluginManager::uninstallPlugin(IAudioPlugin* plugin)
 		}
 
 #ifdef CAUDIO_COMPILE_WITH_DYNAMIC_PLUGIN_SUPPORT
-		std::map<IAudioPlugin*, DYNLIB_HANDLE>::iterator it2 = DynamicallyLoadedPlugins.find(plugin);
+		DynamicallyLoadedPluginsIterator it2 = DynamicallyLoadedPlugins.find(plugin);
 		if(it2 != DynamicallyLoadedPlugins.end())
 		{
 			//Found a plugin we loaded from the filesystem, unload it and delete the plugin

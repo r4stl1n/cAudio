@@ -8,6 +8,7 @@
 #include "../include/IFilter.h"
 #include "../Headers/cMutex.h"
 #include "../Headers/cEFXFunctions.h"
+#include "../Headers/cMemoryOverride.h"
 
 #ifdef CAUDIO_EFX_ENABLED
 
@@ -16,7 +17,7 @@
 
 namespace cAudio
 {
-	class cFilter : public IFilter
+	class cFilter : public IFilter, public cMemoryOverride
 	{
 	public:
 		cFilter(cEFXFunctions* oALFunctions);

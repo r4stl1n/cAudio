@@ -8,6 +8,7 @@
 #include "../include/IEffect.h"
 #include "../Headers/cMutex.h"
 #include "../Headers/cEFXFunctions.h"
+#include "../Headers/cMemoryOverride.h"
 
 #ifdef CAUDIO_EFX_ENABLED
 
@@ -16,7 +17,7 @@
 
 namespace cAudio
 {
-	class cEffect : public IEffect
+	class cEffect : public IEffect, public cMemoryOverride
 	{
 	public:
 		cEffect(cEFXFunctions* oALFunctions);

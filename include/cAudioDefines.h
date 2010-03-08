@@ -7,6 +7,12 @@
 //! This is used primarily by plugins to make sure they are linking to the right library.
 #define CAUDIO_VERSION "2.0.0"
 
+#if !defined( CAUDIO_DEBUG )
+	#if defined( DEBUG ) || defined( _DEBUG )
+		#define CAUDIO_DEBUG
+	#endif
+#endif
+
 //////////////////////
 // Windows Settings //
 //////////////////////
@@ -56,6 +62,9 @@
 //! Max number of effects that can be attached to a single sound source
 #define CAUDIO_SOURCE_MAX_EFFECT_SLOTS 4
 
+//! Tells cAudio to use the C standard memory functions for allocations (memalloc and free)
+#define CAUDIO_MEMORY_USE_STD
+
 #endif //CAUDIO_PLATFORM_WIN
 
 ///////////////////////
@@ -100,6 +109,9 @@
 //! Max number of effects that can be attached to a single sound source
 #define CAUDIO_SOURCE_MAX_EFFECT_SLOTS 4
 
+//! Tells cAudio to use the C standard memory functions for allocations (memalloc and free)
+#define CAUDIO_MEMORY_USE_STD
+
 #endif //CAUDIO_PLATFORM_MAC
 
 /////////////////////
@@ -132,6 +144,9 @@
 #define CAUDIO_SOURCE_BUFFER_SIZE ( 1024 * 64 )
 //! Number of internal buffers to cycle through per source (Note: using only 1 leads to choppy sound or premature ending of sources)
 #define CAUDIO_SOURCE_NUM_BUFFERS 3
+
+//! Tells cAudio to use the C standard memory functions for allocations (memalloc and free)
+#define CAUDIO_MEMORY_USE_STD
 
 #endif //CAUDIO_PLATFORM_IPHONE
 
@@ -179,6 +194,9 @@
 
 //! Max number of effects that can be attached to a single sound source
 //#define CAUDIO_SOURCE_MAX_EFFECT_SLOTS 4
+
+//! Tells cAudio to use the C standard memory functions for allocations (memalloc and free)
+#define CAUDIO_MEMORY_USE_STD
 
 #endif //CAUDIO_PLATFORM_LINUX
 

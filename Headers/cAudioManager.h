@@ -15,6 +15,8 @@
 #include "../include/IAudioManager.h"
 #include "../Headers/cMutex.h"
 #include "../Headers/cAudioEffects.h"
+#include "../Headers/cMemoryOverride.h"
+#include "../Headers/cSTLAllocator.h"
 
 #include <AL/al.h>
 #include <AL/alc.h>
@@ -27,7 +29,7 @@ namespace cAudio
 {
 	class IAudioSource;
 
-    class cAudioManager : public IAudioManager
+    class cAudioManager : public IAudioManager, public cMemoryOverride
     {
     public:
 		enum Events{
@@ -98,14 +100,17 @@ namespace cAudio
 		bool Initialized;
 
 		//! Holds an index for fast searching of audio sources by name
-		std::map<std::string, IAudioSource*> audioIndex;
+		std::map<std::string, IAudioSource*, std::less<std::string>, cSTLAllocator<std::pair<std::string, IAudioSource*>> > audioIndex;
+		typedef std::map<std::string, IAudioSource*, std::less<std::string>, cSTLAllocator<std::pair<std::string, IAudioSource*>> >::iterator audioIndexIterator;
 		//! Holds all managed audio sources
-		std::vector<IAudioSource*> audioSources;
+		std::vector<IAudioSource*, cSTLAllocator<IAudioSource*>> audioSources;
 		//! Decoder map that holds all decoders by file extension
-		std::map<std::string, IAudioDecoderFactory*> decodermap; 
+		std::map<std::string, IAudioDecoderFactory*, std::less<std::string>, cSTLAllocator<std::pair<std::string, IAudioDecoderFactory*>> > decodermap;
+		typedef std::map<std::string, IAudioDecoderFactory*, std::less<std::string>, cSTLAllocator<std::pair<std::string, IAudioDecoderFactory*>> >::iterator decodermapIterator;
 		//! Archive map that holds all datasource types
-		std::map<std::string, IDataSourceFactory*> datasourcemap;
-		std::vector< std::pair<int, std::string> > dataSourcePriorityList;
+		std::map<std::string, IDataSourceFactory*, std::less<std::string>, cSTLAllocator<std::pair<std::string, IDataSourceFactory*>> > datasourcemap;
+		typedef std::map<std::string, IDataSourceFactory*, std::less<std::string>, cSTLAllocator<std::pair<std::string, IDataSourceFactory*>> >::iterator datasourcemapIterator;
+		std::vector< std::pair<int, std::string>, cSTLAllocator<std::pair<int, std::string>> > dataSourcePriorityList;
 
 		//! The listener object        
 		cListener initlistener;
@@ -116,14 +121,14 @@ namespace cAudio
 		//! Check for OpenAL errors
 		bool checkError();
 
-		std::vector<std::string> AvailableDevices;
+		std::vector<std::string, cSTLAllocator<std::string>> AvailableDevices;
 		std::string DefaultDevice;
 
 		//! Signals a event to all event handlers
 		void signalEvent(Events sevent);
 		
 		//! List of all attached event handlers
-		std::list<IManagerEventHandler*> eventHandlerList;
+		std::list<IManagerEventHandler*, cSTLAllocator<IManagerEventHandler*>> eventHandlerList;
     };
 }
 

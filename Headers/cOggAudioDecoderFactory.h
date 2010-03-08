@@ -23,7 +23,7 @@ class cOggAudioDecoderFactory : public IAudioDecoderFactory
         IAudioDecoder* CreateAudioDecoder(IDataSource* stream)
         {
 			Mutex.lock();
-			IAudioDecoder* decoder = new cOggDecoder(stream);
+			IAudioDecoder* decoder = CAUDIO_NEW cOggDecoder(stream);
 			Mutex.unlock();
             return decoder;
         }

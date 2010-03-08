@@ -97,7 +97,7 @@ namespace cAudio
 		float messageTime = (clock() - StartTime) / (float)CLOCKS_PER_SEC;
 		vsnprintf( TempTextBuf, 2048, msg, args );
 
-		std::map<std::string,ILogReceiver*>::iterator it = Receivers.begin();
+		ReceiversIterator it = Receivers.begin();
         for (it = Receivers.begin(); it != Receivers.end(); it++)
         {
             it->second->OnLogMessage(sender, TempTextBuf, level, messageTime);
@@ -116,7 +116,7 @@ namespace cAudio
 	{
 		Mutex.lock();
 		std::string logName = safeCStr(name);
-		std::map<std::string, ILogReceiver*>::iterator it = Receivers.find(logName);
+		ReceiversIterator it = Receivers.find(logName);
 		if(it != Receivers.end())
 		{
 			Receivers.erase(it);
@@ -128,7 +128,7 @@ namespace cAudio
 	{
 		Mutex.lock();
 		std::string logName = safeCStr(name);
-		std::map<std::string, ILogReceiver*>::iterator it = Receivers.find(logName);
+		ReceiversIterator it = Receivers.find(logName);
 		bool result = (it != Receivers.end());
 		Mutex.unlock();
 		return result;
@@ -138,7 +138,7 @@ namespace cAudio
 	{
 		Mutex.lock();
 		std::string logName = safeCStr(name);
-		std::map<std::string, ILogReceiver*>::iterator it = Receivers.find(logName);
+		ReceiversIterator it = Receivers.find(logName);
 		if(it != Receivers.end())
 		{
 			Mutex.unlock();
