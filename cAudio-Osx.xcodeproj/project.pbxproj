@@ -634,7 +634,6 @@
 					"\"dependencies/Libs/Osx/libvorbisfile.a\"",
 					"\"dependencies/Libs/Osx/libogg.a\"",
 					"\"dependencies/Libs/Osx/libvorbis.a\"",
-					"\"dependencies/Libs/Osx/libvorbisenc.a\"",
 				);
 			};
 			name = Debug;
@@ -711,7 +710,6 @@
 					"\"dependencies/Libs/Osx/libvorbisfile.a\"",
 					"\"dependencies/Libs/Osx/libogg.a\"",
 					"\"dependencies/Libs/Osx/libvorbis.a\"",
-					"\"dependencies/Libs/Osx/libvorbisenc.a\"",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = libcAudio_d;
