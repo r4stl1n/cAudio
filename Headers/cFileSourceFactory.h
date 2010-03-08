@@ -30,12 +30,12 @@ namespace cAudio
 				{
 					//A bit hackish, but if the user doesn't want streaming, make this a memory source
 					int length = source->getSize();
-					char* tempbuf = new char[length];
+					char* tempbuf = (char*)CAUDIO_MALLOC(length);
 					if(tempbuf)
 					{
 						source->read(tempbuf, length);
 						IDataSource* memSource = CAUDIO_NEW cMemorySource(tempbuf, length, true);
-						delete[] tempbuf;
+						CAUDIO_FREE(tempbuf);
 
 						if(memSource && memSource->isValid())
 						{

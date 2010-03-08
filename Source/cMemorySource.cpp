@@ -16,7 +16,7 @@ cMemorySource::cMemorySource(const void* data, int size, bool copy) : Data(NULL)
         Size = size;
         if(copy)
         {
-            Data = new char[Size];
+            Data = (char*)CAUDIO_MALLOC(Size);
 			if(Data)
 				memcpy(Data, data, Size);
         }
@@ -31,7 +31,7 @@ cMemorySource::cMemorySource(const void* data, int size, bool copy) : Data(NULL)
 
 cMemorySource::~cMemorySource()
 {
-    delete[] Data;
+    CAUDIO_FREE(Data);
 }
 
 bool cMemorySource::isValid()
