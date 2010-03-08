@@ -2,7 +2,7 @@ VERSION=2.0.0
 SONAME=libcAudio.$(VERSION).so
 DIR=../bin/Linux/x86 #x86_64
 
-DEPEND=-logg -lopenal -lvorbis -lvorbisenc -lvorbisfile -ldl\
+DEPEND=-logg -lopenal -lvorbis -lvorbisfile -ldl\
  -I../dependencies/Headers
 
 STATICDEPEND=/usr/lib/libogg.a /usr/lib/libopenal.so /usr/lib/libvorbis.a /usr/lib/libvorbisenc.a /usr/lib/libvorbisfile.a /usr/lib/libdl.a

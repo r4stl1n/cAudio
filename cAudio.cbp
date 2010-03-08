@@ -23,7 +23,6 @@
 				</Compiler>
 				<Linker>
 					<Add library="vorbisfile" />
-					<Add library="vorbisenc" />
 					<Add library="vorbis" />
 					<Add library="ogg" />
 					<Add library="OpenAL32" />
@@ -47,7 +46,6 @@
 				<Linker>
 					<Add option="-s" />
 					<Add library="vorbisfile" />
-					<Add library="vorbisenc" />
 					<Add library="vorbis" />
 					<Add library="ogg" />
 					<Add library="OpenAL32" />
@@ -76,7 +74,6 @@
 					<Add option="/DEBUG" />
 					<Add option="-s" />
 					<Add library="vorbisfile_static" />
-					<Add library="vorbisenc_static" />
 					<Add library="vorbis_static" />
 					<Add library="ogg_static" />
 					<Add library="OpenAL32" />
@@ -102,7 +99,6 @@
 				<Linker>
 					<Add option="-s" />
 					<Add library="vorbisfile_static" />
-					<Add library="vorbisenc_static" />
 					<Add library="vorbis_static" />
 					<Add library="ogg_static" />
 					<Add library="OpenAL32" />
