@@ -65,6 +65,15 @@
 //! Tells cAudio to use the C standard memory functions for allocations (memalloc and free)
 #define CAUDIO_MEMORY_USE_STD
 
+//! Activates the internal memory tracker, which can be used to detect and locate memory leaks.
+//#define CAUDIO_USE_MEMORYTRACKER
+
+//! Tells the memory tracker to generate statistics on memory usage by cAudio
+//#define CAUDIO_MEMORYTRACKER_GENERATE_STATISTICS
+
+//! Tells the memory tracker to log each and every allocation done by cAudio.  This can be very slow, use only if you are debugging an issue.
+//#define CAUDIO_MEMORYTRACKER_LOG_ALL_ALLOCATIONS
+
 #endif //CAUDIO_PLATFORM_WIN
 
 ///////////////////////
@@ -112,6 +121,15 @@
 //! Tells cAudio to use the C standard memory functions for allocations (memalloc and free)
 #define CAUDIO_MEMORY_USE_STD
 
+//! Activates the internal memory tracker, which can be used to detect and locate memory leaks.
+//#define CAUDIO_USE_MEMORYTRACKER
+
+//! Tells the memory tracker to generate statistics on memory usage by cAudio
+//#define CAUDIO_MEMORYTRACKER_GENERATE_STATISTICS
+
+//! Tells the memory tracker to log each and every allocation done by cAudio.  This can be very slow, use only if you are debugging an issue.
+//#define CAUDIO_MEMORYTRACKER_LOG_ALL_ALLOCATIONS
+
 #endif //CAUDIO_PLATFORM_MAC
 
 /////////////////////
@@ -147,6 +165,15 @@
 
 //! Tells cAudio to use the C standard memory functions for allocations (memalloc and free)
 #define CAUDIO_MEMORY_USE_STD
+
+//! Activates the internal memory tracker, which can be used to detect and locate memory leaks.
+//#define CAUDIO_USE_MEMORYTRACKER
+
+//! Tells the memory tracker to generate statistics on memory usage by cAudio
+//#define CAUDIO_MEMORYTRACKER_GENERATE_STATISTICS
+
+//! Tells the memory tracker to log each and every allocation done by cAudio.  This can be very slow, use only if you are debugging an issue.
+//#define CAUDIO_MEMORYTRACKER_LOG_ALL_ALLOCATIONS
 
 #endif //CAUDIO_PLATFORM_IPHONE
 
@@ -197,6 +224,15 @@
 
 //! Tells cAudio to use the C standard memory functions for allocations (memalloc and free)
 #define CAUDIO_MEMORY_USE_STD
+
+//! Activates the internal memory tracker, which can be used to detect and locate memory leaks.
+//#define CAUDIO_USE_MEMORYTRACKER
+
+//! Tells the memory tracker to generate statistics on memory usage by cAudio
+//#define CAUDIO_MEMORYTRACKER_GENERATE_STATISTICS
+
+//! Tells the memory tracker to log each and every allocation done by cAudio.  This can be very slow, use only if you are debugging an issue.
+//#define CAUDIO_MEMORYTRACKER_LOG_ALL_ALLOCATIONS
 
 #endif //CAUDIO_PLATFORM_LINUX
 
