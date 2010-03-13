@@ -2,7 +2,7 @@
 #define CSTANDARDMEMORYPROVIDER_H_INCLUDED
 
 #include "../include/IMemoryProvider.h"
-
+#include <cstring>
 namespace cAudio
 {
 	class cStandardMemoryProvider : public IMemoryProvider

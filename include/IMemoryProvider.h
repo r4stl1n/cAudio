@@ -2,7 +2,7 @@
 #define IMEMORYPROVIDER_H_INCLUDED
 
 #include "../include/cAudioDefines.h"
-
+#include <cstring>
 namespace cAudio
 {
 	//! Interface for a class that allocates and frees memory used by cAudio.

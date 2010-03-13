@@ -42,8 +42,8 @@ namespace cAudio
 		unsigned long StartTime;
 		char TempTextBuf[2048];
 		LogLevel MinLogLevel;
-		std::map<std::string, ILogReceiver*, std::less<std::string>, cSTLAllocator<std::pair<std::string, ILogReceiver*>>> Receivers;
-		typedef std::map<std::string, ILogReceiver*, std::less<std::string>, cSTLAllocator<std::pair<std::string, ILogReceiver*>>>::iterator ReceiversIterator;
+		std::map<std::string, ILogReceiver*, std::less<std::string>, cSTLAllocator<std::pair<std::string, ILogReceiver*> > > Receivers;
+		typedef std::map<std::string, ILogReceiver*, std::less<std::string>, cSTLAllocator<std::pair<std::string, ILogReceiver*> > >::iterator ReceiversIterator;
 	private:
     };
 };

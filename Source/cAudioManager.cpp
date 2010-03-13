@@ -54,14 +54,14 @@ namespace cAudio
 	//Note: OpenAL is threadsafe, so a mutex only needs to protect the class state
 #ifdef CAUDIO_USE_INTERNAL_THREAD
 	static cAudioMutex AudioManagerObjectsMutex;
-	static std::set<IAudioManager*, std::less<IAudioManager*>, cSTLAllocator<IAudioManager*>> AudioManagerObjects;
+	static std::set<IAudioManager*, std::less<IAudioManager*>, cSTLAllocator<IAudioManager*> > AudioManagerObjects;
 
 	CAUDIO_DECLARE_THREAD_FUNCTION(AudioManagerUpdateThread)
 	{
 		while(RunAudioManagerThread)
 		{
 			AudioManagerObjectsMutex.lock();
-			std::set<IAudioManager*, std::less<IAudioManager*>, cSTLAllocator<IAudioManager*>>::iterator it;
+			std::set<IAudioManager*, std::less<IAudioManager*>, cSTLAllocator<IAudioManager*> >::iterator it;
 			for ( it=AudioManagerObjects.begin() ; it != AudioManagerObjects.end(); it++ )
 			{
 				(*it)->update();
@@ -487,7 +487,7 @@ namespace cAudio
 	void cAudioManager::signalEvent(Events sevent)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		std::list<IManagerEventHandler*, cSTLAllocator<IManagerEventHandler*>>::iterator it = eventHandlerList.begin();
+		std::list<IManagerEventHandler*, cSTLAllocator<IManagerEventHandler*> >::iterator it = eventHandlerList.begin();
 
 		if(it != eventHandlerList.end())
 		{

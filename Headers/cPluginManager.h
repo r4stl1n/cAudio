@@ -74,11 +74,11 @@ namespace cAudio
 		void autoLoadPlugins();
 #endif
 	protected:
-		std::map<std::string, IAudioPlugin*, std::less<std::string>, cSTLAllocator<std::pair<std::string, IAudioPlugin*>>> RegisteredPlugins;
-		typedef std::map<std::string, IAudioPlugin*, std::less<std::string>, cSTLAllocator<std::pair<std::string, IAudioPlugin*>>>::iterator RegisteredPluginsIterator;
+		std::map<std::string, IAudioPlugin*, std::less<std::string>, cSTLAllocator<std::pair<std::string, IAudioPlugin*> > > RegisteredPlugins;
+		typedef std::map<std::string, IAudioPlugin*, std::less<std::string>, cSTLAllocator<std::pair<std::string, IAudioPlugin*> > >::iterator RegisteredPluginsIterator;
 #ifdef CAUDIO_COMPILE_WITH_DYNAMIC_PLUGIN_SUPPORT
-		std::map<IAudioPlugin*, DYNLIB_HANDLE, std::less<IAudioPlugin*>, cSTLAllocator<std::pair<IAudioPlugin*, DYNLIB_HANDLE>>> DynamicallyLoadedPlugins;
-		typedef std::map<IAudioPlugin*, DYNLIB_HANDLE, std::less<IAudioPlugin*>, cSTLAllocator<std::pair<IAudioPlugin*, DYNLIB_HANDLE>>>::iterator DynamicallyLoadedPluginsIterator;
+		std::map<IAudioPlugin*, DYNLIB_HANDLE, std::less<IAudioPlugin*>, cSTLAllocator<std::pair<IAudioPlugin*, DYNLIB_HANDLE> > > DynamicallyLoadedPlugins;
+		typedef std::map<IAudioPlugin*, DYNLIB_HANDLE, std::less<IAudioPlugin*>, cSTLAllocator<std::pair<IAudioPlugin*, DYNLIB_HANDLE> > >::iterator DynamicallyLoadedPluginsIterator;
 #endif
 	};
 };

@@ -80,6 +80,24 @@
 		7B09C638113A17E5008C46C9 /* IRefCounted.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C61E113A17E5008C46C9 /* IRefCounted.h */; };
 		7B09C639113A17E5008C46C9 /* ISourceEventHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C61F113A17E5008C46C9 /* ISourceEventHandler.h */; };
 		7B09C63B113A17F5008C46C9 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B09C63A113A17F5008C46C9 /* OpenAL.framework */; };
+		7B1075AE114845AF0030E6F5 /* cStandardMemoryProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B1075AA114845AF0030E6F5 /* cStandardMemoryProvider.h */; };
+		7B1075AF114845AF0030E6F5 /* cMemoryTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B1075AB114845AF0030E6F5 /* cMemoryTracker.h */; };
+		7B1075B0114845AF0030E6F5 /* cMemoryOverride.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B1075AC114845AF0030E6F5 /* cMemoryOverride.h */; };
+		7B1075B1114845AF0030E6F5 /* cSTLAllocator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B1075AD114845AF0030E6F5 /* cSTLAllocator.h */; };
+		7B1075B2114845AF0030E6F5 /* cStandardMemoryProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B1075AA114845AF0030E6F5 /* cStandardMemoryProvider.h */; };
+		7B1075B3114845AF0030E6F5 /* cMemoryTracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B1075AB114845AF0030E6F5 /* cMemoryTracker.h */; };
+		7B1075B4114845AF0030E6F5 /* cMemoryOverride.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B1075AC114845AF0030E6F5 /* cMemoryOverride.h */; };
+		7B1075B5114845AF0030E6F5 /* cSTLAllocator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B1075AD114845AF0030E6F5 /* cSTLAllocator.h */; };
+		7B1075B9114846CD0030E6F5 /* cAudioMemory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B1075B6114846CD0030E6F5 /* cAudioMemory.cpp */; };
+		7B1075BA114846CD0030E6F5 /* cMemoryTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B1075B7114846CD0030E6F5 /* cMemoryTracker.cpp */; };
+		7B1075BB114846CD0030E6F5 /* cStandardMemoryProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B1075B8114846CD0030E6F5 /* cStandardMemoryProvider.cpp */; };
+		7B1075BC114846CD0030E6F5 /* cAudioMemory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B1075B6114846CD0030E6F5 /* cAudioMemory.cpp */; };
+		7B1075BD114846CD0030E6F5 /* cMemoryTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B1075B7114846CD0030E6F5 /* cMemoryTracker.cpp */; };
+		7B1075BE114846CD0030E6F5 /* cStandardMemoryProvider.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7B1075B8114846CD0030E6F5 /* cStandardMemoryProvider.cpp */; };
+		7B1075C0114846EB0030E6F5 /* IMemoryProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B1075BF114846EB0030E6F5 /* IMemoryProvider.h */; };
+		7B1075C1114846EB0030E6F5 /* IMemoryProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B1075BF114846EB0030E6F5 /* IMemoryProvider.h */; };
+		7B1075C3114846F00030E6F5 /* cAudioMemory.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B1075C2114846F00030E6F5 /* cAudioMemory.h */; };
+		7B1075C4114846F00030E6F5 /* cAudioMemory.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B1075C2114846F00030E6F5 /* cAudioMemory.h */; };
 		7B891F76113A221E001CDBC6 /* cAudio.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C606113A17E5008C46C9 /* cAudio.h */; };
 		7B891F77113A221E001CDBC6 /* cAudioDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C607113A17E5008C46C9 /* cAudioDefines.h */; };
 		7B891F78113A221E001CDBC6 /* cAudioPlatform.h in Headers */ = {isa = PBXBuildFile; fileRef = 7B09C608113A17E5008C46C9 /* cAudioPlatform.h */; };
@@ -229,6 +247,15 @@
 		7B09C61E113A17E5008C46C9 /* IRefCounted.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IRefCounted.h; sourceTree = "<group>"; };
 		7B09C61F113A17E5008C46C9 /* ISourceEventHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISourceEventHandler.h; sourceTree = "<group>"; };
 		7B09C63A113A17F5008C46C9 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = /System/Library/Frameworks/OpenAL.framework; sourceTree = "<absolute>"; };
+		7B1075AA114845AF0030E6F5 /* cStandardMemoryProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cStandardMemoryProvider.h; sourceTree = "<group>"; };
+		7B1075AB114845AF0030E6F5 /* cMemoryTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cMemoryTracker.h; sourceTree = "<group>"; };
+		7B1075AC114845AF0030E6F5 /* cMemoryOverride.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cMemoryOverride.h; sourceTree = "<group>"; };
+		7B1075AD114845AF0030E6F5 /* cSTLAllocator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cSTLAllocator.h; sourceTree = "<group>"; };
+		7B1075B6114846CD0030E6F5 /* cAudioMemory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cAudioMemory.cpp; sourceTree = "<group>"; };
+		7B1075B7114846CD0030E6F5 /* cMemoryTracker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cMemoryTracker.cpp; sourceTree = "<group>"; };
+		7B1075B8114846CD0030E6F5 /* cStandardMemoryProvider.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cStandardMemoryProvider.cpp; sourceTree = "<group>"; };
+		7B1075BF114846EB0030E6F5 /* IMemoryProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IMemoryProvider.h; sourceTree = "<group>"; };
+		7B1075C2114846F00030E6F5 /* cAudioMemory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cAudioMemory.h; sourceTree = "<group>"; };
 		7B891F72113A21C9001CDBC6 /* liblibcAudio_d.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblibcAudio_d.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		D2AAC09D05546B4700DB518D /* libcAudio_d.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = libcAudio_d.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -294,6 +321,9 @@
 				7B09C5AE113A17D9008C46C9 /* cEffect.cpp */,
 				7B09C5AF113A17D9008C46C9 /* cFileLogReceiver.cpp */,
 				7B09C5B0113A17D9008C46C9 /* cFileSource.cpp */,
+				7B1075B6114846CD0030E6F5 /* cAudioMemory.cpp */,
+				7B1075B7114846CD0030E6F5 /* cMemoryTracker.cpp */,
+				7B1075B8114846CD0030E6F5 /* cStandardMemoryProvider.cpp */,
 				7B09C5B1113A17D9008C46C9 /* cFilter.cpp */,
 				7B09C5B2113A17D9008C46C9 /* cListener.cpp */,
 				7B09C5B3113A17D9008C46C9 /* cLogger.cpp */,
@@ -319,6 +349,10 @@
 				7B09C5D7113A17DD008C46C9 /* cAudioManager.h */,
 				7B09C5D8113A17DD008C46C9 /* cAudioSource.h */,
 				7B09C5D9113A17DD008C46C9 /* cConsoleLogReceiver.h */,
+				7B1075AA114845AF0030E6F5 /* cStandardMemoryProvider.h */,
+				7B1075AB114845AF0030E6F5 /* cMemoryTracker.h */,
+				7B1075AC114845AF0030E6F5 /* cMemoryOverride.h */,
+				7B1075AD114845AF0030E6F5 /* cSTLAllocator.h */,
 				7B09C5DA113A17DD008C46C9 /* cEffect.h */,
 				7B09C5DB113A17DD008C46C9 /* cEFXFunctions.h */,
 				7B09C5DC113A17DD008C46C9 /* cFileLogReceiver.h */,
@@ -354,11 +388,13 @@
 				7B09C60C113A17E5008C46C9 /* IAudioCapture.h */,
 				7B09C60D113A17E5008C46C9 /* IAudioDecoder.h */,
 				7B09C60E113A17E5008C46C9 /* IAudioDecoderFactory.h */,
+				7B1075BF114846EB0030E6F5 /* IMemoryProvider.h */,
 				7B09C60F113A17E5008C46C9 /* IAudioEffects.h */,
 				7B09C610113A17E5008C46C9 /* IAudioManager.h */,
 				7B09C611113A17E5008C46C9 /* IAudioPlugin.h */,
 				7B09C612113A17E5008C46C9 /* IAudioSource.h */,
 				7B09C613113A17E5008C46C9 /* ICaptureEventHandler.h */,
+				7B1075C2114846F00030E6F5 /* cAudioMemory.h */,
 				7B09C614113A17E5008C46C9 /* IDataSource.h */,
 				7B09C615113A17E5008C46C9 /* IDataSourceFactory.h */,
 				7B09C616113A17E5008C46C9 /* IEffect.h */,
@@ -432,6 +468,12 @@
 				7B891FA5113A2222001CDBC6 /* cUtils.h in Headers */,
 				7B891FA6113A2222001CDBC6 /* cWavAudioDecoderFactory.h in Headers */,
 				7B891FA7113A2222001CDBC6 /* cWavDecoder.h in Headers */,
+				7B1075B2114845AF0030E6F5 /* cStandardMemoryProvider.h in Headers */,
+				7B1075B3114845AF0030E6F5 /* cMemoryTracker.h in Headers */,
+				7B1075B4114845AF0030E6F5 /* cMemoryOverride.h in Headers */,
+				7B1075B5114845AF0030E6F5 /* cSTLAllocator.h in Headers */,
+				7B1075C1114846EB0030E6F5 /* IMemoryProvider.h in Headers */,
+				7B1075C4114846F00030E6F5 /* cAudioMemory.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,6 +531,12 @@
 				7B09C637113A17E5008C46C9 /* IPluginManager.h in Headers */,
 				7B09C638113A17E5008C46C9 /* IRefCounted.h in Headers */,
 				7B09C639113A17E5008C46C9 /* ISourceEventHandler.h in Headers */,
+				7B1075AE114845AF0030E6F5 /* cStandardMemoryProvider.h in Headers */,
+				7B1075AF114845AF0030E6F5 /* cMemoryTracker.h in Headers */,
+				7B1075B0114845AF0030E6F5 /* cMemoryOverride.h in Headers */,
+				7B1075B1114845AF0030E6F5 /* cSTLAllocator.h in Headers */,
+				7B1075C0114846EB0030E6F5 /* IMemoryProvider.h in Headers */,
+				7B1075C3114846F00030E6F5 /* cAudioMemory.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -575,6 +623,9 @@
 				7B891FBB113A2227001CDBC6 /* cWavAudioDecoderFactory.cpp in Sources */,
 				7B891FBC113A2227001CDBC6 /* cWavDecoder.cpp in Sources */,
 				7B891FBD113A2227001CDBC6 /* Makefile in Sources */,
+				7B1075BC114846CD0030E6F5 /* cAudioMemory.cpp in Sources */,
+				7B1075BD114846CD0030E6F5 /* cMemoryTracker.cpp in Sources */,
+				7B1075BE114846CD0030E6F5 /* cStandardMemoryProvider.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -604,6 +655,9 @@
 				7B09C5D1113A17D9008C46C9 /* cWavAudioDecoderFactory.cpp in Sources */,
 				7B09C5D2113A17D9008C46C9 /* cWavDecoder.cpp in Sources */,
 				7B09C5D3113A17D9008C46C9 /* Makefile in Sources */,
+				7B1075B9114846CD0030E6F5 /* cAudioMemory.cpp in Sources */,
+				7B1075BA114846CD0030E6F5 /* cMemoryTracker.cpp in Sources */,
+				7B1075BB114846CD0030E6F5 /* cStandardMemoryProvider.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -666,6 +720,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/";
+				CONFIGURATION_TEMP_DIR = .;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -682,6 +738,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/";
+				CONFIGURATION_TEMP_DIR = .;
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
