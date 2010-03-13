@@ -6,33 +6,29 @@
 
 namespace cAudio
 {
-	template <typename T> class cSTLAllocator;
+	template<typename T>
+	struct cSTLAllocatorBase
+	{	// base class for generic allocators
+		typedef T value_type;
+	};
 
-    // specialize for void:
-    template <> class cSTLAllocator<void> 
-	{
-    public:
-      typedef void*       pointer;
-      typedef const void* const_pointer;
-      // reference to void members are impossible.
-      typedef void value_type;
-      template <class U> 
-	  struct rebind 
-	  { 
-		  typedef cSTLAllocator<U> other; 
-	  };
-    };
+	template<typename T>
+	struct cSTLAllocatorBase<const T>
+	{	// base class for generic allocators for const T
+		typedef T value_type;
+	};
 
-	template <typename T> class cSTLAllocator 
+	template <typename T> class cSTLAllocator : public cSTLAllocatorBase<T>
 	{
 	public:
-		typedef T					value_type;
-		typedef value_type*			pointer;
-		typedef const value_type*	const_pointer;
-		typedef value_type&			reference;
-		typedef const value_type&	const_reference;
-		typedef std::size_t			size_type;
-		typedef std::ptrdiff_t		difference_type;
+		typedef cSTLAllocatorBase<T>		Base;
+		typedef typename Base::value_type	value_type;
+		typedef value_type*					pointer;
+		typedef const value_type*			const_pointer;
+		typedef value_type&					reference;
+		typedef const value_type&			const_reference;
+		typedef std::size_t					size_type;
+		typedef std::ptrdiff_t				difference_type;
 
 		template<typename U>
 		struct rebind
