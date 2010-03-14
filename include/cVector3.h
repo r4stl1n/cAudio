@@ -12,7 +12,7 @@ namespace cAudio
 	//! Smallest number that can be represented with a 32 bit float (may not match your compiler/os varient)
 	const float Epsilon = 0.000001f;
 
-	//! Internal function that compared two floats while keeping the Epsilon in mind.
+	//! Internal function that compares two floats while keeping the Epsilon in mind.
 	inline bool float_equals(const float a, const float b)
 	{
 		return (a + Epsilon >= b) && (a - Epsilon <= b);

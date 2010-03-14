@@ -36,17 +36,17 @@ namespace cAudio
 			typedef cSTLAllocator<U> other;
 		};
 
-		inline explicit cSTLAllocator()
+		cSTLAllocator()
 		{ }
 
-		virtual ~cSTLAllocator()
+		~cSTLAllocator() throw()
 		{ }
 
-		inline cSTLAllocator( cSTLAllocator const& )
+		cSTLAllocator( const cSTLAllocator& ) throw()
 		{ }
 
 		template <typename U>
-		inline cSTLAllocator( cSTLAllocator<U> const& )
+		cSTLAllocator( const cSTLAllocator<U>& ) throw()
 		{ }
 
 		pointer address(reference x) const
@@ -89,14 +89,30 @@ namespace cAudio
 		}
 	};
 
-	template <typename T1, typename T2>
-	bool operator==(const cSTLAllocator<T1>&, const cSTLAllocator<T2>&)
+	template<> class cSTLAllocator<void>
+	{
+    public:
+		typedef size_t      size_type;
+		typedef ptrdiff_t   difference_type;
+		typedef void*       pointer;
+		typedef const void* const_pointer;
+		typedef void        value_type;
+
+		template<typename U>
+		struct rebind
+		{
+			typedef cSTLAllocator<U> other;
+		};
+    };
+
+	template <typename T>
+	inline bool operator==(const cSTLAllocator<T>&, const cSTLAllocator<T>&)
 	{
 		return true;
 	}
 
-	template <typename T1, typename T2>
-	bool operator!=(const cSTLAllocator<T1>&, const cSTLAllocator<T2>&)
+	template <typename T>
+	inline bool operator!=(const cSTLAllocator<T>&, const cSTLAllocator<T>&)
 	{
 		return false;
 	}
