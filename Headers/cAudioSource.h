@@ -156,7 +156,7 @@ namespace cAudio
 		bool Valid;
 
 		//! List of registered event handlers
-		std::list<ISourceEventHandler*, cSTLAllocator<ISourceEventHandler*> > eventHandlerList;
+		cAudioList<ISourceEventHandler*>::Type eventHandlerList;
 
 #ifdef CAUDIO_EFX_ENABLED
 		//! Holds pointers to all the EFX related functions

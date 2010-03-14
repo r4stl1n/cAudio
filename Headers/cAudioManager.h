@@ -5,10 +5,6 @@
 #ifndef CAUDIOMANAGER_H_INCLUDED
 #define CAUDIOMANAGER_H_INCLUDED
 
-#include <map>
-#include <string>
-#include <vector>
-
 #include "cAudioSource.h"
 #include "../include/IAudioDecoderFactory.h"
 #include "cListener.h"
@@ -100,17 +96,17 @@ namespace cAudio
 		bool Initialized;
 
 		//! Holds an index for fast searching of audio sources by name
-		std::map<std::string, IAudioSource*, std::less<std::string>, cSTLAllocator<std::pair<std::string, IAudioSource*> > > audioIndex;
-		typedef std::map<std::string, IAudioSource*, std::less<std::string>, cSTLAllocator<std::pair<std::string, IAudioSource*> > >::iterator audioIndexIterator;
+		cAudioMap<cAudioString, IAudioSource*>::Type audioIndex;
+		typedef cAudioMap<cAudioString, IAudioSource*>::Type::iterator audioIndexIterator;
 		//! Holds all managed audio sources
-		std::vector<IAudioSource*, cSTLAllocator<IAudioSource*> > audioSources;
+		cAudioVector<IAudioSource*>::Type audioSources;
 		//! Decoder map that holds all decoders by file extension
-		std::map<std::string, IAudioDecoderFactory*, std::less<std::string>, cSTLAllocator<std::pair<std::string, IAudioDecoderFactory*> > > decodermap;
-		typedef std::map<std::string, IAudioDecoderFactory*, std::less<std::string>, cSTLAllocator<std::pair<std::string, IAudioDecoderFactory*> > >::iterator decodermapIterator;
+		cAudioMap<cAudioString, IAudioDecoderFactory*>::Type decodermap;
+		typedef cAudioMap<cAudioString, IAudioDecoderFactory*>::Type::iterator decodermapIterator;
 		//! Archive map that holds all datasource types
-		std::map<std::string, IDataSourceFactory*, std::less<std::string>, cSTLAllocator<std::pair<std::string, IDataSourceFactory*> > > datasourcemap;
-		typedef std::map<std::string, IDataSourceFactory*, std::less<std::string>, cSTLAllocator<std::pair<std::string, IDataSourceFactory*> > >::iterator datasourcemapIterator;
-		std::vector< std::pair<int, std::string>, cSTLAllocator<std::pair<int, std::string> > > dataSourcePriorityList;
+		cAudioMap<cAudioString, IDataSourceFactory*>::Type datasourcemap;
+		typedef cAudioMap<cAudioString, IDataSourceFactory*>::Type::iterator datasourcemapIterator;
+		cAudioVector< std::pair<int, cAudioString> >::Type dataSourcePriorityList;
 
 		//! The listener object        
 		cListener initlistener;
@@ -121,14 +117,14 @@ namespace cAudio
 		//! Check for OpenAL errors
 		bool checkError();
 
-		std::vector<std::string, cSTLAllocator<std::string> > AvailableDevices;
-		std::string DefaultDevice;
+		cAudioVector<cAudioString>::Type AvailableDevices;
+		cAudioString DefaultDevice;
 
 		//! Signals a event to all event handlers
 		void signalEvent(Events sevent);
 		
 		//! List of all attached event handlers
-		std::list<IManagerEventHandler*, cSTLAllocator<IManagerEventHandler*> > eventHandlerList;
+		cAudioList<IManagerEventHandler*>::Type eventHandlerList;
     };
 }
 

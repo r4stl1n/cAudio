@@ -10,7 +10,6 @@
 #include "../Headers/cPluginManager.h"
 
 #include <string.h>
-#include <set>
 
 namespace cAudio
 {
@@ -19,14 +18,14 @@ namespace cAudio
 	//Note: OpenAL is threadsafe, so a mutex only needs to protect the class state
 #ifdef CAUDIO_USE_INTERNAL_THREAD
 	static cAudioMutex AudioCaptureObjectsMutex;
-	static std::set<IAudioCapture*, std::less<IAudioCapture*>, cSTLAllocator<IAudioCapture*> > AudioCaptureObjects;
+	static cAudioSet<IAudioCapture*>::Type AudioCaptureObjects;
 
 	CAUDIO_DECLARE_THREAD_FUNCTION(AudioCaptureUpdateThread)
 	{
 		while(RunAudioCaptureThread)
 		{
 			AudioCaptureObjectsMutex.lock();
-			std::set<IAudioCapture*, std::less<IAudioCapture*>, cSTLAllocator<IAudioCapture*> >::iterator it;
+			cAudioSet<IAudioCapture*>::Type::iterator it;
 			for ( it=AudioCaptureObjects.begin() ; it != AudioCaptureObjects.end(); it++ )
 			{
 				(*it)->updateCaptureBuffer();
@@ -122,7 +121,7 @@ namespace cAudio
 			{
 				while(*deviceList)
 				{
-					std::string device(deviceList);
+					cAudioString device(deviceList);
 					AvailableDevices.push_back(device);
 					deviceList += strlen(deviceList) + 1;
 				}
@@ -347,7 +346,7 @@ namespace cAudio
 				capture->initialize();
 
 #ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
-			std::vector<IAudioPlugin*> plugins = cPluginManager::Instance()->getPluginList();
+			cAudioVector<IAudioPlugin*>::Type plugins = cPluginManager::Instance()->getPluginList();
 			for(unsigned int i = 0; i < plugins.size(); ++i)
 			{
 				plugins[i]->onCreateAudioCapture(capture);
@@ -382,7 +381,7 @@ namespace cAudio
 #endif
 
 #ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
-			std::vector<IAudioPlugin*> plugins = cPluginManager::Instance()->getPluginList();
+			cAudioVector<IAudioPlugin*>::Type plugins = cPluginManager::Instance()->getPluginList();
 			for(unsigned int i = 0; i < plugins.size(); ++i)
 			{
 				plugins[i]->onDestoryAudioCapture(capture);
@@ -424,7 +423,7 @@ namespace cAudio
 	void cAudioCapture::signalEvent(Events sevent)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		std::list<ICaptureEventHandler*, cSTLAllocator<ICaptureEventHandler*> >::iterator it = eventHandlerList.begin();
+		cAudioList<ICaptureEventHandler*>::Type::iterator it = eventHandlerList.begin();
 
 		if(it != eventHandlerList.end()){
 

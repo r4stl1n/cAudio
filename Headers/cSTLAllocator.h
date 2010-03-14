@@ -2,33 +2,27 @@
 #define CSTLALLOCATOR_H_INCLUDED
 
 #include "../include/cAudioDefines.h"
-#include "../Headers/cMemoryOverride.h"
+#include "../include/cAudioMemory.h"
+
+#include <set>
+#include <map>
+#include <list>
+#include <vector>
+#include <string>
 
 namespace cAudio
 {
-	template<typename T>
-	struct cSTLAllocatorBase
-	{	// base class for generic allocators
-		typedef T value_type;
-	};
-
-	template<typename T>
-	struct cSTLAllocatorBase<const T>
-	{	// base class for generic allocators for const T
-		typedef T value_type;
-	};
-
-	template <typename T> class cSTLAllocator : public cSTLAllocatorBase<T>
+#ifdef CAUDIO_REROUTE_STL_ALLOCATIONS
+	template <typename T> class cSTLAllocator
 	{
 	public:
-		typedef cSTLAllocatorBase<T>		Base;
-		typedef typename Base::value_type	value_type;
-		typedef value_type*					pointer;
-		typedef const value_type*			const_pointer;
-		typedef value_type&					reference;
-		typedef const value_type&			const_reference;
-		typedef std::size_t					size_type;
-		typedef std::ptrdiff_t				difference_type;
+		typedef T					value_type;
+		typedef value_type*			pointer;
+		typedef const value_type*	const_pointer;
+		typedef value_type&			reference;
+		typedef const value_type&	const_reference;
+		typedef std::size_t			size_type;
+		typedef std::ptrdiff_t		difference_type;
 
 		template<typename U>
 		struct rebind
@@ -59,7 +53,7 @@ namespace cAudio
 			return &x;
 		}
 
-		inline pointer allocate( size_type count, typename std::allocator<void>::const_pointer ptr = 0 )
+		pointer allocate( size_type count, typename std::allocator<void>::const_pointer ptr = 0 )
 		{
             (void)ptr;
 			register size_type size = count*sizeof( T );
@@ -67,7 +61,7 @@ namespace cAudio
 			return p;
 		}
 
-		inline void deallocate( pointer p, size_type size )
+		void deallocate( pointer p, size_type size )
 		{
 			CAUDIO_FREE(p);
 		}
@@ -116,6 +110,21 @@ namespace cAudio
 	{
 		return false;
 	}
+#endif
+
+#ifdef CAUDIO_REROUTE_STL_ALLOCATIONS
+	typedef std::basic_string< char, std::char_traits<char>, cSTLAllocator<char> > cAudioString;
+	template<typename T1, typename T2> struct cAudioMap { typedef std::map< T1, T2, std::less< T1 >, cSTLAllocator< std::pair< T1, T2 > > > Type; };
+	template<typename T> struct cAudioSet { typedef std::set< T, std::less< T >, cSTLAllocator< T > > Type; };
+	template<typename T> struct cAudioList { typedef std::list< T, cSTLAllocator< T > > Type; };
+	template<typename T> struct cAudioVector { typedef std::vector< T, cSTLAllocator< T > > Type; };
+#else
+	typedef std::string cAudioString;
+	template<typename T1, typename T2> struct cAudioMap { typedef std::map< T1, T2> Type; };
+	template<typename T> struct cAudioSet { typedef std::set< T > Type; };
+	template<typename T> struct cAudioList { typedef std::list< T > Type; };
+	template<typename T> struct cAudioVector { typedef std::vector< T > Type; };
+#endif
 
 };
 

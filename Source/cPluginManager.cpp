@@ -40,7 +40,7 @@ bool cPluginManager::installPlugin(IAudioPlugin* plugin, const char* name)
 {
 	if(plugin)
 	{
-		std::string theName = safeCStr(name);
+		cAudioString theName = safeCStr(name);
 		if(theName.empty())
 			theName = plugin->getPluginName();
 
@@ -96,9 +96,9 @@ unsigned int cPluginManager::getPluginCount()
 	return RegisteredPlugins.size();
 }
 
-std::vector<IAudioPlugin*> cPluginManager::getPluginList()
+cAudioVector<IAudioPlugin*>::Type cPluginManager::getPluginList()
 {
-	std::vector<IAudioPlugin*> list;
+	cAudioVector<IAudioPlugin*>::Type list;
 	RegisteredPluginsIterator it;
 	for(it = RegisteredPlugins.begin(); it != RegisteredPlugins.end(); it++)
 	{
@@ -148,7 +148,7 @@ void cPluginManager::uninstallPlugin(const char* name)
 #ifdef CAUDIO_COMPILE_WITH_DYNAMIC_PLUGIN_SUPPORT
 void cPluginManager::autoLoadPlugins()
 {
-	std::vector<std::string> fileList = getFilesInDirectory(".");
+	cAudioVector<cAudioString>::Type fileList = getFilesInDirectory(".");
 	for(int i=0; i<fileList.size(); ++i)
 	{
 		if(fileList[i].substr(0, 4) == "cAp_")
@@ -164,7 +164,7 @@ void cPluginManager::autoLoadPlugins()
 #endif
 			{
 				//Found a plugin, load it
-				installPlugin(std::string("./" + fileList[i]).c_str(), NULL);
+				installPlugin(cAudioString("./" + fileList[i]).c_str(), NULL);
 			}
 		}
 	}

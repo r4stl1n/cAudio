@@ -14,7 +14,7 @@ namespace cAudio
 
 cFileSource::cFileSource(const char* filename) : pFile(NULL), Valid(false), Filesize(0)
 {
-	std::string safeFilename = safeCStr(filename);
+	cAudioString safeFilename = safeCStr(filename);
     if(safeFilename.length() != 0)
     {
 		pFile = fopen(safeFilename.c_str(),"rb");

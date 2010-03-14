@@ -23,4 +23,20 @@
 #	endif
 #endif
 
+#ifndef CAUDIO_COMPILIER_GCC
+#	if defined(__GNUC__) || defined(__GCCXML__)
+#		define CAUDIO_COMPILIER_GCC
+#	endif
+#endif
+
+#ifndef CAUDIO_COMPILIER_MSVC
+#	if defined(_MSC_VER)
+#		if _MSC_VER >= 1400
+#			define CAUDIO_COMPILIER_MSVC
+#		else
+#			error This version of the MSVC compilier is not supported
+#		endif
+#	endif
+#endif
+
 #endif //! CAUDIOPLATFORM_H_INCLUDED

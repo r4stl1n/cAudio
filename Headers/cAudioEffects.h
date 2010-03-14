@@ -8,7 +8,6 @@
 #include "../include/IAudioEffects.h"
 #include "../Headers/cMutex.h"
 #include "../Headers/cEFXFunctions.h"
-#include <map>
 #include "../Headers/cSTLAllocator.h"
 
 #ifdef CAUDIO_EFX_ENABLED
@@ -70,19 +69,19 @@ namespace cAudio
 		bool SupportedEffects[EET_COUNT];
 		bool SupportedFilters[EFT_COUNT];
 
-		std::map<std::string, sEAXReverbParameters, std::less<std::string>, cSTLAllocator<std::pair<std::string, sEAXReverbParameters>> > EAXReverbPresets;
-		std::map<std::string, sReverbParameters, std::less<std::string>, cSTLAllocator<std::pair<std::string, sReverbParameters>> > ReverbPresets;
-		std::map<std::string, sChorusParameters, std::less<std::string>, cSTLAllocator<std::pair<std::string, sChorusParameters>> > ChorusPresets;
-		std::map<std::string, sDistortionParameters, std::less<std::string>, cSTLAllocator<std::pair<std::string, sDistortionParameters>> > DistortionPresets;
-		std::map<std::string, sEchoParameters, std::less<std::string>, cSTLAllocator<std::pair<std::string, sEchoParameters>> > EchoPresets;
-		std::map<std::string, sFlangerParameters, std::less<std::string>, cSTLAllocator<std::pair<std::string, sFlangerParameters>> > FlangerPresets;
-		std::map<std::string, sFrequencyShiftParameters, std::less<std::string>, cSTLAllocator<std::pair<std::string, sFrequencyShiftParameters>> > FrequencyShiftPresets;
-		std::map<std::string, sVocalMorpherParameters, std::less<std::string>, cSTLAllocator<std::pair<std::string, sVocalMorpherParameters>> > VocalMorpherPresets;
-		std::map<std::string, sPitchShifterParameters, std::less<std::string>, cSTLAllocator<std::pair<std::string, sPitchShifterParameters>> > PitchShifterPresets;
-		std::map<std::string, sRingModulatorParameters, std::less<std::string>, cSTLAllocator<std::pair<std::string, sRingModulatorParameters>> > RingModulatorPresets;
-		std::map<std::string, sAutowahParameters, std::less<std::string>, cSTLAllocator<std::pair<std::string, sAutowahParameters>> > AutowahPresets;
-		std::map<std::string, sCompressorParameters, std::less<std::string>, cSTLAllocator<std::pair<std::string, sCompressorParameters>> > CompressorPresets;
-		std::map<std::string, sEqualizerParameters, std::less<std::string>, cSTLAllocator<std::pair<std::string, sEqualizerParameters>> > EqualizerPresets;
+		cAudioMap<cAudioString, sEAXReverbParameters>::Type EAXReverbPresets;
+		cAudioMap<cAudioString, sReverbParameters>::Type ReverbPresets;
+		cAudioMap<cAudioString, sChorusParameters>::Type ChorusPresets;
+		cAudioMap<cAudioString, sDistortionParameters>::Type DistortionPresets;
+		cAudioMap<cAudioString, sEchoParameters>::Type EchoPresets;
+		cAudioMap<cAudioString, sFlangerParameters>::Type FlangerPresets;
+		cAudioMap<cAudioString, sFrequencyShiftParameters>::Type FrequencyShiftPresets;
+		cAudioMap<cAudioString, sVocalMorpherParameters>::Type VocalMorpherPresets;
+		cAudioMap<cAudioString, sPitchShifterParameters>::Type PitchShifterPresets;
+		cAudioMap<cAudioString, sRingModulatorParameters>::Type RingModulatorPresets;
+		cAudioMap<cAudioString, sAutowahParameters>::Type AutowahPresets;
+		cAudioMap<cAudioString, sCompressorParameters>::Type CompressorPresets;
+		cAudioMap<cAudioString, sEqualizerParameters>::Type EqualizerPresets;
     };
 };
 

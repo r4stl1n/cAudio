@@ -16,7 +16,6 @@
 #include "../include/cAudioPlatform.h"
 #include "../Headers/cFileSourceFactory.h"
 
-#include <set>
 #include <string.h>
 #include <algorithm>
 
@@ -54,14 +53,14 @@ namespace cAudio
 	//Note: OpenAL is threadsafe, so a mutex only needs to protect the class state
 #ifdef CAUDIO_USE_INTERNAL_THREAD
 	static cAudioMutex AudioManagerObjectsMutex;
-	static std::set<IAudioManager*, std::less<IAudioManager*>, cSTLAllocator<IAudioManager*> > AudioManagerObjects;
+	static cAudioSet<IAudioManager*>::Type AudioManagerObjects;
 
 	CAUDIO_DECLARE_THREAD_FUNCTION(AudioManagerUpdateThread)
 	{
 		while(RunAudioManagerThread)
 		{
 			AudioManagerObjectsMutex.lock();
-			std::set<IAudioManager*, std::less<IAudioManager*>, cSTLAllocator<IAudioManager*> >::iterator it;
+			cAudioSet<IAudioManager*>::Type::iterator it;
 			for ( it=AudioManagerObjects.begin() ; it != AudioManagerObjects.end(); it++ )
 			{
 				(*it)->update();
@@ -163,10 +162,10 @@ namespace cAudio
     {
 		cAudioMutexBasicLock lock(Mutex);
 
-		std::string audioName = safeCStr(name);
-		std::string path = safeCStr(filename);
+		cAudioString audioName = safeCStr(name);
+		cAudioString path = safeCStr(filename);
 
-		std::string ext = getExt(path);
+		cAudioString ext = getExt(path);
 		IAudioDecoderFactory* factory = getAudioDecoderFactory(ext.c_str());
 
 		if(factory)
@@ -224,8 +223,8 @@ namespace cAudio
     {
 		cAudioMutexBasicLock lock(Mutex);
 
-		std::string audioName = safeCStr(name);
-		std::string ext = safeCStr(extension);
+		cAudioString audioName = safeCStr(name);
+		cAudioString ext = safeCStr(extension);
 		IAudioDecoderFactory* factory = getAudioDecoderFactory(ext.c_str());
 		if(factory)
 		{
@@ -289,7 +288,7 @@ namespace cAudio
 	{
 		cAudioMutexBasicLock lock(Mutex);
 
-		std::string audioName = safeCStr(name);
+		cAudioString audioName = safeCStr(name);
 		IAudioDecoderFactory* factory = getAudioDecoderFactory("raw");
 		if(factory)
 		{
@@ -352,7 +351,7 @@ namespace cAudio
     bool cAudioManager::registerAudioDecoder(IAudioDecoderFactory* factory, const char* extension)
     {
 		cAudioMutexBasicLock lock(Mutex);
-		std::string ext = safeCStr(extension);
+		cAudioString ext = safeCStr(extension);
         decodermap[ext] = factory;
 		getLogger()->logInfo("AudioManager", "Audio Decoder for extension .%s registered.", ext.c_str());
 		return true;
@@ -361,7 +360,7 @@ namespace cAudio
 	void cAudioManager::unRegisterAudioDecoder(const char* extension)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		std::string ext = safeCStr(extension);
+		cAudioString ext = safeCStr(extension);
 		decodermapIterator it = decodermap.find(ext);
 		if(it != decodermap.end())
 		{
@@ -373,7 +372,7 @@ namespace cAudio
 	bool cAudioManager::isAudioDecoderRegistered(const char* extension)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		std::string ext = safeCStr(extension);
+		cAudioString ext = safeCStr(extension);
 		decodermapIterator it = decodermap.find(ext);
 		return (it != decodermap.end());
 	}
@@ -381,7 +380,7 @@ namespace cAudio
 	IAudioDecoderFactory* cAudioManager::getAudioDecoderFactory(const char* extension)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		std::string ext = safeCStr(extension);
+		cAudioString ext = safeCStr(extension);
 		decodermapIterator it = decodermap.find(ext);
 		if(it != decodermap.end())
 		{
@@ -396,7 +395,7 @@ namespace cAudio
 		decodermap.clear();
 	}
 
-	bool compareDataSourcePriorities(std::pair<int, std::string> left, std::pair<int, std::string> right)
+	bool compareDataSourcePriorities(std::pair<int, cAudioString> left, std::pair<int, cAudioString> right)
 	{
 		return (left.first > right.first);
 	}
@@ -404,9 +403,9 @@ namespace cAudio
 	bool cAudioManager::registerDataSource(IDataSourceFactory* factory, const char* name, int priority)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		std::string safeName = safeCStr(name);
+		cAudioString safeName = safeCStr(name);
         datasourcemap[safeName] = factory;
-		dataSourcePriorityList.push_back(std::pair<int, std::string>(priority, safeName));
+		dataSourcePriorityList.push_back(std::pair<int, cAudioString>(priority, safeName));
 		std::sort(dataSourcePriorityList.begin(), dataSourcePriorityList.end(), compareDataSourcePriorities);
 
 		getLogger()->logInfo("AudioManager", "Data Source named %s registered (Priority %i).", safeName.c_str(), priority);
@@ -416,7 +415,7 @@ namespace cAudio
 	void cAudioManager::unRegisterDataSource(const char* name)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		std::string safeName = safeCStr(name);
+		cAudioString safeName = safeCStr(name);
 		datasourcemapIterator it = datasourcemap.find(safeName);
 		if(it != datasourcemap.end())
 		{
@@ -439,7 +438,7 @@ namespace cAudio
 	bool cAudioManager::isDataSourceRegistered(const char* name)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		std::string safeName = safeCStr(name);
+		cAudioString safeName = safeCStr(name);
 		datasourcemapIterator it = datasourcemap.find(safeName);
 		return (it != datasourcemap.end());
 	}
@@ -447,7 +446,7 @@ namespace cAudio
 	IDataSourceFactory* cAudioManager::getDataSourceFactory(const char* name)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		std::string safeName = safeCStr(name);
+		cAudioString safeName = safeCStr(name);
 		datasourcemapIterator it = datasourcemap.find(safeName);
 		if(it != datasourcemap.end())
 		{
@@ -487,7 +486,7 @@ namespace cAudio
 	void cAudioManager::signalEvent(Events sevent)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		std::list<IManagerEventHandler*, cSTLAllocator<IManagerEventHandler*> >::iterator it = eventHandlerList.begin();
+		cAudioList<IManagerEventHandler*>::Type::iterator it = eventHandlerList.begin();
 
 		if(it != eventHandlerList.end())
 		{
@@ -553,7 +552,7 @@ namespace cAudio
     IAudioSource* cAudioManager::getSoundByName(const char* name)
     {
 		cAudioMutexBasicLock lock(Mutex);
-		std::string audioName = safeCStr(name);
+		cAudioString audioName = safeCStr(name);
         audioIndexIterator i = audioIndex.find(audioName);
         if (i == audioIndex.end())
 		{
@@ -672,7 +671,7 @@ namespace cAudio
 			{
 				while(*deviceList)
 				{
-					std::string device(deviceList);
+					cAudioString device(deviceList);
 					AvailableDevices.push_back(device);
 					deviceList += strlen(deviceList) + 1;
 				}
@@ -688,7 +687,7 @@ namespace cAudio
 			{
 				while(*deviceList)
 				{
-					std::string device(deviceList);
+					cAudioString device(deviceList);
 					AvailableDevices.push_back(device);
 					deviceList += strlen(deviceList) + 1;
 				}
@@ -748,7 +747,7 @@ namespace cAudio
 #endif
 
 #ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
-			std::vector<IAudioPlugin*> plugins = cPluginManager::Instance()->getPluginList();
+			cAudioVector<IAudioPlugin*>::Type plugins = cPluginManager::Instance()->getPluginList();
 			for(unsigned int i = 0; i < plugins.size(); ++i)
 			{
 				plugins[i]->onCreateAudioManager(manager);
@@ -783,7 +782,7 @@ namespace cAudio
 #endif
 
 #ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
-			std::vector<IAudioPlugin*> plugins = cPluginManager::Instance()->getPluginList();
+			cAudioVector<IAudioPlugin*>::Type plugins = cPluginManager::Instance()->getPluginList();
 			for(unsigned int i = 0; i < plugins.size(); ++i)
 			{
 				plugins[i]->onDestroyAudioManager(manager);

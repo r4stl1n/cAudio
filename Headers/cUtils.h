@@ -5,8 +5,7 @@
 #ifndef CUTILS_H_INCLUDED
 #define CUTILS_H_INCLUDED
 #include "../include/cAudioPlatform.h"
-#include <string>
-#include <vector>
+#include "../Headers/cSTLAllocator.h"
 
 #ifdef CAUDIO_PLATFORM_WIN
 #  define WIN32_LEAN_AND_MEAN
@@ -21,26 +20,29 @@
 #	include <cstring>
 #endif
 
-//! Grabs the current extention of a given string.
-static std::string getExt(const std::string& filename)
+namespace cAudio
 {
-    if(filename.find_last_of(".") == std::string::npos) return filename;
+
+//! Grabs the current extention of a given string.
+static cAudioString getExt(const cAudioString& filename)
+{
+    if(filename.find_last_of(".") == cAudioString::npos) return filename;
     return filename.substr(filename.find_last_of(".") + 1, filename.length()-filename.find_last_of(".")-1);
 }
 
-//! Prevents a bug with NULL passed into std::string.
-static std::string safeCStr(const char* str)
+//! Prevents a bug with NULL passed into cAudioString.
+static cAudioString safeCStr(const char* str)
 {
-	if( str != NULL ) return std::string(str);
-	else return std::string("");
+	if( str != NULL ) return cAudioString(str);
+	else return cAudioString("");
 }
 
 //! Returns a list of files/directories in the supplied directory.  Used internally for auto-installation of plugins.
-static std::vector<std::string> getFilesInDirectory(std::string path)
+static cAudioVector<cAudioString>::Type getFilesInDirectory(cAudioString path)
 {
-	std::vector<std::string> FileList;
+	cAudioVector<cAudioString>::Type FileList;
 #ifdef CAUDIO_PLATFORM_WIN
-	std::string search = path + "\\" + std::string("*.*");
+	cAudioString search = path + "\\" + cAudioString("*.*");
 	WIN32_FIND_DATA info;
 	HANDLE h = FindFirstFile(search.c_str(), &info);
 	if (h != INVALID_HANDLE_VALUE)
@@ -75,5 +77,7 @@ static std::vector<std::string> getFilesInDirectory(std::string path)
 
 	return FileList;
 }
+
+};
 
 #endif //! CUTILS_H_INCLUDED

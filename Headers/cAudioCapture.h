@@ -6,12 +6,9 @@
 #define CAUDIOCAPTURE_H
 
 #include "../include/IAudioCapture.h"
-#include <vector>
 #include <AL/al.h>
 #include <AL/alc.h>
 #include "../Headers/cMutex.h"
-#include <string>
-#include <list>
 #include "../Headers/cMemoryOverride.h"
 #include "../Headers/cSTLAllocator.h"
 
@@ -79,16 +76,16 @@ namespace cAudio
 		unsigned int InternalBufferSize;
 		int SampleSize;
 
-		std::vector<char, cSTLAllocator<char> > CaptureBuffer;
-		std::vector<std::string, cSTLAllocator<std::string> > AvailableDevices;
-		std::string DefaultDevice;
-		std::list<ICaptureEventHandler*, cSTLAllocator<ICaptureEventHandler*> > eventHandlerList;
+		cAudioVector<char>::Type CaptureBuffer;
+		cAudioVector<cAudioString>::Type AvailableDevices;
+		cAudioString DefaultDevice;
+		cAudioList<ICaptureEventHandler*>::Type eventHandlerList;
 
 		bool Supported;
 		bool Ready;
 		bool Capturing;
 
-		std::string DeviceName;
+		cAudioString DeviceName;
 		ALCdevice* CaptureDevice;
 
 		bool checkError();

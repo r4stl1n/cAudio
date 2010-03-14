@@ -5,8 +5,6 @@
 #ifndef CLOGGER_H_INCLUDED
 #define CLOGGER_H_INCLUDED
 
-#include <map>
-#include <string>
 #include <stdarg.h>
 
 #include "../include/ILogger.h"
@@ -42,8 +40,8 @@ namespace cAudio
 		unsigned long StartTime;
 		char TempTextBuf[2048];
 		LogLevel MinLogLevel;
-		std::map<std::string, ILogReceiver*, std::less<std::string>, cSTLAllocator<std::pair<std::string, ILogReceiver*> > > Receivers;
-		typedef std::map<std::string, ILogReceiver*, std::less<std::string>, cSTLAllocator<std::pair<std::string, ILogReceiver*> > >::iterator ReceiversIterator;
+		cAudioMap<cAudioString, ILogReceiver*>::Type Receivers;
+		typedef cAudioMap<cAudioString, ILogReceiver*>::Type::iterator ReceiversIterator;
 	private:
     };
 };

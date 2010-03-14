@@ -1,10 +1,6 @@
 #ifndef CPLUGINMANAGER_H_INCLUDED
 #define CPLUGINMANAGER_H_INCLUDED
 
-#include <string>
-#include <map>
-#include <vector>
-
 #include "../include/IPluginManager.h"
 #include "../include/IAudioPlugin.h"
 #include "../Headers/cMutex.h"
@@ -65,7 +61,7 @@ namespace cAudio
 		virtual bool checkForPlugin(const char* name);
 		virtual IAudioPlugin* getPlugin(const char* name);
 		virtual unsigned int getPluginCount();
-		std::vector<IAudioPlugin*> getPluginList();
+		cAudioVector<IAudioPlugin*>::Type getPluginList();
 
 		virtual void uninstallPlugin(IAudioPlugin* plugin);
 		virtual void uninstallPlugin(const char* name);
@@ -74,11 +70,11 @@ namespace cAudio
 		void autoLoadPlugins();
 #endif
 	protected:
-		std::map<std::string, IAudioPlugin*, std::less<std::string>, cSTLAllocator<std::pair<std::string, IAudioPlugin*> > > RegisteredPlugins;
-		typedef std::map<std::string, IAudioPlugin*, std::less<std::string>, cSTLAllocator<std::pair<std::string, IAudioPlugin*> > >::iterator RegisteredPluginsIterator;
+		cAudioMap<cAudioString, IAudioPlugin*>::Type RegisteredPlugins;
+		typedef cAudioMap<cAudioString, IAudioPlugin*>::Type::iterator RegisteredPluginsIterator;
 #ifdef CAUDIO_COMPILE_WITH_DYNAMIC_PLUGIN_SUPPORT
-		std::map<IAudioPlugin*, DYNLIB_HANDLE, std::less<IAudioPlugin*>, cSTLAllocator<std::pair<IAudioPlugin*, DYNLIB_HANDLE> > > DynamicallyLoadedPlugins;
-		typedef std::map<IAudioPlugin*, DYNLIB_HANDLE, std::less<IAudioPlugin*>, cSTLAllocator<std::pair<IAudioPlugin*, DYNLIB_HANDLE> > >::iterator DynamicallyLoadedPluginsIterator;
+		cAudioMap<IAudioPlugin*, DYNLIB_HANDLE>::Type DynamicallyLoadedPlugins;
+		typedef cAudioMap<IAudioPlugin*, DYNLIB_HANDLE>::Type::iterator DynamicallyLoadedPluginsIterator;
 #endif
 	};
 };
