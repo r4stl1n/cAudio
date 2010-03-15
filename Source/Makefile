@@ -7,7 +7,7 @@ DEPEND=-logg -lopenal -lvorbis -lvorbisfile -ldl\
 
 STATICDEPEND=/usr/lib/libogg.a /usr/lib/libopenal.so /usr/lib/libvorbis.a /usr/lib/libvorbisenc.a /usr/lib/libvorbisfile.a /usr/lib/libdl.a
 
-OBJECT= cAudioCapture.o cAudioEffects.o cAudioManager.o cAudioSleep.o cAudioSource.o cConsoleLogReceiver.o cEffect.o cFileSource.o cFilter.o cFileLogReceiver.o cListener.o cLogger.o cMemorySource.o cMutex.o cOggAudioDecoderFactory.o cOggDecoder.o cPluginManager.o cRawDecoder.o cThread.o cWavAudioDecoderFactory.o cWavDecoder.o cMemoryManager.o 
+OBJECT= cAudioCapture.o cAudioEffects.o cAudioManager.o cAudioSleep.o cAudioSource.o cConsoleLogReceiver.o cEffect.o cFileSource.o cFilter.o cFileLogReceiver.o cListener.o cLogger.o cMemorySource.o cMutex.o cOggAudioDecoderFactory.o cOggDecoder.o cPluginManager.o cRawDecoder.o cThread.o cWavAudioDecoderFactory.o cWavDecoder.o cMemoryManager.o cMemoryTracker.o cStandardMemoryProvider.o cAudioMemory.o
 
 LINK_OPTIONS=-shared 
 COMPILE_OPTIONS=-fPIC

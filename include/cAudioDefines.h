@@ -125,7 +125,7 @@
 #define CAUDIO_MEMORY_USE_STD
 
 //! Tells cAudio to reroute memory allocations from stl containers into the defined memory provider for cAudio, otherwise the standard std::allocator is used.
-#define CAUDIO_REROUTE_STL_ALLOCATIONS
+//#define CAUDIO_REROUTE_STL_ALLOCATIONS
 
 //! Activates the internal memory tracker, which can be used to detect and locate memory leaks.
 //#define CAUDIO_USE_MEMORYTRACKER
@@ -173,7 +173,7 @@
 #define CAUDIO_MEMORY_USE_STD
 
 //! Tells cAudio to reroute memory allocations from stl containers into the defined memory provider for cAudio, otherwise the standard std::allocator is used.
-#define CAUDIO_REROUTE_STL_ALLOCATIONS
+//#define CAUDIO_REROUTE_STL_ALLOCATIONS
 
 //! Activates the internal memory tracker, which can be used to detect and locate memory leaks.
 //#define CAUDIO_USE_MEMORYTRACKER

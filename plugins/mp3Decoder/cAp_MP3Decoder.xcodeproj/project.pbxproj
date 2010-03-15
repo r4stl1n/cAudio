@@ -1,0 +1,268 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 45;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		7BF81FED11507CB7002DC5D0 /* cMP3DecoderFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BF81FC311507B5A002DC5D0 /* cMP3DecoderFactory.h */; };
+		7BF81FEE11507CB7002DC5D0 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BF81FC611507B5E002DC5D0 /* main.cpp */; };
+		7BF81FEF11507CB7002DC5D0 /* cMP3Decoder.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BF81FC411507B5A002DC5D0 /* cMP3Decoder.h */; };
+		7BF81FF011507CB7002DC5D0 /* cMP3Plugin.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BF81FC711507B61002DC5D0 /* cMP3Plugin.h */; };
+		7BF81FF111507CB7002DC5D0 /* cMP3Decoder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 7BF81FC511507B5A002DC5D0 /* cMP3Decoder.cpp */; };
+		7BF81FF711507CD0002DC5D0 /* bits.c in Sources */ = {isa = PBXBuildFile; fileRef = 7BF81FC911507B8E002DC5D0 /* bits.c */; };
+		7BF81FF811507CD0002DC5D0 /* internal.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BF81FCA11507B8E002DC5D0 /* internal.h */; };
+		7BF81FF911507CD0002DC5D0 /* mpaudec.c in Sources */ = {isa = PBXBuildFile; fileRef = 7BF81FCB11507B8E002DC5D0 /* mpaudec.c */; };
+		7BF81FFA11507CD0002DC5D0 /* mpaudec.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BF81FCC11507B8E002DC5D0 /* mpaudec.h */; };
+		7BF81FFB11507CD0002DC5D0 /* mpaudectab.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BF81FCD11507B8E002DC5D0 /* mpaudectab.h */; };
+		7BF81FFC11507CD0002DC5D0 /* mpegaudio.h in Headers */ = {isa = PBXBuildFile; fileRef = 7BF81FCE11507B8E002DC5D0 /* mpegaudio.h */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		08FB77AAFE841565C02AAC07 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
+		7BF81FC311507B5A002DC5D0 /* cMP3DecoderFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cMP3DecoderFactory.h; sourceTree = "<group>"; };
+		7BF81FC411507B5A002DC5D0 /* cMP3Decoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cMP3Decoder.h; sourceTree = "<group>"; };
+		7BF81FC511507B5A002DC5D0 /* cMP3Decoder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cMP3Decoder.cpp; sourceTree = "<group>"; };
+		7BF81FC611507B5E002DC5D0 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		7BF81FC711507B61002DC5D0 /* cMP3Plugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cMP3Plugin.h; sourceTree = "<group>"; };
+		7BF81FC911507B8E002DC5D0 /* bits.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bits.c; sourceTree = "<group>"; };
+		7BF81FCA11507B8E002DC5D0 /* internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = internal.h; sourceTree = "<group>"; };
+		7BF81FCB11507B8E002DC5D0 /* mpaudec.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mpaudec.c; sourceTree = "<group>"; };
+		7BF81FCC11507B8E002DC5D0 /* mpaudec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mpaudec.h; sourceTree = "<group>"; };
+		7BF81FCD11507B8E002DC5D0 /* mpaudectab.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mpaudectab.h; sourceTree = "<group>"; };
+		7BF81FCE11507B8E002DC5D0 /* mpegaudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mpegaudio.h; sourceTree = "<group>"; };
+		7BF81FD311507BBA002DC5D0 /* cAp_MP3Decoder_d.dylib */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.dylib"; includeInIndex = 0; path = cAp_MP3Decoder_d.dylib; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		7BF81FD111507BBA002DC5D0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		034768DDFF38A45A11DB9C8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				7BF81FD311507BBA002DC5D0 /* cAp_MP3Decoder_d.dylib */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0867D691FE84028FC02AAC07 /* cAp_MP3Decoder */ = {
+			isa = PBXGroup;
+			children = (
+				7BF81FC811507B8E002DC5D0 /* mpaudec */,
+				7BF81FC011507B53002DC5D0 /* Source */,
+				5073E0CA09E734BC00EC74B6 /* Configuration Files */,
+				0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */,
+				034768DDFF38A45A11DB9C8B /* Products */,
+			);
+			name = cAp_MP3Decoder;
+			sourceTree = "<group>";
+		};
+		0867D69AFE84028FC02AAC07 /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				08FB77AAFE841565C02AAC07 /* Carbon.framework */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+		5073E0CA09E734BC00EC74B6 /* Configuration Files */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Configuration Files";
+			sourceTree = "<group>";
+		};
+		7BF81FC011507B53002DC5D0 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				7BF81FC311507B5A002DC5D0 /* cMP3DecoderFactory.h */,
+				7BF81FC611507B5E002DC5D0 /* main.cpp */,
+				7BF81FC411507B5A002DC5D0 /* cMP3Decoder.h */,
+				7BF81FC711507B61002DC5D0 /* cMP3Plugin.h */,
+				7BF81FC511507B5A002DC5D0 /* cMP3Decoder.cpp */,
+			);
+			name = Source;
+			sourceTree = "<group>";
+		};
+		7BF81FC811507B8E002DC5D0 /* mpaudec */ = {
+			isa = PBXGroup;
+			children = (
+				7BF81FC911507B8E002DC5D0 /* bits.c */,
+				7BF81FCA11507B8E002DC5D0 /* internal.h */,
+				7BF81FCB11507B8E002DC5D0 /* mpaudec.c */,
+				7BF81FCC11507B8E002DC5D0 /* mpaudec.h */,
+				7BF81FCD11507B8E002DC5D0 /* mpaudectab.h */,
+				7BF81FCE11507B8E002DC5D0 /* mpegaudio.h */,
+			);
+			path = mpaudec;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		7BF81FCF11507BBA002DC5D0 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7BF81FED11507CB7002DC5D0 /* cMP3DecoderFactory.h in Headers */,
+				7BF81FEF11507CB7002DC5D0 /* cMP3Decoder.h in Headers */,
+				7BF81FF011507CB7002DC5D0 /* cMP3Plugin.h in Headers */,
+				7BF81FF811507CD0002DC5D0 /* internal.h in Headers */,
+				7BF81FFA11507CD0002DC5D0 /* mpaudec.h in Headers */,
+				7BF81FFB11507CD0002DC5D0 /* mpaudectab.h in Headers */,
+				7BF81FFC11507CD0002DC5D0 /* mpegaudio.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		7BF81FD211507BBA002DC5D0 /* cAp_MP3Decoder */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7BF81FDA11507BD1002DC5D0 /* Build configuration list for PBXNativeTarget "cAp_MP3Decoder" */;
+			buildPhases = (
+				7BF81FCF11507BBA002DC5D0 /* Headers */,
+				7BF81FD011507BBA002DC5D0 /* Sources */,
+				7BF81FD111507BBA002DC5D0 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = cAp_MP3Decoder;
+			productName = cAp_MP3Decoder;
+			productReference = 7BF81FD311507BBA002DC5D0 /* cAp_MP3Decoder_d.dylib */;
+			productType = "com.apple.product-type.library.dynamic";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0867D690FE84028FC02AAC07 /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 1DEB916408733D950010E9CD /* Build configuration list for PBXProject "cAp_MP3Decoder" */;
+			compatibilityVersion = "Xcode 3.1";
+			hasScannedForEncodings = 1;
+			mainGroup = 0867D691FE84028FC02AAC07 /* cAp_MP3Decoder */;
+			productRefGroup = 034768DDFF38A45A11DB9C8B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				7BF81FD211507BBA002DC5D0 /* cAp_MP3Decoder */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		7BF81FD011507BBA002DC5D0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7BF81FEE11507CB7002DC5D0 /* main.cpp in Sources */,
+				7BF81FF111507CB7002DC5D0 /* cMP3Decoder.cpp in Sources */,
+				7BF81FF711507CD0002DC5D0 /* bits.c in Sources */,
+				7BF81FF911507CD0002DC5D0 /* mpaudec.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1DEB916508733D950010E9CD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+			};
+			name = Debug;
+		};
+		1DEB916608733D950010E9CD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				PREBINDING = NO;
+				SDKROOT = macosx10.5;
+			};
+			name = Release;
+		};
+		7BF81FD411507BBB002DC5D0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				EXECUTABLE_PREFIX = "";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = "\"../../include\"";
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = "\"../../bin/Osx/libcAudio_d.dylib\"";
+				PREBINDING = NO;
+				PRODUCT_NAME = cAp_MP3Decoder_d;
+				SYMROOT = .;
+			};
+			name = Debug;
+		};
+		7BF81FD511507BBB002DC5D0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				EXECUTABLE_PREFIX = "";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				HEADER_SEARCH_PATHS = "\"../../include\"";
+				INSTALL_PATH = /usr/local/lib;
+				LIBRARY_SEARCH_PATHS = "\"../../bin/Osx/libcAudio.dylib\"";
+				PREBINDING = NO;
+				PRODUCT_NAME = cAp_MP3Decoder;
+				SYMROOT = .;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1DEB916408733D950010E9CD /* Build configuration list for PBXProject "cAp_MP3Decoder" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1DEB916508733D950010E9CD /* Debug */,
+				1DEB916608733D950010E9CD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7BF81FDA11507BD1002DC5D0 /* Build configuration list for PBXNativeTarget "cAp_MP3Decoder" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7BF81FD411507BBB002DC5D0 /* Debug */,
+				7BF81FD511507BBB002DC5D0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0867D690FE84028FC02AAC07 /* Project object */;
+}
