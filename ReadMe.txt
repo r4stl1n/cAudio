@@ -1,30 +1,27 @@
-This is the new cAudio 2.0.0 Source Release. This release incorporates major bug fixes, API changes, and new features.
+This is the new cAudio 2.1.0 Release. This release is mainly a bug fix release.
 
 Visit our site at http://caudio.deathtouchstudios.com/ for news and information.
 
 To get help, report bugs, or talk about cAudio visit our forums at: http://www.deathtouchstudios.com/phpBB3/index.php
 
 New:  
-	Audio Capturing
-    Logging (File and Console)
-    User Log Recievers
-    Audio Effects and Filters
-    Custom User Audio Decoders
-    Plugin System
-    Event System
-    Custom User Data Sources
-    Threading (and Thread Safety)
-    Raw audio format support
-    New wav decoder
-    EAX Preset plugin
-    MP3 Decoder plugin
+	New Memory System (allows for the user to override all memory allocations by cAudio, providing a custom allocation scheme if necessary)
+	New Memory Tracker (for finding memory leaks and tracking memory usage statistics)
+	Official Mac OS X and IPhone support
 
 Updated:
-    Better doxygen documentation.
-    Numerous bug fixes (Too many to list here)
+    Removed old memory system due to numerous bugs.
+	Added a ogg vorbis close callback function to prevent a crash on Mac/IPhone
+	Reorganized cAudioDefines to order by platform.
+	Added defines to disable portions or all of the plugin system.
+	Added defines for finer control of what is compiled into the library.
+	Removed the ogg/vorbis encoding lib that was mistakenly linked in, which doubled the binary's size.
 	
 Note for linux users:
 By default, EFX is disabled on linux with an ifdef in cAudioDefines. We are doing this because of licensing issues with EFX on linux.  We cannot provide in our packages key EFX headers, so if you want EFX support on linux, you must provide them yourself.
+
+Known Bugs:
+Looping with small sounds (less than 192 KB with the default buffer settings) does not work properly if you try to change the loop setting while the sound is playing.
 
 //////////////////
 // INSTALLATION //
@@ -36,7 +33,7 @@ To compile:
 
 	Linux/Unix: Cd to the Source directory and run make.
 
-	Mac: Not officially supported, but community members have been able to get it to build with XCode.
+	Mac: Open up the xcode project file and compile away.
 
 Libraries will end up in:
 
@@ -44,7 +41,7 @@ Libraries will end up in:
 
     Linux: lib/linux-x86.
 
-    Mac: Not officially supported, but should land up in lib/linux-x86.
+    Mac: bin/osx (bin/osx-iphone for IPhone)
 
 To compile examples:
 
@@ -52,7 +49,7 @@ To compile examples:
 	
 	Linux/Unix: Cd to the Examples directory and run ./buildAll.sh
 
-	Mac: Not officially supported, but community members have been able to get it to build with XCode.
+	Mac: Open up the respective XCode project file and compile away.
 	
 Compiled examples will be in:
 
@@ -60,12 +57,4 @@ Compiled examples will be in:
 
     Linux: bin/linux-x86.
 
-    Mac: Not officially supported, but should land up in bin/linux-x86.
-
-
-//////////////////
-//   Credits    //
-//////////////////
-The memory manager code written by Paul Nettie. 
-Orignally named mmgr.h changed to cMemoryManager.h and modified to fit cAudio.
-Original can be found at http://www.paulnettle.com/
+    Mac: bin/osx (bin/osx-iphone for IPhone)
