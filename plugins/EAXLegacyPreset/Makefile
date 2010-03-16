@@ -6,4 +6,4 @@ OBJECT=main.o
 LINK_OPTIONS=-shared -DCAUDIO_PLATFORM_LINUX
 
 all:	$(OBJECT)
-			$(CC) -o cAp_EAX_LegacyPreset.o $(OBJECT) $(LINK_OPTIONS) $(LDFLAGS)
+			$(CC) -o cAp_EAX_LegacyPreset.so $(OBJECT) $(LINK_OPTIONS) $(LDFLAGS)
