@@ -8,39 +8,39 @@
 
 namespace cAudio
 {
-	void cListener::setPosition(const cVector3 pos)
+	void cListener::setPosition(const cVector3& pos)
 	{
 		cAudioMutexBasicLock lock(Mutex);
 		Position = pos;
 		alListener3f(AL_POSITION, Position.x, Position.y, Position.z);
 	}
-	void cListener::setDirection(const cVector3 dir)
+	void cListener::setDirection(const cVector3& dir)
 	{
 		cAudioMutexBasicLock lock(Mutex);
 		Direction = dir;
 		float orient[6] = {Direction[0], Direction[1], Direction[2], UpVector[0], UpVector[1], UpVector[2]};
 		alListenerfv(AL_ORIENTATION, orient);
 	}
-	void cListener::setUpVector(const cVector3 up)
+	void cListener::setUpVector(const cVector3& up)
 	{
 		cAudioMutexBasicLock lock(Mutex);
 		UpVector = up;
 		float orient[6] = {Direction[0], Direction[1], Direction[2], UpVector[0], UpVector[1], UpVector[2]};
 		alListenerfv(AL_ORIENTATION, orient);
 	}
-	void cListener::setVelocity(const cVector3 vel)
+	void cListener::setVelocity(const cVector3& vel)
 	{
 		cAudioMutexBasicLock lock(Mutex);
 		Velocity = vel;
 		alListener3f(AL_VELOCITY, Velocity.x, Velocity.y, Velocity.z);
 	}
-	void cListener::setMasterVolume(const float volume)
+	void cListener::setMasterVolume(const float& volume)
 	{
 		cAudioMutexBasicLock lock(Mutex);
 		MasterGain = volume;
 		alListenerf(AL_GAIN, MasterGain);
 	}
-	void cListener::move(const cVector3 pos)
+	void cListener::move(const cVector3& pos)
 	{
 		cAudioMutexBasicLock lock(Mutex);
 		Velocity = pos - Position;

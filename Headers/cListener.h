@@ -18,12 +18,12 @@ namespace cAudio
 						MasterGain(1.f) {}
 		virtual ~cListener() {}
 
-		virtual void setPosition(const cVector3 pos);
-		virtual void setDirection(const cVector3 dir);
-		virtual void setUpVector(const cVector3 up);
-		virtual void setVelocity(const cVector3 vel);
-		virtual void setMasterVolume(const float volume);
-		virtual void move(const cVector3 pos);
+		virtual void setPosition(const cVector3& pos);
+		virtual void setDirection(const cVector3& dir);
+		virtual void setUpVector(const cVector3& up);
+		virtual void setVelocity(const cVector3& vel);
+		virtual void setMasterVolume(const float& volume);
+		virtual void move(const cVector3& pos);
 
 		virtual cVector3 getPosition(void) const { return Position; }
 		virtual cVector3 getDirection(void) const { return Direction; }

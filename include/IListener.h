@@ -22,32 +22,32 @@ namespace cAudio
 		Use move() if you'd like to have cAudio automatically handle velocity for you. */
 		/**
 		\param pos: New position for the listener. */
-		virtual void setPosition(const cVector3 pos) = 0;
+		virtual void setPosition(const cVector3& pos) = 0;
 
 		//! Sets the direction the listener is facing
 		/**
 		\param dir: New direction vector for the listener. */
-		virtual void setDirection(const cVector3 dir) = 0;
+		virtual void setDirection(const cVector3& dir) = 0;
 
 		//! Sets the up vector to use for the listener
 		/** Default up vector is Y+, same as OpenGL.
 		\param up: New up vector for the listener. */
-		virtual void setUpVector(const cVector3 up) = 0;
+		virtual void setUpVector(const cVector3& up) = 0;
 
 		//! Sets the current velocity of the listener for doppler effects
 		/**
 		\param vel: New velocity for the listener. */
-		virtual void setVelocity(const cVector3 vel) = 0;
+		virtual void setVelocity(const cVector3& vel) = 0;
 
 		//! Sets the global volume modifier (will effect all sources)
 		/**
 		\param volume: Volume to scale all sources by. Range: 0.0 to +inf. */
-		virtual void setMasterVolume(const float volume) = 0;
+		virtual void setMasterVolume(const float& volume) = 0;
 
 		//! Convenience function to automatically set the velocity and position for you in a single call
 		/** Velocity will be set to new position - last position 
 		\param pos: New position to move the listener to. */
-		virtual void move(const cVector3 pos) = 0;
+		virtual void move(const cVector3& pos) = 0;
 
 		//! Returns the current position of the listener
 		virtual cVector3 getPosition(void) const = 0;
