@@ -1,5 +1,5 @@
 //****************************************************************
-//cAudio 2.0.0 Tutorial 4
+//cAudio 2.1.0 Tutorial 4
 //Audio Capture and playback
 //****************************************************************
 
@@ -17,7 +17,7 @@ const cAudio::AudioFormats CAPTURE_FORMAT = cAudio::EAF_16BIT_MONO;
 int main(int argc, char* argv[])
 {
     //Some fancy text
-    cout << "\ncAudio 2.0.0 Tutorial 4: Capturing Audio. \n \n";
+    cout << "\ncAudio 2.1.0 Tutorial 4: Capturing Audio. \n \n";
 
 	std::string formatName;
 

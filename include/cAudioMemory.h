@@ -18,6 +18,9 @@
 
 namespace cAudio
 {
+	//! Returns a pointer to the memory provider of cAudio
+	/** Used by cAudio for all allocations of memory
+	\return A pointer to the memory provider */
 	CAUDIO_API IMemoryProvider* getMemoryProvider();
 };
 

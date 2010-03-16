@@ -5,6 +5,8 @@
 #ifndef IREFCOUNTED_H
 #define IREFCOUNTED_H
 
+#include "../include/cAudioMemory.h"
+
 namespace cAudio
 {
 	//! Applies reference counting to certain cAudio objects.
@@ -26,7 +28,7 @@ namespace cAudio
 			--RefCount;
 			if (RefCount < 1)
 			{
-				delete this;
+				CAUDIO_DELETE this;
 				return true;
 			}
 			return false;

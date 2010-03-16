@@ -13,6 +13,7 @@
 namespace cAudio
 {
 #ifdef CAUDIO_REROUTE_STL_ALLOCATIONS
+	//! Reroutes allocations from STL containers into cAudio's memory system
 	template <typename T> class cSTLAllocator
 	{
 	public:

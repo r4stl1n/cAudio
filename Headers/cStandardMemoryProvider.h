@@ -5,6 +5,7 @@
 #include <cstring>
 namespace cAudio
 {
+	//! Memory provider that wraps the standard memalloc and free
 	class cStandardMemoryProvider : public IMemoryProvider
 	{
 	public:

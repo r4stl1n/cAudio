@@ -12,6 +12,7 @@
 
 namespace cAudio
 {
+	//! Tracks all allocations that go through cAudio's memory system and keeps statistics on it
 	class cMemoryTracker
 	{
 	public:
@@ -24,7 +25,10 @@ namespace cAudio
 			return &Singleton;
 		}
 
+		//! Adds an allocation to be tracked
 		void AddAllocation(void* pointer, size_t size, const char* filename, int line, const char* function);
+		
+		//! Removes a previously tracked allocation (for when it has been deallocated)
 		void RemoveAllocation(void* pointer);
 
 	private:

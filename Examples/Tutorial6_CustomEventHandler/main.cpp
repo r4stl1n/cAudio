@@ -1,5 +1,5 @@
 //****************************************************************
-//cAudio 2.0.0 Tutorial 6
+//cAudio 2.1.0 Tutorial 6
 //Custom Event Handler
 //****************************************************************
 
@@ -17,7 +17,7 @@ using namespace std;
 int main(int argc, char* argv[])
 {
     //Some fancy text
-    cout << "cAudio 2.0.0 Tutorial 6: Custom event handler. \n \n";
+    cout << "cAudio 2.1.0 Tutorial 6: Custom event handler. \n \n";
 
 	//Create an uninitialized Audio Manager
     cAudio::IAudioManager* manager = cAudio::createAudioManager(false);

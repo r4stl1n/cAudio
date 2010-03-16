@@ -6,6 +6,7 @@
 
 namespace cAudio
 {
+	//! Overrides the memory allocations for classes derived from it and makes them use the cAudio memory system
 	class cMemoryOverride
 	{
 	public:
