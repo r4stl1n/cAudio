@@ -1,4 +1,4 @@
-CC=g++
+CC=gcc
 CFLAGS=-Wall
 LDFLAGS=-L../../Source -lcAudio
 
