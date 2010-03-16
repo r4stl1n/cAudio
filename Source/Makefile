@@ -17,11 +17,11 @@ all: shared
 
 shared: $(OBJECT)
 	$(CC) -o $(SONAME) $(OBJECT) $(LINK_OPTIONS) $(DEPEND) 
-	cp libcAudio.2.0.0.so ../bin/linux-x86
+	cp libcAudio.$(VERSION).so ../bin/linux-x86
 	if test -f ../bin/linux-x86/libcAudio.so;\
 	then rm ../bin/linux-x86/libcAudio.so;\
-	ln -s libcAudio.2.0.0.so ../bin/linux-x86/libcAudio.so;\
-	else ln -s libcAudio.2.0.0.so ../bin/linux-x86/libcAudio.so;\
+	ln -s libcAudio.$(VERSION).so ../bin/linux-x86/libcAudio.so;\
+	else ln -s libcAudio.$(VERSION).so ../bin/linux-x86/libcAudio.so;\
 	fi
 
 static: $(OBJECT)
