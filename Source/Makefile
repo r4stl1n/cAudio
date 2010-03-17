@@ -17,21 +17,21 @@ all: shared
 
 shared: $(OBJECT)
 	$(CC) -o $(SONAME) $(OBJECT) $(LINK_OPTIONS) $(DEPEND) 
-	cp libcAudio.$(VERSION).so ../bin/linux-x86
+	cp libcAudio.$(VERSION).so ../lib/linux-x86
 	if test -f ../bin/linux-x86/libcAudio.so;\
 	then rm ../bin/linux-x86/libcAudio.so;\
-	ln -s libcAudio.$(VERSION).so ../bin/linux-x86/libcAudio.so;\
-	else ln -s libcAudio.$(VERSION).so ../bin/linux-x86/libcAudio.so;\
+	ln -s ../../lib/linux-x86/libcAudio.$(VERSION).so ../bin/linux-x86/libcAudio.so;\
+	else ln -s ../../lib/linux-x86/libcAudio.$(VERSION).so ../bin/linux-x86/libcAudio.so;\
 	fi
 
 static: $(OBJECT)
 	ar cr libcAudio.$(VERSION).a *.o $(STATICDEPEND)
 	ranlib libcAudio.$(VERSION).a 
-	cp libcAudio.$(VERSION).a ../bin/linux-x86
+	cp libcAudio.$(VERSION).a ../lib/linux-x86
 	if test -f ../bin/linux-x86/libcAudio.a;\
 	then rm ../bin/linux-x86/libcAudio.a;\
-	ln -s libcAudio.$(VERSION).a ../bin/linux-x86/libcAudio.a;\
-	else ln -s libcAudio.$(VERSION).a ../bin/linux-x86/libcAudio.a;\
+	ln -s ../../lib/linux-x86/libcAudio.$(VERSION).a ../bin/linux-x86/libcAudio.a;\
+	else ln -s ../../lib/linux-x86/libcAudio.$(VERSION).a ../bin/linux-x86/libcAudio.a;\
 	fi;
 
 install: $(OBJECT)
