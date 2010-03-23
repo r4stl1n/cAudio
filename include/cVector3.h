@@ -42,6 +42,10 @@ namespace cAudio
 		{
 		}
 
+		cVector3(float* vector) : x(vector[0]), y(vector[1]), z(vector[2])
+		{
+		}
+
 		cVector3 operator-() const { return cVector3(-x, -y, -z); }
 		cVector3& operator=(const cVector3& other) { x = other.x; y = other.y; z = other.z; return *this; }
 		cVector3 operator+(const cVector3& other) const { return cVector3(x + other.x, y + other.y, z + other.z); }
