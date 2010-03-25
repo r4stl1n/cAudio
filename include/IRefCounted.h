@@ -5,7 +5,7 @@
 #ifndef IREFCOUNTED_H
 #define IREFCOUNTED_H
 
-#include "../include/cAudioMemory.h"
+#include "cAudioMemory.h"
 
 namespace cAudio
 {

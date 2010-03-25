@@ -1,7 +1,7 @@
 #ifndef IMEMORYPROVIDER_H_INCLUDED
 #define IMEMORYPROVIDER_H_INCLUDED
 
-#include "../include/cAudioDefines.h"
+#include "cAudioDefines.h"
 #include <cstring>
 namespace cAudio
 {
