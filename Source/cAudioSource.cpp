@@ -12,8 +12,8 @@
 namespace cAudio
 {
 #ifdef CAUDIO_EFX_ENABLED
-    cAudioSource::cAudioSource(IAudioDecoder* decoder, ALCcontext* context, cEFXFunctions* oALFunctions) 
-		: Context(context), Source(0), Decoder(decoder), Loop(false), Valid(false), 
+    cAudioSource::cAudioSource(IAudioDecoder* decoder, ALCcontext* context, cEFXFunctions* oALFunctions)
+		: Context(context), Source(0), Decoder(decoder), Loop(false), Valid(false),
 		EFX(oALFunctions), Filter(NULL), EffectSlotsAvailable(0), LastFilterTimeStamp(0)
 #else
 	cAudioSource::cAudioSource(IAudioDecoder* decoder, ALCcontext* context)
@@ -85,25 +85,25 @@ namespace cAudio
 	bool cAudioSource::play()
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		if (!isPaused()) 
-        { 
+		if (!isPaused())
+        {
             int queueSize = 0;
 			//Purges all buffers from the source
 			alSourcei(Source, AL_BUFFER, 0);
 			checkError();
-            for(int u = 0; u < CAUDIO_SOURCE_NUM_BUFFERS; u++) 
-            { 
-                int val = stream(Buffers[u]); 
- 
-                if(val < 0) 
-                {  
+            for(int u = 0; u < CAUDIO_SOURCE_NUM_BUFFERS; u++)
+            {
+                int val = stream(Buffers[u]);
+
+                if(val < 0)
+                {
                     return false;
-                } 
-                else if(val > 0) 
-                    ++queueSize; 
-            } 
-            //Stores the sources 3 buffers to be used in the queue 
-            alSourceQueueBuffers(Source, queueSize, Buffers); 
+                }
+                else if(val > 0)
+                    ++queueSize;
+            }
+            //Stores the sources 3 buffers to be used in the queue
+            alSourceQueueBuffers(Source, queueSize, Buffers);
 			checkError();
         }
 #ifdef CAUDIO_EFX_ENABLED
@@ -116,7 +116,7 @@ namespace cAudio
 		getLogger()->logDebug("Audio Source", "Source playing.");
 		signalEvent(ON_PLAY);
 		oldState = AL_PLAYING;
-        return true; 
+        return true;
     }
 
 	bool cAudioSource::play2d(const bool& toLoop)
@@ -150,7 +150,7 @@ namespace cAudio
 		signalEvent(ON_PAUSE);
 		oldState = AL_PAUSED;
     }
-     
+
 	void cAudioSource::stop()
 	{
 		cAudioMutexBasicLock lock(Mutex);
@@ -305,7 +305,7 @@ namespace cAudio
 	{
 		return Loop;
 	}
-     
+
 	void cAudioSource::setPosition(const cVector3& position)
 	{
 		cAudioMutexBasicLock lock(Mutex);
@@ -772,6 +772,7 @@ namespace cAudio
 	{
 		if(handler)
 		{
+		    cAudioMutexbasicLock lock(Mutex);
 			eventHandlerList.push_back(handler);
 		}
 	}
@@ -780,12 +781,14 @@ namespace cAudio
 	{
 		if(handler)
 		{
+		    cAudioMutexLock lock(Mutex);
 			eventHandlerList.remove(handler);
 		}
 	}
 
 	void cAudioSource::unRegisterAllEventHandlers()
 	{
+	    cAudioMutexLock lock(Mutex);
 		eventHandlerList.clear();
 	}
 

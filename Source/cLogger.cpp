@@ -3,6 +3,7 @@
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
 #include <time.h>
+#include <stdio.h>
 #include "../Headers/cLogger.h"
 #include "../Headers/cConsoleLogReceiver.h"
 #include "../Headers/cFileLogReceiver.h"
@@ -12,7 +13,7 @@ namespace cAudio
 {
 	static cLogger Logger;
 	static bool FirstTimeLogInit(false);
-	
+
 #ifdef CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER
 	static cConsoleLogReceiver ConsoleLog;
 #endif
