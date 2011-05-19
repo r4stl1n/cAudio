@@ -6,16 +6,12 @@
 #define CAUDIOCAPTURE_H
 
 #include "../include/IAudioCapture.h"
-#if defined(CAUDIO_PLATFORM_IPHONE) || defined(CAUDIO_PLATFORM_MAC)
-#include <al.h>
-#include <alc.h>
-#else
 #include <AL/al.h>
 #include <AL/alc.h>
-#endif
 #include "../Headers/cMutex.h"
 #include "../Headers/cMemoryOverride.h"
-#include "../Headers/cSTLAllocator.h"
+#include "../include/cSTLAllocator.h"
+#include "../include/cAudioString.h"
 
 namespace cAudio
 {
@@ -48,7 +44,7 @@ namespace cAudio
 		virtual unsigned int getAvailableDeviceCount();
 		virtual const char* getDefaultDeviceName();
 
-		virtual const char* getDeviceName() { return DeviceName.c_str(); }
+		virtual const char* getDeviceName() { return toUTF8(DeviceName); }
 		virtual unsigned int getFrequency() { return Frequency; }
 		virtual AudioFormats getFormat() { return Format; }
 		virtual unsigned int getInternalBufferSize() { return InternalBufferSize; }

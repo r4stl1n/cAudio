@@ -4,7 +4,8 @@
 #include "../include/IPluginManager.h"
 #include "../include/IAudioPlugin.h"
 #include "../Headers/cMutex.h"
-#include "../Headers/cSTLAllocator.h"
+#include "../include/cSTLAllocator.h"
+#include "../include/cAudioString.h"
 
 #ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
 

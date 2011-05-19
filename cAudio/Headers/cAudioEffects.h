@@ -6,9 +6,9 @@
 #define CAUDIOEFFECTS_H
 
 #include "../include/IAudioEffects.h"
+#include "../include/cSTLAllocator.h"
 #include "../Headers/cMutex.h"
 #include "../Headers/cEFXFunctions.h"
-#include "../Headers/cSTLAllocator.h"
 
 #ifdef CAUDIO_EFX_ENABLED
 

@@ -12,16 +12,11 @@
 #include "../Headers/cMutex.h"
 #include "../Headers/cAudioEffects.h"
 #include "../Headers/cMemoryOverride.h"
-#include "../Headers/cSTLAllocator.h"
+#include "../include/cSTLAllocator.h"
+#include "../include/cAudioString.h"
 
-#include "cAudioPlatform.h"
-#if defined(CAUDIO_PLATFORM_IPHONE) || defined(CAUDIO_PLATFORM_MAC)
-#include <al.h>
-#include <alc.h>
-#else
 #include <AL/al.h>
 #include <AL/alc.h>
-#endif
 
 #ifdef CAUDIO_PLATFORM_LINUX
 #include <AL/alext.h>
@@ -31,9 +26,9 @@ namespace cAudio
 {
 	class IAudioSource;
 
-    class cAudioManager : public IAudioManager, public cMemoryOverride
-    {
-    public:
+	class cAudioManager : public IAudioManager, public cMemoryOverride
+	{
+	public:
 		enum Events{
 			ON_INIT,
 			ON_UPDATE,
@@ -60,7 +55,7 @@ namespace cAudio
 		virtual IAudioSource* create(const char* name, const char* filename, bool stream = false);
 		virtual IAudioSource* createFromMemory(const char* name, const char* data, size_t length, const char* extension);
 		virtual IAudioSource* createFromRaw(const char* name, const char* data, size_t length, unsigned int frequency, AudioFormats format);
-      
+
 		virtual bool registerAudioDecoder(IAudioDecoderFactory* factory, const char* extension);
 		virtual void unRegisterAudioDecoder(const char* extension);
 		virtual bool isAudioDecoderRegistered(const char* extension);
@@ -131,7 +126,7 @@ namespace cAudio
 		
 		//! List of all attached event handlers
 		cAudioList<IManagerEventHandler*>::Type eventHandlerList;
-    };
+	};
 }
 
 #endif //! CAUDIOMANAGER_H_INCLUDED

@@ -9,7 +9,8 @@
 
 #include "../include/ILogger.h"
 #include "../Headers/cMutex.h"
-#include "../Headers/cSTLAllocator.h"
+#include "../include/cSTLAllocator.h"
+#include "../include/cAudioString.h"
 
 namespace cAudio
 {

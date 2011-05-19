@@ -22,7 +22,6 @@ set (file_root_header_files
 	Headers/cRawAudioDecoderFactory.h
 	Headers/cRawDecoder.h
 	Headers/cStandardMemoryProvider.h
-	Headers/cSTLAllocator.h
 	Headers/cThread.h
 	Headers/cWavAudioDecoderFactory.h
 	Headers/cWavDecoder.h
@@ -33,6 +32,8 @@ set (file_root_include
 	include/cAudioMemory.h
 	include/cAudioPlatform.h
 	include/cAudioSleep.h
+	include/cAudioString.h
+	include/cSTLAllocator.h
 	include/EAudioFormats.h
 	include/IAudioCapture.h
 	include/IAudioDecoder.h

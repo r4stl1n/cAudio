@@ -7,14 +7,8 @@
 #include <list>
 #include <string>
 #include <vector>
-#include "cAudioPlatform.h"
-#if defined(CAUDIO_PLATFORM_IPHONE) || defined(CAUDIO_PLATFORM_MAC)
-#include <al.h>
-#include <alc.h>
-#else
 #include <AL/al.h>
 #include <AL/alc.h>
-#endif
 
 #include "../include/IAudioSource.h"
 #include "../include/cVector3.h"
@@ -22,7 +16,7 @@
 #include "../include/ILogger.h"
 #include "../Headers/cEFXFunctions.h"
 #include "../Headers/cMemoryOverride.h"
-#include "../Headers/cSTLAllocator.h"
+#include "../include/cSTLAllocator.h"
 
 namespace cAudio
 {
@@ -136,7 +130,7 @@ namespace cAudio
 		//! Empties the current working buffer queue
 		void empty();
 		//! Checks for OpenAL errors and reports them
-		bool checkError() const;
+		bool checkError();
 		//! Streams audio data from the decoder into a buffer
 		bool stream(ALuint buffer);
 		//! Signals a event to all event handlers
