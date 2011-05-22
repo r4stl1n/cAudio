@@ -9,10 +9,10 @@
 
 #ifdef CAUDIO_EFX_ENABLED
 
-#include <AL/al.h>
-#include <AL/alc.h>
-#include <AL/efx.h>
-#include <AL/efx-creative.h>
+#include <al.h>
+#include <alc.h>
+#include <efx.h>
+#include <efx-creative.h>
 
 #include "../Headers/cMutex.h"
 

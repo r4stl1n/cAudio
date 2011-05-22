@@ -170,7 +170,7 @@ namespace cAudio
 
 		if(factory)
 		{
-			for(int i=0; i<dataSourcePriorityList.size(); ++i)
+			for(size_t i=0; i<dataSourcePriorityList.size(); ++i)
 			{
 				IDataSourceFactory* dataFactory = datasourcemap[dataSourcePriorityList[i].second];
 				if(dataFactory)
@@ -423,7 +423,7 @@ namespace cAudio
 			getLogger()->logInfo("AudioManager", "Data Source named %s unregistered.", safeName.c_str());
 		}
 
-		for(int i=0; i<dataSourcePriorityList.size(); ++i)
+		for(size_t i=0; i<dataSourcePriorityList.size(); ++i)
 		{
 			if(dataSourcePriorityList[i].second == safeName)
 			{

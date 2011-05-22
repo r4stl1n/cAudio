@@ -5,15 +5,15 @@
 #ifndef CFILTER_H
 #define CFILTER_H
 
+#ifdef CAUDIO_EFX_ENABLED
+
 #include "../include/IFilter.h"
 #include "../Headers/cMutex.h"
 #include "../Headers/cEFXFunctions.h"
 #include "../Headers/cMemoryOverride.h"
 
-#ifdef CAUDIO_EFX_ENABLED
-
-#include <AL/al.h>
-#include <AL/alc.h>
+#include <al.h>
+#include <alc.h>
 
 namespace cAudio
 {

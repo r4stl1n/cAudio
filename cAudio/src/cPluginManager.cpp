@@ -149,7 +149,7 @@ void cPluginManager::uninstallPlugin(const char* name)
 void cPluginManager::autoLoadPlugins()
 {
 	cAudioVector<cAudioString>::Type fileList = getFilesInDirectory(".");
-	for(int i=0; i<fileList.size(); ++i)
+	for(size_t i=0; i<fileList.size(); ++i)
 	{
 		if(fileList[i].substr(0, 4) == "cAp_")
 		{

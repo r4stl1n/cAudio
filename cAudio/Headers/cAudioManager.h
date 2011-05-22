@@ -15,12 +15,8 @@
 #include "../include/cSTLAllocator.h"
 #include "../include/cAudioString.h"
 
-#include <AL/al.h>
-#include <AL/alc.h>
-
-#ifdef CAUDIO_PLATFORM_LINUX
-#include <AL/alext.h>
-#endif
+#include <al.h>
+#include <alc.h>
 
 namespace cAudio
 {

@@ -6,6 +6,7 @@
 #include "../Headers/cLogger.h"
 #include "../Headers/cFilter.h"
 #include "../Headers/cEffect.h"
+#include "../include/cAudioSleep.h"
 
 #include <string.h>
 
@@ -242,6 +243,14 @@ namespace cAudio
 			{
 				ALuint buffer;
 				alSourceUnqueueBuffers(Source, 1, &buffer);
+
+				if (checkError()) 
+				{
+					processed++;
+					cAudioSleep(1);
+					continue;
+				}
+
 				active = stream(buffer);
 
 				//if more in stream continue playing.
@@ -250,7 +259,12 @@ namespace cAudio
 					alSourceQueueBuffers(Source, 1, &buffer);
 				}
 
-				checkError();
+				if (checkError()) 
+				{
+					processed++;
+					cAudioSleep(1);
+					continue;
+				}
 			}
 
 			signalEvent(ON_UPDATE);
@@ -632,14 +646,12 @@ namespace cAudio
         }
     }
 
-	bool cAudioSource::checkError()
+	bool cAudioSource::checkError() const
     {
         int error = alGetError();
-		const char* errorString;
-
         if (error != AL_NO_ERROR)
         {
-			errorString = alGetString(error);
+			const char* errorString = alGetString(error);
 			if(error == AL_OUT_OF_MEMORY)
 				getLogger()->logCritical("Audio Source", "OpenAL Error: %s.", errorString);
 			else
@@ -653,7 +665,7 @@ namespace cAudio
     {
         if(Decoder)
         {
-	        //stores the caculated data into buffer that is passed to output.
+	        //stores the calculated data into buffer that is passed to output.
 			size_t totalread = 0;
 			unsigned int errorcount = 0;
 	        char tempbuffer[CAUDIO_SOURCE_BUFFER_SIZE];
@@ -813,7 +825,7 @@ namespace cAudio
 
 				case ON_UPDATE:
 
-					for(it; it != eventHandlerList.end(); it++){
+					for( ; it != eventHandlerList.end(); it++){
 						(*it)->onUpdate();
 					}
 
@@ -821,7 +833,7 @@ namespace cAudio
 
 				case ON_RELEASE:
 
-					for(it; it != eventHandlerList.end(); it++){
+					for( ; it != eventHandlerList.end(); it++){
 						(*it)->onRelease();
 					}
 
@@ -829,7 +841,7 @@ namespace cAudio
 
 				case ON_PLAY:
 
-					for(it; it != eventHandlerList.end(); it++){
+					for( ; it != eventHandlerList.end(); it++){
 						(*it)->onPlay();
 					}
 
@@ -838,7 +850,7 @@ namespace cAudio
 
 				case ON_PAUSE:
 
-					for(it; it != eventHandlerList.end(); it++){
+					for( ; it != eventHandlerList.end(); it++){
 						(*it)->onPause();
 					}
 
@@ -846,7 +858,7 @@ namespace cAudio
 
 				case ON_STOP:
 
-					for(it; it != eventHandlerList.end(); it++){
+					for( ; it != eventHandlerList.end(); it++){
 						(*it)->onStop();
 					}
 

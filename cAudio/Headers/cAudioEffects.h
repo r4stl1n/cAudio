@@ -5,12 +5,13 @@
 #ifndef CAUDIOEFFECTS_H
 #define CAUDIOEFFECTS_H
 
+#ifdef CAUDIO_EFX_ENABLED
+
 #include "../include/IAudioEffects.h"
 #include "../include/cSTLAllocator.h"
 #include "../Headers/cMutex.h"
 #include "../Headers/cEFXFunctions.h"
-
-#ifdef CAUDIO_EFX_ENABLED
+#include "../include/cAudioString.h"
 
 namespace cAudio
 {

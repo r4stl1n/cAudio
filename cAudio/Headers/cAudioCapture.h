@@ -6,8 +6,8 @@
 #define CAUDIOCAPTURE_H
 
 #include "../include/IAudioCapture.h"
-#include <AL/al.h>
-#include <AL/alc.h>
+#include <al.h>
+#include <alc.h>
 #include "../Headers/cMutex.h"
 #include "../Headers/cMemoryOverride.h"
 #include "../include/cSTLAllocator.h"

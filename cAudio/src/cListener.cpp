@@ -3,13 +3,8 @@
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
 #include "../Headers/cListener.h"
-#include "cAudioPlatform.h"
-#if defined(CAUDIO_PLATFORM_IPHONE) || defined(CAUDIO_PLATFORM_MAC)
-#include <al.h>
-#else
-#include <AL/al.h>
-#endif
 #include "../Headers/cEFXFunctions.h"
+#include <al.h>
 
 namespace cAudio
 {

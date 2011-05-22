@@ -7,8 +7,8 @@
 #include <list>
 #include <string>
 #include <vector>
-#include <AL/al.h>
-#include <AL/alc.h>
+#include <al.h>
+#include <alc.h>
 
 #include "../include/IAudioSource.h"
 #include "../include/cVector3.h"
@@ -125,12 +125,12 @@ namespace cAudio
 
 	protected:
 	private:
-		//! Mutex for thread syncronization
+		//! Mutex for thread synchronization
 		cAudioMutex Mutex;
 		//! Empties the current working buffer queue
 		void empty();
 		//! Checks for OpenAL errors and reports them
-		bool checkError();
+		bool checkError() const;
 		//! Streams audio data from the decoder into a buffer
 		bool stream(ALuint buffer);
 		//! Signals a event to all event handlers
