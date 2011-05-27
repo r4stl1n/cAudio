@@ -2,7 +2,7 @@ This is the new cAudio 2.1.0 Release. This release is mainly a bug fix release.
 
 Visit our site at http://caudio.deathtouchstudios.com/ for news and information.
 
-To get help, report bugs, or talk about cAudio visit our forums at: http://www.deathtouchstudios.com/phpBB3/index.php
+To get help, report bugs, or talk about cAudio visit our forums at: http://www.memoryoffset.com/forum
 
 New:  
 	New Memory System (allows for the user to override all memory allocations by cAudio, providing a custom allocation scheme if necessary)
