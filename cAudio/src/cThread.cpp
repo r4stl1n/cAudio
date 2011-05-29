@@ -3,41 +3,94 @@
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
 #include "../Headers/cThread.h"
-
-#ifdef CAUDIO_PLATFORM_WIN
-#include <windows.h>	//Basic windows includes
-#include <process.h>
-#else
-#include <pthread.h>	//Assumed linux system
-#endif	
+#include "../Include/cAudioSleep.h"
 
 namespace cAudio
 {
-	#ifdef CAUDIO_PLATFORM_WIN
-	int cAudioThread::SpawnThread( unsigned __stdcall start_address( void* ), void *arg)
+	cAudioThread::cAudioThread(IThreadWorker* pWorker) : IsInit(false), Worker(pWorker), ThreadHandle(0), Loop(true), ThreadID(0)
 	{
-		HANDLE threadHandle;
-		unsigned threadID = 0;
-
-		threadHandle = (HANDLE) _beginthreadex(NULL,0,start_address,arg,0,&threadID);
-
-		int state = (threadHandle==0) ? 1 : 0;
-
-		if(state == 0)
-			CloseHandle( threadHandle );
-
-		return state;
 	}
-	#else
-	int cAudioThread::SpawnThread( void* start_address( void* ), void *arg)
-	{
-		pthread_t threadHandle;
 
+	cAudioThread::~cAudioThread()
+	{
+		if(IsInit)
+			shutdown();
+	}
+
+	bool cAudioThread::start()
+	{
+		if(IsInit) return IsInit;
+
+		cAudioMutexBasicLock lock(Mutex);
+
+#ifdef CAUDIO_PLATFORM_WIN
+		ThreadHandle = reinterpret_cast<HANDLE>(_beginthreadex(0, 0, threadFunc, this, 0, &ThreadID));
+		if(ThreadHandle == 0)
+			CloseHandle( ThreadHandle );
+#else
 		pthread_attr_t attr;
 		pthread_attr_init( &attr );
 		pthread_attr_setdetachstate( &attr, PTHREAD_CREATE_DETACHED );
-
-		return pthread_create( &threadHandle, &attr, start_address, arg );
+		ThreadID = pthread_create( &ThreadHandle, &attr, threadFunc, this );
+#endif
+		IsInit = ThreadID != 0;
+		return IsInit;
 	}
-	#endif
+	void cAudioThread::join()
+	{
+		if(IsInit)
+		{
+			cAudioMutexBasicLock lock(Mutex);
+			Loop = false;
+#ifdef CAUDIO_PLATFORM_WIN
+			WaitForSingleObject(ThreadHandle, INFINITE);
+#else
+			pthread_join(ThreadHandle, NULL);
+#endif
+		}
+	}
+	void cAudioThread::shutdown()
+	{
+		if(IsInit)
+		{
+			cAudioMutexBasicLock lock(Mutex);
+			IsInit = false;
+#ifdef CAUDIO_PLATFORM_WIN
+			_endthread();
+#else
+			pthread_exit(0);
+#endif			
+		}
+	}
+	void cAudioThread::updateLoop()
+	{
+		if(IsInit && Worker)
+		{
+			while (Loop)
+			{
+				Worker->run();
+			}
+		}
+	}
+
+	bool cAudioThread::isRunning()
+	{
+		return Loop && IsInit;
+	}
+
+#ifdef CAUDIO_PLATFORM_WIN
+	unsigned int __stdcall cAudioThread::threadFunc(void *args)
+	{
+		cAudioThread* pThread = reinterpret_cast<cAudioThread*>(args);
+		pThread->updateLoop();
+		return 0;
+	}
+#else
+	void* cAudioThread::threadFunc(void* args)
+	{
+		cAudioThread* pThread = reinterpret_cast<cAudioThread*>(args);
+		pThread->updateLoop();
+		return 0;
+	}
+#endif
 };

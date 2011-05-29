@@ -38,6 +38,13 @@ namespace cAudio
 		//! If threading is disabled, you must call this function every frame to update the playback buffers of audio sources.  Otherwise it should not be called.
 		virtual void update() = 0;
 
+		//! Returns if the thread used to update all Audio Managers is running.
+		/** Note: Will always return false if threading is disabled.
+		The library automatically shuts down the thread if no Audio Managers exist and will restart the thread on creation of a new manager.
+		\return True if the thread is currently running, false otherwise.
+		*/
+		virtual bool isUpdateThreadRunning() = 0;
+
 		//! Returns an Audio Source by its "name" and NULL if the name is not found
 		/**
 		\param name: Name of the audio source to retrieve.
@@ -190,11 +197,4 @@ namespace cAudio
 	\param capture: The object to destroy.
 	*/
 	CAUDIO_API void destroyAudioManager(IAudioManager* manager);
-
-	//! Returns if the thread used to update all Audio Managers is running.
-	/** Note: Will always return false if threading is disabled.
-	The library automatically shuts down the thread if no Audio Managers exist and will restart the thread on creation of a new manager.
-	\return True if the thread is currently running, false otherwise.
-	*/
-	CAUDIO_API bool isAudioManagerThreadRunning();
 }

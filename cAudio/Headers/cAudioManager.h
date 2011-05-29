@@ -13,6 +13,7 @@
 #include "../Headers/cMemoryOverride.h"
 #include "../include/cSTLAllocator.h"
 #include "../include/cAudioString.h"
+#include "../include/IThread.h"
 
 #include <al.h>
 #include <alc.h>
@@ -21,7 +22,7 @@ namespace cAudio
 {
 	class IAudioSource;
 
-	class cAudioManager : public IAudioManager, public cMemoryOverride
+	class cAudioManager : public IAudioManager, public cMemoryOverride, public IThreadWorker
 	{
 	public:
 		enum Events{
@@ -33,8 +34,8 @@ namespace cAudio
 			ON_DATASOURCEREGISTER,
 		};
 
-		cAudioManager() : Device(NULL), Context(NULL), EFXSupported(false), Initialized(false) { }
-		virtual ~cAudioManager() { }
+		cAudioManager() : Device(NULL), Context(NULL), AudioThread(NULL), EFXSupported(false), Initialized(false) { }
+		virtual ~cAudioManager();
 
 		virtual bool initialize(const char* deviceName = 0x0, int outputFrequency = -1, int eaxEffectSlots = 4);      
 		virtual void shutDown();     
@@ -72,9 +73,16 @@ namespace cAudio
 
 		virtual IListener* getListener() { return &initlistener; }
 
+		virtual bool isUpdateThreadRunning() 
+		{
+			return (AudioThread != NULL && AudioThread->isRunning());
+		}
+
 #ifdef CAUDIO_EFX_ENABLED
 		virtual IAudioEffects* getEffects() { return &initEffects; }
 #endif
+	protected:
+		virtual void run();
 
 	private:
 		//! Mutex for thread syncronization
@@ -90,6 +98,9 @@ namespace cAudio
 
 		//! Whether the manager is currently initialized and ready to go.
 		bool Initialized;
+
+		//! Our update thread
+		IThread* AudioThread;
 
 		//! Holds an index for fast searching of audio sources by name
 		cAudioMap<cAudioString, IAudioSource*>::Type audioIndex;

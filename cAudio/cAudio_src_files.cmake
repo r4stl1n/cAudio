@@ -35,6 +35,7 @@ set (file_root_include
 	include/cAudioString.h
 	include/cSTLAllocator.h
 	include/EAudioFormats.h
+	include/IThread.h
 	include/IAudioCapture.h
 	include/IAudioDecoder.h
 	include/IAudioDecoderFactory.h

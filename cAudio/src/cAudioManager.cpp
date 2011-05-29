@@ -15,6 +15,7 @@
 #include "../Headers/cPluginManager.h"
 #include "../include/cAudioPlatform.h"
 #include "../Headers/cFileSourceFactory.h"
+#include "../Headers/cThread.h"
 
 #include <string.h>
 #include <algorithm>
@@ -35,8 +36,6 @@
 
 namespace cAudio
 {
-	static bool RunAudioManagerThread(false);
-
 #ifdef CAUDIO_COMPILE_WITH_OGG_DECODER
 	static cOggAudioDecoderFactory OggDecoderFactory;
 #endif
@@ -50,27 +49,15 @@ namespace cAudio
 	static cFileSourceFactory FileSourceFactory;
 #endif
 
-	//Note: OpenAL is threadsafe, so a mutex only needs to protect the class state
-#ifdef CAUDIO_USE_INTERNAL_THREAD
-	static cAudioMutex AudioManagerObjectsMutex;
-	static cAudioSet<IAudioManager*>::Type AudioManagerObjects;
-
-	CAUDIO_DECLARE_THREAD_FUNCTION(AudioManagerUpdateThread)
-	{
-		while(RunAudioManagerThread)
+	cAudioManager::~cAudioManager() 
+	{ 			
+		if (AudioThread)
 		{
-			AudioManagerObjectsMutex.lock();
-			cAudioSet<IAudioManager*>::Type::iterator it;
-			for ( it=AudioManagerObjects.begin() ; it != AudioManagerObjects.end(); it++ )
-			{
-				(*it)->update();
-			}
-			AudioManagerObjectsMutex.unlock();
-			cAudioSleep(1);
-		}
-		return 0;
+			AudioThread->join();
+			delete AudioThread;
+			AudioThread = NULL;
+		} 
 	}
-#endif
 
     bool cAudioManager::initialize(const char* deviceName, int outputFrequency, int eaxEffectSlots)
     {
@@ -154,6 +141,13 @@ namespace cAudio
 #endif
 		getLogger()->logInfo("AudioManager", "Supported Extensions: %s", alGetString(AL_EXTENSIONS));
 
+#ifdef CAUDIO_USE_INTERNAL_THREAD
+		if (!AudioThread)
+		{
+			AudioThread = new cAudioThread(this);
+		}
+		AudioThread->start();
+#endif
 		Initialized = true;
 		return true;
     }
@@ -723,6 +717,12 @@ namespace cAudio
 		return DefaultDevice.empty() ? "" : DefaultDevice.c_str();
 	}
 
+	void cAudioManager::run()
+	{
+		update();
+		cAudioSleep(1);
+	}
+
 	CAUDIO_API IAudioManager* createAudioManager(bool initializeDefault)
 	{
 		cAudioManager* manager = CAUDIO_NEW cAudioManager;
@@ -753,19 +753,6 @@ namespace cAudio
 				plugins[i]->onCreateAudioManager(manager);
 			}
 #endif
-
-#ifdef CAUDIO_USE_INTERNAL_THREAD
-			AudioManagerObjectsMutex.lock();
-			AudioManagerObjects.insert(manager);
-
-			//First time launch of thread
-			if(!RunAudioManagerThread)
-			{
-				RunAudioManagerThread = true; 
-				RunAudioManagerThread = (cAudioThread::SpawnThread(AudioManagerUpdateThread, NULL) == 0);
-			}
-			AudioManagerObjectsMutex.unlock();
-#endif
 		}
 		return manager;
 	}
@@ -774,16 +761,6 @@ namespace cAudio
 	{
 		if(manager)
 		{
-#ifdef CAUDIO_USE_INTERNAL_THREAD
-			AudioManagerObjectsMutex.lock();
-			AudioManagerObjects.erase(manager);
-
-			//Kill the thread if there are no objects to process anymore
-			if(RunAudioManagerThread && AudioManagerObjects.empty())
-				RunAudioManagerThread = false;
-			AudioManagerObjectsMutex.unlock();
-#endif
-
 #ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
 			cAudioVector<IAudioPlugin*>::Type plugins = cPluginManager::Instance()->getPluginList();
 			for(unsigned int i = 0; i < plugins.size(); ++i)
@@ -801,10 +778,4 @@ namespace cAudio
 			manager = NULL;
 		}
 	}
-
-	CAUDIO_API bool isAudioManagerThreadRunning()
-	{
-		return RunAudioManagerThread;
-	}
-
 };

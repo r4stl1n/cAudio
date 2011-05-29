@@ -13,33 +13,9 @@
 
 namespace cAudio
 {
-	static bool RunAudioCaptureThread(false);
-
-	//Note: OpenAL is threadsafe, so a mutex only needs to protect the class state
-#ifdef CAUDIO_USE_INTERNAL_THREAD
-	static cAudioMutex AudioCaptureObjectsMutex;
-	static cAudioSet<IAudioCapture*>::Type AudioCaptureObjects;
-
-	CAUDIO_DECLARE_THREAD_FUNCTION(AudioCaptureUpdateThread)
-	{
-		while(RunAudioCaptureThread)
-		{
-			AudioCaptureObjectsMutex.lock();
-			cAudioSet<IAudioCapture*>::Type::iterator it;
-			for ( it=AudioCaptureObjects.begin() ; it != AudioCaptureObjects.end(); it++ )
-			{
-				(*it)->updateCaptureBuffer();
-			}
-			AudioCaptureObjectsMutex.unlock();
-			cAudioSleep(1);
-		}
-		return 0;
-	}
-#endif
-
 	cAudioCapture::cAudioCapture() : Frequency(22050), Format(EAF_16BIT_MONO), InternalBufferSize(8192),
 									SampleSize(2), Supported(false), Ready(false), Capturing(false), 
-									CaptureDevice(NULL)
+									CaptureDevice(NULL), AudioThread(NULL)
 	{
 		checkCaptureExtension();
 		getAvailableDevices();
@@ -47,6 +23,12 @@ namespace cAudio
 	cAudioCapture::~cAudioCapture()
 	{
 		shutdown();
+	}
+
+	void cAudioCapture::run()
+	{
+		updateCaptureBuffer();
+		cAudioSleep(1);
 	}
 
 	bool cAudioCapture::checkCaptureExtension()
@@ -106,6 +88,14 @@ namespace cAudio
 	void cAudioCapture::shutdown()
 	{
 		cAudioMutexBasicLock lock(Mutex);
+
+		if (AudioThread)
+		{
+			AudioThread->join();
+			delete AudioThread;
+			AudioThread = NULL;
+		}
+
 		shutdownOpenALDevice();
 		signalEvent(ON_RELEASE);
 	}
@@ -302,7 +292,16 @@ namespace cAudio
 
 		shutdownOpenALDevice();
 		signalEvent(ON_INIT);
-		return initOpenALDevice();
+		bool isInit = initOpenALDevice();
+
+#ifdef CAUDIO_USE_INTERNAL_THREAD
+		if (!AudioThread)
+		{
+			AudioThread = new cAudioThread(this);
+		}
+		AudioThread->start();
+#endif
+		return isInit;
 	}
 
 	bool cAudioCapture::checkError()
@@ -352,16 +351,6 @@ namespace cAudio
 				plugins[i]->onCreateAudioCapture(capture);
 			}
 #endif
-
-#ifdef CAUDIO_USE_INTERNAL_THREAD
-			AudioCaptureObjectsMutex.lock();
-			AudioCaptureObjects.insert(capture);
-
-			//First time launch of thread
-			if(!RunAudioCaptureThread && AudioCaptureObjects.size() > 0)
-				RunAudioCaptureThread = (cAudioThread::SpawnThread(AudioCaptureUpdateThread, NULL) == 0);
-			AudioCaptureObjectsMutex.unlock();
-#endif
 		}
 		return capture;
 	}
@@ -370,16 +359,6 @@ namespace cAudio
 	{
 		if(capture)
 		{
-#ifdef CAUDIO_USE_INTERNAL_THREAD
-			AudioCaptureObjectsMutex.lock();
-			AudioCaptureObjects.erase(capture);
-
-			//Kill the thread if there are no objects to process anymore
-			if(RunAudioCaptureThread && AudioCaptureObjects.empty())
-				RunAudioCaptureThread = false;
-			AudioCaptureObjectsMutex.unlock();
-#endif
-
 #ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
 			cAudioVector<IAudioPlugin*>::Type plugins = cPluginManager::Instance()->getPluginList();
 			for(unsigned int i = 0; i < plugins.size(); ++i)
@@ -387,17 +366,10 @@ namespace cAudio
 				plugins[i]->onDestoryAudioCapture(capture);
 			}
 #endif
-
 			CAUDIO_DELETE capture;
 			capture = NULL;
 		}
 	}
-
-	CAUDIO_API bool isAudioCaptureThreadRunning()
-	{
-		return RunAudioCaptureThread;
-	}
-
 
 	void cAudioCapture::registerEventHandler(ICaptureEventHandler* handler)
 	{

@@ -36,6 +36,13 @@ namespace cAudio
 		//! Shuts down the capture device, clearing the internal buffer and setting the audio capture into an uninitialized state.  You must call initialize() again in order to reuse this object.
 		virtual void shutdown() = 0;
 
+		//! Returns if the thread used to update all Audio Capture Objects is running.
+		/** Note: Will always return false if threading is disabled.
+		The library automatically shuts down the thread if no Audio Capture objects exist and will restart the thread on creation of a new object.
+		\return True if the thread is currently running, false otherwise.
+		*/
+		virtual bool isUpdateThreadRunning() = 0;
+
 		//! Returns the name of an available capture device.
 		/** \param index: Specify which name to retrieve ( Range: 0 to getAvailableDeviceCount()-1 ). 
 		\return Name of the selected device. */
@@ -122,11 +129,4 @@ namespace cAudio
 	\param capture: The object to destroy
 	*/
 	CAUDIO_API void destroyAudioCapture(IAudioCapture* capture);
-
-	//! Returns if the thread used to update all Audio Capture Objects is running.
-	/** Note: Will always return false if threading is disabled.
-	The library automatically shuts down the thread if no Audio Capture objects exist and will restart the thread on creation of a new object.
-	\return True if the thread is currently running, false otherwise.
-	*/
-	CAUDIO_API bool isAudioCaptureThreadRunning();
 };

@@ -11,10 +11,11 @@
 #include "../Headers/cMemoryOverride.h"
 #include "../include/cSTLAllocator.h"
 #include "../include/cAudioString.h"
+#include "../include/IThread.h"
 
 namespace cAudio
 {
-	class cAudioCapture : public IAudioCapture, public cMemoryOverride
+	class cAudioCapture : public IAudioCapture, public cMemoryOverride, public IThreadWorker
 	{
 	public:
 		
@@ -38,6 +39,10 @@ namespace cAudio
 		virtual bool isReady() { return Ready; }
 		virtual void updateCaptureBuffer(bool force = false);
 		virtual void shutdown();
+		virtual bool isUpdateThreadRunning()
+		{
+			return (AudioThread != NULL && AudioThread->isRunning());
+		}
 
 		virtual const char* getAvailableDeviceName(unsigned int index);
 		virtual unsigned int getAvailableDeviceCount();
@@ -66,7 +71,12 @@ namespace cAudio
 		virtual void unRegisterAllEventHandlers();
 
 	protected:
+		virtual void run();
+
 		cAudioMutex Mutex;
+
+		//! Our update thread
+		IThread* AudioThread;
 
 		bool initOpenALDevice();
 		void shutdownOpenALDevice();
