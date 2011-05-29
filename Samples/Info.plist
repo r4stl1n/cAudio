@@ -7,13 +7,13 @@
 	<key>CFBundleDocumentTypes</key>
 	<array/>
 	<key>CFBundleExecutable</key>
-	<string>CAUDIO</string>
+	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundleGetInfoString</key>
 	<string></string>
 	<key>CFBundleIconFile</key>
 	<string>CAUDIOAppLogo.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.team-bytestorm.mahjong</string>
+	<string>com.YOURCOMPANY</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleLongVersionString</key>

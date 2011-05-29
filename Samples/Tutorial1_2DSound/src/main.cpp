@@ -8,8 +8,11 @@
 
 //Include cAudio.h so we can work wtih cAudio
 #include "cAudio.h"
-#define AUDIO_FILE(_soundName_) CAUDIO_MEDIA_ROOT##_soundName_
-
+#ifdef CAUDIO_PLATFORM_WIN
+#   define AUDIO_FILE(_soundName_) CAUDIO_MEDIA_ROOT##_soundName_
+#else
+#   define AUDIO_FILE(_soundName_) CAUDIO_MEDIA_ROOT#_soundName_
+#endif
 using namespace std;
 
 int main(int argc, char* argv[]) {
@@ -43,8 +46,11 @@ int main(int argc, char* argv[]) {
 		manager->initialize(manager->getAvailableDeviceName(deviceSelection));
 
 		//Create a IAudio object and load a sound from a file
-		cAudio::IAudioSource* mysound = manager->create("bling", AUDIO_FILE("cAudioTheme1.ogg") ,true);
-		
+#ifdef CAUDIO_PLATFORM_WIN         
+		cAudio::IAudioSource* mysound = manager->create("bling", AUDIO_FILE("cAudioTheme1.ogg"),true);
+#else
+		cAudio::IAudioSource* mysound = manager->create("bling", AUDIO_FILE(cAudioTheme1.ogg),true);        
+#endif 
 		if(mysound)
 		{
 			mysound->setVolume(0.5);

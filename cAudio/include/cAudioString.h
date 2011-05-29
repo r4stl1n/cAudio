@@ -37,77 +37,78 @@ namespace cAudio
 	typedef std::basic_string<cAudioChar> cAudioString;
 #endif
 
-static const TCHAR* toWINSTR(const char* str)
-{
+    
 #if defined(CAUDIO_PLATFORM_WIN) && (defined(UNICODE) || defined(_UNICODE))
-	static int id = 0;
-	static wchar_t buffer[8][1024];
-	id = ++id & 0x7;
-
-	int slen = strlen(str);
-	int buff_size = MultiByteToWideChar(CP_UTF8, 0, str, (int)(slen < 1023 ? slen : 1023), buffer[id], 1023);
-	buffer[id][buff_size] = 0;
-	buffer[id][1023] = 0;
-	return buffer[id];
+    static const TCHAR* toWINSTR(const char* str)
+    {
+        static int id = 0;
+        static wchar_t buffer[8][1024];
+        id = ++id & 0x7;
+        
+        int slen = strlen(str);
+        int buff_size = MultiByteToWideChar(CP_UTF8, 0, str, (int)(slen < 1023 ? slen : 1023), buffer[id], 1023);
+        buffer[id][buff_size] = 0;
+        buffer[id][1023] = 0;
+        return buffer[id];
+    }
+    
+    static const TCHAR* toWINSTR(const wchar_t* str)
+    {
+        static int id = 0;
+        static char buffer[8][1024];
+        id = ++id & 0x7;
+    
+        int slen = wcslen(str);
+        int buff_size = WideCharToMultiByte(CP_UTF8, 0, str, (int)(slen < 1023 ? slen : 1023), buffer[id], 1023, 0, false);
+        buffer[id][buff_size] = 0;
+        buffer[id][1023] = 0;
+        return buffer[id];
+    }
+    
+    static const char* toUTF8(const cAudioString& str)
+    {
+        static int id = 0;
+        static char buffer[8][1024];
+        id = ++id & 0x7;
+        
+        int buff_size = WideCharToMultiByte(CP_UTF8, 0, str.c_str(), (int)(str.size() < 1023 ? str.size() : 1023), buffer[id], 1023, 0, false);
+        buffer[id][buff_size] = 0;
+        buffer[id][1023] = 0;
+        return buffer[id];
+    }
+    
+    static cAudioString fromUTF8(const char* str)
+    {
+        wchar_t* buffer = 0;
+        int buff_size = MultiByteToWideChar(CP_UTF8, 0, str, (int)strlen(str), 0, 0);
+        if (buff_size == 0)
+            return cAudioString();
+        
+        
+        buffer = new wchar_t[buff_size + 1];
+        memset((void*)buffer, 0, sizeof(wchar_t) * (buff_size + 1));
+        MultiByteToWideChar(CP_UTF8, 0, str, (int)strlen(str), buffer, buff_size);
+        cAudioString s(buffer);
+        delete[] buffer;
+        return s;
+    }
+    
 #else
-	return str;
+    static const char* toWINSTR(const char* str) 
+    {
+        return str;
+    }
+    
+    static const char* toUTF8(const cAudioString& str)
+    {
+        return str.c_str();
+    }
+        
+    static cAudioString fromUTF8(const char* str)
+    {
+        return cAudioString(str);
+    }
 #endif
-}
-
-static const TCHAR* toWINSTR(const wchar_t* str)
-{
-#if defined(CAUDIO_PLATFORM_WIN) && (defined(UNICODE) || defined(_UNICODE))
-	return str;
-#else
-	static int id = 0;
-	static char buffer[8][1024];
-	id = ++id & 0x7;
-
-	int slen = wcslen(str);
-	int buff_size = WideCharToMultiByte(CP_UTF8, 0, str, (int)(slen < 1023 ? slen : 1023), buffer[id], 1023, 0, false);
-	buffer[id][buff_size] = 0;
-	buffer[id][1023] = 0;
-	return buffer[id];
-#endif
-}
-
-static const char* toUTF8(const cAudioString& str)
-{
-#if defined(CAUDIO_PLATFORM_WIN) && (defined(UNICODE) || defined(_UNICODE))
-	static int id = 0;
-	static char buffer[8][1024];
-	id = ++id & 0x7;
-
-	int buff_size = WideCharToMultiByte(CP_UTF8, 0, str.c_str(), (int)(str.size() < 1023 ? str.size() : 1023), buffer[id], 1023, 0, false);
-	buffer[id][buff_size] = 0;
-	buffer[id][1023] = 0;
-	return buffer[id];
-#else
-	return str.c_str();
-#endif
-}
-
-static cAudioString fromUTF8(const char* str)
-{
-#if defined(CAUDIO_PLATFORM_WIN) && (defined(UNICODE) || defined(_UNICODE))
-	wchar_t* buffer = 0;
-	int buff_size = MultiByteToWideChar(CP_UTF8, 0, str, (int)strlen(str), 0, 0);
-	if (buff_size == 0)
-		return cAudioString();
-	else
-	{
-		buffer = new wchar_t[buff_size + 1];
-		memset((void*)buffer, 0, sizeof(wchar_t) * (buff_size + 1));
-		MultiByteToWideChar(CP_UTF8, 0, str, (int)strlen(str), buffer, buff_size);
-		cAudioString s(buffer);
-		delete[] buffer;
-		return s;
-	}
-#else
-	return cAudioString(str);
-#endif
-}
-
 };
 
 #endif //! CAUDIOSTRING_H_INCLUDED

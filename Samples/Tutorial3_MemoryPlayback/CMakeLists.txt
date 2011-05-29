@@ -25,7 +25,7 @@ target_link_libraries(Tutorial3_MemoryPlayback cAudio)
 add_dependencies(Tutorial3_MemoryPlayback cAudio)
 
 if(CAUDIO_IOS_BUILD)
-	set_source_files_properties(src/Main.cpp PROPERTIES COMPILE_FLAGS "-x objective-c++")
+	set_source_files_properties(src/main.cpp PROPERTIES COMPILE_FLAGS "-x objective-c++")
 endif()
 
 if(${CAUDIO_STATIC})
@@ -41,7 +41,7 @@ if (APPLE)
 	# On OS X, create .app bundle
 	set_property(TARGET Tutorial3_MemoryPlayback PROPERTY MACOSX_BUNDLE TRUE)
 	set(MACOSX_BUNDLE_GUI_IDENTIFIER "com.YOUR_COMPANY.\${PRODUCT_NAME:rfc1034identifier}")
-	set_property(TARGET Tutorial3_MemoryPlayback PROPERTY MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/../Tutorials-Info.plist)
+	set_property(TARGET Tutorial3_MemoryPlayback PROPERTY MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/../Info.plist)
 	
 	if(CAUDIO_IOS_BUILD)
 		set_target_properties(Tutorial3_MemoryPlayback PROPERTIES XCODE_ATTRIBUTE_GCC_THUMB_SUPPORT "NO")

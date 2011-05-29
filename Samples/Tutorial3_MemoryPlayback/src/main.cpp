@@ -9,8 +9,11 @@
 
 //Include cAudio.h so we can work wtih cAudio
 #include "cAudio.h"
-#define AUDIO_FILE(_soundName_) CAUDIO_MEDIA_ROOT##_soundName_
-
+#ifdef CAUDIO_PLATFORM_WIN
+#   define AUDIO_FILE(_soundName_) CAUDIO_MEDIA_ROOT##_soundName_
+#else
+#   define AUDIO_FILE(_soundName_) CAUDIO_MEDIA_ROOT#_soundName_
+#endif
 //Our Bling sound
 #include "bling.h"
 
