@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef EAUDIOFORMATS_H
-#define EAUDIOFORMATS_H
+#pragma once
 
 namespace cAudio
 {
@@ -16,5 +15,3 @@ namespace cAudio
 	  EAF_16BIT_STEREO
 	};
 };
-
-#endif //! EAUDIOFORMATS_H

@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef IAUDIOEFFECTS_H
-#define IAUDIOEFFECTS_H
+#pragma once
 
 #include "IEffect.h"
 #include "IFilter.h"
@@ -236,5 +235,3 @@ namespace cAudio
 };
 
 #endif
-
-#endif //! IAUDIOEFFECTS_H

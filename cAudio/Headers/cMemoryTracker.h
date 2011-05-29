@@ -1,5 +1,4 @@
-#ifndef CMEMORYTRACKER_H_INCLUDED
-#define CMEMORYTRACKER_H_INCLUDED
+#pragma once
 
 #include "../include/cAudioDefines.h"
 
@@ -70,5 +69,3 @@ namespace cAudio
 };
 
 #endif
-
-#endif //! CMEMORYTRACKER_H_INCLUDED

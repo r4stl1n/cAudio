@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef CAUDIOSLEEP_H
-#define CAUDIOSLEEP_H
+#pragma once
 
 #include "cAudioDefines.h"
 
@@ -13,5 +12,3 @@ namespace cAudio
 	/** \param ms: amount of miliseconds to sleep */
 	CAUDIO_API void cAudioSleep(unsigned int ms);
 };
-
-#endif //! CAUDIOSLEEP_H

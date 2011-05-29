@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef IAUDIODECODERFACTORY_H
-#define IAUDIODECODERFACTORY_H
+#pragma once
 
 #include "IAudioDecoder.h"
 
@@ -21,9 +20,5 @@ namespace cAudio
 			\param stream: Data Source to attach to this decoder.
 			\return A pointer to a decoder instance, or NULL on failure to allocate. */
 			virtual IAudioDecoder* CreateAudioDecoder(IDataSource* stream) = 0;
-		protected:
-		private:
 	};
 };
-
-#endif //! IAUDIODECODERFACTORY_H

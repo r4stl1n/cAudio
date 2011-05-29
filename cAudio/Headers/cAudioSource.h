@@ -2,8 +2,8 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef CAUDIOSOURCE_H_INCLUDED
-#define CAUDIOSOURCE_H_INCLUDED
+#pragma once
+
 #include <list>
 #include <string>
 #include <vector>
@@ -181,4 +181,3 @@ namespace cAudio
 #endif
     };
 };
-#endif //! CAUDIOSOURCE_H_INCLUDED

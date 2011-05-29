@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef IAUDIOSOURCE_H
-#define IAUDIOSOURCE_H
+#pragma once
 
 #include "cAudioDefines.h"
 #include "IRefCounted.h"
@@ -277,4 +276,3 @@ namespace cAudio
     private:
     };
 };
-#endif //! IAUDIO_H

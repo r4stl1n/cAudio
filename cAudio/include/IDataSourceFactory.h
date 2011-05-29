@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef IDATASOURCEFACTORY_H
-#define IDATASOURCEFACTORY_H
+#pragma once
 
 #include "IDataSource.h"
 
@@ -27,4 +26,3 @@ namespace cAudio
 	};
 };
 
-#endif //! IDATASOURCEFACTORY_H

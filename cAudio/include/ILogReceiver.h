@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef ILOGRECEIVER_H_INCLUDED
-#define ILOGRECEIVER_H_INCLUDED
+#pragma once
 
 namespace cAudio
 {
@@ -45,4 +44,4 @@ namespace cAudio
 		virtual bool OnLogMessage(const char* sender, const char* message, LogLevel level, float time) = 0;
 	};
 };
-#endif //! ILOGRECEIVER_H_INCLUDED
+

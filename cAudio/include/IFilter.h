@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef IFILTER_H
-#define IFILTER_H
+#pragma once
 
 #include "IRefCounted.h"
 #include "cAudioDefines.h"
@@ -70,5 +69,3 @@ namespace cAudio
 };
 
 #endif
-
-#endif //! IFILTER_H

@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef IREFCOUNTED_H
-#define IREFCOUNTED_H
+#pragma once
 
 #include "cAudioMemory.h"
 
@@ -44,4 +43,3 @@ namespace cAudio
 		int RefCount;
 	};	
 }
-#endif //! IREFCOUNTED_H

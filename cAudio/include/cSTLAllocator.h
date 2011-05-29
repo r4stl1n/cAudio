@@ -1,5 +1,4 @@
-#ifndef CSTLALLOCATOR_H_INCLUDED
-#define CSTLALLOCATOR_H_INCLUDED
+#pragma once
 
 #include "cAudioDefines.h"
 #include "cAudioMemory.h"
@@ -130,5 +129,3 @@ namespace cAudio
 #endif
 
 };
-
-#endif //! CSTLALLOCATOR_H_INCLUDED

@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef CFILESOURCEFACTORY_H
-#define CFILESOURCEFACTORY_H
+#pragma once
 
 #include "../include/IDataSourceFactory.h"
 
@@ -23,7 +22,6 @@ namespace cAudio
 
 			virtual IDataSource* CreateDataSource(const char* filename, bool streamingRequested)
 			{
-				cAudioMutexBasicLock lock(Mutex);
 				IDataSource* source = CAUDIO_NEW cFileSource(filename);
 
 				if(!streamingRequested && source && source->isValid())
@@ -49,12 +47,7 @@ namespace cAudio
 				}
 				return source;
 			}
-		protected:
-			cAudioMutex Mutex;
-		private:
 	};
 };
 
 #endif
-
-#endif //! CFILESOURCEFACTORY_H

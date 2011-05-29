@@ -1,5 +1,4 @@
-#ifndef CPLUGINMANAGER_H_INCLUDED
-#define CPLUGINMANAGER_H_INCLUDED
+#pragma once
 
 #include "../include/IPluginManager.h"
 #include "../include/IAudioPlugin.h"
@@ -81,5 +80,3 @@ namespace cAudio
 };
 
 #endif //! CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
-
-#endif //! CPLUGINMANAGER_H_INCLUDED

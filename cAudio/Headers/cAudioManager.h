@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef CAUDIOMANAGER_H_INCLUDED
-#define CAUDIOMANAGER_H_INCLUDED
+#pragma once
 
 #include "cAudioSource.h"
 #include "../include/IAudioDecoderFactory.h"
@@ -125,4 +124,3 @@ namespace cAudio
 	};
 }
 
-#endif //! CAUDIOMANAGER_H_INCLUDED

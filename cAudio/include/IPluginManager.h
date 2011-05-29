@@ -1,5 +1,4 @@
-#ifndef IPLUGINMANAGER_H_INCLUDED
-#define IPLUGINMANAGER_H_INCLUDED
+#pragma once
 
 #include "IAudioPlugin.h"
 #include "cAudioDefines.h"
@@ -61,5 +60,3 @@ namespace cAudio
 };
 
 #endif //! CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
-
-#endif //! IPLUGINMANAGER_H_INCLUDED

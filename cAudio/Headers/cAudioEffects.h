@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef CAUDIOEFFECTS_H
-#define CAUDIOEFFECTS_H
+#pragma once
 
 #ifdef CAUDIO_EFX_ENABLED
 
@@ -87,5 +86,3 @@ namespace cAudio
 };
 
 #endif
-
-#endif //! CAUDIOEFFECTS_H

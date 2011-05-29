@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef IAUDIODECODER_H
-#define IAUDIODECODER_H
+#pragma once
 
 #include "IRefCounted.h"
 #include "IDataSource.h"
@@ -75,5 +74,3 @@ namespace cAudio
 			IDataSource* Stream;
 	};
 };
-
-#endif //! IAUDIODECODER_H

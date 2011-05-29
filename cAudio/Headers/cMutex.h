@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef CAUDIOMUTEX_H
-#define CAUDIOMUTEX_H
+#pragma once
 
 #include "../include/cAudioDefines.h"
 
@@ -41,14 +40,10 @@ namespace cAudio
 	class cAudioMutex
 	{
 	public:
-		cAudioMutex();
-		~cAudioMutex();
-
-		void lock();
-		void unlock();
-	private:
-		void initialize();
-		bool Initialized;
+		cAudioMutex() {}
+		~cAudioMutex() {}
+		void lock() {}
+		void unlock() {}
 	};
 #endif
 
@@ -67,5 +62,3 @@ namespace cAudio
 		cAudioMutex* Mutex;
 	};
 };
-
-#endif //! CAUDIOMUTEX_H

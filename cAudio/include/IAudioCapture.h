@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef IAUDIOCAPTURE_H
-#define IAUDIOCAPTURE_H
+#pragma once
 
 #include "EAudioFormats.h"
 #include "cAudioDefines.h"
@@ -131,5 +130,3 @@ namespace cAudio
 	*/
 	CAUDIO_API bool isAudioCaptureThreadRunning();
 };
-
-#endif //! IAUDIOCAPTURE_H

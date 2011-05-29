@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef IAUDIOMANAGER_H
-#define IAUDIOMANAGER_H
+#pragma once
 
 #include "IListener.h"
 #include "cAudioDefines.h"
@@ -199,4 +198,3 @@ namespace cAudio
 	*/
 	CAUDIO_API bool isAudioManagerThreadRunning();
 }
-#endif //! IAUDIOMANAGER_H

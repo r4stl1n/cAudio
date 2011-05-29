@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef CRAWDECODER_H_INCLUDED
-#define CRAWDECODER_H_INCLUDED
+#pragma once
 
 #include "../include/IAudioDecoder.h"
 #include "../Headers/cMemoryOverride.h"
@@ -36,5 +35,3 @@ namespace cAudio
 			AudioFormats Format;
     };
 };
-
-#endif //! CRAWDECODER_H_INCLUDED

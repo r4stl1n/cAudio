@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef CAUDIOCAPTURE_H
-#define CAUDIOCAPTURE_H
+#pragma once
 
 #include "../include/IAudioCapture.h"
 #include <al.h>
@@ -94,5 +93,3 @@ namespace cAudio
 		void signalEvent(Events sevent);
 	};
 };
-
-#endif //! CAUDIOCAPTURE_H

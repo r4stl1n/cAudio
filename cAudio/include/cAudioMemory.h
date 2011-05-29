@@ -1,5 +1,4 @@
-#ifndef CAUDIOMEMORY_H_INCLUDED
-#define CAUDIOMEMORY_H_INCLUDED
+#pragma once
 
 #include "cAudioDefines.h"
 #include "IMemoryProvider.h"
@@ -23,5 +22,3 @@ namespace cAudio
 	\return A pointer to the memory provider */
 	CAUDIO_API IMemoryProvider* getMemoryProvider();
 };
-
-#endif //! CAUDIOMEMORY_H_INCLUDED

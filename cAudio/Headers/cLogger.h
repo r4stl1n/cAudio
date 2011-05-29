@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef CLOGGER_H_INCLUDED
-#define CLOGGER_H_INCLUDED
+#pragma once
 
 #include <stdarg.h>
 
@@ -46,4 +45,3 @@ namespace cAudio
 	private:
     };
 };
-#endif //! CLOGGER_H_INCLUDED

@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef COGGDECODER_H_INCLUDED
-#define COGGDECODER_H_INCLUDED
+#pragma once
 
 #include "../include/cAudioDefines.h"
 
@@ -54,5 +53,3 @@ namespace cAudio
 }
 
 #endif
-
-#endif //! COGGDECODER_H_INCLUDED

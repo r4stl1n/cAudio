@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef ISOURCEEVENTHANDLER_H
-#define ISOURCEEVENTHANDLER_H
+#pragma once
 
 namespace cAudio
 {
@@ -28,4 +27,3 @@ namespace cAudio
 	};
 };
 
-#endif //! ISOURCEEVENTHANDLER_H

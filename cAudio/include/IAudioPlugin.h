@@ -1,5 +1,4 @@
-#ifndef IAUDIOPLUGIN_H_INCLUDED
-#define IAUDIOPLUGIN_H_INCLUDED
+#pragma once
 
 #include "IRefCounted.h"
 #include "IAudioManager.h"
@@ -50,5 +49,3 @@ namespace cAudio
 		virtual void onDestoryAudioCapture(IAudioCapture* capture) { }
 	};
 };
-
-#endif //! IAUDIOPLUGIN_H_INCLUDED

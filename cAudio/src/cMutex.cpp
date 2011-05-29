@@ -58,30 +58,6 @@ namespace cAudio
 	#endif
 		Initialized=true;
 	}
-#else
-	cAudioMutex::cAudioMutex() : Initialized(false)
-	{
-	}
-
-	cAudioMutex::~cAudioMutex()
-	{
-		//Do nothing
-	}
-
-	void cAudioMutex::lock(void)
-	{
-		//Do nothing
-	}
-
-	void cAudioMutex::unlock(void)
-	{
-		//Do nothing
-	}
-
-	void cAudioMutex::initialize(void)
-	{
-		//Do nothing
-	}
 #endif
 
 };

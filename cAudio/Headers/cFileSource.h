@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef CFILESOURCE_H
-#define CFILESOURCE_H
+#pragma once
 
 #include "../include/IDataSource.h"
 #include "../include/cAudioDefines.h"
@@ -42,4 +41,3 @@ class cFileSource : public IDataSource, public cMemoryOverride
 
 #endif
 
-#endif //! CFILESOURCE_H

@@ -1,5 +1,4 @@
-#ifndef CAUDIOPLATFORM_H_INCLUDED
-#define CAUDIOPLATFORM_H_INCLUDED
+#pragma once
 
 #if !defined( CAUDIO_PLATFORM_WIN )
 #	if defined( WIN32 ) || defined( _WINDOWS ) || defined(_WIN32)
@@ -38,5 +37,3 @@
 #		endif
 #	endif
 #endif
-
-#endif //! CAUDIOPLATFORM_H_INCLUDED

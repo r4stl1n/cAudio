@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef ILISTENER_H
-#define ILISTENER_H
+#pragma once
 
 #include "cVector3.h"
 #include "cAudioDefines.h"
@@ -73,9 +72,6 @@ namespace cAudio
 		//! Returns the meters per user world unit for use with sound effects
 		virtual float getMetersPerUnit(void) const = 0;
 #endif
-
-    protected:
-    private:
     };
 }
-#endif //! ILISTENER_H
+

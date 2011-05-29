@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef CWAVDECODER_H_INCLUDED
-#define CWAVDECODER_H_INCLUDED
+#pragma once
 
 #include "../include/IAudioDecoder.h"
 #include "../include/cAudioDefines.h"
@@ -48,6 +47,4 @@ namespace cAudio
 };
 
 #endif
-
-#endif //! CFLACDECODER_H_INCLUDED
 

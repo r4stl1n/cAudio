@@ -1,5 +1,4 @@
-#ifndef CAUDIOSTRING_H_INCLUDED
-#define CAUDIOSTRING_H_INCLUDED
+#pragma once
 
 #include "cAudioDefines.h"
 #include "cAudioPlatform.h"
@@ -110,5 +109,3 @@ namespace cAudio
     }
 #endif
 };
-
-#endif //! CAUDIOSTRING_H_INCLUDED

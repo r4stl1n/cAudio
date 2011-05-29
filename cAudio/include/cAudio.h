@@ -23,8 +23,7 @@
 
 */
 
-#ifndef CAUDIO_H
-#define CAUDIO_H
+#pragma once
 
 #include "cAudioDefines.h"
 #include "cAudioPlatform.h"
@@ -104,8 +103,5 @@
  */
 
 //! Main namespace for the entire cAudio library
-namespace cAudio
-{
+namespace cAudio {
 };
-
-#endif

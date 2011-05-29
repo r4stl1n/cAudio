@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef CFILELOGRECEIVER_H_INCLUDED
-#define CFILELOGERCEIVER_H_INCLUDED
+#pragma once
 
 #include "../include/ILogReceiver.h"
 #include "../include/cAudioDefines.h"
@@ -27,5 +26,3 @@ namespace cAudio
 	};
 };
 #endif
-
-#endif //!CFILELOGRECEIVER_H_INCLUDED

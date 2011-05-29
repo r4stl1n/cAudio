@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef COGGAUDIODECODERFACTORY_H
-#define COGGAUDIODECODERFACTORY_H
+#pragma once
 
 #include "../include/IAudioDecoderFactory.h"
 #include "cOggDecoder.h"
@@ -13,28 +12,17 @@
 
 namespace cAudio
 {
+	class cOggAudioDecoderFactory : public IAudioDecoderFactory
+	{
+		public:
+			cOggAudioDecoderFactory() {}
+			~cOggAudioDecoderFactory() {}
 
-class cOggAudioDecoderFactory : public IAudioDecoderFactory
-{
-    public:
-        cOggAudioDecoderFactory() {}
-        ~cOggAudioDecoderFactory() {}
-
-        IAudioDecoder* CreateAudioDecoder(IDataSource* stream)
-        {
-			Mutex.lock();
-			IAudioDecoder* decoder = CAUDIO_NEW cOggDecoder(stream);
-			Mutex.unlock();
-            return decoder;
-        }
-
-    protected:
-		cAudioMutex Mutex;
-    private:
-};
-
+			IAudioDecoder* CreateAudioDecoder(IDataSource* stream)
+			{
+				return CAUDIO_NEW cOggDecoder(stream);
+			}
+	};
 };
 
 #endif
-
-#endif //! COGGAUDIODECODERFACTORY_H

@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef ILOGGER_H_INCLUDED
-#define ILOGGER_H_INCLUDED
+#pragma once
 
 #include "ILogReceiver.h"
 #include "cAudioDefines.h"
@@ -78,9 +77,6 @@ namespace cAudio
 		\param name: Name of the log receiver to return.
 		\return Pointer to the found log receiver or NULL if it could not be found. */
 		virtual ILogReceiver* getLogReceiver(const char* name) = 0;
-
-	protected:
-	private:
     };
 
 	//! Gets the interface to the logger.
@@ -89,4 +85,4 @@ namespace cAudio
 	*/
 	CAUDIO_API ILogger* getLogger();
 };
-#endif //! ILOGGER_H_INCLUDED
+

@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef IEFFECTPARAMETERS_H
-#define IEFFECTPARAMETERS_H
+#pragma once
 
 #include "cVector3.h"
 #include "cAudioDefines.h"
@@ -814,5 +813,3 @@ namespace cAudio
 };
 
 #endif
-
-#endif //! IEFFECTPARAMETERS_H

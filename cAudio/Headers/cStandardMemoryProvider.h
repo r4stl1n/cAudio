@@ -1,5 +1,4 @@
-#ifndef CSTANDARDMEMORYPROVIDER_H_INCLUDED
-#define CSTANDARDMEMORYPROVIDER_H_INCLUDED
+#pragma once
 
 #include "../include/IMemoryProvider.h"
 #include <cstring>
@@ -14,5 +13,3 @@ namespace cAudio
 		virtual size_t getMaxAllocationSize();
 	};
 };
-
-#endif //! CSTANDARDMEMORYPROVIDER_H_INCLUDED

@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef CLISTENER_H_INCLUDED
-#define CLISTENER_H_INCLUDED
+#pragma once
 
 #include "../include/IListener.h"
 #include "../Headers/cMutex.h"
@@ -47,4 +46,3 @@ namespace cAudio
 	private:
     };
 }
-#endif //! CLISTENER_H_INCLUDED

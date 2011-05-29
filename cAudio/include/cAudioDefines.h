@@ -1,5 +1,4 @@
-#ifndef CAUDIODEFINES_H
-#define CAUDIODEFINES_H
+#pragma once
 
 #include "cAudioPlatform.h"
 
@@ -247,5 +246,3 @@
 //#define CAUDIO_MEMORYTRACKER_LOG_ALL_ALLOCATIONS
 
 #endif //CAUDIO_PLATFORM_LINUX
-
-#endif //CAUDIODEFINES_H

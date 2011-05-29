@@ -2,8 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef IDATASOURCE_H
-#define IDATASOURCE_H
+#pragma once
 
 #include "IRefCounted.h"
 
@@ -43,4 +42,3 @@ namespace cAudio
 	};
 };
 
-#endif //! IDATASOURCE_H

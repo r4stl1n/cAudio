@@ -1,5 +1,4 @@
-#ifndef CMEMORYOVERRIDE_H_INCLUDED
-#define CMEMORYOVERRIDE_H_INCLUDED
+#pragma once
 
 #include <new>
 #include "../include/cAudioMemory.h"
@@ -63,4 +62,3 @@ namespace cAudio
 	};
 };
 
-#endif //! CMEMORYOVERRIDE_H_INCLUDED
