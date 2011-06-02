@@ -4,10 +4,14 @@ if(CAUDIO_STATIC)
 	ADD_DEFINITIONS(-DCAUDIO_STATIC_LIB)
 endif()
 
-set (CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR})
-set(CAUDIO_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include PARENT_SCOPE)
+# generate cAudioBuildSettings.h 
+configure_file(${CMAKE_SOURCE_DIR}/CMake/Templates/cAudioBuildSettings.h.in ${CMAKE_BINARY_DIR}/include/cAudioBuildSettings.h @ONLY)
+install(FILES ${CMAKE_BINARY_DIR}/include/cAudioBuildSettings.h DESTINATION include/cAudio/include)
 
-include_directories (include ${OPENAL_INCLUDE_DIRS} ${OGG_INCLUDE_DIR} ${VORBIS_INCLUDE_DIR})
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR})
+set(CAUDIO_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include ${CMAKE_BINARY_DIR}/include PARENT_SCOPE)
+
+include_directories (include ${CMAKE_BINARY_DIR}/include ${OPENAL_INCLUDE_DIRS} ${OGG_INCLUDE_DIR} ${VORBIS_INCLUDE_DIR})
 include(cAudio_src_files.cmake)
 
 add_library(cAudio ${CAUDIO_LIB_TYPE} ${file_root})

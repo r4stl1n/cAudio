@@ -1,8 +1,12 @@
+// Copyright (c) 2008-2011 Raynaldo (Wildicv) Rivera, Joshua (Dark_Kilauea) Jones, Murat (wolfmanfx) Sari
+// This file is part of the "cAudio Engine"
+// For conditions of distribution and use, see copyright notice in cAudio.h
+
 #pragma once
 
 #include "../include/cAudioDefines.h"
 
-#ifdef CAUDIO_USE_MEMORYTRACKER
+#if CAUDIO_USE_MEMORYTRACKER == 1
 
 #include <map>
 #include "../Headers/cMutex.h"
@@ -43,7 +47,7 @@ namespace cAudio
 
 		std::map<void*, cTrackedMemoryBlock> TrackedBlocks;
 
-#ifdef CAUDIO_MEMORYTRACKER_GENERATE_STATISTICS
+#if CAUDIO_MEMORYTRACKER_GENERATE_STATISTICS == 1
 		struct Statistics
 		{
 			Statistics() : AllocationHighWaterMark(0), CurrentAllocationBytes(0), 
@@ -62,7 +66,7 @@ namespace cAudio
 
 		void DumpLeaks();
 
-#ifdef CAUDIO_MEMORYTRACKER_LOG_ALL_ALLOCATIONS
+#if CAUDIO_MEMORYTRACKER_LOG_ALL_ALLOCATIONS == 1
 		std::ofstream outMemLog;
 #endif
 	};

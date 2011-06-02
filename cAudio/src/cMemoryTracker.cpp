@@ -1,20 +1,24 @@
+// Copyright (c) 2008-2011 Raynaldo (Wildicv) Rivera, Joshua (Dark_Kilauea) Jones, Murat (wolfmanfx) Sari
+// This file is part of the "cAudio Engine"
+// For conditions of distribution and use, see copyright notice in cAudio.h
+
 #include "../Headers/cMemoryTracker.h"
 
-#ifdef CAUDIO_USE_MEMORYTRACKER
+#if CAUDIO_USE_MEMORYTRACKER == 1
 
 namespace cAudio
 {
 
 cMemoryTracker::cMemoryTracker()
 {
-#ifdef CAUDIO_MEMORYTRACKER_LOG_ALL_ALLOCATIONS
+#if CAUDIO_MEMORYTRACKER_LOG_ALL_ALLOCATIONS == 1
 	outMemLog.open("cAudioMemoryLog.log");
 #endif
 }
 
 cMemoryTracker::~cMemoryTracker()
 {
-#ifdef CAUDIO_MEMORYTRACKER_LOG_ALL_ALLOCATIONS
+#if CAUDIO_MEMORYTRACKER_LOG_ALL_ALLOCATIONS == 1
 	outMemLog.close();
 #endif
 	DumpLeaks();
@@ -30,7 +34,7 @@ void cMemoryTracker::AddAllocation(void* pointer, size_t size, const char* filen
 	block.function = function;
 	TrackedBlocks[pointer] = block;
 
-#ifdef CAUDIO_MEMORYTRACKER_GENERATE_STATISTICS
+#if CAUDIO_MEMORYTRACKER_GENERATE_STATISTICS == 1
 	MemStats.CurrentAllocationBytes += size;
 	MemStats.TotalAllocationBytes += size;
 
@@ -41,7 +45,7 @@ void cMemoryTracker::AddAllocation(void* pointer, size_t size, const char* filen
 	MemStats.MaxNumAllocations = MemStats.CurrentNumAllocations > MemStats.MaxNumAllocations ? MemStats.CurrentNumAllocations : MemStats.MaxNumAllocations;
 #endif
 
-#ifdef CAUDIO_MEMORYTRACKER_LOG_ALL_ALLOCATIONS
+#if CAUDIO_MEMORYTRACKER_LOG_ALL_ALLOCATIONS == 1
 	if(outMemLog.good())
 	{
 		outMemLog << "Allocation at " << pointer << " with size " << size << " bytes in " << filename << " (Line: " << line << ") function: " << function << std::endl;
@@ -56,7 +60,7 @@ void cMemoryTracker::RemoveAllocation(void* pointer)
 	std::map<void*, cTrackedMemoryBlock>::iterator it = TrackedBlocks.find(pointer);
 	if(it != TrackedBlocks.end())
 	{
-#ifdef CAUDIO_MEMORYTRACKER_LOG_ALL_ALLOCATIONS
+#if CAUDIO_MEMORYTRACKER_LOG_ALL_ALLOCATIONS == 1
 		if(outMemLog.good())
 		{
 			outMemLog << "Deallocation of address " << pointer << " with size " << it->second.size << " bytes in " << it->second.filename << " (Line: " << it->second.line << ") function: " << it->second.function << std::endl;
@@ -64,7 +68,7 @@ void cMemoryTracker::RemoveAllocation(void* pointer)
 		}
 #endif
 
-#ifdef CAUDIO_MEMORYTRACKER_GENERATE_STATISTICS
+#if CAUDIO_MEMORYTRACKER_GENERATE_STATISTICS == 1
 		size_t size = it->second.size;
 		MemStats.CurrentAllocationBytes -= size;
 		MemStats.CurrentNumAllocations -= 1;
@@ -79,7 +83,7 @@ void cMemoryTracker::DumpLeaks()
 
 	std::ofstream leakFile("cAudioMemoryLeaks.log");
 
-#ifdef CAUDIO_MEMORYTRACKER_GENERATE_STATISTICS
+#if CAUDIO_MEMORYTRACKER_GENERATE_STATISTICS == 1
 	//Dump Statistics
 	leakFile << "Highest Amount of Allocated Memory: " << MemStats.AllocationHighWaterMark << " bytes." << std::endl;
 	leakFile << "Memory Allocated at Shutdown: " << MemStats.CurrentAllocationBytes << " bytes." << std::endl;

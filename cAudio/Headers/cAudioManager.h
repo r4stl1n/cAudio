@@ -1,4 +1,4 @@
-// Copyright (c) 2008-2010 Raynaldo (Wildicv) Rivera, Joshua (Dark_Kilauea) Jones
+// Copyright (c) 2008-2011 Raynaldo (Wildicv) Rivera, Joshua (Dark_Kilauea) Jones, Murat (wolfmanfx) Sari
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
@@ -78,7 +78,7 @@ namespace cAudio
 			return (AudioThread != NULL && AudioThread->isRunning());
 		}
 
-#ifdef CAUDIO_EFX_ENABLED
+#if CAUDIO_EFX_ENABLED == 1
 		virtual IAudioEffects* getEffects() { return &initEffects; }
 #endif
 	protected:
@@ -117,7 +117,7 @@ namespace cAudio
 
 		//! The listener object        
 		cListener initlistener;
-#ifdef CAUDIO_EFX_ENABLED
+#if CAUDIO_EFX_ENABLED == 1
 		//! Interface for audio effects
 		cAudioEffects initEffects;
 #endif

@@ -1,4 +1,4 @@
-// Copyright (c) 2008-2010 Raynaldo (Wildicv) Rivera, Joshua (Dark_Kilauea) Jones
+// Copyright (c) 2008-2011 Raynaldo (Wildicv) Rivera, Joshua (Dark_Kilauea) Jones, Murat (wolfmanfx) Sari
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
@@ -33,7 +33,7 @@ namespace cAudio
 			ON_STOP,
 		};
 
-#ifdef CAUDIO_EFX_ENABLED
+#if CAUDIO_EFX_ENABLED == 1
 		cAudioSource(IAudioDecoder* decoder, ALCcontext* context, cEFXFunctions* oALFunctions);
 #else
 		cAudioSource(IAudioDecoder* decoder, ALCcontext* context);
@@ -114,7 +114,7 @@ namespace cAudio
 		virtual void unRegisterEventHandler(ISourceEventHandler* handler);
 		virtual void unRegisterAllEventHandlers();
 
-#ifdef CAUDIO_EFX_ENABLED
+#if CAUDIO_EFX_ENABLED == 1
 		virtual unsigned int getNumEffectSlotsAvailable() const;
 		virtual bool attachEffect(unsigned int slot, IEffect* effect);
 		virtual void removeEffect(unsigned int slot);
@@ -158,7 +158,7 @@ namespace cAudio
 		//! List of registered event handlers
 		cAudioList<ISourceEventHandler*>::Type eventHandlerList;
 
-#ifdef CAUDIO_EFX_ENABLED
+#if CAUDIO_EFX_ENABLED == 1
 		//! Holds pointers to all the EFX related functions
 		cEFXFunctions* EFX;
 		//! Updates the attached filter

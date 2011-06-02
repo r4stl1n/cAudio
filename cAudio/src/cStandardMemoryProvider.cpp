@@ -1,3 +1,7 @@
+// Copyright (c) 2008-2011 Raynaldo (Wildicv) Rivera, Joshua (Dark_Kilauea) Jones, Murat (wolfmanfx) Sari
+// This file is part of the "cAudio Engine"
+// For conditions of distribution and use, see copyright notice in cAudio.h
+
 #include "../Headers/cStandardMemoryProvider.h"
 #include "../Headers/cMemoryTracker.h"
 #include <stdlib.h>
@@ -16,7 +20,7 @@ namespace cAudio
 	void* cStandardMemoryProvider::Allocate(size_t size, const char* filename, int line, const char* function)
 	{
 		void* ptr = malloc(size);
-#ifdef CAUDIO_USE_MEMORYTRACKER
+#if CAUDIO_USE_MEMORYTRACKER == 1
 		cMemoryTracker::Instance()->AddAllocation(ptr, size, filename, line, function);
 #endif
 		return ptr;
@@ -26,7 +30,7 @@ namespace cAudio
 	{
 		if(pointer)
 		{
-#ifdef CAUDIO_USE_MEMORYTRACKER
+#if CAUDIO_USE_MEMORYTRACKER == 1
 			cMemoryTracker::Instance()->RemoveAllocation(pointer);
 #endif
 			free(pointer);

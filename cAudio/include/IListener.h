@@ -1,4 +1,4 @@
-// Copyright (c) 2008-2010 Raynaldo (Wildicv) Rivera, Joshua (Dark_Kilauea) Jones
+// Copyright (c) 2008-2011 Raynaldo (Wildicv) Rivera, Joshua (Dark_Kilauea) Jones, Murat (wolfmanfx) Sari
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
@@ -63,7 +63,7 @@ namespace cAudio
 		//! Returns the global volume modifier for all sources
 		virtual float getMasterVolume(void) const = 0;
 
-#ifdef CAUDIO_EFX_ENABLED
+#if CAUDIO_EFX_ENABLED == 1
 		//! Sets the meters per user world unit for use with sound effects
 		/**
 		\param meters: Number of meters per world unit in your simulation. */

@@ -1,4 +1,4 @@
-// Copyright (c) 2008-2010 Raynaldo (Wildicv) Rivera, Joshua (Dark_Kilauea) Jones
+// Copyright (c) 2008-2011 Raynaldo (Wildicv) Rivera, Joshua (Dark_Kilauea) Jones, Murat (wolfmanfx) Sari
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
@@ -20,7 +20,7 @@
 #include <string.h>
 #include <algorithm>
 
-#ifdef CAUDIO_EFX_ENABLED
+#if CAUDIO_EFX_ENABLED == 1
 
 #ifdef CAUDIO_PLATFORM_WIN
 	#include <efx.h>
@@ -36,16 +36,16 @@
 
 namespace cAudio
 {
-#ifdef CAUDIO_COMPILE_WITH_OGG_DECODER
+#if CAUDIO_COMPILE_WITH_OGG_DECODER == 1
 	static cOggAudioDecoderFactory OggDecoderFactory;
 #endif
-#ifdef CAUDIO_COMPILE_WITH_WAV_DECODER
+#if CAUDIO_COMPILE_WITH_WAV_DECODER == 1
 	static cWavAudioDecoderFactory WavDecoderFactory;
 #endif
 
 	static cRawAudioDecoderFactory RawDecoderFactory;
 
-#ifdef CAUDIO_COMPILE_WITH_FILE_SOURCE
+#if CAUDIO_COMPILE_WITH_FILE_SOURCE == 1
 	static cFileSourceFactory FileSourceFactory;
 #endif
 
@@ -75,7 +75,7 @@ namespace cAudio
 			attribs[currentAttrib++] = ALC_FREQUENCY;
 			attribs[currentAttrib++] = outputFrequency;
 		}
-#ifdef CAUDIO_EFX_ENABLED
+#if CAUDIO_EFX_ENABLED == 1
 		if(eaxEffectSlots > 0)
 		{
 			attribs[currentAttrib++] = ALC_MAX_AUXILIARY_SENDS;
@@ -114,7 +114,7 @@ namespace cAudio
 			return false;
 		}
 
-#ifdef CAUDIO_EFX_ENABLED
+#if CAUDIO_EFX_ENABLED == 1
 		initEffects.getEFXInterface()->Mutex.lock();
 		EFXSupported = initEffects.getEFXInterface()->CheckEFXSupport(Device);
 		initEffects.getEFXInterface()->Mutex.unlock();
@@ -124,7 +124,7 @@ namespace cAudio
 		getLogger()->logInfo("AudioManager", "OpenAL Version: %s", alGetString(AL_VERSION));
 		getLogger()->logInfo("AudioManager", "Vendor: %s", alGetString(AL_VENDOR));
 		getLogger()->logInfo("AudioManager", "Renderer: %s", alGetString(AL_RENDERER));
-#ifdef CAUDIO_EFX_ENABLED
+#if CAUDIO_EFX_ENABLED == 1
 		if(EFXSupported)
 		{
 			int EFXMajorVersion = 0;
@@ -176,7 +176,7 @@ namespace cAudio
 						source->drop();
 						if(decoder && decoder->isValid())
 						{
-#ifdef CAUDIO_EFX_ENABLED
+#if CAUDIO_EFX_ENABLED == 1
 							IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, Context, initEffects.getEFXInterface());
 #else
 							IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, Context);
@@ -233,7 +233,7 @@ namespace cAudio
 					{
 						if(decoder->isValid())
 						{
-#ifdef CAUDIO_EFX_ENABLED
+#if CAUDIO_EFX_ENABLED == 1
 							IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, Context, initEffects.getEFXInterface());
 #else
 							IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, Context);
@@ -297,7 +297,7 @@ namespace cAudio
 					{
 						if(decoder->isValid())
 						{
-#ifdef CAUDIO_EFX_ENABLED
+#if CAUDIO_EFX_ENABLED == 1
 							IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, Context, initEffects.getEFXInterface());
 #else
 							IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, Context);
@@ -733,16 +733,16 @@ namespace cAudio
 
 			manager->getAvailableDevices();
 
-#ifdef CAUDIO_COMPILE_WITH_OGG_DECODER
+#if CAUDIO_COMPILE_WITH_OGG_DECODER == 1
 			manager->registerAudioDecoder(&OggDecoderFactory, "ogg");
 #endif
-#ifdef CAUDIO_COMPILE_WITH_WAV_DECODER
+#if CAUDIO_COMPILE_WITH_WAV_DECODER == 1
 			manager->registerAudioDecoder(&WavDecoderFactory, "wav");
 #endif
 
 			manager->registerAudioDecoder(&RawDecoderFactory, "raw");
 
-#ifdef CAUDIO_COMPILE_WITH_FILE_SOURCE
+#if CAUDIO_COMPILE_WITH_FILE_SOURCE == 1
 			manager->registerDataSource(&FileSourceFactory, "FileSystem", 0);
 #endif
 

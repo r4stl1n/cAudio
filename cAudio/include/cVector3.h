@@ -1,16 +1,16 @@
-// Copyright (c) 2008-2010 Raynaldo (Wildicv) Rivera, Joshua (Dark_Kilauea) Jones
+// Copyright (c) 2008-2011 Raynaldo (Wildicv) Rivera, Joshua (Dark_Kilauea) Jones, Murat (wolfmanfx) Sari
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef CVECTOR3_H
-#define CVECTOR3_H
+#pragma once 
 
 #include <math.h>
+#include <limits>
 
 namespace cAudio
 {
 	//! Smallest number that can be represented with a 32 bit float (may not match your compiler/os varient)
-	const float Epsilon = 0.000001f;
+	const float Epsilon = std::numeric_limits<float>::epsilon();
 
 	//! Internal function that compares two floats while keeping the Epsilon in mind.
 	inline bool float_equals(const float a, const float b)
@@ -152,5 +152,3 @@ namespace cAudio
 		}
 	};
 };
-
-#endif //! CVECTOR3_H

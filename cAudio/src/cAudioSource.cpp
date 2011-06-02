@@ -1,4 +1,4 @@
-// Copyright (c) 2008-2010 Raynaldo (Wildicv) Rivera, Joshua (Dark_Kilauea) Jones
+// Copyright (c) 2008-2011 Raynaldo (Wildicv) Rivera, Joshua (Dark_Kilauea) Jones, Murat (wolfmanfx) Sari
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
@@ -12,7 +12,7 @@
 
 namespace cAudio
 {
-#ifdef CAUDIO_EFX_ENABLED
+#if CAUDIO_EFX_ENABLED == 1
     cAudioSource::cAudioSource(IAudioDecoder* decoder, ALCcontext* context, cEFXFunctions* oALFunctions)
 		: Context(context), Source(0), Decoder(decoder), Loop(false), Valid(false),
 		EFX(oALFunctions), Filter(NULL), EffectSlotsAvailable(0), LastFilterTimeStamp(0)
@@ -26,7 +26,7 @@ namespace cAudio
 		for(int i=0; i<CAUDIO_SOURCE_NUM_BUFFERS; ++i)
 			Buffers[i] = 0;
 
-#ifdef CAUDIO_EFX_ENABLED
+#if CAUDIO_EFX_ENABLED == 1
 		for(int i=0; i<CAUDIO_SOURCE_MAX_EFFECT_SLOTS; ++i)
 			Effects[i] = NULL;
 
@@ -46,13 +46,13 @@ namespace cAudio
 			alGenSources(1, &Source);
 			state = !checkError();
 		}
-#ifdef CAUDIO_EFX_ENABLED
+#if CAUDIO_EFX_ENABLED == 1
 		Valid = state && (Decoder != NULL) && (Context != NULL) && (EFX != NULL);
 #else
 		Valid = state && (Decoder != NULL) && (Context != NULL);
 #endif
 
-#ifdef CAUDIO_EFX_ENABLED
+#if CAUDIO_EFX_ENABLED == 1
 		int numSlots = 0;
 		ALCdevice* device = alcGetContextsDevice(Context);
 		alcGetIntegerv(device, ALC_MAX_AUXILIARY_SENDS, 1, &numSlots);
@@ -68,7 +68,7 @@ namespace cAudio
 		if(Decoder)
 			Decoder->drop();
 
-#ifdef CAUDIO_EFX_ENABLED
+#if CAUDIO_EFX_ENABLED == 1
 		for(int i=0; i<CAUDIO_SOURCE_MAX_EFFECT_SLOTS; ++i)
 		{
 			if(Effects[i])
@@ -107,7 +107,7 @@ namespace cAudio
             alSourceQueueBuffers(Source, queueSize, Buffers);
 			checkError();
         }
-#ifdef CAUDIO_EFX_ENABLED
+#if CAUDIO_EFX_ENABLED == 1
 		updateFilter();
 		for(unsigned int i=0; i<CAUDIO_SOURCE_MAX_EFFECT_SLOTS; ++i)
 			updateEffect(i);
@@ -229,7 +229,7 @@ namespace cAudio
 		bool active = true;
         if(isValid() || isPlaying())
 		{
-#ifdef CAUDIO_EFX_ENABLED
+#if CAUDIO_EFX_ENABLED == 1
 			updateFilter();
 			for(unsigned int i=0; i<CAUDIO_SOURCE_MAX_EFFECT_SLOTS; ++i)
 				updateEffect(i);
@@ -574,7 +574,7 @@ namespace cAudio
 		return velocity;
 	}
 
-#ifdef CAUDIO_EFX_ENABLED
+#if CAUDIO_EFX_ENABLED == 1
 	unsigned int cAudioSource::getNumEffectSlotsAvailable() const
 	{
 		return EffectSlotsAvailable;
@@ -731,7 +731,7 @@ namespace cAudio
 		};
 	}
 
-#ifdef CAUDIO_EFX_ENABLED
+#if CAUDIO_EFX_ENABLED == 1
 	void cAudioSource::updateFilter(bool remove)
 	{
 		if(!remove)

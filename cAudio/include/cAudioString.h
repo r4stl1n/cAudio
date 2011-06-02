@@ -1,3 +1,7 @@
+// Copyright (c) 2008-2011 Raynaldo (Wildicv) Rivera, Joshua (Dark_Kilauea) Jones, Murat (wolfmanfx) Sari
+// This file is part of the "cAudio Engine"
+// For conditions of distribution and use, see copyright notice in cAudio.h
+
 #pragma once
 
 #include "cAudioDefines.h"
@@ -29,7 +33,7 @@ namespace cAudio
 #	define cfopen		fopen
 #endif
 
-#ifdef CAUDIO_REROUTE_STL_ALLOCATIONS
+#if CAUDIO_REROUTE_STL_ALLOCATIONS == 1
 	typedef std::basic_string< cAudioChar, std::char_traits<cAudioChar>, cSTLAllocator<cAudioChar> > cAudioString;
 #else
 	//typedef std::string cAudioString;

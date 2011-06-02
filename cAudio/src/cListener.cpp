@@ -1,4 +1,4 @@
-// Copyright (c) 2008-2010 Raynaldo (Wildicv) Rivera, Joshua (Dark_Kilauea) Jones
+// Copyright (c) 2008-2011 Raynaldo (Wildicv) Rivera, Joshua (Dark_Kilauea) Jones, Murat (wolfmanfx) Sari
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
@@ -49,18 +49,18 @@ namespace cAudio
 		alListener3f(AL_POSITION, Position.x, Position.y, Position.z);
 		alListener3f(AL_VELOCITY, Velocity.x, Velocity.y, Velocity.z);
 	}
-#ifdef CAUDIO_EFX_ENABLED
-		void cListener::setMetersPerUnit(const float& meters)
-		{
-			cAudioMutexBasicLock lock(Mutex);
-			alListenerf(AL_METERS_PER_UNIT, meters);
-		}
+#if CAUDIO_EFX_ENABLED == 1
+	void cListener::setMetersPerUnit(const float& meters)
+	{
+		cAudioMutexBasicLock lock(Mutex);
+		alListenerf(AL_METERS_PER_UNIT, meters);
+	}
 
-		float cListener::getMetersPerUnit(void) const
-		{
-			float value = 1.0f;
-			alGetListenerf(AL_METERS_PER_UNIT, &value);
-			return value;
-		}
+	float cListener::getMetersPerUnit(void) const
+	{
+		float value = 1.0f;
+		alGetListenerf(AL_METERS_PER_UNIT, &value);
+		return value;
+	}
 #endif
 };

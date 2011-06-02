@@ -1,4 +1,4 @@
-// Copyright (c) 2008-2010 Raynaldo (Wildicv) Rivera, Joshua (Dark_Kilauea) Jones
+// Copyright (c) 2008-2011 Raynaldo (Wildicv) Rivera, Joshua (Dark_Kilauea) Jones, Murat (wolfmanfx) Sari
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
@@ -14,11 +14,11 @@ namespace cAudio
 	static cLogger Logger;
 	static bool FirstTimeLogInit(false);
 
-#ifdef CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER
+#if CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER == 1
 	static cConsoleLogReceiver ConsoleLog;
 #endif
 
-#ifdef CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER
+#if CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER == 1
 	static cFileLogReceiver FileLog;
 #endif
 
@@ -154,10 +154,10 @@ namespace cAudio
 		if(!FirstTimeLogInit)
 		{
 			FirstTimeLogInit = true;
-#ifdef CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER
+#if CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER == 1
 			Logger.registerLogReceiver(&ConsoleLog, "Console");
 #endif
-#ifdef CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER
+#if CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER == 1
 			Logger.registerLogReceiver(&FileLog,"File");
 #endif
 		}

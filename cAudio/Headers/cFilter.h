@@ -1,10 +1,12 @@
-// Copyright (c) 2008-2010 Raynaldo (Wildicv) Rivera, Joshua (Dark_Kilauea) Jones
+// Copyright (c) 2008-2011 Raynaldo (Wildicv) Rivera, Joshua (Dark_Kilauea) Jones, Murat (wolfmanfx) Sari
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
 #pragma once
 
-#ifdef CAUDIO_EFX_ENABLED
+#include "cAudioDefines.h"
+
+#if CAUDIO_EFX_ENABLED == 1
 
 #include "../include/IFilter.h"
 #include "../Headers/cMutex.h"

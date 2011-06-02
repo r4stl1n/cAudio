@@ -1,9 +1,9 @@
-// Copyright (c) 2008-2010 Raynaldo (Wildicv) Rivera, Joshua (Dark_Kilauea) Jones
+// Copyright (c) 2008-2011 Raynaldo (Wildicv) Rivera, Joshua (Dark_Kilauea) Jones, Murat (wolfmanfx) Sari
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#ifndef CUTILS_H_INCLUDED
-#define CUTILS_H_INCLUDED
+#pragma once
+
 #include "../include/cAudioPlatform.h"
 #include "../include/cSTLAllocator.h"
 #include "../include/cAudioString.h"
@@ -82,5 +82,3 @@ static cAudioVector<cAudioString>::Type getFilesInDirectory(cAudioString path)
 }
 
 };
-
-#endif //! CUTILS_H_INCLUDED

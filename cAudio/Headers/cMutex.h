@@ -1,4 +1,4 @@
-// Copyright (c) 2008-2010 Raynaldo (Wildicv) Rivera, Joshua (Dark_Kilauea) Jones
+// Copyright (c) 2008-2011 Raynaldo (Wildicv) Rivera, Joshua (Dark_Kilauea) Jones, Murat (wolfmanfx) Sari
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
@@ -6,7 +6,7 @@
 
 #include "../include/cAudioDefines.h"
 
-#ifdef CAUDIO_MAKE_THREAD_SAFE
+#if CAUDIO_MAKE_THREAD_SAFE == 1
 	#ifdef CAUDIO_PLATFORM_WIN
 	#include <windows.h>	//Basic windows include
 	#else
@@ -16,7 +16,7 @@
 
 namespace cAudio
 {
-#ifdef CAUDIO_MAKE_THREAD_SAFE
+#if CAUDIO_MAKE_THREAD_SAFE == 1
 	//! Basic mutex class used for internal thread locking
 	class cAudioMutex
 	{
