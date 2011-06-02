@@ -87,6 +87,7 @@ set (file_root_source_files
 	src/cThread.cpp
 	src/cWavAudioDecoderFactory.cpp
 	src/cWavDecoder.cpp
+	src/cAudio.cpp
 )
 
 source_group("Header Files" FILES ${file_root_header_files})

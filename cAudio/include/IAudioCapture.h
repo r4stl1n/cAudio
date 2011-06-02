@@ -112,21 +112,6 @@ namespace cAudio
 		/** \param handler: Pointer to an event handler to remove. */
 		virtual void unRegisterEventHandler(ICaptureEventHandler* handler) = 0;
 		//!Removes all event handlers attached to this manager.
-		virtual void unRegisterAllEventHandlers() = 0;
-	
+		virtual void unRegisterAllEventHandlers() = 0;	
 	};
-
-	//! Creates an interface to an Audio Capture Object.
-	/** Note: This is the only way to get access to the audio capture capabilities of cAudio.
-	You must delete this interface using destroyAudioCapture() once you are done with it.
-	\param initializeDefault: Whether to return an object initialized with the default settings.  If set to false, you must make a call to initialize before audio can be captured.
-	\return A pointer to the created object, NULL if the object could not be allocated.
-	*/
-	CAUDIO_API IAudioCapture* createAudioCapture(bool initializeDefault = true);
-
-	//! Destroys an interface to a previously created Audio Capture Object and frees the memory allocated for it.
-	/** 
-	\param capture: The object to destroy
-	*/
-	CAUDIO_API void destroyAudioCapture(IAudioCapture* capture);
 };

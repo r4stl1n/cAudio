@@ -183,18 +183,4 @@ namespace cAudio
     protected:
     private:
     };
-
-    //! Creates an interface to an Audio Manager.
-	/** Note: This is the only way to get access to the audio playback capabilities of cAudio.
-	You must delete this interface using destroyAudioManager() once you are done with it.
-	\param initializeDefault: Whether to return an object initialized with the default settings.  If set to false, you must make a call to initialize before you can create audio sources.
-	\return A pointer to the created object, NULL if the object could not be allocated.
-	*/
-	CAUDIO_API IAudioManager* createAudioManager(bool initializeDefault = true);
-
-	//! Destroys an interface to a previously created Audio Manager and frees the memory allocated for it.
-	/**
-	\param capture: The object to destroy.
-	*/
-	CAUDIO_API void destroyAudioManager(IAudioManager* manager);
 }

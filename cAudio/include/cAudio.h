@@ -45,7 +45,7 @@
 #include "IPluginManager.h"
 #include "IRefCounted.h"
 
-/*! \mainpage cAudio 2.1.0 API documentation
+/*! \mainpage cAudio 2.2.0 API documentation
  *
  * <img src="../cAudioLogo.jpg"></img>
  *
@@ -104,4 +104,33 @@
 
 //! Main namespace for the entire cAudio library
 namespace cAudio {
+
+	//! Creates an interface to an Audio Manager.
+	/** Note: This is the only way to get access to the audio playback capabilities of cAudio.
+	You must delete this interface using destroyAudioManager() once you are done with it.
+	\param initializeDefault: Whether to return an object initialized with the default settings.  If set to false, you must make a call to initialize before you can create audio sources.
+	\return A pointer to the created object, NULL if the object could not be allocated.
+	*/
+	CAUDIO_API IAudioManager* createAudioManager(bool initializeDefault = true);
+
+	//! Destroys an interface to a previously created Audio Manager and frees the memory allocated for it.
+	/**
+	\param capture: The object to destroy.
+	*/
+	CAUDIO_API void destroyAudioManager(IAudioManager* manager);
+
+
+	//! Creates an interface to an Audio Capture Object.
+	/** Note: This is the only way to get access to the audio capture capabilities of cAudio.
+	You must delete this interface using destroyAudioCapture() once you are done with it.
+	\param initializeDefault: Whether to return an object initialized with the default settings.  If set to false, you must make a call to initialize before audio can be captured.
+	\return A pointer to the created object, NULL if the object could not be allocated.
+	*/
+	CAUDIO_API IAudioCapture* createAudioCapture(bool initializeDefault = true);
+
+	//! Destroys an interface to a previously created Audio Capture Object and frees the memory allocated for it.
+	/** 
+	\param capture: The object to destroy
+	*/
+	CAUDIO_API void destroyAudioCapture(IAudioCapture* capture);
 };

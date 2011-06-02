@@ -336,41 +336,6 @@ namespace cAudio
 		};
 	}
 
-	CAUDIO_API IAudioCapture* createAudioCapture(bool initializeDefault)
-	{
-		cAudioCapture* capture = CAUDIO_NEW cAudioCapture;
-		if(capture)
-		{
-			if(initializeDefault)
-				capture->initialize();
-
-#ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
-			cAudioVector<IAudioPlugin*>::Type plugins = cPluginManager::Instance()->getPluginList();
-			for(unsigned int i = 0; i < plugins.size(); ++i)
-			{
-				plugins[i]->onCreateAudioCapture(capture);
-			}
-#endif
-		}
-		return capture;
-	}
-
-	CAUDIO_API void destroyAudioCapture(IAudioCapture* capture)
-	{
-		if(capture)
-		{
-#ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
-			cAudioVector<IAudioPlugin*>::Type plugins = cPluginManager::Instance()->getPluginList();
-			for(unsigned int i = 0; i < plugins.size(); ++i)
-			{
-				plugins[i]->onDestoryAudioCapture(capture);
-			}
-#endif
-			CAUDIO_DELETE capture;
-			capture = NULL;
-		}
-	}
-
 	void cAudioCapture::registerEventHandler(ICaptureEventHandler* handler)
 	{
 		if(handler)
