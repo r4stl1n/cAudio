@@ -133,4 +133,11 @@ namespace cAudio {
 	\param capture: The object to destroy
 	*/
 	CAUDIO_API void destroyAudioCapture(IAudioCapture* capture);
+
+
+	//! Gets the interface to the logger.
+	/** Note: This is the only way to get access to the logging capabilities of cAudio.
+	\return A pointer to the logger interface.
+	*/
+	CAUDIO_API ILogger* getLogger();
 };

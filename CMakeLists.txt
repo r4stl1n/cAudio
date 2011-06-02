@@ -49,6 +49,7 @@ set(CAUDIO_LIB_DIRECTORY "/lib")
 # Customise what to build
 option(CAUDIO_STATIC "Static build" FALSE)
 option(CAUDIO_BUILD_SAMPLES "Build Samples" TRUE)
+option(CAUDIO_BUILD_CSHARP_WRAPPER "Build CSharpWrapper - this wrapper is used with the provided *.cs files" FALSE)
 
 #Custom settings 
 option(CAUDIO_BUILD_EAX_PLUGIN "Build EAXLegacyPreset Plugin" FALSE)
@@ -193,6 +194,10 @@ endif()
 
 if(CAUDIO_BUILD_MP3DECODER_PLUGIN)
 	add_subdirectory(Plugins/mp3Decoder)
+endif()
+
+if(CAUDIO_BUILD_CSHARP_WRAPPER)
+	add_subdirectory(cAudioCSharpWrapper)
 endif()
 
 if(CAUDIO_BUILD_SAMPLES)

@@ -5,6 +5,7 @@
 #include "../Headers/cFilter.h"
 #include "../Headers/cLogger.h"
 #include "../Headers/cUtils.h"
+#include "../include/cAudio.h"
 
 #if CAUDIO_EFX_ENABLED == 1
 

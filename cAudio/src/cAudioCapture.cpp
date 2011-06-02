@@ -2,6 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
+#include "../include/cAudio.h"
 #include "../Headers/cAudioCapture.h"
 #include "../Headers/cUtils.h"
 #include "../Headers/cThread.h"

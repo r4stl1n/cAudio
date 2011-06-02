@@ -7,6 +7,7 @@
 #include "../include/cAudioPlatform.h"
 #include "../include/cAudioDefines.h"
 #include "../include/ILogger.h"
+#include "../include/cAudio.h"
 
 #ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
 

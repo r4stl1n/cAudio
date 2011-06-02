@@ -11,17 +11,6 @@
 
 namespace cAudio
 {
-	static cLogger Logger;
-	static bool FirstTimeLogInit(false);
-
-#if CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER == 1
-	static cConsoleLogReceiver ConsoleLog;
-#endif
-
-#if CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER == 1
-	static cFileLogReceiver FileLog;
-#endif
-
 	cLogger::cLogger() : StartTime(0), MinLogLevel(ELL_INFO)
 	{
 		StartTime = clock();
@@ -147,20 +136,5 @@ namespace cAudio
 		}
 		Mutex.unlock();
 		return NULL;
-	}
-
-	CAUDIO_API ILogger* getLogger()
-	{
-		if(!FirstTimeLogInit)
-		{
-			FirstTimeLogInit = true;
-#if CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER == 1
-			Logger.registerLogReceiver(&ConsoleLog, "Console");
-#endif
-#if CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER == 1
-			Logger.registerLogReceiver(&FileLog,"File");
-#endif
-		}
-		return &Logger;
 	}
 };

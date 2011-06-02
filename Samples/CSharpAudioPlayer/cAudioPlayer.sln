@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cAudioPlayer", "cAudioPlayer\cAudioPlayer.csproj", "{E7ACE267-B496-440E-B44D-CC846D39DAA7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cAudioCSharp", "..\..\cAudioCSharp\cAudioCSharp.csproj", "{4DDC8FD9-BEAF-422E-A28E-093D299F7DEF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E7ACE267-B496-440E-B44D-CC846D39DAA7}.Debug|x86.ActiveCfg = Debug|x86
+		{E7ACE267-B496-440E-B44D-CC846D39DAA7}.Debug|x86.Build.0 = Debug|x86
+		{E7ACE267-B496-440E-B44D-CC846D39DAA7}.Release|x86.ActiveCfg = Release|x86
+		{E7ACE267-B496-440E-B44D-CC846D39DAA7}.Release|x86.Build.0 = Release|x86
+		{4DDC8FD9-BEAF-422E-A28E-093D299F7DEF}.Debug|x86.ActiveCfg = Debug|x86
+		{4DDC8FD9-BEAF-422E-A28E-093D299F7DEF}.Debug|x86.Build.0 = Debug|x86
+		{4DDC8FD9-BEAF-422E-A28E-093D299F7DEF}.Release|x86.ActiveCfg = Release|x86
+		{4DDC8FD9-BEAF-422E-A28E-093D299F7DEF}.Release|x86.Build.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

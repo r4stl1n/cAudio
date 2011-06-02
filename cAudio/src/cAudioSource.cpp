@@ -3,6 +3,7 @@
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
 #include "../Headers/cAudioSource.h"
+#include "../include/cAudio.h"
 #include "../Headers/cLogger.h"
 #include "../Headers/cFilter.h"
 #include "../Headers/cEffect.h"

@@ -78,11 +78,5 @@ namespace cAudio
 		\return Pointer to the found log receiver or NULL if it could not be found. */
 		virtual ILogReceiver* getLogReceiver(const char* name) = 0;
     };
-
-	//! Gets the interface to the logger.
-	/** Note: This is the only way to get access to the logging capabilities of cAudio.
-	\return A pointer to the logger interface.
-	*/
-	CAUDIO_API ILogger* getLogger();
 };
 

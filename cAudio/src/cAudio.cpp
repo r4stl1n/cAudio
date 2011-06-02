@@ -11,9 +11,17 @@
 #include "../Headers/cFileSourceFactory.h"
 #include "../Headers/cFileSource.h"
 #include "../Headers/cPluginManager.h"
+#include "../Headers/cLogger.h"
+#include "../Headers/cConsoleLogReceiver.h"
+#include "../Headers/cFileLogReceiver.h"
 
 namespace cAudio
 {
+
+	//---------------------------------------------------------------------------------------
+	// Audio manager section
+	//---------------------------------------------------------------------------------------
+
 #if CAUDIO_COMPILE_WITH_OGG_DECODER == 1
 	static cOggAudioDecoderFactory OggDecoderFactory;
 #endif
@@ -83,6 +91,10 @@ namespace cAudio
 		}
 	}
 
+	//---------------------------------------------------------------------------------------
+	// Audio capture section
+	//---------------------------------------------------------------------------------------
+
 	CAUDIO_API IAudioCapture* createAudioCapture(bool initializeDefault)
 	{
 		cAudioCapture* capture = CAUDIO_NEW cAudioCapture;
@@ -116,5 +128,35 @@ namespace cAudio
 			CAUDIO_DELETE capture;
 			capture = NULL;
 		}
+	}
+
+	//---------------------------------------------------------------------------------------
+	// Logger section
+	//---------------------------------------------------------------------------------------
+
+	static cLogger Logger;
+	static bool FirstTimeLogInit(false);
+
+#if CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER == 1
+	static cConsoleLogReceiver ConsoleLog;
+#endif
+
+#if CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER == 1
+	static cFileLogReceiver FileLog;
+#endif
+
+	CAUDIO_API ILogger* getLogger()
+	{
+		if(!FirstTimeLogInit)
+		{
+			FirstTimeLogInit = true;
+#if CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER == 1
+			Logger.registerLogReceiver(&ConsoleLog, "Console");
+#endif
+#if CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER == 1
+			Logger.registerLogReceiver(&FileLog,"File");
+#endif
+		}
+		return &Logger;
 	}
 }

@@ -3,7 +3,7 @@
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
 #include "../Headers/cAudioManager.h"
-
+#include "../include/cAudio.h"
 #include "../include/cAudioPlatform.h"
 #include "../include/cAudioSleep.h"
 #include "../Headers/cUtils.h"
