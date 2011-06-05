@@ -58,19 +58,6 @@ namespace cAudio
 		/** \param source: Pointer to the source to release. */
 		virtual void release(IAudioSource* source) = 0;
 
-		//! Returns the name of an available playback device.
-		/** \param index: Specify which name to retrieve ( Range: 0 to getAvailableDeviceCount()-1 ) 
-		\return Name of the selected device. */
-		virtual const char* getAvailableDeviceName(unsigned int index) = 0;
-		
-		//! Returns the number of playback devices available for use.
-		/** \return Number of playback devices available. */
-		virtual unsigned int getAvailableDeviceCount() = 0;
-		
-		//! Returns the name of the default system playback device.
-		/** \return Name of the default playback device. */
-		virtual const char* getDefaultDeviceName() = 0;
-
 		//! Creates an Audio Source object using the highest priority data source that has the referenced filename
 		/**
 		\param name: Name of the audio source.
@@ -105,7 +92,7 @@ namespace cAudio
 		/**
 		\param factory: Pointer to the factory instance to use.
 		\param extension: Extension of the audio codec to register this decoder under.  For example, .wav for a RIFF/wav decoder.
-		\return True on seccess, False if registration failed. */
+		\return True on success, False if registration failed. */
 		virtual bool registerAudioDecoder(IAudioDecoderFactory* factory, const char* extension) = 0;
 
 		//! Unregister a previously registered Audio Decoder.

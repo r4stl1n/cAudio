@@ -31,15 +31,16 @@ int main(int argc, char* argv[])
 	{
 		//Allow the user to choose a playback device
 		cout << "\nAvailable Playback Devices: \n";
-		unsigned int deviceCount = manager->getAvailableDeviceCount();
-		std::string defaultDeviceName = manager->getDefaultDeviceName();
+		cAudio::IAudioDeviceList* pDeviceList = cAudio::createAudioDeviceList();
+		unsigned int deviceCount = pDeviceList->getDeviceCount();
+		cAudio::cAudioString defaultDeviceName = pDeviceList->getDefaultDeviceName();
 		for(unsigned int i=0; i<deviceCount; ++i)
 		{
-			std::string deviceName = manager->getAvailableDeviceName(i);
+			cAudio::cAudioString deviceName = pDeviceList->getDeviceName(i);
 			if(deviceName.compare(defaultDeviceName) == 0)
-				cout << i << "): " << deviceName << " [DEFAULT] \n";
+				cout << i << "): " << deviceName.c_str() << " [DEFAULT] \n";
 			else
-				cout << i << "): " << deviceName << " \n";
+				cout << i << "): " << deviceName.c_str() << " \n";
 		}
 		cout << std::endl;
 		cout << "Choose a device by number: ";
@@ -48,7 +49,9 @@ int main(int argc, char* argv[])
 		cout << std::endl;
 
 		//Initialize the manager with the user settings
-		manager->initialize(manager->getAvailableDeviceName(deviceSelection));
+		manager->initialize(pDeviceList->getDeviceName(deviceSelection).c_str());
+		CAUDIO_DELETE pDeviceList;
+		pDeviceList = 0;
 
 		//Grab the listener object, which allows us to manipulate where "we" are in the world
 		//It's useful to bind this to a camera if you are using a 3d graphics engine

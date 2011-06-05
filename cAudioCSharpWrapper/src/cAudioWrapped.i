@@ -38,6 +38,7 @@
 #include "IAudioCapture.h"
 #include "IAudioDecoder.h"
 #include "IAudioDecoderFactory.h"
+#include "IAudioDeviceList.h"
 %}
 
 #if !defined(SWIGLUA) && !defined(SWIGR)
@@ -140,36 +141,38 @@
 %feature("director") cAudio::IAudioDecoderFactory;
 %feature("director") cAudio::IAudioDecoder;
 
+%include "..\cAudio\include\cAudioString.h"
+%include "..\cAudio\include\IAudioDeviceList.h"
+%include "..\cAudio\include\EAudioFormats.h"
 %include "..\cAudio\include\IRefCounted.h"
+%include "..\cAudio\include\IDataSource.h"
+%include "..\cAudio\include\IDataSourceFactory.h"
+%include "..\cAudio\include\cVector3.h"
+%include "..\cAudio\include\IListener.h"
+%include "..\cAudio\include\ILogReceiver.h"
+%include "..\cAudio\include\ILogger.h"
+%include "..\cAudio\include\IManagerEventHandler.h"
+%include "..\cAudio\include\ISourceEventHandler.h"
+%include "..\cAudio\include\ICaptureEventHandler.h"
+%include "..\cAudio\include\IAudioCapture.h"
+%include "..\cAudio\include\IAudioDecoder.h"
+%include "..\cAudio\include\IAudioDecoderFactory.h"
 %include "..\cAudio\include\IAudioEffects.h"
 %include "..\cAudio\include\IAudioManager.h"
 %include "..\cAudio\include\IAudioPlugin.h"
 %include "..\cAudio\include\IAudioSource.h"
-%include "..\cAudio\include\ICaptureEventHandler.h"
-%include "..\cAudio\include\IDataSource.h"
-%include "..\cAudio\include\IDataSourceFactory.h"
 %include "..\cAudio\include\IEffect.h"
 %include "..\cAudio\include\IEffectParameters.h"
 %include "..\cAudio\include\IFilter.h"
-%include "..\cAudio\include\IListener.h"
-%include "..\cAudio\include\ILogger.h"
-%include "..\cAudio\include\ILogReceiver.h"
-%include "..\cAudio\include\IManagerEventHandler.h"
 %include "..\cAudio\include\IMemoryProvider.h"
 %include "..\cAudio\include\IPluginManager.h"
-%include "..\cAudio\include\ISourceEventHandler.h"
 %include "..\cAudio\include\IThread.h"
 %include "..\cAudio\include\cAudio.h"
 %include "..\cAudio\include\cAudioDefines.h"
 %include "..\cAudio\include\cAudioMemory.h"
 %include "..\cAudio\include\cAudioPlatform.h"
 %include "..\cAudio\include\cAudioSleep.h"
-%include "..\cAudio\include\cAudioString.h"
-%include "..\cAudio\include\cVector3.h"
-%include "..\cAudio\include\EAudioFormats.h"
-%include "..\cAudio\include\IAudioCapture.h"
-%include "..\cAudio\include\IAudioDecoder.h"
-%include "..\cAudio\include\IAudioDecoderFactory.h"
+
 
 namespace std {
    %template(IntVector) vector<int>;

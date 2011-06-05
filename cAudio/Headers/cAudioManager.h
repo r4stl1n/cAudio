@@ -44,10 +44,6 @@ namespace cAudio
 		virtual void releaseAllSources();
 		virtual void release(IAudioSource* source);
 
-		virtual const char* getAvailableDeviceName(unsigned int index);
-		virtual unsigned int getAvailableDeviceCount();
-		virtual const char* getDefaultDeviceName();
-
 		virtual IAudioSource* create(const char* name, const char* filename, bool stream = false);
 		virtual IAudioSource* createFromMemory(const char* name, const char* data, size_t length, const char* extension);
 		virtual IAudioSource* createFromRaw(const char* name, const char* data, size_t length, unsigned int frequency, AudioFormats format);
@@ -67,9 +63,6 @@ namespace cAudio
 		virtual void registerEventHandler(IManagerEventHandler* handler);
 		virtual void unRegisterEventHandler(IManagerEventHandler* handler) ;
 		virtual void unRegisterAllEventHandlers();
-
-		//! Grabs a list of available devices, as well as the default system one
-		void getAvailableDevices();
 
 		virtual IListener* getListener() { return &initlistener; }
 
@@ -125,9 +118,6 @@ namespace cAudio
 #endif
 		//! Check for OpenAL errors
 		bool checkError();
-
-		cAudioVector<cAudioString>::Type AvailableDevices;
-		cAudioString DefaultDevice;
 
 		//! Signals a event to all event handlers
 		void signalEvent(Events sevent);

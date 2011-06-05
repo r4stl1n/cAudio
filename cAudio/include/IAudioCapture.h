@@ -26,8 +26,7 @@ namespace cAudio
 		\return True on success, False if the capture device failed to initialize.
 		*/
 		virtual bool initialize(const char* deviceName = 0x0, unsigned int frequency = 22050, AudioFormats format = EAF_16BIT_MONO, unsigned int internalBufferSize = 8192) = 0;
-		//! Returns true if the current OpenAL implementation supports capturing audio.
-		virtual bool isSupported() = 0;
+
 		//! Returns true if the capture device is ready to be used.  False may indicate an error with the current settings. 
 		virtual bool isReady() = 0;
 		//! Grabs samples from the OpenAL buffer into the capture buffer if the OpenAL buffer has reached half full.  Should be run once every audio frame, unless threading is enabled.
@@ -42,17 +41,6 @@ namespace cAudio
 		\return True if the thread is currently running, false otherwise.
 		*/
 		virtual bool isUpdateThreadRunning() = 0;
-
-		//! Returns the name of an available capture device.
-		/** \param index: Specify which name to retrieve ( Range: 0 to getAvailableDeviceCount()-1 ). 
-		\return Name of the selected device. */
-		virtual const char* getAvailableDeviceName(unsigned int index) = 0;
-		//! Returns the number of capture devices available for use.
-		/** \return Number of capture devices available. */
-		virtual unsigned int getAvailableDeviceCount() = 0;
-		//! Returns the name of the default system playback device.
-		/** \return Name of the default capture device. */
-		virtual const char* getDefaultDeviceName() = 0;
 
 		//! Returns the name of the audio device being used to capture audio.
 		virtual const char* getDeviceName() = 0;

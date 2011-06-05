@@ -8,13 +8,9 @@
 
 namespace cAudio {
 
-public enum LogLevel {
-  ELL_DEBUG,
-  ELL_INFO,
-  ELL_WARNING,
-  ELL_ERROR,
-  ELL_CRITICAL,
-  ELL_COUNT
+public enum IDeviceType {
+  DT_PLAYBACK = 0,
+  DT_RECORDING = 2
 }
 
 }

@@ -25,6 +25,7 @@
 #include "../Headers/cLogger.h"
 #include "../Headers/cConsoleLogReceiver.h"
 #include "../Headers/cFileLogReceiver.h"
+#include "../Headers/cOpenALAudioDeviceList.h"
 
 namespace cAudio
 {
@@ -51,10 +52,8 @@ namespace cAudio
 		cAudioManager* manager = CAUDIO_NEW cAudioManager;
 		if(manager)
 		{
-			if(initializeDefault)
+			if(initializeDefault) 
 				manager->initialize();
-
-			manager->getAvailableDevices();
 
 #if CAUDIO_COMPILE_WITH_OGG_DECODER == 1
 			manager->registerAudioDecoder(&OggDecoderFactory, "ogg");
@@ -112,7 +111,7 @@ namespace cAudio
 		if(capture)
 		{
 			if(initializeDefault)
-				capture->initialize();
+				capture->initialize();			
 
 #ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
 			cAudioVector<IAudioPlugin*>::Type plugins = cPluginManager::Instance()->getPluginList();
@@ -169,5 +168,13 @@ namespace cAudio
 #endif
 		}
 		return &Logger;
+	}
+
+	//---------------------------------------------------------------------------------------
+	// IAudioDeviceList section
+	//---------------------------------------------------------------------------------------
+	CAUDIO_API IAudioDeviceList* createAudioDeviceList(IDeviceType deviceType)
+	{
+		return CAUDIO_NEW cOpenALAudioDeviceList(deviceType);
 	}
 }

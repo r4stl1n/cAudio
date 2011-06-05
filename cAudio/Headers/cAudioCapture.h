@@ -31,11 +31,7 @@ namespace cAudio
 		cAudioCapture();
 		~cAudioCapture();
 
-		//! Checks to see if capturing audio is supported by OpenAL
-		bool checkCaptureExtension();
-
 		virtual bool initialize(const char* deviceName = 0x0, unsigned int frequency = 22050, AudioFormats format = EAF_16BIT_MONO, unsigned int internalBufferSize = 8192);
-		virtual bool isSupported() { return Supported; }
 		virtual bool isReady() { return Ready; }
 		virtual void updateCaptureBuffer(bool force = false);
 		virtual void shutdown();
@@ -43,10 +39,6 @@ namespace cAudio
 		{
 			return (AudioThread != NULL && AudioThread->isRunning());
 		}
-
-		virtual const char* getAvailableDeviceName(unsigned int index);
-		virtual unsigned int getAvailableDeviceCount();
-		virtual const char* getDefaultDeviceName();
 
 		virtual const char* getDeviceName() { return toUTF8(DeviceName); }
 		virtual unsigned int getFrequency() { return Frequency; }
@@ -87,11 +79,8 @@ namespace cAudio
 		int SampleSize;
 
 		cAudioVector<char>::Type CaptureBuffer;
-		cAudioVector<cAudioString>::Type AvailableDevices;
-		cAudioString DefaultDevice;
 		cAudioList<ICaptureEventHandler*>::Type eventHandlerList;
 
-		bool Supported;
 		bool Ready;
 		bool Capturing;
 

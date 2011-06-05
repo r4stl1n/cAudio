@@ -43,22 +43,26 @@ int main(int argc, char* argv[])
 		//! The capture interface can be gotten at any time, and can even be used completely seperate from the manager
 		// Also it is possible to have more than one capture interface at the same time, useful for recording from multiple sources
 		cAudio::IAudioCapture* capture = cAudio::createAudioCapture(false);
-		if(capture)
+
+		// ! Here we enumerate different devices
+		cAudio::IAudioDeviceList* pAudioDeviceList = cAudio::createAudioDeviceList(cAudio::DT_RECORDING);
+
+		if(pAudioDeviceList)
 		{
-			bool captureReady = false;
-			cout << "Capturing Supported: " << std::boolalpha << capture->isSupported() << "\n \n";
-			if(capture->isSupported())
+			bool captureReady = pAudioDeviceList->isSupported();
+			cout << "Capturing Supported: " << std::boolalpha << captureReady << "\n \n";
+			if(captureReady)
 			{
 				cout << "Available Capture Devices: \n";
-				unsigned int deviceCount = capture->getAvailableDeviceCount();
-				std::string defaultDeviceName = capture->getDefaultDeviceName();
+				unsigned int deviceCount = pAudioDeviceList->getDeviceCount();
+				cAudio::cAudioString defaultDeviceName = pAudioDeviceList->getDefaultDeviceName();
 				for(unsigned int i=0; i<deviceCount; ++i)
 				{
-					std::string deviceName = capture->getAvailableDeviceName(i);
+					cAudio::cAudioString deviceName = pAudioDeviceList->getDeviceName(i);
 					if(deviceName.compare(defaultDeviceName) == 0)
-						cout << i << "): " << deviceName << " [DEFAULT] \n";
+						cout << i << "): " << deviceName.c_str() << " [DEFAULT] \n";
 					else
-						cout << i << "): " << deviceName << " \n";
+						cout << i << "): " << deviceName.c_str() << " \n";
 				}
 				cout << std::endl;
 				cout << "Choose a device by number: ";
@@ -66,7 +70,10 @@ int main(int argc, char* argv[])
 				cin >> deviceSelection;
 				cout << std::endl;
 
-				captureReady = capture->initialize(capture->getAvailableDeviceName(deviceSelection), CAPTURE_FREQUENCY, CAPTURE_FORMAT);
+				captureReady = capture->initialize(pAudioDeviceList->getDeviceName(deviceSelection).c_str(), CAPTURE_FREQUENCY, CAPTURE_FORMAT);
+				CAUDIO_DELETE pAudioDeviceList; // Free up some memory
+				pAudioDeviceList = 0;
+
 				cout << "Ready to capture audio: " << std::boolalpha << captureReady << "\n \n";
 
 				//Quick math to figure out how large our data should be for the duration of the record time

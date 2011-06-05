@@ -574,69 +574,6 @@ namespace cAudio
 		return false;
 	}
 
-	void cAudioManager::getAvailableDevices()
-	{
-		// Get list of available Playback Devices
-		cAudioMutexBasicLock lock(Mutex);
-		if( alcIsExtensionPresent(NULL, "ALC_ENUMERATE_ALL_EXT") == AL_TRUE )
-		{
-			const char* deviceList = alcGetString(NULL, ALC_ALL_DEVICES_SPECIFIER);
-			if (deviceList)
-			{
-				while(*deviceList)
-				{
-					cAudioString device(deviceList);
-					AvailableDevices.push_back(device);
-					deviceList += strlen(deviceList) + 1;
-				}
-			}
-
-			// Get the name of the 'default' capture device
-			DefaultDevice = alcGetString(NULL, ALC_DEFAULT_ALL_DEVICES_SPECIFIER);
-		}
-		else if( alcIsExtensionPresent(NULL, "ALC_ENUMERATION_EXT") == AL_TRUE )
-		{
-			const char* deviceList = alcGetString(NULL, ALC_DEVICE_SPECIFIER);
-			if (deviceList)
-			{
-				while(*deviceList)
-				{
-					cAudioString device(deviceList);
-					AvailableDevices.push_back(device);
-					deviceList += strlen(deviceList) + 1;
-				}
-			}
-
-			// Get the name of the 'default' capture device
-			DefaultDevice = alcGetString(NULL, ALC_DEFAULT_DEVICE_SPECIFIER);
-		}
-	}
-
-	const char* cAudioManager::getAvailableDeviceName(unsigned int index)
-	{
-		cAudioMutexBasicLock lock(Mutex);
-		if(!AvailableDevices.empty())
-		{
-			//Bounds check
-			if( index > (AvailableDevices.size()-1) ) index = (AvailableDevices.size()-1);
-			const char* deviceName = AvailableDevices[index].c_str();
-			return deviceName;
-		}
-		return "";
-	}
-
-	unsigned int cAudioManager::getAvailableDeviceCount()
-	{
-		cAudioMutexBasicLock lock(Mutex);
-		return AvailableDevices.size();
-	}
-
-	const char* cAudioManager::getDefaultDeviceName()
-	{
-		cAudioMutexBasicLock lock(Mutex);
-		return DefaultDevice.empty() ? "" : DefaultDevice.c_str();
-	}
-
 	void cAudioManager::run()
 	{
 		update();

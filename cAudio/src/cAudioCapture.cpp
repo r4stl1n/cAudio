@@ -15,11 +15,10 @@
 namespace cAudio
 {
 	cAudioCapture::cAudioCapture() : Frequency(22050), Format(EAF_16BIT_MONO), InternalBufferSize(8192),
-									SampleSize(2), Supported(false), Ready(false), Capturing(false), 
+									SampleSize(2), Ready(false), Capturing(false), 
 									CaptureDevice(NULL), AudioThread(NULL)
 	{
-		checkCaptureExtension();
-		getAvailableDevices();
+
 	}
 	cAudioCapture::~cAudioCapture()
 	{
@@ -31,59 +30,46 @@ namespace cAudio
 		updateCaptureBuffer();
 		cAudioSleep(1);
 	}
-
-	bool cAudioCapture::checkCaptureExtension()
-	{
-		cAudioMutexBasicLock lock(Mutex);
-		// Check for Capture Extension support
-		Supported = ( alcIsExtensionPresent(NULL, "ALC_EXT_CAPTURE") == AL_TRUE );
-		return Supported;
-	}
-
+	
 	bool cAudioCapture::initOpenALDevice()
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		if(Supported)
+		if(CaptureDevice)
+			shutdownOpenALDevice();
+		if(DeviceName.empty())
+			CaptureDevice = alcCaptureOpenDevice(NULL, Frequency, convertAudioFormatEnum(Format), InternalBufferSize / SampleSize);
+		else
+			CaptureDevice = alcCaptureOpenDevice(DeviceName.c_str(), Frequency, convertAudioFormatEnum(Format), InternalBufferSize / SampleSize);
+		if(CaptureDevice)
 		{
-			if(CaptureDevice)
-				shutdownOpenALDevice();
-			if(DeviceName.empty())
-				CaptureDevice = alcCaptureOpenDevice(NULL, Frequency, convertAudioFormatEnum(Format), InternalBufferSize / SampleSize);
-			else
-				CaptureDevice = alcCaptureOpenDevice(DeviceName.c_str(), Frequency, convertAudioFormatEnum(Format), InternalBufferSize / SampleSize);
-			if(CaptureDevice)
-			{
-				DeviceName = alcGetString(CaptureDevice, ALC_CAPTURE_DEVICE_SPECIFIER);
-				Ready = true;
-				checkError();
-				getLogger()->logDebug("AudioCapture", "OpenAL Capture Device Opened.");
+			DeviceName = alcGetString(CaptureDevice, ALC_CAPTURE_DEVICE_SPECIFIER);
+			Ready = true;
+			checkError();
+			getLogger()->logDebug("AudioCapture", "OpenAL Capture Device Opened.");
 
-				return true;
-			}
+			return true;
 		}
 		checkError();
+
 		return false;
 	}
 
 	void cAudioCapture::shutdownOpenALDevice()
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		if(Supported)
-		{
-			if(Capturing)
-				stopCapture();
+		if(Capturing)
+			stopCapture();
 
-			if(CaptureDevice)
-			{
-				alcCaptureCloseDevice(CaptureDevice);
-				CaptureDevice = NULL;
-				Ready = false;
-				getLogger()->logDebug("AudioCapture", "OpenAL Capture Device Closed.");
-				signalEvent(ON_RELEASE);
-			}
-			checkError();
-			CaptureBuffer.clear();
+		if(CaptureDevice)
+		{
+			alcCaptureCloseDevice(CaptureDevice);
+			CaptureDevice = NULL;
+			Ready = false;
+			getLogger()->logDebug("AudioCapture", "OpenAL Capture Device Closed.");
+			signalEvent(ON_RELEASE);
 		}
+		checkError();
+		CaptureBuffer.clear();
 	}
 
 	void cAudioCapture::shutdown()
@@ -99,53 +85,6 @@ namespace cAudio
 
 		shutdownOpenALDevice();
 		signalEvent(ON_RELEASE);
-	}
-
-	void cAudioCapture::getAvailableDevices()
-	{
-		// Get list of available Capture Devices
-		cAudioMutexBasicLock lock(Mutex);
-		if( alcIsExtensionPresent(NULL, "ALC_ENUMERATION_EXT") == AL_TRUE )
-		{
-			const char* deviceList = alcGetString(NULL, ALC_CAPTURE_DEVICE_SPECIFIER);
-			if (deviceList)
-			{
-				while(*deviceList)
-				{
-					cAudioString device(deviceList);
-					AvailableDevices.push_back(device);
-					deviceList += strlen(deviceList) + 1;
-				}
-			}
-
-			// Get the name of the 'default' capture device
-			DefaultDevice = alcGetString(NULL, ALC_CAPTURE_DEFAULT_DEVICE_SPECIFIER);
-		}
-	}
-
-	const char* cAudioCapture::getAvailableDeviceName(unsigned int index)
-	{
-		cAudioMutexBasicLock lock(Mutex);
-		if(!AvailableDevices.empty())
-		{
-			//Bounds check
-			if( index > (AvailableDevices.size()-1) ) index = (AvailableDevices.size()-1);
-			const char* deviceName = AvailableDevices[index].c_str();
-			return deviceName;
-		}
-		return "";
-	}
-
-	unsigned int cAudioCapture::getAvailableDeviceCount()
-	{
-		cAudioMutexBasicLock lock(Mutex);
-		return AvailableDevices.size();
-	}
-
-	const char* cAudioCapture::getDefaultDeviceName()
-	{
-		cAudioMutexBasicLock lock(Mutex);
-		return DefaultDevice.empty() ? "" : DefaultDevice.c_str();
 	}
 
 	void cAudioCapture::updateCaptureBuffer(bool force)

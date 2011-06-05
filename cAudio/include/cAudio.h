@@ -44,6 +44,7 @@
 #include "ILogReceiver.h"
 #include "IPluginManager.h"
 #include "IRefCounted.h"
+#include "IAudioDeviceList.h"
 
 /*! \mainpage cAudio 2.2.0 API documentation
  *
@@ -140,4 +141,7 @@ namespace cAudio {
 	\return A pointer to the logger interface.
 	*/
 	CAUDIO_API ILogger* getLogger();
+
+	//! Creates an interface to an IAudioDeviceList object
+	CAUDIO_API IAudioDeviceList* createAudioDeviceList(IDeviceType deviceType = DT_PLAYBACK);
 };
