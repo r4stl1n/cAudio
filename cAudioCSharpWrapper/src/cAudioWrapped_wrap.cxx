@@ -1348,6 +1348,11 @@ int SwigDirector_IAudioDecoder::getCurrentCompressedPosition() {
   return c_result;
 }
 
+cAudioString SwigDirector_IAudioDecoder::getType() const
+{
+	return cAudioString("");
+}
+
 void SwigDirector_IAudioDecoder::swig_connect_director(SWIG_Callback0_t callbackgetFormat, SWIG_Callback1_t callbackgetFrequency, SWIG_Callback2_t callbackisSeekingSupported, SWIG_Callback3_t callbackisValid, SWIG_Callback4_t callbackreadAudioData, SWIG_Callback5_t callbacksetPosition, SWIG_Callback6_t callbackseek, SWIG_Callback7_t callbackgetTotalTime, SWIG_Callback8_t callbackgetTotalSize, SWIG_Callback9_t callbackgetCompressedSize, SWIG_Callback10_t callbackgetCurrentTime, SWIG_Callback11_t callbackgetCurrentPosition, SWIG_Callback12_t callbackgetCurrentCompressedPosition) {
   swig_callbackgetFormat = callbackgetFormat;
   swig_callbackgetFrequency = callbackgetFrequency;

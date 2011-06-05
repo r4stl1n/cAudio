@@ -111,4 +111,9 @@ namespace cAudio{
 	{
 		return Stream->getCurrentPos();
 	}
+
+	cAudioString cRawDecoder::getType() const
+	{
+		return cAudioString("cRawDecoder");
+	}
 }

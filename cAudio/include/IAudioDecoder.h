@@ -7,6 +7,7 @@
 #include "IRefCounted.h"
 #include "IDataSource.h"
 #include "EAudioFormats.h"
+#include "cAudioString.h"
 
 namespace cAudio
 {
@@ -69,6 +70,10 @@ namespace cAudio
 
 			//! Returns the position in the compressed (original) audio stream before decoding.
 			virtual int getCurrentCompressedPosition() = 0;
+
+			//! Returns the IAudioDecoderType.
+			virtual cAudioString getType() const = 0;
+
 		protected:
 			//! Pointer to the data source to take audio data from.
 			IDataSource* Stream;

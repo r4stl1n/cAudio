@@ -175,6 +175,11 @@ namespace cAudio
 	{
 		return ov_raw_tell(&oggStream);
 	}
+	
+	cAudioString cOggDecoder::getType() const
+	{
+		return cAudioString("cOggDecoder");
+	}
 };
 
 #endif

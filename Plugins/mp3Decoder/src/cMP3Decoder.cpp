@@ -305,3 +305,8 @@ int cMP3Decoder::getCurrentCompressedPosition()
 	return Stream->getCurrentPos();
 }
 
+cAudioString cMP3Decoder::getType() const
+{
+	return cAudioString("cMP3Decoder");
+}
+

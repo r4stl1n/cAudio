@@ -84,6 +84,8 @@ namespace cAudio
 	protected:
 		virtual void run();
 
+		IAudioSource* createAudioSource(IAudioDecoder* decoder, const cAudioString& audioName, const cAudioString& dataSource);
+
 	private:
 		//! Mutex for thread syncronization
 		cAudioMutex Mutex;

@@ -59,6 +59,7 @@ class cMP3Decoder : public IAudioDecoder
 		virtual float getCurrentTime();
 		virtual int getCurrentPosition();
 		virtual int getCurrentCompressedPosition();
+		cAudioString getType() const;
 
 	protected:
 		MPAuDecContext* Context;

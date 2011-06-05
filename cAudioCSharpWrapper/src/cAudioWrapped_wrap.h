@@ -169,6 +169,7 @@ public:
     virtual float getCurrentTime();
     virtual int getCurrentPosition();
     virtual int getCurrentCompressedPosition();
+	virtual cAudioString getType() const;
 
     typedef int (SWIGSTDCALL* SWIG_Callback0_t)();
     typedef int (SWIGSTDCALL* SWIG_Callback1_t)();

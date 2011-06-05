@@ -37,6 +37,7 @@ namespace cAudio
 			virtual float getCurrentTime();
 			virtual int getCurrentPosition();
 			virtual int getCurrentCompressedPosition();
+			virtual cAudioString getType() const;
 
         protected:
        	    //! Callbacks used for read memory

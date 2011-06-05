@@ -32,6 +32,7 @@ namespace cAudio
 			virtual float getCurrentTime();
 			virtual int getCurrentPosition();
 			virtual int getCurrentCompressedPosition();
+			virtual cAudioString getType() const;
 
         private:
             short Channels;

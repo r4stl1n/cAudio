@@ -135,64 +135,74 @@ namespace cAudio
 		return true;
     }
 
+
+	IAudioSource* cAudioManager::createAudioSource(IAudioDecoder* decoder, const cAudioString& audioName, const cAudioString& dataSource)
+	{
+		if(decoder && decoder->isValid())
+		{
+#if CAUDIO_EFX_ENABLED == 1
+			IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, Context, initEffects.getEFXInterface());
+#else
+			IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, Context);
+#endif
+			decoder->drop();
+
+			if(audio && audio->isValid())
+			{
+				if(!audioName.empty())
+					audioIndex[audioName] = audio;
+
+				audioSources.push_back(audio);		
+				getLogger()->logInfo("AudioManager", "Audio Source (%s) created from Data Source %s.", audioName.c_str(), dataSource.c_str());
+				return audio;
+			}
+
+			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Error creating audio source.", audioName.c_str());
+			audio->drop();
+			return NULL;
+		}
+		getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Audio data could not be decoded by (.%s) decoder.", audioName.c_str(), decoder->getType());
+		decoder->drop();
+		return NULL;
+	}
+
     IAudioSource* cAudioManager::create(const char* name, const char* filename, bool stream)
     {
 		cAudioMutexBasicLock lock(Mutex);
 
 		cAudioString audioName = safeCStr(name);
 		cAudioString path = safeCStr(filename);
-
 		cAudioString ext = getExt(path);
 		IAudioDecoderFactory* factory = getAudioDecoderFactory(ext.c_str());
 
-		if(factory)
-		{
-			for(size_t i=0; i<dataSourcePriorityList.size(); ++i)
-			{
-				IDataSourceFactory* dataFactory = datasourcemap[dataSourcePriorityList[i].second];
-				if(dataFactory)
-				{
-					IDataSource* source = dataFactory->CreateDataSource(filename, stream);
-					if(source && source->isValid())
-					{
-						IAudioDecoder* decoder = factory->CreateAudioDecoder(source);
-						source->drop();
-						if(decoder && decoder->isValid())
-						{
-#if CAUDIO_EFX_ENABLED == 1
-							IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, Context, initEffects.getEFXInterface());
-#else
-							IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, Context);
-#endif
-							decoder->drop();
-
-							if(audio && audio->isValid())
-							{
-								if(!audioName.empty())
-									audioIndex[audioName] = audio;
-
-								audioSources.push_back(audio);
-
-								getLogger()->logInfo("AudioManager", "Audio Source (%s) created from file %s from Data Source %s.", audioName.c_str(), path.c_str(), dataSourcePriorityList[i].second.c_str());
-								
-								return audio;
-							}
-							getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Error creating audio source.", audioName.c_str());
-							audio->drop();
-							return NULL;
-						}
-						getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Audio data could not be decoded by (.%s) decoder.", audioName.c_str(), ext.c_str());
-						decoder->drop();
-						return NULL;
-					}
-					if(source)
-						source->drop();
-				}
-			}
-			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): File could not be found (.%s).", audioName.c_str(), path.c_str());
+		if(!factory) {
+			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): No decoder could be found for (.%s).", audioName.c_str(), ext.c_str());
 			return NULL;
 		}
-		getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): No decoder could be found for (.%s).", audioName.c_str(), ext.c_str());
+
+		for(size_t i=0; i<dataSourcePriorityList.size(); ++i)
+		{
+			const cAudioString dataSourceName = dataSourcePriorityList[i].second;
+			IDataSourceFactory* dataFactory = datasourcemap[dataSourceName];
+			if(dataFactory)
+			{
+				IDataSource* source = dataFactory->CreateDataSource(filename, stream);
+				if(source && source->isValid())
+				{
+					IAudioDecoder* decoder = factory->CreateAudioDecoder(source);
+					source->drop();
+
+					IAudioSource* audio = createAudioSource(decoder, audioName, dataSourceName);
+					if(audio != NULL)
+						return audio;
+
+					if(source)
+						source->drop();
+
+					return NULL;
+				}
+			}
+		}		
 		return NULL;
     }
 
@@ -203,125 +213,52 @@ namespace cAudio
 		cAudioString audioName = safeCStr(name);
 		cAudioString ext = safeCStr(extension);
 		IAudioDecoderFactory* factory = getAudioDecoderFactory(ext.c_str());
-		if(factory)
-		{
-			cMemorySource* source = CAUDIO_NEW cMemorySource(data, length, true);
-			if(source)
-			{
-				if(source->isValid())
-				{
-					IAudioDecoder* decoder = factory->CreateAudioDecoder(source);
-					source->drop();
-					if(decoder)
-					{
-						if(decoder->isValid())
-						{
-#if CAUDIO_EFX_ENABLED == 1
-							IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, Context, initEffects.getEFXInterface());
-#else
-							IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, Context);
-#endif
-							decoder->drop();
 
-							if(audio)
-							{
-								if(audio->isValid())
-								{
-									if(!audioName.empty())
-										audioIndex[audioName] = audio;
-
-									audioSources.push_back(audio);
-
-									getLogger()->logInfo("AudioManager", "Audio Source (%s) successfully created from memory.", audioName.c_str());
-									
-									return audio;
-								}
-								audio->drop();
-								getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Error creating audio source.", audioName.c_str());
-								return NULL;
-							}
-							getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Could not allocate enough memory.", audioName.c_str());
-							return NULL;
-						}
-						decoder->drop();
-						getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Audio data could not be decoded by (.%s) decoder.", audioName.c_str(), ext.c_str());
-						return NULL;
-					}
-					getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Could not allocate enough memory for decoder.", audioName.c_str());
-					return NULL;
-				}
-				source->drop();
-				getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Audio data is corrupt.", audioName.c_str());
-				return NULL;
-			}
-			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Could not allocate enough memory.", audioName.c_str());
+		if(!factory) {
+			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Codec (.%s) is not supported.", audioName.c_str(), ext.c_str());
 			return NULL;
 		}
-		getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Codec (.%s) is not supported.", audioName.c_str(), ext.c_str());
+
+		cMemorySource* source = CAUDIO_NEW cMemorySource(data, length, true);
+		if(source && source->isValid())
+		{
+			IAudioDecoder* decoder = factory->CreateAudioDecoder(source);
+			source->drop();
+
+			IAudioSource* audio = createAudioSource(decoder, audioName, "cMemorySource");
+			if(audio != NULL)
+				return audio;
+
+			if(source)
+				source->drop();
+		}
 		return NULL;
     }
 
 	IAudioSource* cAudioManager::createFromRaw(const char* name, const char* data, size_t length, unsigned int frequency, AudioFormats format)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-
 		cAudioString audioName = safeCStr(name);
 		IAudioDecoderFactory* factory = getAudioDecoderFactory("raw");
-		if(factory)
-		{
-			cMemorySource* source = CAUDIO_NEW cMemorySource(data, length, true);
-			if(source)
-			{
-				if(source->isValid())
-				{
-					IAudioDecoder* decoder = ((cRawAudioDecoderFactory*)factory)->CreateAudioDecoder(source, frequency, format);
-					source->drop();
-					if(decoder)
-					{
-						if(decoder->isValid())
-						{
-#if CAUDIO_EFX_ENABLED == 1
-							IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, Context, initEffects.getEFXInterface());
-#else
-							IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, Context);
-#endif
-							decoder->drop();
 
-							if(audio)
-							{
-								if(audio->isValid())
-								{
-									if(!audioName.empty())
-										audioIndex[audioName] = audio;
-
-									audioSources.push_back(audio);
-
-									getLogger()->logInfo("AudioManager", "Audio Source (%s) successfully created from raw data.", audioName.c_str());
-									
-									return audio;
-								}
-								audio->drop();
-								getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Error creating audio source.", audioName.c_str());
-								return NULL;
-							}
-							getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Could not allocate enough memory.", audioName.c_str());
-							return NULL;
-						}
-						decoder->drop();
-						getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Audio data could not be decoded by (.%s) decoder.", audioName.c_str(), "raw");
-						return NULL;
-					}
-					getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Could not allocate enough memory for decoder.", audioName.c_str());
-					return NULL;
-				}
-				source->drop();
-				getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Audio data is corrupt.", audioName.c_str());
-				return NULL;
-			}
-			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Could not allocate enough memory.", audioName.c_str());
+		if(!factory) {
+			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Codec (.raw) is not supported.", audioName.c_str());
 			return NULL;
 		}
-		getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Codec (.%s) is not supported.", audioName.c_str(), "raw");
+
+		cMemorySource* source = CAUDIO_NEW cMemorySource(data, length, true);
+		if(source && source->isValid())
+		{
+			IAudioDecoder* decoder = ((cRawAudioDecoderFactory*)factory)->CreateAudioDecoder(source, frequency, format);
+			source->drop();
+
+			IAudioSource* audio = createAudioSource(decoder, audioName, "cMemorySource");
+			if(audio != NULL)
+				return audio;
+
+			if(source)
+				source->drop();
+		}
 		return NULL;
 	}
 

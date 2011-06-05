@@ -225,6 +225,11 @@ namespace cAudio
 	{
 		return Stream->getCurrentPos();
 	}
+
+	cAudioString cWavDecoder::getType() const
+	{
+		return cAudioString("cWavDecoder");
+	}
 };
 
 #endif
