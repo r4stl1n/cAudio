@@ -12,8 +12,6 @@
 
 #ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
 
-#ifdef CAUDIO_COMPILE_WITH_DYNAMIC_PLUGIN_SUPPORT
-
 #ifdef CAUDIO_PLATFORM_WIN
 #	define WIN32_LEAN_AND_MEAN
 #	include <windows.h>
@@ -25,25 +23,13 @@ typedef struct HINSTANCE__* hInstance;
 #	define DYNLIB_LOAD( a ) LoadLibraryEx( a, NULL, LOAD_WITH_ALTERED_SEARCH_PATH )
 #	define DYNLIB_GETSYM( a, b ) GetProcAddress( a, b )
 #	define DYNLIB_UNLOAD( a ) !FreeLibrary( a )
-#endif
-
-#ifdef CAUDIO_PLATFORM_MAC
+#elif defined(CAUDIO_PLATFORM_MAC) || defined(CAUDIO_PLATFORM_LINUX)
 #   include <dlfcn.h>
 #	define DYNLIB_HANDLE void*
 #	define DYNLIB_LOAD( a ) dlopen( a, RTLD_LAZY | RTLD_GLOBAL)
 #	define DYNLIB_GETSYM( a, b ) dlsym( a, b )
 #	define DYNLIB_UNLOAD( a ) dlclose( a )
 #endif
-
-#ifdef CAUDIO_PLATFORM_LINUX
-#	include <dlfcn.h>
-#	define DYNLIB_HANDLE void*
-#	define DYNLIB_LOAD( a ) dlopen( a, RTLD_LAZY | RTLD_GLOBAL)
-#	define DYNLIB_GETSYM( a, b ) dlsym( a, b )
-#	define DYNLIB_UNLOAD( a ) dlclose( a )
-#endif
-
-#endif //! CAUDIO_COMPILE_WITH_DYNAMIC_PLUGIN_SUPPORT
 
 namespace cAudio
 {
@@ -70,16 +56,14 @@ namespace cAudio
 		virtual void uninstallPlugin(IAudioPlugin* plugin);
 		virtual void uninstallPlugin(const char* name);
 
-#ifdef CAUDIO_COMPILE_WITH_DYNAMIC_PLUGIN_SUPPORT
 		void autoLoadPlugins();
-#endif
 	protected:
+		cAudioString getError();
+
 		cAudioMap<cAudioString, IAudioPlugin*>::Type RegisteredPlugins;
 		typedef cAudioMap<cAudioString, IAudioPlugin*>::Type::iterator RegisteredPluginsIterator;
-#ifdef CAUDIO_COMPILE_WITH_DYNAMIC_PLUGIN_SUPPORT
 		cAudioMap<IAudioPlugin*, DYNLIB_HANDLE>::Type DynamicallyLoadedPlugins;
 		typedef cAudioMap<IAudioPlugin*, DYNLIB_HANDLE>::Type::iterator DynamicallyLoadedPluginsIterator;
-#endif
 	};
 };
 
