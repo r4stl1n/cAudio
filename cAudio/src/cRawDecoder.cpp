@@ -2,7 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#include "../Headers/cRawDecoder.h"
+#include "cRawDecoder.h"
 
 namespace cAudio{
 

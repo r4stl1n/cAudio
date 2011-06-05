@@ -2,12 +2,12 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#include "../Headers/cPluginManager.h"
-#include "../Headers/cUtils.h"
-#include "../include/cAudioPlatform.h"
-#include "../include/cAudioDefines.h"
-#include "../include/ILogger.h"
-#include "../include/cAudio.h"
+#include "cPluginManager.h"
+#include "cUtils.h"
+#include "cAudioPlatform.h"
+#include "cAudioDefines.h"
+#include "ILogger.h"
+#include "cAudio.h"
 
 #ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
 

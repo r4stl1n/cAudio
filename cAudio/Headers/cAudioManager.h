@@ -5,15 +5,15 @@
 #pragma once
 
 #include "cAudioSource.h"
-#include "../include/IAudioDecoderFactory.h"
 #include "cListener.h"
-#include "../include/IAudioManager.h"
-#include "../Headers/cMutex.h"
-#include "../Headers/cAudioEffects.h"
-#include "../Headers/cMemoryOverride.h"
-#include "../include/cSTLAllocator.h"
-#include "../include/cAudioString.h"
-#include "../include/IThread.h"
+#include "cMutex.h"
+#include "cAudioEffects.h"
+#include "cMemoryOverride.h"
+#include "IAudioDecoderFactory.h"
+#include "IAudioManager.h"
+#include "cSTLAllocator.h"
+#include "cAudioString.h"
+#include "IThread.h"
 
 #include <al.h>
 #include <alc.h>

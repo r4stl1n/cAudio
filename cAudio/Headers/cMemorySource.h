@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include "../include/IDataSource.h"
-#include "../Headers/cMemoryOverride.h"
+#include "IDataSource.h"
+#include "cMemoryOverride.h"
 
 namespace cAudio
 {

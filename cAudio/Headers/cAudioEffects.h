@@ -8,11 +8,11 @@
 
 #if CAUDIO_EFX_ENABLED == 1
 
-#include "../include/IAudioEffects.h"
-#include "../include/cSTLAllocator.h"
-#include "../Headers/cMutex.h"
-#include "../Headers/cEFXFunctions.h"
-#include "../include/cAudioString.h"
+#include "cMutex.h"
+#include "cEFXFunctions.h"
+#include "IAudioEffects.h"
+#include "cSTLAllocator.h"
+#include "cAudioString.h"
 
 namespace cAudio
 {

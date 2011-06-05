@@ -4,14 +4,14 @@
 
 #pragma once
 
-#include "../include/IAudioCapture.h"
 #include <al.h>
 #include <alc.h>
-#include "../Headers/cMutex.h"
-#include "../Headers/cMemoryOverride.h"
-#include "../include/cSTLAllocator.h"
-#include "../include/cAudioString.h"
-#include "../include/IThread.h"
+#include "cMutex.h"
+#include "cMemoryOverride.h"
+#include "IAudioCapture.h"
+#include "cSTLAllocator.h"
+#include "cAudioString.h"
+#include "IThread.h"
 
 namespace cAudio
 {

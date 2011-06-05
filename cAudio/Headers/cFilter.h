@@ -8,10 +8,10 @@
 
 #if CAUDIO_EFX_ENABLED == 1
 
-#include "../include/IFilter.h"
-#include "../Headers/cMutex.h"
-#include "../Headers/cEFXFunctions.h"
-#include "../Headers/cMemoryOverride.h"
+#include "IFilter.h"
+#include "cMutex.h"
+#include "cEFXFunctions.h"
+#include "cMemoryOverride.h"
 
 #include <al.h>
 #include <alc.h>

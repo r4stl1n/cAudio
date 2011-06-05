@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include "../include/IDataSource.h"
-#include "../include/cAudioDefines.h"
-#include "../Headers/cMemoryOverride.h"
+#include "IDataSource.h"
+#include "cAudioDefines.h"
+#include "cMemoryOverride.h"
 
 #if CAUDIO_COMPILE_WITH_FILE_SOURCE == 1
 

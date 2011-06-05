@@ -2,8 +2,8 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#include "../include/cAudioMemory.h"
-#include "../Headers/cStandardMemoryProvider.h"
+#include "cAudioMemory.h"
+#include "cStandardMemoryProvider.h"
 
 namespace cAudio
 {

@@ -4,13 +4,13 @@
 
 #pragma once
 
-#include "../include/IDataSourceFactory.h"
+#include "IDataSourceFactory.h"
 
 #if CAUDIO_COMPILE_WITH_FILE_SOURCE == 1
 
-#include "../Headers/cFileSource.h"
-#include "../Headers/cMemorySource.h"
-#include "../Headers/cMutex.h"
+#include "cFileSource.h"
+#include "cMemorySource.h"
+#include "cMutex.h"
 
 namespace cAudio
 {

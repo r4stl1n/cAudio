@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include "../include/IAudioDecoderFactory.h"
+#include "cMutex.h"
 #include "cRawDecoder.h"
-#include "../Headers/cMutex.h"
+#include "IAudioDecoderFactory.h"
 
 namespace cAudio
 {

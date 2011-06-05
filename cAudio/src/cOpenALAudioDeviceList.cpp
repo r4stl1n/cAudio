@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "../Headers/cOpenALAudioDeviceList.h"
+#include "cOpenALAudioDeviceList.h"
 #include <al.h>
 #include <alc.h>
 

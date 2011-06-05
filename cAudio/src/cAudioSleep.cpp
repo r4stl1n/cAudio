@@ -2,7 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#include "../include/cAudioPlatform.h"
+#include "cAudioPlatform.h"
 
 #ifdef CAUDIO_PLATFORM_WIN
 #include <windows.h>	//Basic windows include for Sleep();
@@ -11,7 +11,7 @@
 #include <time.h>
 #endif					//If you need to support another platform, simply add a define for it
 
-#include "../include/cAudioSleep.h"
+#include "cAudioSleep.h"
 
 namespace cAudio
 {

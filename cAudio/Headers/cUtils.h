@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include "../include/cAudioPlatform.h"
-#include "../include/cSTLAllocator.h"
-#include "../include/cAudioString.h"
+#include "cAudioPlatform.h"
+#include "cSTLAllocator.h"
+#include "cAudioString.h"
 
 #ifdef CAUDIO_PLATFORM_WIN
 #  define WIN32_LEAN_AND_MEAN

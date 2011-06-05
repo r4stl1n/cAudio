@@ -5,7 +5,7 @@
 #pragma once
 
 #include <new>
-#include "../include/cAudioMemory.h"
+#include "cAudioMemory.h"
 
 namespace cAudio
 {

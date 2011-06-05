@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include "../include/IListener.h"
-#include "../Headers/cMutex.h"
+#include "IListener.h"
+#include "cMutex.h"
 
 namespace cAudio
 {

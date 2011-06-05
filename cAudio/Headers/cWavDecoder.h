@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include "../include/IAudioDecoder.h"
-#include "../include/cAudioDefines.h"
-#include "../Headers/cMemoryOverride.h"
+#include "cMemoryOverride.h"
+#include "IAudioDecoder.h"
+#include "cAudioDefines.h"
 
 #if CAUDIO_COMPILE_WITH_WAV_DECODER == 1
 

@@ -2,7 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#include "../Headers/cFileLogReceiver.h"
+#include "cFileLogReceiver.h"
 
 #if CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER == 1
 #include <iostream>

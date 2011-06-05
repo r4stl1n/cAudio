@@ -15,11 +15,11 @@ include(cAudio_src_files.cmake)
 add_library(cAudio ${CAUDIO_LIB_TYPE} ${file_root})
 
 if(CAUDIO_ENABLE_OGG)
-	include_directories (include ${CMAKE_BINARY_DIR}/include ${OPENAL_INCLUDE_DIRS} ${OGG_INCLUDE_DIR} ${VORBIS_INCLUDE_DIR})
+	include_directories (include Headers ${CMAKE_BINARY_DIR}/include ${OPENAL_INCLUDE_DIRS} ${OGG_INCLUDE_DIR} ${VORBIS_INCLUDE_DIR})
 	target_link_libraries(cAudio Vorbis Ogg ${OPENAL_LIBRARIES})
 	add_dependencies(cAudio Vorbis Ogg)
 else()
-	include_directories (include ${CMAKE_BINARY_DIR}/include ${OPENAL_INCLUDE_DIRS})
+	include_directories (include Headers ${CMAKE_BINARY_DIR}/include ${OPENAL_INCLUDE_DIRS})
 	target_link_libraries(cAudio ${OPENAL_LIBRARIES})
 endif()
 

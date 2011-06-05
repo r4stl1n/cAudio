@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include "../include/ILogReceiver.h"
-#include "../include/cAudioDefines.h"
+#include "ILogReceiver.h"
+#include "cAudioDefines.h"
 
 #if CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER == 1
 namespace cAudio

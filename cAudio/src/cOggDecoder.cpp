@@ -2,7 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#include "../Headers/cOggDecoder.h"
+#include "cOggDecoder.h"
 
 #if CAUDIO_COMPILE_WITH_OGG_DECODER == 1
 

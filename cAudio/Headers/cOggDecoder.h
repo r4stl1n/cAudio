@@ -4,15 +4,15 @@
 
 #pragma once
 
-#include "../include/cAudioDefines.h"
+#include "cAudioDefines.h"
 
 #if CAUDIO_COMPILE_WITH_OGG_DECODER == 1
 
-#include "../include/IAudioDecoder.h"
+#include "IAudioDecoder.h"
 #include <ogg/ogg.h>
 #include <vorbis/codec.h>
 #include <vorbis/vorbisfile.h>
-#include "../Headers/cMemoryOverride.h"
+#include "cMemoryOverride.h"
 
 namespace cAudio
 {

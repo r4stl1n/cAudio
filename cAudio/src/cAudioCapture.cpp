@@ -2,13 +2,13 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#include "../include/cAudio.h"
-#include "../Headers/cAudioCapture.h"
-#include "../Headers/cUtils.h"
-#include "../Headers/cThread.h"
-#include "../include/cAudioSleep.h"
-#include "../Headers/cLogger.h"
-#include "../Headers/cPluginManager.h"
+#include "cAudio.h"
+#include "cAudioCapture.h"
+#include "cUtils.h"
+#include "cThread.h"
+#include "cAudioSleep.h"
+#include "cLogger.h"
+#include "cPluginManager.h"
 
 #include <string.h>
 

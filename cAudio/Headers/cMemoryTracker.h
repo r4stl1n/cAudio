@@ -4,12 +4,12 @@
 
 #pragma once
 
-#include "../include/cAudioDefines.h"
+#include "cAudioDefines.h"
 
 #if CAUDIO_USE_MEMORYTRACKER == 1
 
 #include <map>
-#include "../Headers/cMutex.h"
+#include "cMutex.h"
 #include <iostream>
 #include <fstream>
 

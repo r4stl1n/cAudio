@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "../include/cAudioDefines.h"
+#include "cAudioDefines.h"
 
 #if CAUDIO_MAKE_THREAD_SAFE == 1
 	#ifdef CAUDIO_PLATFORM_WIN

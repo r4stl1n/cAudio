@@ -4,11 +4,11 @@
 
 #pragma once
 
-#include "../include/IPluginManager.h"
-#include "../include/IAudioPlugin.h"
-#include "../Headers/cMutex.h"
-#include "../include/cSTLAllocator.h"
-#include "../include/cAudioString.h"
+#include "cMutex.h"
+#include "IPluginManager.h"
+#include "IAudioPlugin.h"
+#include "cSTLAllocator.h"
+#include "cAudioString.h"
 
 #ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
 

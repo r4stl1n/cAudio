@@ -2,12 +2,12 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#include "../Headers/cAudioSource.h"
-#include "../include/cAudio.h"
-#include "../Headers/cLogger.h"
-#include "../Headers/cFilter.h"
-#include "../Headers/cEffect.h"
-#include "../include/cAudioSleep.h"
+#include "cAudioSource.h"
+#include "cAudio.h"
+#include "cLogger.h"
+#include "cFilter.h"
+#include "cEffect.h"
+#include "cAudioSleep.h"
 
 #include <string.h>
 

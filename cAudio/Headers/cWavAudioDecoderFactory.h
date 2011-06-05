@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include "../include/IAudioDecoderFactory.h"
+#include "cMutex.h"
 #include "cWavDecoder.h"
-#include "../Headers/cMutex.h"
+#include "IAudioDecoderFactory.h"
 
 #if CAUDIO_COMPILE_WITH_WAV_DECODER == 1
 

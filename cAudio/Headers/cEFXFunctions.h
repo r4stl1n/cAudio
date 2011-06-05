@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include "../include/cAudioDefines.h"
+#include "cAudioDefines.h"
 
 #if CAUDIO_EFX_ENABLED == 1
 
@@ -13,7 +13,7 @@
 #include <efx.h>
 #include <efx-creative.h>
 
-#include "../Headers/cMutex.h"
+#include "cMutex.h"
 
 //To use EFX in linux.
 #ifndef ALC_EXT_EFX

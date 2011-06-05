@@ -2,8 +2,8 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#include "../Headers/cFileSource.h"
-#include "../Headers/cUtils.h"
+#include "cFileSource.h"
+#include "cUtils.h"
 
 #if CAUDIO_COMPILE_WITH_FILE_SOURCE == 1
 

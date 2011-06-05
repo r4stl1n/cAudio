@@ -4,10 +4,10 @@
 
 #include <time.h>
 #include <stdio.h>
-#include "../Headers/cLogger.h"
-#include "../Headers/cConsoleLogReceiver.h"
-#include "../Headers/cFileLogReceiver.h"
-#include "../Headers/cUtils.h"
+#include "cLogger.h"
+#include "cConsoleLogReceiver.h"
+#include "cFileLogReceiver.h"
+#include "cUtils.h"
 
 namespace cAudio
 {

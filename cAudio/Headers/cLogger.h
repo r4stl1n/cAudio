@@ -5,11 +5,10 @@
 #pragma once
 
 #include <stdarg.h>
-
-#include "../include/ILogger.h"
-#include "../Headers/cMutex.h"
-#include "../include/cSTLAllocator.h"
-#include "../include/cAudioString.h"
+#include "cMutex.h"
+#include "ILogger.h"
+#include "cSTLAllocator.h"
+#include "cAudioString.h"
 
 namespace cAudio
 {

@@ -10,13 +10,13 @@
 #include <al.h>
 #include <alc.h>
 
-#include "../include/IAudioSource.h"
-#include "../include/cVector3.h"
-#include "../Headers/cMutex.h"
-#include "../include/ILogger.h"
-#include "../Headers/cEFXFunctions.h"
-#include "../Headers/cMemoryOverride.h"
-#include "../include/cSTLAllocator.h"
+#include "cMutex.h"
+#include "cEFXFunctions.h"
+#include "cMemoryOverride.h"
+#include "IAudioSource.h"
+#include "cVector3.h"
+#include "ILogger.h"
+#include "cSTLAllocator.h"
 
 namespace cAudio
 {

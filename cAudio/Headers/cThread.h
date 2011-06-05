@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include "../include/cAudioDefines.h"
-#include "../Include/IThread.h"
-#include "../Headers/cMutex.h"
+#include "cMutex.h"
+#include "cAudioDefines.h"
+#include "IThread.h"
 
 #ifdef CAUDIO_PLATFORM_WIN
 #include <windows.h>	//Basic windows includes

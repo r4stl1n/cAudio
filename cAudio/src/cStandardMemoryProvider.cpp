@@ -2,8 +2,8 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#include "../Headers/cStandardMemoryProvider.h"
-#include "../Headers/cMemoryTracker.h"
+#include "cStandardMemoryProvider.h"
+#include "cMemoryTracker.h"
 #include <stdlib.h>
 #include <limits>
 

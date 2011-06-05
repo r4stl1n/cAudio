@@ -2,17 +2,17 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#include "../Headers/cAudioManager.h"
-#include "../include/cAudio.h"
-#include "../include/cAudioPlatform.h"
-#include "../include/cAudioSleep.h"
-#include "../Headers/cUtils.h"
-#include "../Headers/cThread.h"
-#include "../Headers/cLogger.h"
-#include "../Headers/cPluginManager.h"
-#include "../Headers/cThread.h"
-#include "../Headers/cMemorySource.h"
-#include "../Headers/cRawAudioDecoderFactory.h"
+#include "cAudioManager.h"
+#include "cAudio.h"
+#include "cAudioPlatform.h"
+#include "cAudioSleep.h"
+#include "cUtils.h"
+#include "cThread.h"
+#include "cLogger.h"
+#include "cPluginManager.h"
+#include "cThread.h"
+#include "cMemorySource.h"
+#include "cRawAudioDecoderFactory.h"
 #include <string.h>
 #include <algorithm>
 

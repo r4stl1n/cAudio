@@ -4,8 +4,9 @@
 
 #pragma once
 
-#include "../include/IMemoryProvider.h"
+#include "IMemoryProvider.h"
 #include <cstring>
+
 namespace cAudio
 {
 	//! Memory provider that wraps the standard memalloc and free
