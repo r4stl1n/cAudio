@@ -5,11 +5,22 @@
 #include "../Include/cAudio.h"
 #include "../Headers/cAudioManager.h"
 #include "../Headers/cAudioCapture.h"
+
+#if CAUDIO_COMPILE_WITH_OGG_DECODER == 1
 #include "../Headers/cOggAudioDecoderFactory.h"
+#endif
+
+#if CAUDIO_COMPILE_WITH_WAV_DECODER == 1
 #include "../Headers/cWavAudioDecoderFactory.h"
+#endif
+
 #include "../Headers/cRawAudioDecoderFactory.h"
+
+#if CAUDIO_COMPILE_WITH_FILE_SOURCE == 1
 #include "../Headers/cFileSourceFactory.h"
 #include "../Headers/cFileSource.h"
+#endif
+
 #include "../Headers/cPluginManager.h"
 #include "../Headers/cLogger.h"
 #include "../Headers/cConsoleLogReceiver.h"

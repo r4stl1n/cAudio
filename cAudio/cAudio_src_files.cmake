@@ -16,8 +16,6 @@ set (file_root_header_files
 	Headers/cMemorySource.h
 	Headers/cMemoryTracker.h
 	Headers/cMutex.h
-	Headers/cOggAudioDecoderFactory.h
-	Headers/cOggDecoder.h
 	Headers/cPluginManager.h
 	Headers/cRawAudioDecoderFactory.h
 	Headers/cRawDecoder.h
@@ -79,8 +77,6 @@ set (file_root_source_files
 	src/cMemorySource.cpp
 	src/cMemoryTracker.cpp
 	src/cMutex.cpp
-	src/cOggAudioDecoderFactory.cpp
-	src/cOggDecoder.cpp
 	src/cPluginManager.cpp
 	src/cRawDecoder.cpp
 	src/cStandardMemoryProvider.cpp
@@ -90,6 +86,20 @@ set (file_root_source_files
 	src/cAudio.cpp
 )
 
+if(CAUDIO_ENABLE_OGG)
+	set (file_root_header_files
+		${file_root_header_files}
+		Headers/cOggAudioDecoderFactory.h
+		Headers/cOggDecoder.h
+	)
+
+	set (file_root_source_files 
+		${file_root_source_files}
+		src/cOggAudioDecoderFactory.cpp
+		src/cOggDecoder.cpp
+	)
+endif()
+		
 source_group("Header Files" FILES ${file_root_header_files})
 source_group("Include" FILES ${file_root_include})
 source_group("Util" FILES ${file_root_util})
