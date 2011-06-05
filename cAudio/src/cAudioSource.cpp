@@ -66,8 +66,6 @@ namespace cAudio
     cAudioSource::~cAudioSource()
     {
 		cAudioMutexBasicLock lock(Mutex);
-		if(Decoder)
-			Decoder->drop();
 
 #if CAUDIO_EFX_ENABLED == 1
 		for(int i=0; i<CAUDIO_SOURCE_MAX_EFFECT_SLOTS; ++i)
@@ -81,6 +79,21 @@ namespace cAudio
 			Filter->drop();
 		Filter = NULL;
 #endif
+		
+		//Stops the audio Source
+		alSourceStop(Source);
+		empty();
+		//Deletes the source
+		alDeleteSources(1, &Source);
+		//deletes the last filled buffer
+		alDeleteBuffers(CAUDIO_SOURCE_NUM_BUFFERS, Buffers);
+		checkError();
+		getLogger()->logDebug("Audio Source", "Audio source released.");
+		signalEvent(ON_RELEASE);
+
+		if(Decoder)
+			Decoder->drop();
+
 		unRegisterAllEventHandlers();
     }
 
@@ -283,21 +296,6 @@ namespace cAudio
 		}
 
 		return active;
-    }
-
-	void cAudioSource::release()
-    {
-		cAudioMutexBasicLock lock(Mutex);
-		//Stops the audio Source
-		alSourceStop(Source);
-		empty();
-		//Deletes the source
-		alDeleteSources(1, &Source);
-		//deletes the last filled buffer
-		alDeleteBuffers(CAUDIO_SOURCE_NUM_BUFFERS, Buffers);
-		checkError();
-		getLogger()->logDebug("Audio Source", "Audio source released.");
-		signalEvent(ON_RELEASE);
     }
 
 	const bool cAudioSource::isValid() const

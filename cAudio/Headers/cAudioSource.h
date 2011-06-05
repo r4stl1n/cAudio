@@ -58,7 +58,6 @@ namespace cAudio
 		virtual int getCurrentCompressedAudioPosition();
 
 		virtual bool update();
-		virtual void release();
 
 		virtual const bool isValid() const;
 		virtual const bool isPlaying() const;
@@ -123,7 +122,6 @@ namespace cAudio
 		virtual void removeFilter();
 #endif
 
-	protected:
 	private:
 		//! Mutex for thread synchronization
 		cAudioMutex Mutex;

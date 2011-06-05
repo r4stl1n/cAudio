@@ -78,9 +78,6 @@ namespace cAudio
 		//! Normally called every frame by the audio manager to update the internal buffers.  Note: For internal use only.
 		virtual bool update() = 0;
 
-		//! Releases all resources used by the audio source, normally used to clean up before deletion.  Note: For internal use only.
-		virtual void release() = 0;
-
 		//! Returns if the source is ready to be used.
 		virtual const bool isValid() const = 0;
 
