@@ -27,6 +27,8 @@
 #	else
 #		define CAUDIO_API extern "C"
 #	endif // CAUDIO_STATIC_LIB
+#else
+#   define CAUDIO_API
 #endif
 
 //! Define enables threading for the main update loop.  Disable to run the internal update loop yourself. NOTE: Internal threading should NOT be used if the library is not thread safe!

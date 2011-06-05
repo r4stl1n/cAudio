@@ -103,6 +103,7 @@ namespace cAudio
 		return (AudioThread != NULL && AudioThread->isRunning());
 	}
 
+#if CAUDIO_EFX_ENABLED == 1
 	IAudioEffects* cAudioManager::getEffects()
 	{
 		if (AudioContext)
@@ -111,6 +112,7 @@ namespace cAudio
 		}
 		return NULL;
 	}
+#endif
 
 	IAudioSource* cAudioManager::createAudioSource(IAudioDecoder* decoder, const cAudioString& audioName, const cAudioString& dataSource)
 	{
@@ -137,7 +139,7 @@ namespace cAudio
 			audio->drop();
 			return NULL;
 		}
-		getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Audio data could not be decoded by (.%s) decoder.", audioName.c_str(), decoder->getType());
+		getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Audio data could not be decoded by (.%s) decoder.", audioName.c_str(), decoder->getType().c_str());
 		decoder->drop();
 		return NULL;
 	}

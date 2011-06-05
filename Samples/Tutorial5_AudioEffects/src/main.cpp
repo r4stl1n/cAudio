@@ -50,7 +50,7 @@ int main(int argc, char* argv[])
 		CAUDIO_DELETE pDeviceList;
 		pDeviceList = 0;
 
-#ifdef CAUDIO_EFX_ENABLED
+#if CAUDIO_EFX_ENABLED == 1
 		cAudio::IAudioEffects* effects = manager->getEffects();
 		if(effects)
 		{

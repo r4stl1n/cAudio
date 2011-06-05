@@ -144,8 +144,10 @@ namespace cAudio
 
 	IAudioEffects* cOpenALDeviceContext::getEffects() const
 	{
+#if CAUDIO_EFX_ENABLED == 1
 		if(EFXSupported)
 			return (IAudioEffects*)&initEffects;
+#endif
 
 		return NULL;
 	}
