@@ -189,6 +189,36 @@ class cAudioCSharpWrapperPINVOKE {
   }
 
 
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IMemoryProvider_Allocate")]
+  public static extern IntPtr IMemoryProvider_Allocate(HandleRef jarg1, uint jarg2, string jarg3, int jarg4, string jarg5);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IMemoryProvider_Free")]
+  public static extern void IMemoryProvider_Free(HandleRef jarg1, HandleRef jarg2);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IMemoryProvider_getMaxAllocationSize")]
+  public static extern uint IMemoryProvider_getMaxAllocationSize(HandleRef jarg1);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_delete_IMemoryProvider")]
+  public static extern void delete_IMemoryProvider(HandleRef jarg1);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_CAUDIO_VERSION_get")]
+  public static extern string CAUDIO_VERSION_get();
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_CAUDIO_SOURCE_BUFFER_SIZE_get")]
+  public static extern int CAUDIO_SOURCE_BUFFER_SIZE_get();
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_CAUDIO_SOURCE_NUM_BUFFERS_get")]
+  public static extern int CAUDIO_SOURCE_NUM_BUFFERS_get();
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_CAUDIO_SOURCE_MAX_EFFECT_SLOTS_get")]
+  public static extern int CAUDIO_SOURCE_MAX_EFFECT_SLOTS_get();
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_getMemoryProvider")]
+  public static extern IntPtr getMemoryProvider();
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_cAudioSleep")]
+  public static extern void cAudioSleep(uint jarg1);
+
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_toWINSTR")]
   public static extern string toWINSTR(string jarg1);
 
@@ -801,6 +831,24 @@ class cAudioCSharpWrapperPINVOKE {
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioManager_getListener")]
   public static extern IntPtr IAudioManager_getListener(HandleRef jarg1);
 
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioDeviceContext_initialize")]
+  public static extern bool IAudioDeviceContext_initialize(HandleRef jarg1, string jarg2, int jarg3, int jarg4);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioDeviceContext_shutDown")]
+  public static extern void IAudioDeviceContext_shutDown(HandleRef jarg1);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioDeviceContext_update")]
+  public static extern void IAudioDeviceContext_update(HandleRef jarg1);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioDeviceContext_getAudioManager")]
+  public static extern IntPtr IAudioDeviceContext_getAudioManager(HandleRef jarg1);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioDeviceContext_getEffects")]
+  public static extern IntPtr IAudioDeviceContext_getEffects(HandleRef jarg1);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_delete_IAudioDeviceContext")]
+  public static extern void delete_IAudioDeviceContext(HandleRef jarg1);
+
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_delete_IAudioPlugin")]
   public static extern void delete_IAudioPlugin(HandleRef jarg1);
 
@@ -1005,17 +1053,38 @@ class cAudioCSharpWrapperPINVOKE {
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioSource_unRegisterAllEventHandlers")]
   public static extern void IAudioSource_unRegisterAllEventHandlers(HandleRef jarg1);
 
-  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IMemoryProvider_Allocate")]
-  public static extern IntPtr IMemoryProvider_Allocate(HandleRef jarg1, uint jarg2, string jarg3, int jarg4, string jarg5);
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_delete_IPluginManager")]
+  public static extern void delete_IPluginManager(HandleRef jarg1);
 
-  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IMemoryProvider_Free")]
-  public static extern void IMemoryProvider_Free(HandleRef jarg1, HandleRef jarg2);
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IPluginManager_installPlugin__SWIG_0")]
+  public static extern bool IPluginManager_installPlugin__SWIG_0(HandleRef jarg1, HandleRef jarg2, string jarg3);
 
-  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IMemoryProvider_getMaxAllocationSize")]
-  public static extern uint IMemoryProvider_getMaxAllocationSize(HandleRef jarg1);
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IPluginManager_installPlugin__SWIG_1")]
+  public static extern bool IPluginManager_installPlugin__SWIG_1(HandleRef jarg1, HandleRef jarg2);
 
-  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_delete_IMemoryProvider")]
-  public static extern void delete_IMemoryProvider(HandleRef jarg1);
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IPluginManager_installPlugin__SWIG_2")]
+  public static extern bool IPluginManager_installPlugin__SWIG_2(HandleRef jarg1, string jarg2, string jarg3);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IPluginManager_installPlugin__SWIG_3")]
+  public static extern bool IPluginManager_installPlugin__SWIG_3(HandleRef jarg1, string jarg2);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IPluginManager_checkForPlugin")]
+  public static extern bool IPluginManager_checkForPlugin(HandleRef jarg1, string jarg2);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IPluginManager_getPlugin")]
+  public static extern IntPtr IPluginManager_getPlugin(HandleRef jarg1, string jarg2);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IPluginManager_getPluginCount")]
+  public static extern uint IPluginManager_getPluginCount(HandleRef jarg1);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IPluginManager_uninstallPlugin__SWIG_0")]
+  public static extern void IPluginManager_uninstallPlugin__SWIG_0(HandleRef jarg1, HandleRef jarg2);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IPluginManager_uninstallPlugin__SWIG_1")]
+  public static extern void IPluginManager_uninstallPlugin__SWIG_1(HandleRef jarg1, string jarg2);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_getPluginManager")]
+  public static extern IntPtr getPluginManager();
 
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IThread_start")]
   public static extern bool IThread_start(HandleRef jarg1);
@@ -1064,24 +1133,6 @@ class cAudioCSharpWrapperPINVOKE {
 
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_createAudioDeviceList__SWIG_1")]
   public static extern IntPtr createAudioDeviceList__SWIG_1();
-
-  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_CAUDIO_VERSION_get")]
-  public static extern string CAUDIO_VERSION_get();
-
-  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_CAUDIO_SOURCE_BUFFER_SIZE_get")]
-  public static extern int CAUDIO_SOURCE_BUFFER_SIZE_get();
-
-  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_CAUDIO_SOURCE_NUM_BUFFERS_get")]
-  public static extern int CAUDIO_SOURCE_NUM_BUFFERS_get();
-
-  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_CAUDIO_SOURCE_MAX_EFFECT_SLOTS_get")]
-  public static extern int CAUDIO_SOURCE_MAX_EFFECT_SLOTS_get();
-
-  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_getMemoryProvider")]
-  public static extern IntPtr getMemoryProvider();
-
-  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_cAudioSleep")]
-  public static extern void cAudioSleep(uint jarg1);
 
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IntVector_Clear")]
   public static extern void IntVector_Clear(HandleRef jarg1);

@@ -12,7 +12,7 @@ namespace cAudioPlayer
 {
     public partial class MainWnd : Form
     {
-        private readonly IAudioManager mAudioMgr;
+        private IAudioManager mAudioMgr;
         private IAudioSource mCurrentSource;
         private readonly AudioSourceListener mAudioListener;
         private readonly Timer mUpdateTimer = new Timer();
@@ -22,6 +22,18 @@ namespace cAudioPlayer
             mAudioMgr = cAudioCSharpWrapper.createAudioManager(true);
             mAudioListener = new AudioSourceListener(this);
             mUpdateTimer.Tick += UpdateTimerTick;
+            Closing += MainWnd_Closing;
+        }
+
+        void MainWnd_Closing(object sender, CancelEventArgs e)
+        {
+            if (mCurrentSource != null)
+            {
+                mCurrentSource.unRegisterEventHandler(mAudioListener);
+                mCurrentSource = null;
+            }
+            mAudioMgr.Dispose();
+            mAudioMgr = null;
         }
 
         void UpdateTimerTick(object sender, EventArgs e)

@@ -376,6 +376,7 @@ namespace Swig {
 #include "IAudioDecoder.h"
 #include "IAudioDecoderFactory.h"
 #include "IAudioDeviceList.h"
+#include "IAudioDeviceContext.h"
 
 SWIGINTERN std::vector< int > *new_std_vector_Sl_int_Sg___SWIG_2(int capacity){
         std::vector< int >* pv = 0;
@@ -1435,6 +1436,114 @@ void SwigDirector_IAudioDecoderFactory::swig_init_callbacks() {
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_IMemoryProvider_Allocate(void * jarg1, unsigned long jarg2, char * jarg3, int jarg4, char * jarg5) {
+  void * jresult ;
+  cAudio::IMemoryProvider *arg1 = (cAudio::IMemoryProvider *) 0 ;
+  size_t arg2 ;
+  char *arg3 = (char *) 0 ;
+  int arg4 ;
+  char *arg5 = (char *) 0 ;
+  void *result = 0 ;
+  
+  arg1 = (cAudio::IMemoryProvider *)jarg1; 
+  arg2 = (size_t)jarg2; 
+  arg3 = (char *)jarg3; 
+  arg4 = (int)jarg4; 
+  arg5 = (char *)jarg5; 
+  result = (void *)(arg1)->Allocate(arg2,(char const *)arg3,arg4,(char const *)arg5);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_IMemoryProvider_Free(void * jarg1, void * jarg2) {
+  cAudio::IMemoryProvider *arg1 = (cAudio::IMemoryProvider *) 0 ;
+  void *arg2 = (void *) 0 ;
+  
+  arg1 = (cAudio::IMemoryProvider *)jarg1; 
+  arg2 = (void *)jarg2; 
+  (arg1)->Free(arg2);
+}
+
+
+SWIGEXPORT unsigned long SWIGSTDCALL CSharp_IMemoryProvider_getMaxAllocationSize(void * jarg1) {
+  unsigned long jresult ;
+  cAudio::IMemoryProvider *arg1 = (cAudio::IMemoryProvider *) 0 ;
+  size_t result;
+  
+  arg1 = (cAudio::IMemoryProvider *)jarg1; 
+  result = (arg1)->getMaxAllocationSize();
+  jresult = (unsigned long)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_IMemoryProvider(void * jarg1) {
+  cAudio::IMemoryProvider *arg1 = (cAudio::IMemoryProvider *) 0 ;
+  
+  arg1 = (cAudio::IMemoryProvider *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT char * SWIGSTDCALL CSharp_CAUDIO_VERSION_get() {
+  char * jresult ;
+  char *result = 0 ;
+  
+  result = (char *)("2.2.0");
+  jresult = SWIG_csharp_string_callback((const char *)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_CAUDIO_SOURCE_BUFFER_SIZE_get() {
+  int jresult ;
+  int result;
+  
+  result = (int)((1024*64));
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_CAUDIO_SOURCE_NUM_BUFFERS_get() {
+  int jresult ;
+  int result;
+  
+  result = (int)(3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_CAUDIO_SOURCE_MAX_EFFECT_SLOTS_get() {
+  int jresult ;
+  int result;
+  
+  result = (int)(4);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_getMemoryProvider() {
+  void * jresult ;
+  cAudio::IMemoryProvider *result = 0 ;
+  
+  result = (cAudio::IMemoryProvider *)cAudio::getMemoryProvider();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_cAudioSleep(unsigned int jarg1) {
+  unsigned int arg1 ;
+  
+  arg1 = (unsigned int)jarg1; 
+  cAudio::cAudioSleep(arg1);
+}
+
 
 SWIGEXPORT char * SWIGSTDCALL CSharp_toWINSTR(char * jarg1) {
   char * jresult ;
@@ -3923,6 +4032,72 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_IAudioManager_getListener(void * jarg1) {
 }
 
 
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_IAudioDeviceContext_initialize(void * jarg1, char * jarg2, int jarg3, int jarg4) {
+  unsigned int jresult ;
+  cAudio::IAudioDeviceContext *arg1 = (cAudio::IAudioDeviceContext *) 0 ;
+  char *arg2 = (char *) 0 ;
+  int arg3 ;
+  int arg4 ;
+  bool result;
+  
+  arg1 = (cAudio::IAudioDeviceContext *)jarg1; 
+  arg2 = (char *)jarg2; 
+  arg3 = (int)jarg3; 
+  arg4 = (int)jarg4; 
+  result = (bool)(arg1)->initialize((char const *)arg2,arg3,arg4);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_IAudioDeviceContext_shutDown(void * jarg1) {
+  cAudio::IAudioDeviceContext *arg1 = (cAudio::IAudioDeviceContext *) 0 ;
+  
+  arg1 = (cAudio::IAudioDeviceContext *)jarg1; 
+  (arg1)->shutDown();
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_IAudioDeviceContext_update(void * jarg1) {
+  cAudio::IAudioDeviceContext *arg1 = (cAudio::IAudioDeviceContext *) 0 ;
+  
+  arg1 = (cAudio::IAudioDeviceContext *)jarg1; 
+  (arg1)->update();
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_IAudioDeviceContext_getAudioManager(void * jarg1) {
+  void * jresult ;
+  cAudio::IAudioDeviceContext *arg1 = (cAudio::IAudioDeviceContext *) 0 ;
+  cAudio::IAudioManager *result = 0 ;
+  
+  arg1 = (cAudio::IAudioDeviceContext *)jarg1; 
+  result = (cAudio::IAudioManager *)((cAudio::IAudioDeviceContext const *)arg1)->getAudioManager();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_IAudioDeviceContext_getEffects(void * jarg1) {
+  void * jresult ;
+  cAudio::IAudioDeviceContext *arg1 = (cAudio::IAudioDeviceContext *) 0 ;
+  cAudio::IAudioEffects *result = 0 ;
+  
+  arg1 = (cAudio::IAudioDeviceContext *)jarg1; 
+  result = (cAudio::IAudioEffects *)((cAudio::IAudioDeviceContext const *)arg1)->getEffects();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_IAudioDeviceContext(void * jarg1) {
+  cAudio::IAudioDeviceContext *arg1 = (cAudio::IAudioDeviceContext *) 0 ;
+  
+  arg1 = (cAudio::IAudioDeviceContext *)jarg1; 
+  delete arg1;
+}
+
+
 SWIGEXPORT void SWIGSTDCALL CSharp_delete_IAudioPlugin(void * jarg1) {
   cAudio::IAudioPlugin *arg1 = (cAudio::IAudioPlugin *) 0 ;
   
@@ -4759,53 +4934,141 @@ SWIGEXPORT void SWIGSTDCALL CSharp_IAudioSource_unRegisterAllEventHandlers(void 
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_IMemoryProvider_Allocate(void * jarg1, unsigned long jarg2, char * jarg3, int jarg4, char * jarg5) {
-  void * jresult ;
-  cAudio::IMemoryProvider *arg1 = (cAudio::IMemoryProvider *) 0 ;
-  size_t arg2 ;
-  char *arg3 = (char *) 0 ;
-  int arg4 ;
-  char *arg5 = (char *) 0 ;
-  void *result = 0 ;
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_IPluginManager(void * jarg1) {
+  cAudio::IPluginManager *arg1 = (cAudio::IPluginManager *) 0 ;
   
-  arg1 = (cAudio::IMemoryProvider *)jarg1; 
-  arg2 = (size_t)jarg2; 
+  arg1 = (cAudio::IPluginManager *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_IPluginManager_installPlugin__SWIG_0(void * jarg1, void * jarg2, char * jarg3) {
+  unsigned int jresult ;
+  cAudio::IPluginManager *arg1 = (cAudio::IPluginManager *) 0 ;
+  cAudio::IAudioPlugin *arg2 = (cAudio::IAudioPlugin *) 0 ;
+  char *arg3 = (char *) 0 ;
+  bool result;
+  
+  arg1 = (cAudio::IPluginManager *)jarg1; 
+  arg2 = (cAudio::IAudioPlugin *)jarg2; 
   arg3 = (char *)jarg3; 
-  arg4 = (int)jarg4; 
-  arg5 = (char *)jarg5; 
-  result = (void *)(arg1)->Allocate(arg2,(char const *)arg3,arg4,(char const *)arg5);
+  result = (bool)(arg1)->installPlugin(arg2,(char const *)arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_IPluginManager_installPlugin__SWIG_1(void * jarg1, void * jarg2) {
+  unsigned int jresult ;
+  cAudio::IPluginManager *arg1 = (cAudio::IPluginManager *) 0 ;
+  cAudio::IAudioPlugin *arg2 = (cAudio::IAudioPlugin *) 0 ;
+  bool result;
+  
+  arg1 = (cAudio::IPluginManager *)jarg1; 
+  arg2 = (cAudio::IAudioPlugin *)jarg2; 
+  result = (bool)(arg1)->installPlugin(arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_IPluginManager_installPlugin__SWIG_2(void * jarg1, char * jarg2, char * jarg3) {
+  unsigned int jresult ;
+  cAudio::IPluginManager *arg1 = (cAudio::IPluginManager *) 0 ;
+  char *arg2 = (char *) 0 ;
+  char *arg3 = (char *) 0 ;
+  bool result;
+  
+  arg1 = (cAudio::IPluginManager *)jarg1; 
+  arg2 = (char *)jarg2; 
+  arg3 = (char *)jarg3; 
+  result = (bool)(arg1)->installPlugin((char const *)arg2,(char const *)arg3);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_IPluginManager_installPlugin__SWIG_3(void * jarg1, char * jarg2) {
+  unsigned int jresult ;
+  cAudio::IPluginManager *arg1 = (cAudio::IPluginManager *) 0 ;
+  char *arg2 = (char *) 0 ;
+  bool result;
+  
+  arg1 = (cAudio::IPluginManager *)jarg1; 
+  arg2 = (char *)jarg2; 
+  result = (bool)(arg1)->installPlugin((char const *)arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_IPluginManager_checkForPlugin(void * jarg1, char * jarg2) {
+  unsigned int jresult ;
+  cAudio::IPluginManager *arg1 = (cAudio::IPluginManager *) 0 ;
+  char *arg2 = (char *) 0 ;
+  bool result;
+  
+  arg1 = (cAudio::IPluginManager *)jarg1; 
+  arg2 = (char *)jarg2; 
+  result = (bool)(arg1)->checkForPlugin((char const *)arg2);
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_IPluginManager_getPlugin(void * jarg1, char * jarg2) {
+  void * jresult ;
+  cAudio::IPluginManager *arg1 = (cAudio::IPluginManager *) 0 ;
+  char *arg2 = (char *) 0 ;
+  cAudio::IAudioPlugin *result = 0 ;
+  
+  arg1 = (cAudio::IPluginManager *)jarg1; 
+  arg2 = (char *)jarg2; 
+  result = (cAudio::IAudioPlugin *)(arg1)->getPlugin((char const *)arg2);
   jresult = (void *)result; 
   return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_IMemoryProvider_Free(void * jarg1, void * jarg2) {
-  cAudio::IMemoryProvider *arg1 = (cAudio::IMemoryProvider *) 0 ;
-  void *arg2 = (void *) 0 ;
+SWIGEXPORT unsigned int SWIGSTDCALL CSharp_IPluginManager_getPluginCount(void * jarg1) {
+  unsigned int jresult ;
+  cAudio::IPluginManager *arg1 = (cAudio::IPluginManager *) 0 ;
+  unsigned int result;
   
-  arg1 = (cAudio::IMemoryProvider *)jarg1; 
-  arg2 = (void *)jarg2; 
-  (arg1)->Free(arg2);
-}
-
-
-SWIGEXPORT unsigned long SWIGSTDCALL CSharp_IMemoryProvider_getMaxAllocationSize(void * jarg1) {
-  unsigned long jresult ;
-  cAudio::IMemoryProvider *arg1 = (cAudio::IMemoryProvider *) 0 ;
-  size_t result;
-  
-  arg1 = (cAudio::IMemoryProvider *)jarg1; 
-  result = (arg1)->getMaxAllocationSize();
-  jresult = (unsigned long)result; 
+  arg1 = (cAudio::IPluginManager *)jarg1; 
+  result = (unsigned int)(arg1)->getPluginCount();
+  jresult = result; 
   return jresult;
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_delete_IMemoryProvider(void * jarg1) {
-  cAudio::IMemoryProvider *arg1 = (cAudio::IMemoryProvider *) 0 ;
+SWIGEXPORT void SWIGSTDCALL CSharp_IPluginManager_uninstallPlugin__SWIG_0(void * jarg1, void * jarg2) {
+  cAudio::IPluginManager *arg1 = (cAudio::IPluginManager *) 0 ;
+  cAudio::IAudioPlugin *arg2 = (cAudio::IAudioPlugin *) 0 ;
   
-  arg1 = (cAudio::IMemoryProvider *)jarg1; 
-  delete arg1;
+  arg1 = (cAudio::IPluginManager *)jarg1; 
+  arg2 = (cAudio::IAudioPlugin *)jarg2; 
+  (arg1)->uninstallPlugin(arg2);
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_IPluginManager_uninstallPlugin__SWIG_1(void * jarg1, char * jarg2) {
+  cAudio::IPluginManager *arg1 = (cAudio::IPluginManager *) 0 ;
+  char *arg2 = (char *) 0 ;
+  
+  arg1 = (cAudio::IPluginManager *)jarg1; 
+  arg2 = (char *)jarg2; 
+  (arg1)->uninstallPlugin((char const *)arg2);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_getPluginManager() {
+  void * jresult ;
+  cAudio::IPluginManager *result = 0 ;
+  
+  result = (cAudio::IPluginManager *)cAudio::getPluginManager();
+  jresult = (void *)result; 
+  return jresult;
 }
 
 
@@ -4962,64 +5225,6 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_createAudioDeviceList__SWIG_1() {
   result = (cAudio::IAudioDeviceList *)cAudio::createAudioDeviceList();
   jresult = (void *)result; 
   return jresult;
-}
-
-
-SWIGEXPORT char * SWIGSTDCALL CSharp_CAUDIO_VERSION_get() {
-  char * jresult ;
-  char *result = 0 ;
-  
-  result = (char *)("2.2.0");
-  jresult = SWIG_csharp_string_callback((const char *)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT int SWIGSTDCALL CSharp_CAUDIO_SOURCE_BUFFER_SIZE_get() {
-  int jresult ;
-  int result;
-  
-  result = (int)((1024*64));
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT int SWIGSTDCALL CSharp_CAUDIO_SOURCE_NUM_BUFFERS_get() {
-  int jresult ;
-  int result;
-  
-  result = (int)(3);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT int SWIGSTDCALL CSharp_CAUDIO_SOURCE_MAX_EFFECT_SLOTS_get() {
-  int jresult ;
-  int result;
-  
-  result = (int)(4);
-  jresult = result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_getMemoryProvider() {
-  void * jresult ;
-  cAudio::IMemoryProvider *result = 0 ;
-  
-  result = (cAudio::IMemoryProvider *)cAudio::getMemoryProvider();
-  jresult = (void *)result; 
-  return jresult;
-}
-
-
-SWIGEXPORT void SWIGSTDCALL CSharp_cAudioSleep(unsigned int jarg1) {
-  unsigned int arg1 ;
-  
-  arg1 = (unsigned int)jarg1; 
-  cAudio::cAudioSleep(arg1);
 }
 
 

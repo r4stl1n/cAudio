@@ -4,6 +4,7 @@
 
 #include "cAudioManager.h"
 #include "cAudio.h"
+#include "cAudioSource.h"
 #include "cAudioPlatform.h"
 #include "cAudioSleep.h"
 #include "cUtils.h"
@@ -15,31 +16,13 @@
 #include "cRawAudioDecoderFactory.h"
 #include <string.h>
 #include <algorithm>
-
-#if CAUDIO_EFX_ENABLED == 1
-
-#ifdef CAUDIO_PLATFORM_WIN
-	#include <efx.h>
-	#include <efx-creative.h>
-	#include <xram.h>
-#endif
-
-#ifdef CAUDIO_PLATFORM_LINUX
-	#include <AL/alext.h>
-#endif
-
-#endif
+#include "cOpenALDeviceContext.h"
 
 namespace cAudio
 {
 	cAudioManager::~cAudioManager() 
 	{ 			
-		if (AudioThread)
-		{
-			AudioThread->join();
-			delete AudioThread;
-			AudioThread = NULL;
-		} 
+		shutDown();
 	}
 
     bool cAudioManager::initialize(const char* deviceName, int outputFrequency, int eaxEffectSlots)
@@ -49,80 +32,10 @@ namespace cAudio
 		if(Initialized)
 			return false;
 
-		//Stores the context attributes (MAX of 4, with 2 zeros to terminate)
-		ALint attribs[6] = { 0 };
+		AudioContext = CAUDIO_NEW cOpenALDeviceContext(this);
 
-		unsigned int currentAttrib = 0;
-		if(outputFrequency > 0)
-		{
-			attribs[currentAttrib++] = ALC_FREQUENCY;
-			attribs[currentAttrib++] = outputFrequency;
-		}
-#if CAUDIO_EFX_ENABLED == 1
-		if(eaxEffectSlots > 0)
-		{
-			attribs[currentAttrib++] = ALC_MAX_AUXILIARY_SENDS;
-			attribs[currentAttrib++] = eaxEffectSlots;
-		}
-#endif
-
-		//Create a new device
-		Device = alcOpenDevice(deviceName);
-		//Check if device can be created
-		if (Device == NULL)
-		{
-			getLogger()->logError("AudioManager", "Failed to Create OpenAL Device.");
-			checkError();
+		if(!AudioContext->initialize(deviceName, outputFrequency, eaxEffectSlots))
 			return false;
-		}
-
-		Context = alcCreateContext(Device, attribs);
-		if (Context == NULL)
-		{
-			getLogger()->logError("AudioManager", "Failed to Create OpenAL Context.");
-			checkError();
-			alcCloseDevice(Device);
-			Device = NULL;
-			return false;
-		}
-
-		if(!alcMakeContextCurrent(Context))
-		{
-			getLogger()->logError("AudioManager", "Failed to make OpenAL Context current.");
-			checkError();
-			alcDestroyContext(Context);
-			alcCloseDevice(Device);
-			Context = NULL;
-			Device = NULL;
-			return false;
-		}
-
-#if CAUDIO_EFX_ENABLED == 1
-		initEffects.getEFXInterface()->Mutex.lock();
-		EFXSupported = initEffects.getEFXInterface()->CheckEFXSupport(Device);
-		initEffects.getEFXInterface()->Mutex.unlock();
-		initEffects.checkEFXSupportDetails();
-#endif
-
-		getLogger()->logInfo("AudioManager", "OpenAL Version: %s", alGetString(AL_VERSION));
-		getLogger()->logInfo("AudioManager", "Vendor: %s", alGetString(AL_VENDOR));
-		getLogger()->logInfo("AudioManager", "Renderer: %s", alGetString(AL_RENDERER));
-#if CAUDIO_EFX_ENABLED == 1
-		if(EFXSupported)
-		{
-			int EFXMajorVersion = 0;
-			int EFXMinorVersion = 0;
-			alcGetIntegerv(Device, ALC_EFX_MAJOR_VERSION, 1, &EFXMajorVersion);
-			alcGetIntegerv(Device, ALC_EFX_MINOR_VERSION, 1, &EFXMinorVersion);
-			getLogger()->logInfo("AudioManager", "EFX Version: %i.%i", EFXMajorVersion, EFXMinorVersion);
-			getLogger()->logInfo("AudioManager", "EFX supported and enabled.");
-		}
-		else
-		{
-			getLogger()->logWarning("AudioManager", "EFX is not supported, EFX disabled.");
-		}
-#endif
-		getLogger()->logInfo("AudioManager", "Supported Extensions: %s", alGetString(AL_EXTENSIONS));
 
 #ifdef CAUDIO_USE_INTERNAL_THREAD
 		if (!AudioThread)
@@ -135,15 +48,78 @@ namespace cAudio
 		return true;
     }
 
+	void cAudioManager::shutDown()
+	{
+		if(Initialized)
+		{
+			if (AudioThread) // First wait for our update thread to finish up
+			{
+				AudioThread->join();
+				delete AudioThread;
+				AudioThread = NULL;
+			} 
+
+			cAudioMutexBasicLock lock(Mutex);
+
+			releaseAllSources();
+			
+			if (AudioContext)
+			{
+				AudioContext->shutDown();
+				CAUDIO_DELETE AudioContext;
+				AudioContext = NULL;
+			}
+
+			Initialized = false;
+
+			getLogger()->logInfo("AudioManager", "Manager successfully shutdown.");
+		}
+	}
+
+	void cAudioManager::update()
+	{
+		cAudioMutexBasicLock lock(Mutex);
+		size_t count = audioSources.size();
+		for(unsigned int i=0; i<count; i++)
+		{
+			IAudioSource* source = audioSources[i];
+			if (source->isValid())
+			{
+				source->update();
+			}
+		}
+	}
+
+	void cAudioManager::run()
+	{
+		if(!audioSources.empty()) 
+			update();
+		
+		cAudioSleep(1);
+	}
+
+	bool cAudioManager::isUpdateThreadRunning() 
+	{
+		return (AudioThread != NULL && AudioThread->isRunning());
+	}
+
+	IAudioEffects* cAudioManager::getEffects()
+	{
+		if (AudioContext)
+		{
+			return AudioContext->getEffects();
+		}
+		return NULL;
+	}
 
 	IAudioSource* cAudioManager::createAudioSource(IAudioDecoder* decoder, const cAudioString& audioName, const cAudioString& dataSource)
 	{
 		if(decoder && decoder->isValid())
 		{
 #if CAUDIO_EFX_ENABLED == 1
-			IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, Context, initEffects.getEFXInterface());
+			IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, ((cOpenALDeviceContext*)AudioContext)->getOpenALContext(), ((cAudioEffects*)getEffects())->getEFXInterface());
 #else
-			IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, Context);
+			IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, ((cOpenALDeviceContext*)AudioContext)->getOpenALContext());
 #endif
 			decoder->drop();
 
@@ -168,8 +144,9 @@ namespace cAudio
 
     IAudioSource* cAudioManager::create(const char* name, const char* filename, bool stream)
     {
-		cAudioMutexBasicLock lock(Mutex);
+		if(!Initialized) return NULL;
 
+		cAudioMutexBasicLock lock(Mutex);
 		cAudioString audioName = safeCStr(name);
 		cAudioString path = safeCStr(filename);
 		cAudioString ext = getExt(path);
@@ -208,8 +185,9 @@ namespace cAudio
 
     IAudioSource* cAudioManager::createFromMemory(const char* name, const char* data, size_t length, const char* extension)
     {
-		cAudioMutexBasicLock lock(Mutex);
+		if(!Initialized) return NULL;
 
+		cAudioMutexBasicLock lock(Mutex);
 		cAudioString audioName = safeCStr(name);
 		cAudioString ext = safeCStr(extension);
 		IAudioDecoderFactory* factory = getAudioDecoderFactory(ext.c_str());
@@ -237,6 +215,8 @@ namespace cAudio
 
 	IAudioSource* cAudioManager::createFromRaw(const char* name, const char* data, size_t length, unsigned int frequency, AudioFormats format)
 	{
+		if(!Initialized) return NULL;
+
 		cAudioMutexBasicLock lock(Mutex);
 		cAudioString audioName = safeCStr(name);
 		IAudioDecoderFactory* factory = getAudioDecoderFactory("raw");
@@ -505,78 +485,12 @@ namespace cAudio
 			for(unsigned int i=0; i<audioSources.size(); ++i)
 			{
 				if(source == audioSources[i])
-				{
-					source->drop();
+				{					
 					audioSources.erase(audioSources.begin()+i);
+					source->drop();
 					break;
 				}
 			}
 		}
-	}
-
-    void cAudioManager::update()
-    {
-		cAudioMutexBasicLock lock(Mutex);
-        for(unsigned int i=0; i<audioSources.size(); ++i)
-		{
-			IAudioSource* source = audioSources[i];
-            if (source->isValid())
-            {
-                if (source->update())
-                {
-
-                }
-            }
-        }
-    }
-
-    void cAudioManager::shutDown()
-    {
-		if(Initialized)
-		{
-			cAudioMutexBasicLock lock(Mutex);
-			releaseAllSources();
-			//Reset context to null
-			alcMakeContextCurrent(NULL);
-			//Delete the context
-			alcDestroyContext(Context);
-			Context = NULL;
-			//Close the device
-			alcCloseDevice(Device);
-			Device = NULL;
-			Initialized = false;
-			getLogger()->logInfo("AudioManager", "Manager successfully shutdown.");
-		}
-    }
-
-	bool cAudioManager::checkError()
-	{
-		int error = alGetError();
-		const char* errorString;
-
-        if (error != AL_NO_ERROR)
-        {
-			errorString = alGetString(error);
-			getLogger()->logError("AudioManager", "OpenAL Error: %s.", errorString);
-			return true;
-        }
-
-		if(Device)
-		{
-			error = alcGetError(Device);
-			if (error != AL_NO_ERROR)
-			{
-				errorString = alGetString(error);
-				getLogger()->logError("AudioManager", "OpenAL Error: %s.", errorString);
-				return true;
-			}
-		}
-		return false;
-	}
-
-	void cAudioManager::run()
-	{
-		update();
-		cAudioSleep(1);
 	}
 };

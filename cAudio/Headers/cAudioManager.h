@@ -4,7 +4,6 @@
 
 #pragma once
 
-#include "cAudioSource.h"
 #include "cListener.h"
 #include "cMutex.h"
 #include "cAudioEffects.h"
@@ -14,9 +13,7 @@
 #include "cSTLAllocator.h"
 #include "cAudioString.h"
 #include "IThread.h"
-
-#include <al.h>
-#include <alc.h>
+#include "IAudioDeviceContext.h"
 
 namespace cAudio
 {
@@ -34,7 +31,7 @@ namespace cAudio
 			ON_DATASOURCEREGISTER,
 		};
 
-		cAudioManager() : Device(NULL), Context(NULL), AudioThread(NULL), EFXSupported(false), Initialized(false) { }
+		cAudioManager() : AudioThread(NULL), AudioContext(NULL), Initialized(false) { }
 		virtual ~cAudioManager();
 
 		virtual bool initialize(const char* deviceName = 0x0, int outputFrequency = -1, int eaxEffectSlots = 4);      
@@ -66,36 +63,28 @@ namespace cAudio
 
 		virtual IListener* getListener() { return &initlistener; }
 
-		virtual bool isUpdateThreadRunning() 
-		{
-			return (AudioThread != NULL && AudioThread->isRunning());
-		}
+		virtual bool isUpdateThreadRunning();
 
 #if CAUDIO_EFX_ENABLED == 1
-		virtual IAudioEffects* getEffects() { return &initEffects; }
+		virtual IAudioEffects* getEffects();
 #endif
+
 	protected:
 		virtual void run();
 
 		IAudioSource* createAudioSource(IAudioDecoder* decoder, const cAudioString& audioName, const cAudioString& dataSource);
 
 	private:
-		//! Mutex for thread syncronization
+		//! Mutex for thread synchronization
 		cAudioMutex Mutex;
-
-		//! An OpenAL context pointer
-		ALCcontext* Context;
-		//! An OpenAL device pointer
-		ALCdevice* Device;
-
-		//! Holds whether EFX is supported
-		bool EFXSupported;
 
 		//! Whether the manager is currently initialized and ready to go.
 		bool Initialized;
 
 		//! Our update thread
 		IThread* AudioThread;
+
+		IAudioDeviceContext* AudioContext;
 
 		//! Holds an index for fast searching of audio sources by name
 		cAudioMap<cAudioString, IAudioSource*>::Type audioIndex;
@@ -112,12 +101,6 @@ namespace cAudio
 
 		//! The listener object        
 		cListener initlistener;
-#if CAUDIO_EFX_ENABLED == 1
-		//! Interface for audio effects
-		cAudioEffects initEffects;
-#endif
-		//! Check for OpenAL errors
-		bool checkError();
 
 		//! Signals a event to all event handlers
 		void signalEvent(Events sevent);

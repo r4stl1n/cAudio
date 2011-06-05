@@ -39,6 +39,7 @@
     <Compile Include="IAudioCapture.cs" />
     <Compile Include="IAudioDecoder.cs" />
     <Compile Include="IAudioDecoderFactory.cs" />
+    <Compile Include="IAudioDeviceContext.cs" />
     <Compile Include="IAudioDeviceList.cs" />
     <Compile Include="IAudioManager.cs" />
     <Compile Include="IAudioPlugin.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="IManagerEventHandler.cs" />
     <Compile Include="IMemoryProvider.cs" />
     <Compile Include="IntVector.cs" />
+    <Compile Include="IPluginManager.cs" />
     <Compile Include="IRefCounted.cs" />
     <Compile Include="ISourceEventHandler.cs" />
     <Compile Include="IThread.cs" />
@@ -61,6 +63,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringMap.cs" />
     <Compile Include="StringVector.cs" />
+    <Compile Include="SWIGTYPE_p_cAudio__IAudioEffects.cs" />
     <Compile Include="SWIGTYPE_p_float.cs" />
     <Compile Include="SWIGTYPE_p_p_char.cs" />
     <Compile Include="SWIGTYPE_p_std__basic_stringT_char_t.cs" />

@@ -24,6 +24,7 @@ set (file_root_header_files
 	Headers/cWavAudioDecoderFactory.h
 	Headers/cWavDecoder.h
 	Headers/cOpenALAudioDeviceList.h
+	Headers/cOpenALDeviceContext.h
 )
 set (file_root_include
 	include/cAudio.h
@@ -57,6 +58,7 @@ set (file_root_include
 	include/IPluginManager.h
 	include/IRefCounted.h
 	include/ISourceEventHandler.h
+	include/IAudioDeviceContext.h
 )
 set (file_root_util
 	Headers/cUtils.h
@@ -87,6 +89,7 @@ set (file_root_source_files
 	src/cWavDecoder.cpp
 	src/cAudio.cpp
 	src/cOpenALAudioDeviceList.cpp
+	src/cOpenALDeviceContext.cpp
 )
 
 if(CAUDIO_ENABLE_OGG)

@@ -12,6 +12,16 @@ using System;
 using System.Runtime.InteropServices;
 
 public class cAudioCSharpWrapper {
+  public static IMemoryProvider getMemoryProvider() {
+    IntPtr cPtr = cAudioCSharpWrapperPINVOKE.getMemoryProvider();
+    IMemoryProvider ret = (cPtr == IntPtr.Zero) ? null : new IMemoryProvider(cPtr, false);
+    return ret;
+  }
+
+  public static void cAudioSleep(uint ms) {
+    cAudioCSharpWrapperPINVOKE.cAudioSleep(ms);
+  }
+
   public static string toWINSTR(string str) {
     string ret = cAudioCSharpWrapperPINVOKE.toWINSTR(str);
     return ret;
@@ -46,6 +56,12 @@ public class cAudioCSharpWrapper {
       SWIGTYPE_p_p_char ret = (cPtr == IntPtr.Zero) ? null : new SWIGTYPE_p_p_char(cPtr, false);
       return ret;
     } 
+  }
+
+  public static IPluginManager getPluginManager() {
+    IntPtr cPtr = cAudioCSharpWrapperPINVOKE.getPluginManager();
+    IPluginManager ret = (cPtr == IntPtr.Zero) ? null : new IPluginManager(cPtr, false);
+    return ret;
   }
 
   public static IAudioManager createAudioManager(bool initializeDefault) {
@@ -96,16 +112,6 @@ public class cAudioCSharpWrapper {
     IntPtr cPtr = cAudioCSharpWrapperPINVOKE.createAudioDeviceList__SWIG_1();
     IAudioDeviceList ret = (cPtr == IntPtr.Zero) ? null : new IAudioDeviceList(cPtr, false);
     return ret;
-  }
-
-  public static IMemoryProvider getMemoryProvider() {
-    IntPtr cPtr = cAudioCSharpWrapperPINVOKE.getMemoryProvider();
-    IMemoryProvider ret = (cPtr == IntPtr.Zero) ? null : new IMemoryProvider(cPtr, false);
-    return ret;
-  }
-
-  public static void cAudioSleep(uint ms) {
-    cAudioCSharpWrapperPINVOKE.cAudioSleep(ms);
   }
 
   public static SWIGTYPE_p_float new_floatp() {

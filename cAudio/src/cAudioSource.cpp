@@ -47,20 +47,18 @@ namespace cAudio
 			alGenSources(1, &Source);
 			state = !checkError();
 		}
-#if CAUDIO_EFX_ENABLED == 1
-		Valid = state && (Decoder != NULL) && (Context != NULL) && (EFX != NULL);
-#else
-		Valid = state && (Decoder != NULL) && (Context != NULL);
-#endif
 
 #if CAUDIO_EFX_ENABLED == 1
+		Valid = state && (Decoder != NULL) && (Context != NULL) && (EFX != NULL);
+
 		int numSlots = 0;
 		ALCdevice* device = alcGetContextsDevice(Context);
 		alcGetIntegerv(device, ALC_MAX_AUXILIARY_SENDS, 1, &numSlots);
 
 		EffectSlotsAvailable = (numSlots <= CAUDIO_SOURCE_MAX_EFFECT_SLOTS) ? numSlots : CAUDIO_SOURCE_MAX_EFFECT_SLOTS;
+#else
+		Valid = state && (Decoder != NULL) && (Context != NULL);
 #endif
-
     }
 
     cAudioSource::~cAudioSource()
