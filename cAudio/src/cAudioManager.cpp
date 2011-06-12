@@ -119,9 +119,9 @@ namespace cAudio
 		if(decoder && decoder->isValid())
 		{
 #if CAUDIO_EFX_ENABLED == 1
-			IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, ((cOpenALDeviceContext*)AudioContext)->getOpenALContext(), ((cAudioEffects*)getEffects())->getEFXInterface());
+			IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, AudioContext, ((cAudioEffects*)getEffects())->getEFXInterface());
 #else
-			IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, ((cOpenALDeviceContext*)AudioContext)->getOpenALContext());
+			IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, AudioContext);
 #endif
 			decoder->drop();
 
@@ -473,7 +473,7 @@ namespace cAudio
 	void cAudioManager::release(IAudioSource* source)
 	{
 		if(source)
-		{
+		{		
 			cAudioMutexBasicLock lock(Mutex);
 			audioIndexIterator it = audioIndex.begin();
 			for ( it=audioIndex.begin(); it != audioIndex.end(); it++ )
@@ -488,8 +488,13 @@ namespace cAudio
 			{
 				if(source == audioSources[i])
 				{					
-					audioSources.erase(audioSources.begin()+i);
-					source->drop();
+					audioSources.erase(audioSources.begin()+i);		
+
+					if (source->getReferenceCount() <= 1)
+						CAUDIO_DELETE source;
+					else
+						source->drop();
+
 					break;
 				}
 			}

@@ -65,6 +65,8 @@ int main(int argc, char* argv[])
 			cAudio::cAudioSleep(10000);
 		}
 
+		mysound->drop();
+
 		//Delete all IAudio sounds
 		manager->releaseAllSources();
 		//Shutdown cAudio

@@ -16,13 +16,13 @@ namespace cAudio
 		virtual ~IRefCounted() { }
 
 		//! Increments the reference count by one.
-		void grab()
+		virtual void grab()
 		{
 			++RefCount; 
 		}
 
 		//! Decrements the reference count by one.  If it hits zero, this object is deleted.
-		bool drop()
+		virtual bool drop()
 		{
 			--RefCount;
 			if (RefCount < 1)
@@ -39,7 +39,7 @@ namespace cAudio
 			return RefCount;
 		}
 
-	private:
+	protected:
 		int RefCount;
 	};	
 }

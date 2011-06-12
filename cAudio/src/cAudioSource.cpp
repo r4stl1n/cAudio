@@ -8,17 +8,20 @@
 #include "cFilter.h"
 #include "cEffect.h"
 #include "cAudioSleep.h"
-
 #include <string.h>
+
+#if CAUDIO_EFX_ENABLED == 1
+#include "cOpenALDeviceContext.h"
+#endif
 
 namespace cAudio
 {
 #if CAUDIO_EFX_ENABLED == 1
-    cAudioSource::cAudioSource(IAudioDecoder* decoder, ALCcontext* context, cEFXFunctions* oALFunctions)
+    cAudioSource::cAudioSource(IAudioDecoder* decoder, IAudioDeviceContext* context, cEFXFunctions* oALFunctions)
 		: Context(context), Source(0), Decoder(decoder), Loop(false), Valid(false),
 		EFX(oALFunctions), Filter(NULL), EffectSlotsAvailable(0), LastFilterTimeStamp(0)
 #else
-	cAudioSource::cAudioSource(IAudioDecoder* decoder, ALCcontext* context)
+	cAudioSource::cAudioSource(IAudioDecoder* decoder, IAudioDeviceContext* context)
 		: Context(context), Source(0), Decoder(decoder), Loop(false), Valid(false)
 #endif
     {
@@ -52,7 +55,7 @@ namespace cAudio
 		Valid = state && (Decoder != NULL) && (Context != NULL) && (EFX != NULL);
 
 		int numSlots = 0;
-		ALCdevice* device = alcGetContextsDevice(Context);
+		ALCdevice* device = alcGetContextsDevice(((cOpenALDeviceContext*)Context)->getOpenALContext());
 		alcGetIntegerv(device, ALC_MAX_AUXILIARY_SENDS, 1, &numSlots);
 
 		EffectSlotsAvailable = (numSlots <= CAUDIO_SOURCE_MAX_EFFECT_SLOTS) ? numSlots : CAUDIO_SOURCE_MAX_EFFECT_SLOTS;
@@ -94,6 +97,18 @@ namespace cAudio
 
 		unRegisterAllEventHandlers();
     }
+
+
+	bool cAudioSource::drop()
+	{
+		--RefCount;
+		if (RefCount == 0)
+		{
+			Context->getAudioManager()->release(this);
+			return true;
+		}
+		return false;
+	}
 
 	bool cAudioSource::play()
 	{

@@ -17,6 +17,7 @@
 #include "cVector3.h"
 #include "ILogger.h"
 #include "cSTLAllocator.h"
+#include "IAudioDeviceContext.h"
 
 namespace cAudio
 {
@@ -34,9 +35,9 @@ namespace cAudio
 		};
 
 #if CAUDIO_EFX_ENABLED == 1
-		cAudioSource(IAudioDecoder* decoder, ALCcontext* context, cEFXFunctions* oALFunctions);
+		cAudioSource(IAudioDecoder* decoder, IAudioDeviceContext* context, cEFXFunctions* oALFunctions);
 #else
-		cAudioSource(IAudioDecoder* decoder, ALCcontext* context);
+		cAudioSource(IAudioDecoder* decoder, IAudioDeviceContext* context);
 #endif
 		~cAudioSource();
 
@@ -113,6 +114,8 @@ namespace cAudio
 		virtual void unRegisterEventHandler(ISourceEventHandler* handler);
 		virtual void unRegisterAllEventHandlers();
 
+		virtual bool drop(); //! Override the default behavior
+
 #if CAUDIO_EFX_ENABLED == 1
 		virtual unsigned int getNumEffectSlotsAvailable() const;
 		virtual bool attachEffect(unsigned int slot, IEffect* effect);
@@ -137,8 +140,8 @@ namespace cAudio
 		ALenum convertAudioFormatEnum(AudioFormats format);
 
 		//! The context that owns this source
-		ALCcontext* Context;
-
+		IAudioDeviceContext* Context;
+		
 		//! Internal audio buffers
 		ALuint Buffers[CAUDIO_SOURCE_NUM_BUFFERS]; 
 		//! OpenAL source
