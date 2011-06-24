@@ -344,6 +344,7 @@ namespace Swig {
 #include <stdexcept>
 
 
+#include "cAudioString.h"
 #include "IRefCounted.h"
 #include "EAudioFormats.h"
 #include "IAudioEffects.h"
@@ -369,7 +370,6 @@ namespace Swig {
 #include "cAudioMemory.h"
 #include "cAudioPlatform.h"
 #include "cAudioSleep.h"
-#include "cAudioString.h"
 #include "cSTLAllocator.h"
 #include "cVector3.h"
 #include "IAudioCapture.h"
@@ -803,6 +803,28 @@ SwigDirector_IDataSource::~SwigDirector_IDataSource() {
 }
 
 
+void SwigDirector_IDataSource::grab() {
+  if (!swig_callbackgrab) {
+    cAudio::IRefCounted::grab();
+    return;
+  } else {
+    swig_callbackgrab();
+  }
+}
+
+bool SwigDirector_IDataSource::drop() {
+  bool c_result = SwigValueInit< bool >() ;
+  unsigned int jresult = 0 ;
+  
+  if (!swig_callbackdrop) {
+    return cAudio::IRefCounted::drop();
+  } else {
+    jresult = (unsigned int) swig_callbackdrop();
+    c_result = jresult ? true : false; 
+  }
+  return c_result;
+}
+
 bool SwigDirector_IDataSource::isValid() {
   bool c_result = SwigValueInit< bool >() ;
   unsigned int jresult = 0 ;
@@ -876,7 +898,9 @@ bool SwigDirector_IDataSource::seek(int amount, bool relative) {
   return c_result;
 }
 
-void SwigDirector_IDataSource::swig_connect_director(SWIG_Callback0_t callbackisValid, SWIG_Callback1_t callbackgetCurrentPos, SWIG_Callback2_t callbackgetSize, SWIG_Callback3_t callbackread, SWIG_Callback4_t callbackseek) {
+void SwigDirector_IDataSource::swig_connect_director(SWIG_Callback0_t callbackgrab, SWIG_Callback1_t callbackdrop, SWIG_Callback2_t callbackisValid, SWIG_Callback3_t callbackgetCurrentPos, SWIG_Callback4_t callbackgetSize, SWIG_Callback5_t callbackread, SWIG_Callback6_t callbackseek) {
+  swig_callbackgrab = callbackgrab;
+  swig_callbackdrop = callbackdrop;
   swig_callbackisValid = callbackisValid;
   swig_callbackgetCurrentPos = callbackgetCurrentPos;
   swig_callbackgetSize = callbackgetSize;
@@ -885,6 +909,8 @@ void SwigDirector_IDataSource::swig_connect_director(SWIG_Callback0_t callbackis
 }
 
 void SwigDirector_IDataSource::swig_init_callbacks() {
+  swig_callbackgrab = 0;
+  swig_callbackdrop = 0;
   swig_callbackisValid = 0;
   swig_callbackgetCurrentPos = 0;
   swig_callbackgetSize = 0;
@@ -1168,6 +1194,28 @@ SwigDirector_IAudioDecoder::~SwigDirector_IAudioDecoder() {
 }
 
 
+void SwigDirector_IAudioDecoder::grab() {
+  if (!swig_callbackgrab) {
+    cAudio::IRefCounted::grab();
+    return;
+  } else {
+    swig_callbackgrab();
+  }
+}
+
+bool SwigDirector_IAudioDecoder::drop() {
+  bool c_result = SwigValueInit< bool >() ;
+  unsigned int jresult = 0 ;
+  
+  if (!swig_callbackdrop) {
+    return cAudio::IRefCounted::drop();
+  } else {
+    jresult = (unsigned int) swig_callbackdrop();
+    c_result = jresult ? true : false; 
+  }
+  return c_result;
+}
+
 cAudio::AudioFormats SwigDirector_IAudioDecoder::getFormat() {
   cAudio::AudioFormats c_result = SwigValueInit< cAudio::AudioFormats >() ;
   int jresult = 0 ;
@@ -1366,7 +1414,9 @@ cAudio::cAudioString SwigDirector_IAudioDecoder::getType() const {
   return c_result;
 }
 
-void SwigDirector_IAudioDecoder::swig_connect_director(SWIG_Callback0_t callbackgetFormat, SWIG_Callback1_t callbackgetFrequency, SWIG_Callback2_t callbackisSeekingSupported, SWIG_Callback3_t callbackisValid, SWIG_Callback4_t callbackreadAudioData, SWIG_Callback5_t callbacksetPosition, SWIG_Callback6_t callbackseek, SWIG_Callback7_t callbackgetTotalTime, SWIG_Callback8_t callbackgetTotalSize, SWIG_Callback9_t callbackgetCompressedSize, SWIG_Callback10_t callbackgetCurrentTime, SWIG_Callback11_t callbackgetCurrentPosition, SWIG_Callback12_t callbackgetCurrentCompressedPosition, SWIG_Callback13_t callbackgetType) {
+void SwigDirector_IAudioDecoder::swig_connect_director(SWIG_Callback0_t callbackgrab, SWIG_Callback1_t callbackdrop, SWIG_Callback2_t callbackgetFormat, SWIG_Callback3_t callbackgetFrequency, SWIG_Callback4_t callbackisSeekingSupported, SWIG_Callback5_t callbackisValid, SWIG_Callback6_t callbackreadAudioData, SWIG_Callback7_t callbacksetPosition, SWIG_Callback8_t callbackseek, SWIG_Callback9_t callbackgetTotalTime, SWIG_Callback10_t callbackgetTotalSize, SWIG_Callback11_t callbackgetCompressedSize, SWIG_Callback12_t callbackgetCurrentTime, SWIG_Callback13_t callbackgetCurrentPosition, SWIG_Callback14_t callbackgetCurrentCompressedPosition, SWIG_Callback15_t callbackgetType) {
+  swig_callbackgrab = callbackgrab;
+  swig_callbackdrop = callbackdrop;
   swig_callbackgetFormat = callbackgetFormat;
   swig_callbackgetFrequency = callbackgetFrequency;
   swig_callbackisSeekingSupported = callbackisSeekingSupported;
@@ -1384,6 +1434,8 @@ void SwigDirector_IAudioDecoder::swig_connect_director(SWIG_Callback0_t callback
 }
 
 void SwigDirector_IAudioDecoder::swig_init_callbacks() {
+  swig_callbackgrab = 0;
+  swig_callbackdrop = 0;
   swig_callbackgetFormat = 0;
   swig_callbackgetFrequency = 0;
   swig_callbackisSeekingSupported = 0;
@@ -1436,6 +1488,46 @@ void SwigDirector_IAudioDecoderFactory::swig_init_callbacks() {
 #ifdef __cplusplus
 extern "C" {
 #endif
+
+SWIGEXPORT char * SWIGSTDCALL CSharp_toWINSTR(char * jarg1) {
+  char * jresult ;
+  char *arg1 = (char *) 0 ;
+  char *result = 0 ;
+  
+  arg1 = (char *)jarg1; 
+  result = (char *)cAudio::toWINSTR((char const *)arg1);
+  jresult = SWIG_csharp_string_callback((const char *)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT char * SWIGSTDCALL CSharp_toUTF8(void * jarg1) {
+  char * jresult ;
+  cAudio::cAudioString *arg1 = 0 ;
+  char *result = 0 ;
+  
+  arg1 = (cAudio::cAudioString *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "cAudio::cAudioString const & type is null", 0);
+    return 0;
+  } 
+  result = (char *)cAudio::toUTF8((std::basic_string< char > const &)*arg1);
+  jresult = SWIG_csharp_string_callback((const char *)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_fromUTF8(char * jarg1) {
+  void * jresult ;
+  char *arg1 = (char *) 0 ;
+  cAudio::cAudioString result;
+  
+  arg1 = (char *)jarg1; 
+  result = cAudio::fromUTF8((char const *)arg1);
+  jresult = new cAudio::cAudioString((const cAudio::cAudioString &)result); 
+  return jresult;
+}
+
 
 SWIGEXPORT void * SWIGSTDCALL CSharp_IMemoryProvider_Allocate(void * jarg1, unsigned long jarg2, char * jarg3, int jarg4, char * jarg5) {
   void * jresult ;
@@ -1542,46 +1634,6 @@ SWIGEXPORT void SWIGSTDCALL CSharp_cAudioSleep(unsigned int jarg1) {
   
   arg1 = (unsigned int)jarg1; 
   cAudio::cAudioSleep(arg1);
-}
-
-
-SWIGEXPORT char * SWIGSTDCALL CSharp_toWINSTR(char * jarg1) {
-  char * jresult ;
-  char *arg1 = (char *) 0 ;
-  char *result = 0 ;
-  
-  arg1 = (char *)jarg1; 
-  result = (char *)cAudio::toWINSTR((char const *)arg1);
-  jresult = SWIG_csharp_string_callback((const char *)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT char * SWIGSTDCALL CSharp_toUTF8(void * jarg1) {
-  char * jresult ;
-  cAudio::cAudioString *arg1 = 0 ;
-  char *result = 0 ;
-  
-  arg1 = (cAudio::cAudioString *)jarg1;
-  if (!arg1) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "cAudio::cAudioString const & type is null", 0);
-    return 0;
-  } 
-  result = (char *)cAudio::toUTF8(*arg1);
-  jresult = SWIG_csharp_string_callback((const char *)result); 
-  return jresult;
-}
-
-
-SWIGEXPORT void * SWIGSTDCALL CSharp_fromUTF8(char * jarg1) {
-  void * jresult ;
-  char *arg1 = (char *) 0 ;
-  cAudio::cAudioString result;
-  
-  arg1 = (char *)jarg1; 
-  result = cAudio::fromUTF8((char const *)arg1);
-  jresult = new cAudio::cAudioString((const cAudio::cAudioString &)result); 
-  return jresult;
 }
 
 
@@ -1793,11 +1845,11 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_IDataSource_seek(void * jarg1, int ja
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_IDataSource_director_connect(void *objarg, SwigDirector_IDataSource::SWIG_Callback0_t callback0, SwigDirector_IDataSource::SWIG_Callback1_t callback1, SwigDirector_IDataSource::SWIG_Callback2_t callback2, SwigDirector_IDataSource::SWIG_Callback3_t callback3, SwigDirector_IDataSource::SWIG_Callback4_t callback4) {
+SWIGEXPORT void SWIGSTDCALL CSharp_IDataSource_director_connect(void *objarg, SwigDirector_IDataSource::SWIG_Callback0_t callback0, SwigDirector_IDataSource::SWIG_Callback1_t callback1, SwigDirector_IDataSource::SWIG_Callback2_t callback2, SwigDirector_IDataSource::SWIG_Callback3_t callback3, SwigDirector_IDataSource::SWIG_Callback4_t callback4, SwigDirector_IDataSource::SWIG_Callback5_t callback5, SwigDirector_IDataSource::SWIG_Callback6_t callback6) {
   cAudio::IDataSource *obj = (cAudio::IDataSource *)objarg;
   SwigDirector_IDataSource *director = dynamic_cast<SwigDirector_IDataSource *>(obj);
   if (director) {
-    director->swig_connect_director(callback0, callback1, callback2, callback3, callback4);
+    director->swig_connect_director(callback0, callback1, callback2, callback3, callback4, callback5, callback6);
   }
 }
 
@@ -3612,11 +3664,11 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_IAudioDecoder_getType(void * jarg1) {
 }
 
 
-SWIGEXPORT void SWIGSTDCALL CSharp_IAudioDecoder_director_connect(void *objarg, SwigDirector_IAudioDecoder::SWIG_Callback0_t callback0, SwigDirector_IAudioDecoder::SWIG_Callback1_t callback1, SwigDirector_IAudioDecoder::SWIG_Callback2_t callback2, SwigDirector_IAudioDecoder::SWIG_Callback3_t callback3, SwigDirector_IAudioDecoder::SWIG_Callback4_t callback4, SwigDirector_IAudioDecoder::SWIG_Callback5_t callback5, SwigDirector_IAudioDecoder::SWIG_Callback6_t callback6, SwigDirector_IAudioDecoder::SWIG_Callback7_t callback7, SwigDirector_IAudioDecoder::SWIG_Callback8_t callback8, SwigDirector_IAudioDecoder::SWIG_Callback9_t callback9, SwigDirector_IAudioDecoder::SWIG_Callback10_t callback10, SwigDirector_IAudioDecoder::SWIG_Callback11_t callback11, SwigDirector_IAudioDecoder::SWIG_Callback12_t callback12, SwigDirector_IAudioDecoder::SWIG_Callback13_t callback13) {
+SWIGEXPORT void SWIGSTDCALL CSharp_IAudioDecoder_director_connect(void *objarg, SwigDirector_IAudioDecoder::SWIG_Callback0_t callback0, SwigDirector_IAudioDecoder::SWIG_Callback1_t callback1, SwigDirector_IAudioDecoder::SWIG_Callback2_t callback2, SwigDirector_IAudioDecoder::SWIG_Callback3_t callback3, SwigDirector_IAudioDecoder::SWIG_Callback4_t callback4, SwigDirector_IAudioDecoder::SWIG_Callback5_t callback5, SwigDirector_IAudioDecoder::SWIG_Callback6_t callback6, SwigDirector_IAudioDecoder::SWIG_Callback7_t callback7, SwigDirector_IAudioDecoder::SWIG_Callback8_t callback8, SwigDirector_IAudioDecoder::SWIG_Callback9_t callback9, SwigDirector_IAudioDecoder::SWIG_Callback10_t callback10, SwigDirector_IAudioDecoder::SWIG_Callback11_t callback11, SwigDirector_IAudioDecoder::SWIG_Callback12_t callback12, SwigDirector_IAudioDecoder::SWIG_Callback13_t callback13, SwigDirector_IAudioDecoder::SWIG_Callback14_t callback14, SwigDirector_IAudioDecoder::SWIG_Callback15_t callback15) {
   cAudio::IAudioDecoder *obj = (cAudio::IAudioDecoder *)objarg;
   SwigDirector_IAudioDecoder *director = dynamic_cast<SwigDirector_IAudioDecoder *>(obj);
   if (director) {
-    director->swig_connect_director(callback0, callback1, callback2, callback3, callback4, callback5, callback6, callback7, callback8, callback9, callback10, callback11, callback12, callback13);
+    director->swig_connect_director(callback0, callback1, callback2, callback3, callback4, callback5, callback6, callback7, callback8, callback9, callback10, callback11, callback12, callback13, callback14, callback15);
   }
 }
 
@@ -3787,6 +3839,156 @@ SWIGEXPORT void SWIGSTDCALL CSharp_IAudioManager_release(void * jarg1, void * ja
   arg1 = (cAudio::IAudioManager *)jarg1; 
   arg2 = (cAudio::IAudioSource *)jarg2; 
   (arg1)->release(arg2);
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_IAudioManager_play2D__SWIG_0(void * jarg1, char * jarg2, unsigned int jarg3, unsigned int jarg4) {
+  void * jresult ;
+  cAudio::IAudioManager *arg1 = (cAudio::IAudioManager *) 0 ;
+  char *arg2 = (char *) 0 ;
+  bool arg3 ;
+  bool arg4 ;
+  cAudio::IAudioSource *result = 0 ;
+  
+  arg1 = (cAudio::IAudioManager *)jarg1; 
+  arg2 = (char *)jarg2; 
+  arg3 = jarg3 ? true : false; 
+  arg4 = jarg4 ? true : false; 
+  result = (cAudio::IAudioSource *)(arg1)->play2D((char const *)arg2,arg3,arg4);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_IAudioManager_play2D__SWIG_1(void * jarg1, char * jarg2, unsigned int jarg3) {
+  void * jresult ;
+  cAudio::IAudioManager *arg1 = (cAudio::IAudioManager *) 0 ;
+  char *arg2 = (char *) 0 ;
+  bool arg3 ;
+  cAudio::IAudioSource *result = 0 ;
+  
+  arg1 = (cAudio::IAudioManager *)jarg1; 
+  arg2 = (char *)jarg2; 
+  arg3 = jarg3 ? true : false; 
+  result = (cAudio::IAudioSource *)(arg1)->play2D((char const *)arg2,arg3);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_IAudioManager_play2D__SWIG_2(void * jarg1, char * jarg2) {
+  void * jresult ;
+  cAudio::IAudioManager *arg1 = (cAudio::IAudioManager *) 0 ;
+  char *arg2 = (char *) 0 ;
+  cAudio::IAudioSource *result = 0 ;
+  
+  arg1 = (cAudio::IAudioManager *)jarg1; 
+  arg2 = (char *)jarg2; 
+  result = (cAudio::IAudioSource *)(arg1)->play2D((char const *)arg2);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_IAudioManager_play3D__SWIG_0(void * jarg1, char * jarg2, void * jarg3, unsigned int jarg4, unsigned int jarg5) {
+  void * jresult ;
+  cAudio::IAudioManager *arg1 = (cAudio::IAudioManager *) 0 ;
+  char *arg2 = (char *) 0 ;
+  cAudio::cVector3 arg3 ;
+  bool arg4 ;
+  bool arg5 ;
+  cAudio::cVector3 *argp3 ;
+  cAudio::IAudioSource *result = 0 ;
+  
+  arg1 = (cAudio::IAudioManager *)jarg1; 
+  arg2 = (char *)jarg2; 
+  argp3 = (cAudio::cVector3 *)jarg3; 
+  if (!argp3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null cAudio::cVector3", 0);
+    return 0;
+  }
+  arg3 = *argp3; 
+  arg4 = jarg4 ? true : false; 
+  arg5 = jarg5 ? true : false; 
+  result = (cAudio::IAudioSource *)(arg1)->play3D((char const *)arg2,arg3,arg4,arg5);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_IAudioManager_play3D__SWIG_1(void * jarg1, char * jarg2, void * jarg3, unsigned int jarg4) {
+  void * jresult ;
+  cAudio::IAudioManager *arg1 = (cAudio::IAudioManager *) 0 ;
+  char *arg2 = (char *) 0 ;
+  cAudio::cVector3 arg3 ;
+  bool arg4 ;
+  cAudio::cVector3 *argp3 ;
+  cAudio::IAudioSource *result = 0 ;
+  
+  arg1 = (cAudio::IAudioManager *)jarg1; 
+  arg2 = (char *)jarg2; 
+  argp3 = (cAudio::cVector3 *)jarg3; 
+  if (!argp3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null cAudio::cVector3", 0);
+    return 0;
+  }
+  arg3 = *argp3; 
+  arg4 = jarg4 ? true : false; 
+  result = (cAudio::IAudioSource *)(arg1)->play3D((char const *)arg2,arg3,arg4);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_IAudioManager_play3D__SWIG_2(void * jarg1, char * jarg2, void * jarg3) {
+  void * jresult ;
+  cAudio::IAudioManager *arg1 = (cAudio::IAudioManager *) 0 ;
+  char *arg2 = (char *) 0 ;
+  cAudio::cVector3 arg3 ;
+  cAudio::cVector3 *argp3 ;
+  cAudio::IAudioSource *result = 0 ;
+  
+  arg1 = (cAudio::IAudioManager *)jarg1; 
+  arg2 = (char *)jarg2; 
+  argp3 = (cAudio::cVector3 *)jarg3; 
+  if (!argp3) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Attempt to dereference null cAudio::cVector3", 0);
+    return 0;
+  }
+  arg3 = *argp3; 
+  result = (cAudio::IAudioSource *)(arg1)->play3D((char const *)arg2,arg3);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_IAudioManager_setMasterVolume(void * jarg1, float jarg2) {
+  cAudio::IAudioManager *arg1 = (cAudio::IAudioManager *) 0 ;
+  float arg2 ;
+  
+  arg1 = (cAudio::IAudioManager *)jarg1; 
+  arg2 = (float)jarg2; 
+  (arg1)->setMasterVolume(arg2);
+}
+
+
+SWIGEXPORT float SWIGSTDCALL CSharp_IAudioManager_getMasterVolume(void * jarg1) {
+  float jresult ;
+  cAudio::IAudioManager *arg1 = (cAudio::IAudioManager *) 0 ;
+  float result;
+  
+  arg1 = (cAudio::IAudioManager *)jarg1; 
+  result = (float)((cAudio::IAudioManager const *)arg1)->getMasterVolume();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_IAudioManager_stopAllSounds(void * jarg1) {
+  cAudio::IAudioManager *arg1 = (cAudio::IAudioManager *) 0 ;
+  
+  arg1 = (cAudio::IAudioManager *)jarg1; 
+  (arg1)->stopAllSounds();
 }
 
 

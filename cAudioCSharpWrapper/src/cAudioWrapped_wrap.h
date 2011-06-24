@@ -16,25 +16,31 @@ class SwigDirector_IDataSource : public cAudio::IDataSource, public Swig::Direct
 public:
     SwigDirector_IDataSource();
     virtual ~SwigDirector_IDataSource();
+    virtual void grab();
+    virtual bool drop();
     virtual bool isValid();
     virtual int getCurrentPos();
     virtual int getSize();
     virtual int read(void *output, int size);
     virtual bool seek(int amount, bool relative);
 
-    typedef unsigned int (SWIGSTDCALL* SWIG_Callback0_t)();
-    typedef int (SWIGSTDCALL* SWIG_Callback1_t)();
-    typedef int (SWIGSTDCALL* SWIG_Callback2_t)();
-    typedef int (SWIGSTDCALL* SWIG_Callback3_t)(void *, int);
-    typedef unsigned int (SWIGSTDCALL* SWIG_Callback4_t)(int, unsigned int);
-    void swig_connect_director(SWIG_Callback0_t callbackisValid, SWIG_Callback1_t callbackgetCurrentPos, SWIG_Callback2_t callbackgetSize, SWIG_Callback3_t callbackread, SWIG_Callback4_t callbackseek);
+    typedef void (SWIGSTDCALL* SWIG_Callback0_t)();
+    typedef unsigned int (SWIGSTDCALL* SWIG_Callback1_t)();
+    typedef unsigned int (SWIGSTDCALL* SWIG_Callback2_t)();
+    typedef int (SWIGSTDCALL* SWIG_Callback3_t)();
+    typedef int (SWIGSTDCALL* SWIG_Callback4_t)();
+    typedef int (SWIGSTDCALL* SWIG_Callback5_t)(void *, int);
+    typedef unsigned int (SWIGSTDCALL* SWIG_Callback6_t)(int, unsigned int);
+    void swig_connect_director(SWIG_Callback0_t callbackgrab, SWIG_Callback1_t callbackdrop, SWIG_Callback2_t callbackisValid, SWIG_Callback3_t callbackgetCurrentPos, SWIG_Callback4_t callbackgetSize, SWIG_Callback5_t callbackread, SWIG_Callback6_t callbackseek);
 
 private:
-    SWIG_Callback0_t swig_callbackisValid;
-    SWIG_Callback1_t swig_callbackgetCurrentPos;
-    SWIG_Callback2_t swig_callbackgetSize;
-    SWIG_Callback3_t swig_callbackread;
-    SWIG_Callback4_t swig_callbackseek;
+    SWIG_Callback0_t swig_callbackgrab;
+    SWIG_Callback1_t swig_callbackdrop;
+    SWIG_Callback2_t swig_callbackisValid;
+    SWIG_Callback3_t swig_callbackgetCurrentPos;
+    SWIG_Callback4_t swig_callbackgetSize;
+    SWIG_Callback5_t swig_callbackread;
+    SWIG_Callback6_t swig_callbackseek;
     void swig_init_callbacks();
 };
 
@@ -156,6 +162,8 @@ class SwigDirector_IAudioDecoder : public cAudio::IAudioDecoder, public Swig::Di
 public:
     SwigDirector_IAudioDecoder(cAudio::IDataSource *stream);
     virtual ~SwigDirector_IAudioDecoder();
+    virtual void grab();
+    virtual bool drop();
     virtual cAudio::AudioFormats getFormat();
     virtual int getFrequency();
     virtual bool isSeekingSupported();
@@ -171,37 +179,41 @@ public:
     virtual int getCurrentCompressedPosition();
     virtual cAudio::cAudioString getType() const;
 
-    typedef int (SWIGSTDCALL* SWIG_Callback0_t)();
-    typedef int (SWIGSTDCALL* SWIG_Callback1_t)();
-    typedef unsigned int (SWIGSTDCALL* SWIG_Callback2_t)();
-    typedef unsigned int (SWIGSTDCALL* SWIG_Callback3_t)();
-    typedef int (SWIGSTDCALL* SWIG_Callback4_t)(void *, int);
-    typedef unsigned int (SWIGSTDCALL* SWIG_Callback5_t)(int, unsigned int);
-    typedef unsigned int (SWIGSTDCALL* SWIG_Callback6_t)(float, unsigned int);
-    typedef float (SWIGSTDCALL* SWIG_Callback7_t)();
-    typedef int (SWIGSTDCALL* SWIG_Callback8_t)();
-    typedef int (SWIGSTDCALL* SWIG_Callback9_t)();
-    typedef float (SWIGSTDCALL* SWIG_Callback10_t)();
+    typedef void (SWIGSTDCALL* SWIG_Callback0_t)();
+    typedef unsigned int (SWIGSTDCALL* SWIG_Callback1_t)();
+    typedef int (SWIGSTDCALL* SWIG_Callback2_t)();
+    typedef int (SWIGSTDCALL* SWIG_Callback3_t)();
+    typedef unsigned int (SWIGSTDCALL* SWIG_Callback4_t)();
+    typedef unsigned int (SWIGSTDCALL* SWIG_Callback5_t)();
+    typedef int (SWIGSTDCALL* SWIG_Callback6_t)(void *, int);
+    typedef unsigned int (SWIGSTDCALL* SWIG_Callback7_t)(int, unsigned int);
+    typedef unsigned int (SWIGSTDCALL* SWIG_Callback8_t)(float, unsigned int);
+    typedef float (SWIGSTDCALL* SWIG_Callback9_t)();
+    typedef int (SWIGSTDCALL* SWIG_Callback10_t)();
     typedef int (SWIGSTDCALL* SWIG_Callback11_t)();
-    typedef int (SWIGSTDCALL* SWIG_Callback12_t)();
-    typedef void * (SWIGSTDCALL* SWIG_Callback13_t)();
-    void swig_connect_director(SWIG_Callback0_t callbackgetFormat, SWIG_Callback1_t callbackgetFrequency, SWIG_Callback2_t callbackisSeekingSupported, SWIG_Callback3_t callbackisValid, SWIG_Callback4_t callbackreadAudioData, SWIG_Callback5_t callbacksetPosition, SWIG_Callback6_t callbackseek, SWIG_Callback7_t callbackgetTotalTime, SWIG_Callback8_t callbackgetTotalSize, SWIG_Callback9_t callbackgetCompressedSize, SWIG_Callback10_t callbackgetCurrentTime, SWIG_Callback11_t callbackgetCurrentPosition, SWIG_Callback12_t callbackgetCurrentCompressedPosition, SWIG_Callback13_t callbackgetType);
+    typedef float (SWIGSTDCALL* SWIG_Callback12_t)();
+    typedef int (SWIGSTDCALL* SWIG_Callback13_t)();
+    typedef int (SWIGSTDCALL* SWIG_Callback14_t)();
+    typedef void * (SWIGSTDCALL* SWIG_Callback15_t)();
+    void swig_connect_director(SWIG_Callback0_t callbackgrab, SWIG_Callback1_t callbackdrop, SWIG_Callback2_t callbackgetFormat, SWIG_Callback3_t callbackgetFrequency, SWIG_Callback4_t callbackisSeekingSupported, SWIG_Callback5_t callbackisValid, SWIG_Callback6_t callbackreadAudioData, SWIG_Callback7_t callbacksetPosition, SWIG_Callback8_t callbackseek, SWIG_Callback9_t callbackgetTotalTime, SWIG_Callback10_t callbackgetTotalSize, SWIG_Callback11_t callbackgetCompressedSize, SWIG_Callback12_t callbackgetCurrentTime, SWIG_Callback13_t callbackgetCurrentPosition, SWIG_Callback14_t callbackgetCurrentCompressedPosition, SWIG_Callback15_t callbackgetType);
 
 private:
-    SWIG_Callback0_t swig_callbackgetFormat;
-    SWIG_Callback1_t swig_callbackgetFrequency;
-    SWIG_Callback2_t swig_callbackisSeekingSupported;
-    SWIG_Callback3_t swig_callbackisValid;
-    SWIG_Callback4_t swig_callbackreadAudioData;
-    SWIG_Callback5_t swig_callbacksetPosition;
-    SWIG_Callback6_t swig_callbackseek;
-    SWIG_Callback7_t swig_callbackgetTotalTime;
-    SWIG_Callback8_t swig_callbackgetTotalSize;
-    SWIG_Callback9_t swig_callbackgetCompressedSize;
-    SWIG_Callback10_t swig_callbackgetCurrentTime;
-    SWIG_Callback11_t swig_callbackgetCurrentPosition;
-    SWIG_Callback12_t swig_callbackgetCurrentCompressedPosition;
-    SWIG_Callback13_t swig_callbackgetType;
+    SWIG_Callback0_t swig_callbackgrab;
+    SWIG_Callback1_t swig_callbackdrop;
+    SWIG_Callback2_t swig_callbackgetFormat;
+    SWIG_Callback3_t swig_callbackgetFrequency;
+    SWIG_Callback4_t swig_callbackisSeekingSupported;
+    SWIG_Callback5_t swig_callbackisValid;
+    SWIG_Callback6_t swig_callbackreadAudioData;
+    SWIG_Callback7_t swig_callbacksetPosition;
+    SWIG_Callback8_t swig_callbackseek;
+    SWIG_Callback9_t swig_callbackgetTotalTime;
+    SWIG_Callback10_t swig_callbackgetTotalSize;
+    SWIG_Callback11_t swig_callbackgetCompressedSize;
+    SWIG_Callback12_t swig_callbackgetCurrentTime;
+    SWIG_Callback13_t swig_callbackgetCurrentPosition;
+    SWIG_Callback14_t swig_callbackgetCurrentCompressedPosition;
+    SWIG_Callback15_t swig_callbackgetType;
     void swig_init_callbacks();
 };
 

@@ -7,6 +7,7 @@
 #define CAUDIO_API
 
 %{
+#include "cAudioString.h"
 #include "IRefCounted.h"
 #include "EAudioFormats.h"
 #include "IAudioEffects.h"
@@ -32,7 +33,6 @@
 #include "cAudioMemory.h"
 #include "cAudioPlatform.h"
 #include "cAudioSleep.h"
-#include "cAudioString.h"
 #include "cSTLAllocator.h"
 #include "cVector3.h"
 #include "IAudioCapture.h"
@@ -142,6 +142,7 @@
 %feature("director") cAudio::IAudioDecoderFactory;
 %feature("director") cAudio::IAudioDecoder;
 
+%include "..\cAudio\include\cAudioString.h"
 %include "..\cAudio\include\IMemoryProvider.h"
 %include "..\cAudio\include\cAudioDefines.h"
 %include "..\cAudio\include\cAudioMemory.h"

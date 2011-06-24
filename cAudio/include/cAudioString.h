@@ -33,7 +33,7 @@ namespace cAudio
 #	define cfopen		fopen
 #endif
 
-#if CAUDIO_REROUTE_STL_ALLOCATIONS == 1
+#if CAUDIO_REROUTE_STRING_ALLOCATIONS == 1
 	typedef std::basic_string< cAudioChar, std::char_traits<cAudioChar>, cSTLAllocator<cAudioChar> > cAudioString;
 #else
 	//typedef std::string cAudioString;

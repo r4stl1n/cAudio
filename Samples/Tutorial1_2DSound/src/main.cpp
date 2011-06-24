@@ -54,6 +54,16 @@ int main(int argc, char* argv[]) {
 #else
 		cAudio::IAudioSource* mysound = manager->create("bling", AUDIO_FILE(cAudioTheme1.ogg),true);        
 #endif 
+
+		for (size_t i=0; i<10; i++)
+		{
+#ifdef CAUDIO_PLATFORM_WIN   
+			manager->play2D(AUDIO_FILE("bling.ogg"));
+#else
+			manager->play2D(AUDIO_FILE(bling.ogg));
+#endif 
+		}
+		
 		if(mysound)
 		{
 			mysound->setVolume(0.5);
@@ -66,8 +76,6 @@ int main(int argc, char* argv[]) {
 
 		}
 
-		//Delete all IAudio sounds
-		manager->releaseAllSources();
 		//Shutdown cAudio
 		manager->shutDown();
 

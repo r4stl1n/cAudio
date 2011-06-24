@@ -61,6 +61,39 @@ namespace cAudio
 		//! Creates an Audio Source object using the highest priority data source that has the referenced filename
 		/**
 		\param name: Name of the audio source.
+		\param playLooped: if the sound is looped a IAudioSource is returned
+		\param startPaused: if false the sound plays asap
+		\return A pointer to an Audio Source or NULL if creation failed.
+		*/
+		virtual IAudioSource* play2D(const char* filename, 
+									 bool playLooped = false,
+									 bool startPaused = false) = 0;
+
+		//! Creates an Audio Source object using the highest priority data source that has the referenced filename
+		/**
+		\param name: Name of the audio source.
+		\param position: The start position of the sound.
+		\param playLooped: if the sound is looped a IAudioSource is returned
+		\param startPaused: if false the sound plays asap
+		\return A pointer to an Audio Source or NULL if creation failed.
+		*/
+		virtual IAudioSource* play3D(const char* filename, 
+									 cVector3 position,
+									 bool playLooped = false,
+									 bool startPaused = false) = 0;
+
+		//! Sets master volume. (valid range [0 - 1.0])
+		virtual void setMasterVolume(float vol) = 0;
+
+		//! Get the master volume.
+		virtual float getMasterVolume() const = 0;
+
+		//! Stops all playing sounds.
+		virtual void stopAllSounds() = 0;
+
+		//! Creates an Audio Source object using the highest priority data source that has the referenced filename
+		/**
+		\param name: Name of the audio source.
 		\param filename: Path to the file to load audio data from.
 		\param stream: Whether to stream the audio data or load it all into a memory buffer at the start.  You should consider using streaming for really large sound files.
 		\return A pointer to an Audio Source or NULL if creation failed.

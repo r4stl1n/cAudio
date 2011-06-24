@@ -12,16 +12,6 @@ using System;
 using System.Runtime.InteropServices;
 
 public class cAudioCSharpWrapper {
-  public static IMemoryProvider getMemoryProvider() {
-    IntPtr cPtr = cAudioCSharpWrapperPINVOKE.getMemoryProvider();
-    IMemoryProvider ret = (cPtr == IntPtr.Zero) ? null : new IMemoryProvider(cPtr, false);
-    return ret;
-  }
-
-  public static void cAudioSleep(uint ms) {
-    cAudioCSharpWrapperPINVOKE.cAudioSleep(ms);
-  }
-
   public static string toWINSTR(string str) {
     string ret = cAudioCSharpWrapperPINVOKE.toWINSTR(str);
     return ret;
@@ -36,6 +26,16 @@ public class cAudioCSharpWrapper {
   public static SWIGTYPE_p_std__basic_stringT_char_t fromUTF8(string str) {
     SWIGTYPE_p_std__basic_stringT_char_t ret = new SWIGTYPE_p_std__basic_stringT_char_t(cAudioCSharpWrapperPINVOKE.fromUTF8(str), true);
     return ret;
+  }
+
+  public static IMemoryProvider getMemoryProvider() {
+    IntPtr cPtr = cAudioCSharpWrapperPINVOKE.getMemoryProvider();
+    IMemoryProvider ret = (cPtr == IntPtr.Zero) ? null : new IMemoryProvider(cPtr, false);
+    return ret;
+  }
+
+  public static void cAudioSleep(uint ms) {
+    cAudioCSharpWrapperPINVOKE.cAudioSleep(ms);
   }
 
   public static float Epsilon {

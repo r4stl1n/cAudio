@@ -44,11 +44,11 @@ public class IRefCounted : IDisposable {
   public IRefCounted() : this(cAudioCSharpWrapperPINVOKE.new_IRefCounted(), true) {
   }
 
-  public void grab() {
+  public virtual void grab() {
     cAudioCSharpWrapperPINVOKE.IRefCounted_grab(swigCPtr);
   }
 
-  public bool drop() {
+  public virtual bool drop() {
     bool ret = cAudioCSharpWrapperPINVOKE.IRefCounted_drop(swigCPtr);
     return ret;
   }

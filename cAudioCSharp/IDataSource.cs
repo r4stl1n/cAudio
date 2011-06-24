@@ -70,23 +70,35 @@ public class IDataSource : IRefCounted {
   }
 
   private void SwigDirectorConnect() {
-    if (SwigDerivedClassHasMethod("isValid", swigMethodTypes0))
-      swigDelegate0 = new SwigDelegateIDataSource_0(SwigDirectorisValid);
-    if (SwigDerivedClassHasMethod("getCurrentPos", swigMethodTypes1))
-      swigDelegate1 = new SwigDelegateIDataSource_1(SwigDirectorgetCurrentPos);
-    if (SwigDerivedClassHasMethod("getSize", swigMethodTypes2))
-      swigDelegate2 = new SwigDelegateIDataSource_2(SwigDirectorgetSize);
-    if (SwigDerivedClassHasMethod("read", swigMethodTypes3))
-      swigDelegate3 = new SwigDelegateIDataSource_3(SwigDirectorread);
-    if (SwigDerivedClassHasMethod("seek", swigMethodTypes4))
-      swigDelegate4 = new SwigDelegateIDataSource_4(SwigDirectorseek);
-    cAudioCSharpWrapperPINVOKE.IDataSource_director_connect(swigCPtr, swigDelegate0, swigDelegate1, swigDelegate2, swigDelegate3, swigDelegate4);
+    if (SwigDerivedClassHasMethod("grab", swigMethodTypes0))
+      swigDelegate0 = new SwigDelegateIDataSource_0(SwigDirectorgrab);
+    if (SwigDerivedClassHasMethod("drop", swigMethodTypes1))
+      swigDelegate1 = new SwigDelegateIDataSource_1(SwigDirectordrop);
+    if (SwigDerivedClassHasMethod("isValid", swigMethodTypes2))
+      swigDelegate2 = new SwigDelegateIDataSource_2(SwigDirectorisValid);
+    if (SwigDerivedClassHasMethod("getCurrentPos", swigMethodTypes3))
+      swigDelegate3 = new SwigDelegateIDataSource_3(SwigDirectorgetCurrentPos);
+    if (SwigDerivedClassHasMethod("getSize", swigMethodTypes4))
+      swigDelegate4 = new SwigDelegateIDataSource_4(SwigDirectorgetSize);
+    if (SwigDerivedClassHasMethod("read", swigMethodTypes5))
+      swigDelegate5 = new SwigDelegateIDataSource_5(SwigDirectorread);
+    if (SwigDerivedClassHasMethod("seek", swigMethodTypes6))
+      swigDelegate6 = new SwigDelegateIDataSource_6(SwigDirectorseek);
+    cAudioCSharpWrapperPINVOKE.IDataSource_director_connect(swigCPtr, swigDelegate0, swigDelegate1, swigDelegate2, swigDelegate3, swigDelegate4, swigDelegate5, swigDelegate6);
   }
 
   private bool SwigDerivedClassHasMethod(string methodName, Type[] methodTypes) {
     System.Reflection.MethodInfo methodInfo = this.GetType().GetMethod(methodName, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance, null, methodTypes, null);
     bool hasDerivedMethod = methodInfo.DeclaringType.IsSubclassOf(typeof(IDataSource));
     return hasDerivedMethod;
+  }
+
+  private void SwigDirectorgrab() {
+    grab();
+  }
+
+  private bool SwigDirectordrop() {
+    return drop();
   }
 
   private bool SwigDirectorisValid() {
@@ -109,23 +121,29 @@ public class IDataSource : IRefCounted {
     return seek(amount, relative);
   }
 
-  public delegate bool SwigDelegateIDataSource_0();
-  public delegate int SwigDelegateIDataSource_1();
-  public delegate int SwigDelegateIDataSource_2();
-  public delegate int SwigDelegateIDataSource_3(IntPtr output, int size);
-  public delegate bool SwigDelegateIDataSource_4(int amount, bool relative);
+  public delegate void SwigDelegateIDataSource_0();
+  public delegate bool SwigDelegateIDataSource_1();
+  public delegate bool SwigDelegateIDataSource_2();
+  public delegate int SwigDelegateIDataSource_3();
+  public delegate int SwigDelegateIDataSource_4();
+  public delegate int SwigDelegateIDataSource_5(IntPtr output, int size);
+  public delegate bool SwigDelegateIDataSource_6(int amount, bool relative);
 
   private SwigDelegateIDataSource_0 swigDelegate0;
   private SwigDelegateIDataSource_1 swigDelegate1;
   private SwigDelegateIDataSource_2 swigDelegate2;
   private SwigDelegateIDataSource_3 swigDelegate3;
   private SwigDelegateIDataSource_4 swigDelegate4;
+  private SwigDelegateIDataSource_5 swigDelegate5;
+  private SwigDelegateIDataSource_6 swigDelegate6;
 
   private static Type[] swigMethodTypes0 = new Type[] {  };
   private static Type[] swigMethodTypes1 = new Type[] {  };
   private static Type[] swigMethodTypes2 = new Type[] {  };
-  private static Type[] swigMethodTypes3 = new Type[] { typeof(SWIGTYPE_p_void), typeof(int) };
-  private static Type[] swigMethodTypes4 = new Type[] { typeof(int), typeof(bool) };
+  private static Type[] swigMethodTypes3 = new Type[] {  };
+  private static Type[] swigMethodTypes4 = new Type[] {  };
+  private static Type[] swigMethodTypes5 = new Type[] { typeof(SWIGTYPE_p_void), typeof(int) };
+  private static Type[] swigMethodTypes6 = new Type[] { typeof(int), typeof(bool) };
 }
 
 }

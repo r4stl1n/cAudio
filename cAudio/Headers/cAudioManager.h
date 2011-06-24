@@ -31,7 +31,7 @@ namespace cAudio
 			ON_DATASOURCEREGISTER,
 		};
 
-		cAudioManager() : AudioThread(NULL), AudioContext(NULL), Initialized(false) { }
+		cAudioManager() : AudioThread(NULL), AudioContext(NULL), Initialized(false), MasterVolume(1.0f) { }
 		virtual ~cAudioManager();
 
 		virtual bool initialize(const char* deviceName = 0x0, int outputFrequency = -1, int eaxEffectSlots = 4);      
@@ -40,6 +40,13 @@ namespace cAudio
 		virtual IAudioSource* getSoundByName(const char* name);       
 		virtual void releaseAllSources();
 		virtual void release(IAudioSource* source);
+
+		virtual IAudioSource* play2D(const char* filename, bool playLooped = false, bool startPaused = false);
+		virtual IAudioSource* play3D(const char* filename, cVector3 position, bool playLooped = false, bool startPaused = false);
+
+		virtual void setMasterVolume(float vol);
+		virtual float getMasterVolume() const;
+		virtual void stopAllSounds();
 
 		virtual IAudioSource* create(const char* name, const char* filename, bool stream = false);
 		virtual IAudioSource* createFromMemory(const char* name, const char* data, size_t length, const char* extension);
@@ -86,11 +93,17 @@ namespace cAudio
 
 		IAudioDeviceContext* AudioContext;
 
+		float MasterVolume;
+
 		//! Holds an index for fast searching of audio sources by name
 		cAudioMap<cAudioString, IAudioSource*>::Type audioIndex;
 		typedef cAudioMap<cAudioString, IAudioSource*>::Type::iterator audioIndexIterator;
 		//! Holds all managed audio sources
 		cAudioVector<IAudioSource*>::Type audioSources;
+		//! Holds audio sources which gets deleted from the audioManager
+		cAudioVector<IAudioSource*>::Type managedAudioSources;
+		//! Holds audio sources which gets deleted from the audioManager
+		cAudioVector<IAudioSource*>::Type managedAudioSourcesDelBuffer;
 		//! Decoder map that holds all decoders by file extension
 		cAudioMap<cAudioString, IAudioDecoderFactory*>::Type decodermap;
 		typedef cAudioMap<cAudioString, IAudioDecoderFactory*>::Type::iterator decodermapIterator;

@@ -80,7 +80,7 @@ namespace cAudio
 	{
 		cAudioMutexBasicLock lock(Mutex);
 		size_t count = audioSources.size();
-		for(unsigned int i=0; i<count; i++)
+		for(size_t i=0; i<count; i++)
 		{
 			IAudioSource* source = audioSources[i];
 			if (source->isValid())
@@ -88,6 +88,36 @@ namespace cAudio
 				source->update();
 			}
 		}
+
+		if (!managedAudioSources.empty())
+		{
+			count = managedAudioSources.size();
+			for(size_t i=0; i<count; i++)
+			{
+				IAudioSource* source = managedAudioSources[i];
+				if (source->isValid())
+				{
+					source->update();
+					if (source->isStopped())
+					{
+						managedAudioSourcesDelBuffer.push_back(source);
+					}
+				}
+			}
+
+			count = managedAudioSourcesDelBuffer.size();
+			for(size_t i=0; i<count; i++)
+			{
+				IAudioSource* source = managedAudioSourcesDelBuffer[i];
+				cAudioVector<IAudioSource*>::Type::iterator it = std::find(managedAudioSources.begin(), managedAudioSources.end(), source);
+				if (it != managedAudioSources.end())
+				{
+					managedAudioSources.erase(it);
+					CAUDIO_DELETE source;
+				}
+			}
+			managedAudioSourcesDelBuffer.clear();
+		}		
 	}
 
 	void cAudioManager::run()
@@ -113,6 +143,84 @@ namespace cAudio
 		return NULL;
 	}
 #endif
+
+	IAudioSource* cAudioManager::play2D(const char* filename, bool playLooped, bool startPaused)
+	{
+		cAudioMutexBasicLock lock(Mutex);
+		IAudioSource* pAudioSrc = create("", filename, true);
+
+		if (!playLooped && !startPaused)
+		{
+			cAudioVector<IAudioSource*>::Type::iterator it = std::find(audioSources.begin(), audioSources.end(), pAudioSrc);
+			if (it != audioSources.end())
+			{
+				audioSources.erase(it);
+			}
+			managedAudioSources.push_back(pAudioSrc);
+
+			pAudioSrc->play2d();
+			return NULL;			 
+		}
+
+		if (playLooped && !startPaused)
+		{
+			pAudioSrc->play2d(true);
+		}
+
+		return pAudioSrc;
+	}
+
+	IAudioSource* cAudioManager::play3D(const char* filename, cVector3 position, bool playLooped, bool startPaused)
+	{
+		cAudioMutexBasicLock lock(Mutex);
+		IAudioSource* pAudioSrc = create("", filename, true);
+
+		if (!playLooped && !startPaused)
+		{
+			cAudioVector<IAudioSource*>::Type::iterator it = std::find(audioSources.begin(), audioSources.end(), pAudioSrc);
+			if (it != audioSources.end())
+			{
+				audioSources.erase(it);
+			}
+			managedAudioSources.push_back(pAudioSrc);
+
+			pAudioSrc->play3d(position);
+			return NULL;			 
+		}
+
+		if (playLooped && !startPaused)
+		{
+			pAudioSrc->play3d(position, 1.0, true);
+		}
+
+		return pAudioSrc;
+	}
+
+	void cAudioManager::setMasterVolume(float vol)
+	{
+		cAudioMutexBasicLock lock(Mutex);
+		size_t count = audioSources.size();
+		for(size_t i=0; i<count; i++)
+		{
+			audioSources[i]->setVolume(MasterVolume * audioSources[i]->getVolume());
+		}
+	}
+
+	float cAudioManager::getMasterVolume() const
+	{
+		return MasterVolume;
+	}
+
+	void cAudioManager::stopAllSounds() 
+	{
+		cAudioMutexBasicLock lock(Mutex);
+		size_t count = audioSources.size();
+		for(size_t i=0; i<count; i++)
+		{
+			if(audioSources[i]->isPlaying())
+				audioSources[i]->stop();
+		}
+	}
 
 	IAudioSource* cAudioManager::createAudioSource(IAudioDecoder* decoder, const cAudioString& audioName, const cAudioString& dataSource)
 	{
@@ -460,7 +568,8 @@ namespace cAudio
     void cAudioManager::releaseAllSources()
     {
 		cAudioMutexBasicLock lock(Mutex);
-		for(unsigned int i=0; i<audioSources.size(); ++i)
+		size_t count = audioSources.size();
+		for(size_t i=0; i<count; i++)
 		{
 			IAudioSource* source = audioSources[i];
 			if(source)
@@ -468,6 +577,28 @@ namespace cAudio
 		}
 		audioSources.clear();
 		audioIndex.clear();
+
+		count = managedAudioSources.size();
+		for(size_t i=0; i<count; i++)
+		{
+			IAudioSource* source = managedAudioSources[i];
+			if (source)
+			{
+				CAUDIO_DELETE source;
+			}
+		}
+		managedAudioSources.clear();
+
+		count = managedAudioSourcesDelBuffer.size();
+		for(size_t i=0; i<count; i++)
+		{
+			IAudioSource* source = managedAudioSourcesDelBuffer[i];
+			if (source)
+			{
+				CAUDIO_DELETE source;
+			}
+		}
+		managedAudioSourcesDelBuffer.clear();
     }
 
 	void cAudioManager::release(IAudioSource* source)

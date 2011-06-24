@@ -115,41 +115,53 @@ public class IAudioDecoder : IRefCounted {
   }
 
   private void SwigDirectorConnect() {
-    if (SwigDerivedClassHasMethod("getFormat", swigMethodTypes0))
-      swigDelegate0 = new SwigDelegateIAudioDecoder_0(SwigDirectorgetFormat);
-    if (SwigDerivedClassHasMethod("getFrequency", swigMethodTypes1))
-      swigDelegate1 = new SwigDelegateIAudioDecoder_1(SwigDirectorgetFrequency);
-    if (SwigDerivedClassHasMethod("isSeekingSupported", swigMethodTypes2))
-      swigDelegate2 = new SwigDelegateIAudioDecoder_2(SwigDirectorisSeekingSupported);
-    if (SwigDerivedClassHasMethod("isValid", swigMethodTypes3))
-      swigDelegate3 = new SwigDelegateIAudioDecoder_3(SwigDirectorisValid);
-    if (SwigDerivedClassHasMethod("readAudioData", swigMethodTypes4))
-      swigDelegate4 = new SwigDelegateIAudioDecoder_4(SwigDirectorreadAudioData);
-    if (SwigDerivedClassHasMethod("setPosition", swigMethodTypes5))
-      swigDelegate5 = new SwigDelegateIAudioDecoder_5(SwigDirectorsetPosition);
-    if (SwigDerivedClassHasMethod("seek", swigMethodTypes6))
-      swigDelegate6 = new SwigDelegateIAudioDecoder_6(SwigDirectorseek);
-    if (SwigDerivedClassHasMethod("getTotalTime", swigMethodTypes7))
-      swigDelegate7 = new SwigDelegateIAudioDecoder_7(SwigDirectorgetTotalTime);
-    if (SwigDerivedClassHasMethod("getTotalSize", swigMethodTypes8))
-      swigDelegate8 = new SwigDelegateIAudioDecoder_8(SwigDirectorgetTotalSize);
-    if (SwigDerivedClassHasMethod("getCompressedSize", swigMethodTypes9))
-      swigDelegate9 = new SwigDelegateIAudioDecoder_9(SwigDirectorgetCompressedSize);
-    if (SwigDerivedClassHasMethod("getCurrentTime", swigMethodTypes10))
-      swigDelegate10 = new SwigDelegateIAudioDecoder_10(SwigDirectorgetCurrentTime);
-    if (SwigDerivedClassHasMethod("getCurrentPosition", swigMethodTypes11))
-      swigDelegate11 = new SwigDelegateIAudioDecoder_11(SwigDirectorgetCurrentPosition);
-    if (SwigDerivedClassHasMethod("getCurrentCompressedPosition", swigMethodTypes12))
-      swigDelegate12 = new SwigDelegateIAudioDecoder_12(SwigDirectorgetCurrentCompressedPosition);
-    if (SwigDerivedClassHasMethod("getType", swigMethodTypes13))
-      swigDelegate13 = new SwigDelegateIAudioDecoder_13(SwigDirectorgetType);
-    cAudioCSharpWrapperPINVOKE.IAudioDecoder_director_connect(swigCPtr, swigDelegate0, swigDelegate1, swigDelegate2, swigDelegate3, swigDelegate4, swigDelegate5, swigDelegate6, swigDelegate7, swigDelegate8, swigDelegate9, swigDelegate10, swigDelegate11, swigDelegate12, swigDelegate13);
+    if (SwigDerivedClassHasMethod("grab", swigMethodTypes0))
+      swigDelegate0 = new SwigDelegateIAudioDecoder_0(SwigDirectorgrab);
+    if (SwigDerivedClassHasMethod("drop", swigMethodTypes1))
+      swigDelegate1 = new SwigDelegateIAudioDecoder_1(SwigDirectordrop);
+    if (SwigDerivedClassHasMethod("getFormat", swigMethodTypes2))
+      swigDelegate2 = new SwigDelegateIAudioDecoder_2(SwigDirectorgetFormat);
+    if (SwigDerivedClassHasMethod("getFrequency", swigMethodTypes3))
+      swigDelegate3 = new SwigDelegateIAudioDecoder_3(SwigDirectorgetFrequency);
+    if (SwigDerivedClassHasMethod("isSeekingSupported", swigMethodTypes4))
+      swigDelegate4 = new SwigDelegateIAudioDecoder_4(SwigDirectorisSeekingSupported);
+    if (SwigDerivedClassHasMethod("isValid", swigMethodTypes5))
+      swigDelegate5 = new SwigDelegateIAudioDecoder_5(SwigDirectorisValid);
+    if (SwigDerivedClassHasMethod("readAudioData", swigMethodTypes6))
+      swigDelegate6 = new SwigDelegateIAudioDecoder_6(SwigDirectorreadAudioData);
+    if (SwigDerivedClassHasMethod("setPosition", swigMethodTypes7))
+      swigDelegate7 = new SwigDelegateIAudioDecoder_7(SwigDirectorsetPosition);
+    if (SwigDerivedClassHasMethod("seek", swigMethodTypes8))
+      swigDelegate8 = new SwigDelegateIAudioDecoder_8(SwigDirectorseek);
+    if (SwigDerivedClassHasMethod("getTotalTime", swigMethodTypes9))
+      swigDelegate9 = new SwigDelegateIAudioDecoder_9(SwigDirectorgetTotalTime);
+    if (SwigDerivedClassHasMethod("getTotalSize", swigMethodTypes10))
+      swigDelegate10 = new SwigDelegateIAudioDecoder_10(SwigDirectorgetTotalSize);
+    if (SwigDerivedClassHasMethod("getCompressedSize", swigMethodTypes11))
+      swigDelegate11 = new SwigDelegateIAudioDecoder_11(SwigDirectorgetCompressedSize);
+    if (SwigDerivedClassHasMethod("getCurrentTime", swigMethodTypes12))
+      swigDelegate12 = new SwigDelegateIAudioDecoder_12(SwigDirectorgetCurrentTime);
+    if (SwigDerivedClassHasMethod("getCurrentPosition", swigMethodTypes13))
+      swigDelegate13 = new SwigDelegateIAudioDecoder_13(SwigDirectorgetCurrentPosition);
+    if (SwigDerivedClassHasMethod("getCurrentCompressedPosition", swigMethodTypes14))
+      swigDelegate14 = new SwigDelegateIAudioDecoder_14(SwigDirectorgetCurrentCompressedPosition);
+    if (SwigDerivedClassHasMethod("getType", swigMethodTypes15))
+      swigDelegate15 = new SwigDelegateIAudioDecoder_15(SwigDirectorgetType);
+    cAudioCSharpWrapperPINVOKE.IAudioDecoder_director_connect(swigCPtr, swigDelegate0, swigDelegate1, swigDelegate2, swigDelegate3, swigDelegate4, swigDelegate5, swigDelegate6, swigDelegate7, swigDelegate8, swigDelegate9, swigDelegate10, swigDelegate11, swigDelegate12, swigDelegate13, swigDelegate14, swigDelegate15);
   }
 
   private bool SwigDerivedClassHasMethod(string methodName, Type[] methodTypes) {
     System.Reflection.MethodInfo methodInfo = this.GetType().GetMethod(methodName, System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance, null, methodTypes, null);
     bool hasDerivedMethod = methodInfo.DeclaringType.IsSubclassOf(typeof(IAudioDecoder));
     return hasDerivedMethod;
+  }
+
+  private void SwigDirectorgrab() {
+    grab();
+  }
+
+  private bool SwigDirectordrop() {
+    return drop();
   }
 
   private int SwigDirectorgetFormat() {
@@ -208,20 +220,22 @@ public class IAudioDecoder : IRefCounted {
     return SWIGTYPE_p_std__basic_stringT_char_t.getCPtr(getType()).Handle;
   }
 
-  public delegate int SwigDelegateIAudioDecoder_0();
-  public delegate int SwigDelegateIAudioDecoder_1();
-  public delegate bool SwigDelegateIAudioDecoder_2();
-  public delegate bool SwigDelegateIAudioDecoder_3();
-  public delegate int SwigDelegateIAudioDecoder_4(IntPtr output, int amount);
-  public delegate bool SwigDelegateIAudioDecoder_5(int position, bool relative);
-  public delegate bool SwigDelegateIAudioDecoder_6(float seconds, bool relative);
-  public delegate float SwigDelegateIAudioDecoder_7();
-  public delegate int SwigDelegateIAudioDecoder_8();
-  public delegate int SwigDelegateIAudioDecoder_9();
-  public delegate float SwigDelegateIAudioDecoder_10();
+  public delegate void SwigDelegateIAudioDecoder_0();
+  public delegate bool SwigDelegateIAudioDecoder_1();
+  public delegate int SwigDelegateIAudioDecoder_2();
+  public delegate int SwigDelegateIAudioDecoder_3();
+  public delegate bool SwigDelegateIAudioDecoder_4();
+  public delegate bool SwigDelegateIAudioDecoder_5();
+  public delegate int SwigDelegateIAudioDecoder_6(IntPtr output, int amount);
+  public delegate bool SwigDelegateIAudioDecoder_7(int position, bool relative);
+  public delegate bool SwigDelegateIAudioDecoder_8(float seconds, bool relative);
+  public delegate float SwigDelegateIAudioDecoder_9();
+  public delegate int SwigDelegateIAudioDecoder_10();
   public delegate int SwigDelegateIAudioDecoder_11();
-  public delegate int SwigDelegateIAudioDecoder_12();
-  public delegate IntPtr SwigDelegateIAudioDecoder_13();
+  public delegate float SwigDelegateIAudioDecoder_12();
+  public delegate int SwigDelegateIAudioDecoder_13();
+  public delegate int SwigDelegateIAudioDecoder_14();
+  public delegate IntPtr SwigDelegateIAudioDecoder_15();
 
   private SwigDelegateIAudioDecoder_0 swigDelegate0;
   private SwigDelegateIAudioDecoder_1 swigDelegate1;
@@ -237,21 +251,25 @@ public class IAudioDecoder : IRefCounted {
   private SwigDelegateIAudioDecoder_11 swigDelegate11;
   private SwigDelegateIAudioDecoder_12 swigDelegate12;
   private SwigDelegateIAudioDecoder_13 swigDelegate13;
+  private SwigDelegateIAudioDecoder_14 swigDelegate14;
+  private SwigDelegateIAudioDecoder_15 swigDelegate15;
 
   private static Type[] swigMethodTypes0 = new Type[] {  };
   private static Type[] swigMethodTypes1 = new Type[] {  };
   private static Type[] swigMethodTypes2 = new Type[] {  };
   private static Type[] swigMethodTypes3 = new Type[] {  };
-  private static Type[] swigMethodTypes4 = new Type[] { typeof(SWIGTYPE_p_void), typeof(int) };
-  private static Type[] swigMethodTypes5 = new Type[] { typeof(int), typeof(bool) };
-  private static Type[] swigMethodTypes6 = new Type[] { typeof(float), typeof(bool) };
-  private static Type[] swigMethodTypes7 = new Type[] {  };
-  private static Type[] swigMethodTypes8 = new Type[] {  };
+  private static Type[] swigMethodTypes4 = new Type[] {  };
+  private static Type[] swigMethodTypes5 = new Type[] {  };
+  private static Type[] swigMethodTypes6 = new Type[] { typeof(SWIGTYPE_p_void), typeof(int) };
+  private static Type[] swigMethodTypes7 = new Type[] { typeof(int), typeof(bool) };
+  private static Type[] swigMethodTypes8 = new Type[] { typeof(float), typeof(bool) };
   private static Type[] swigMethodTypes9 = new Type[] {  };
   private static Type[] swigMethodTypes10 = new Type[] {  };
   private static Type[] swigMethodTypes11 = new Type[] {  };
   private static Type[] swigMethodTypes12 = new Type[] {  };
   private static Type[] swigMethodTypes13 = new Type[] {  };
+  private static Type[] swigMethodTypes14 = new Type[] {  };
+  private static Type[] swigMethodTypes15 = new Type[] {  };
 }
 
 }

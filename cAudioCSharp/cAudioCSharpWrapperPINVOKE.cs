@@ -189,6 +189,15 @@ class cAudioCSharpWrapperPINVOKE {
   }
 
 
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_toWINSTR")]
+  public static extern string toWINSTR(string jarg1);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_toUTF8")]
+  public static extern string toUTF8(HandleRef jarg1);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_fromUTF8")]
+  public static extern IntPtr fromUTF8(string jarg1);
+
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IMemoryProvider_Allocate")]
   public static extern IntPtr IMemoryProvider_Allocate(HandleRef jarg1, uint jarg2, string jarg3, int jarg4, string jarg5);
 
@@ -218,15 +227,6 @@ class cAudioCSharpWrapperPINVOKE {
 
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_cAudioSleep")]
   public static extern void cAudioSleep(uint jarg1);
-
-  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_toWINSTR")]
-  public static extern string toWINSTR(string jarg1);
-
-  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_toUTF8")]
-  public static extern string toUTF8(HandleRef jarg1);
-
-  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_fromUTF8")]
-  public static extern IntPtr fromUTF8(string jarg1);
 
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioDeviceList_getDeviceCount")]
   public static extern uint IAudioDeviceList_getDeviceCount(HandleRef jarg1);
@@ -283,7 +283,7 @@ class cAudioCSharpWrapperPINVOKE {
   public static extern bool IDataSource_seek(HandleRef jarg1, int jarg2, bool jarg3);
 
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IDataSource_director_connect")]
-  public static extern void IDataSource_director_connect(HandleRef jarg1, IDataSource.SwigDelegateIDataSource_0 delegate0, IDataSource.SwigDelegateIDataSource_1 delegate1, IDataSource.SwigDelegateIDataSource_2 delegate2, IDataSource.SwigDelegateIDataSource_3 delegate3, IDataSource.SwigDelegateIDataSource_4 delegate4);
+  public static extern void IDataSource_director_connect(HandleRef jarg1, IDataSource.SwigDelegateIDataSource_0 delegate0, IDataSource.SwigDelegateIDataSource_1 delegate1, IDataSource.SwigDelegateIDataSource_2 delegate2, IDataSource.SwigDelegateIDataSource_3 delegate3, IDataSource.SwigDelegateIDataSource_4 delegate4, IDataSource.SwigDelegateIDataSource_5 delegate5, IDataSource.SwigDelegateIDataSource_6 delegate6);
 
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_new_IDataSourceFactory")]
   public static extern IntPtr new_IDataSourceFactory();
@@ -730,7 +730,7 @@ class cAudioCSharpWrapperPINVOKE {
   public static extern IntPtr IAudioDecoder_getType(HandleRef jarg1);
 
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioDecoder_director_connect")]
-  public static extern void IAudioDecoder_director_connect(HandleRef jarg1, IAudioDecoder.SwigDelegateIAudioDecoder_0 delegate0, IAudioDecoder.SwigDelegateIAudioDecoder_1 delegate1, IAudioDecoder.SwigDelegateIAudioDecoder_2 delegate2, IAudioDecoder.SwigDelegateIAudioDecoder_3 delegate3, IAudioDecoder.SwigDelegateIAudioDecoder_4 delegate4, IAudioDecoder.SwigDelegateIAudioDecoder_5 delegate5, IAudioDecoder.SwigDelegateIAudioDecoder_6 delegate6, IAudioDecoder.SwigDelegateIAudioDecoder_7 delegate7, IAudioDecoder.SwigDelegateIAudioDecoder_8 delegate8, IAudioDecoder.SwigDelegateIAudioDecoder_9 delegate9, IAudioDecoder.SwigDelegateIAudioDecoder_10 delegate10, IAudioDecoder.SwigDelegateIAudioDecoder_11 delegate11, IAudioDecoder.SwigDelegateIAudioDecoder_12 delegate12, IAudioDecoder.SwigDelegateIAudioDecoder_13 delegate13);
+  public static extern void IAudioDecoder_director_connect(HandleRef jarg1, IAudioDecoder.SwigDelegateIAudioDecoder_0 delegate0, IAudioDecoder.SwigDelegateIAudioDecoder_1 delegate1, IAudioDecoder.SwigDelegateIAudioDecoder_2 delegate2, IAudioDecoder.SwigDelegateIAudioDecoder_3 delegate3, IAudioDecoder.SwigDelegateIAudioDecoder_4 delegate4, IAudioDecoder.SwigDelegateIAudioDecoder_5 delegate5, IAudioDecoder.SwigDelegateIAudioDecoder_6 delegate6, IAudioDecoder.SwigDelegateIAudioDecoder_7 delegate7, IAudioDecoder.SwigDelegateIAudioDecoder_8 delegate8, IAudioDecoder.SwigDelegateIAudioDecoder_9 delegate9, IAudioDecoder.SwigDelegateIAudioDecoder_10 delegate10, IAudioDecoder.SwigDelegateIAudioDecoder_11 delegate11, IAudioDecoder.SwigDelegateIAudioDecoder_12 delegate12, IAudioDecoder.SwigDelegateIAudioDecoder_13 delegate13, IAudioDecoder.SwigDelegateIAudioDecoder_14 delegate14, IAudioDecoder.SwigDelegateIAudioDecoder_15 delegate15);
 
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_new_IAudioDecoderFactory")]
   public static extern IntPtr new_IAudioDecoderFactory();
@@ -776,6 +776,33 @@ class cAudioCSharpWrapperPINVOKE {
 
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioManager_release")]
   public static extern void IAudioManager_release(HandleRef jarg1, HandleRef jarg2);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioManager_play2D__SWIG_0")]
+  public static extern IntPtr IAudioManager_play2D__SWIG_0(HandleRef jarg1, string jarg2, bool jarg3, bool jarg4);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioManager_play2D__SWIG_1")]
+  public static extern IntPtr IAudioManager_play2D__SWIG_1(HandleRef jarg1, string jarg2, bool jarg3);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioManager_play2D__SWIG_2")]
+  public static extern IntPtr IAudioManager_play2D__SWIG_2(HandleRef jarg1, string jarg2);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioManager_play3D__SWIG_0")]
+  public static extern IntPtr IAudioManager_play3D__SWIG_0(HandleRef jarg1, string jarg2, HandleRef jarg3, bool jarg4, bool jarg5);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioManager_play3D__SWIG_1")]
+  public static extern IntPtr IAudioManager_play3D__SWIG_1(HandleRef jarg1, string jarg2, HandleRef jarg3, bool jarg4);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioManager_play3D__SWIG_2")]
+  public static extern IntPtr IAudioManager_play3D__SWIG_2(HandleRef jarg1, string jarg2, HandleRef jarg3);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioManager_setMasterVolume")]
+  public static extern void IAudioManager_setMasterVolume(HandleRef jarg1, float jarg2);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioManager_getMasterVolume")]
+  public static extern float IAudioManager_getMasterVolume(HandleRef jarg1);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioManager_stopAllSounds")]
+  public static extern void IAudioManager_stopAllSounds(HandleRef jarg1);
 
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioManager_create__SWIG_0")]
   public static extern IntPtr IAudioManager_create__SWIG_0(HandleRef jarg1, string jarg2, string jarg3, bool jarg4);
