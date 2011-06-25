@@ -2,7 +2,7 @@
 
 // CMake auto-generated configuration options
 
-#define AUDIO_STATIC_LIB @CAUDIO_SET_STATIC@
+#define CAUDIO_STATIC_LIB @CAUDIO_SET_STATIC@
 
 //! This define controls whether the Ogg/Vorbis decoder is compiled into the library.
 #define CAUDIO_COMPILE_WITH_OGG_DECODER @CAUDIO_SET_ENABLE_OGG@
