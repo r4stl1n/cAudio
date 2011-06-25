@@ -16,29 +16,24 @@ namespace CSharpTutorial1_2DSound
         {
             //Some fancy text
             Console.WriteLine("cAudio 2.2.0 Tutorial 1: Basic 2D Audio. C# \n \n");
-
             Console.WriteLine("\nAvailable Playback Devices: \n");
 
-            //Create an uninitialized Audio Manager
-            IAudioManager mAudioMgr = cAudioCSharpWrapper.createAudioManager(false);
 
-            //Grab a list of avalible devices
+            //Grab a list of available devices
             IAudioDeviceList pDeviceList = cAudioCSharpWrapper.createAudioDeviceList();
 
-            //Get the number of avalible devices.
-            uint deviceCount = pDeviceList.getDeviceCount();
 
-            //Get the defualt device name.
-            string defaultDeviceName = pDeviceList.getDefaultDeviceName().ToString();
+            //Get the default device name.
+            string defaultDeviceName = pDeviceList.getDefaultDeviceName();
 
-            for(uint i=0; i< deviceCount; ++i)
+            for(uint i=0; i< pDeviceList.getDeviceCount(); i++)
 		    {
-		    	string deviceName = pDeviceList.getDeviceName(i).ToString();
+		    	string deviceName = pDeviceList.getDeviceName(i);
 
 			    if(deviceName.Equals(defaultDeviceName))
-				    Console.WriteLine(" "+ i + "): " + deviceName.ToString() + " [DEFAULT] \n");
+				    Console.WriteLine(" "+ i + "): " + deviceName + " [DEFAULT]");
 			    else
-				    Console.WriteLine(" "+ i + "): " + deviceName.ToString() + " \n");
+				    Console.WriteLine(" "+ i + "): " + deviceName);
 		    }
 
             Console.WriteLine("\n");
@@ -46,37 +41,25 @@ namespace CSharpTutorial1_2DSound
             string deviceSelection = Console.ReadLine();
             uint deviceSelect = Convert.ToUInt32(deviceSelection);
             Console.WriteLine("\n");
-            mAudioMgr.initialize(pDeviceList.getDeviceName(deviceSelect).ToString());
 
-            if (mAudioMgr != null)
+            //Create an uninitialized Audio Manager
+            IAudioManager audioMgr = cAudioCSharpWrapper.createAudioManager(false);
+            audioMgr.initialize(pDeviceList.getDeviceName(deviceSelect));
+
+            IAudioSource currentSource = audioMgr.create("bing", "../../../Media/cAudioTheme1.ogg");
+            if (currentSource != null)
             {
+                currentSource.setVolume(0.5f);
+                currentSource.play2d(false);
 
-                IAudioSource mCurrentSource;
-
-                mCurrentSource = mAudioMgr.create("bing", "../../../../Media/cAudioTheme1.ogg");
-
-                if (mCurrentSource != null)
+                while (currentSource.isPlaying())
                 {
-
-                    mCurrentSource.setVolume(0.5f);
-                    mCurrentSource.play2d(false);
-
-
-                    while (mCurrentSource.isPlaying())
-                    {
-                        cAudioCSharpWrapper.cAudioSleep(10);
-                    }
+                    cAudioCSharpWrapper.cAudioSleep(10);
                 }
-
-                mAudioMgr.shutDown();
-                cAudioCSharpWrapper.destroyAudioManager(mAudioMgr);
             }
-            else
-	        {
-		        Console.WriteLine("Failed to create audio playback manager. \n");
-	        }
+            audioMgr.Dispose();
 
-            Console.WriteLine("Press any key to quit \n");
+            Console.WriteLine(@"Press any key to quit ");
             Console.ReadLine();
         }
     }
