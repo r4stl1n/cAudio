@@ -5,6 +5,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cAudioPlayer", "cAudioPlaye
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "cAudioCSharp", "..\..\cAudioCSharp\cAudioCSharp.csproj", "{4DDC8FD9-BEAF-422E-A28E-093D299F7DEF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CSharpTutorial1_2DSound", "CSharpTutorial1_2DSound\CSharpTutorial1_2DSound.csproj", "{CB13F5F2-5203-4844-A445-7C5D751EC4FB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Player", "Player", "{0E06B86B-4B88-4762-B35D-BF5C0AB3D401}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CoreLib", "CoreLib", "{F5FF0CDC-1F04-4F96-B549-24AFBB8195D6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tutorials", "Tutorials", "{E37E1C89-A19A-430D-8959-C87DAD28B62E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -19,8 +27,17 @@ Global
 		{4DDC8FD9-BEAF-422E-A28E-093D299F7DEF}.Debug|x86.Build.0 = Debug|x86
 		{4DDC8FD9-BEAF-422E-A28E-093D299F7DEF}.Release|x86.ActiveCfg = Release|x86
 		{4DDC8FD9-BEAF-422E-A28E-093D299F7DEF}.Release|x86.Build.0 = Release|x86
+		{CB13F5F2-5203-4844-A445-7C5D751EC4FB}.Debug|x86.ActiveCfg = Debug|x86
+		{CB13F5F2-5203-4844-A445-7C5D751EC4FB}.Debug|x86.Build.0 = Debug|x86
+		{CB13F5F2-5203-4844-A445-7C5D751EC4FB}.Release|x86.ActiveCfg = Release|x86
+		{CB13F5F2-5203-4844-A445-7C5D751EC4FB}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E7ACE267-B496-440E-B44D-CC846D39DAA7} = {0E06B86B-4B88-4762-B35D-BF5C0AB3D401}
+		{4DDC8FD9-BEAF-422E-A28E-093D299F7DEF} = {F5FF0CDC-1F04-4F96-B549-24AFBB8195D6}
+		{CB13F5F2-5203-4844-A445-7C5D751EC4FB} = {E37E1C89-A19A-430D-8959-C87DAD28B62E}
 	EndGlobalSection
 EndGlobal
