@@ -193,10 +193,10 @@ class cAudioCSharpWrapperPINVOKE {
   public static extern string toWINSTR(string jarg1);
 
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_toUTF8")]
-  public static extern string toUTF8(HandleRef jarg1);
+  public static extern string toUTF8(string jarg1);
 
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_fromUTF8")]
-  public static extern IntPtr fromUTF8(string jarg1);
+  public static extern string fromUTF8(string jarg1);
 
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IMemoryProvider_Allocate")]
   public static extern IntPtr IMemoryProvider_Allocate(HandleRef jarg1, uint jarg2, string jarg3, int jarg4, string jarg5);
@@ -232,13 +232,13 @@ class cAudioCSharpWrapperPINVOKE {
   public static extern uint IAudioDeviceList_getDeviceCount(HandleRef jarg1);
 
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioDeviceList_getDeviceName")]
-  public static extern IntPtr IAudioDeviceList_getDeviceName(HandleRef jarg1, uint jarg2);
+  public static extern string IAudioDeviceList_getDeviceName(HandleRef jarg1, uint jarg2);
 
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioDeviceList_getDeviceDescription")]
-  public static extern IntPtr IAudioDeviceList_getDeviceDescription(HandleRef jarg1, uint jarg2);
+  public static extern string IAudioDeviceList_getDeviceDescription(HandleRef jarg1, uint jarg2);
 
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioDeviceList_getDefaultDeviceName")]
-  public static extern IntPtr IAudioDeviceList_getDefaultDeviceName(HandleRef jarg1);
+  public static extern string IAudioDeviceList_getDefaultDeviceName(HandleRef jarg1);
 
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioDeviceList_isSupported")]
   public static extern bool IAudioDeviceList_isSupported(HandleRef jarg1);
@@ -727,7 +727,7 @@ class cAudioCSharpWrapperPINVOKE {
   public static extern int IAudioDecoder_getCurrentCompressedPosition(HandleRef jarg1);
 
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioDecoder_getType")]
-  public static extern IntPtr IAudioDecoder_getType(HandleRef jarg1);
+  public static extern string IAudioDecoder_getType(HandleRef jarg1);
 
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioDecoder_director_connect")]
   public static extern void IAudioDecoder_director_connect(HandleRef jarg1, IAudioDecoder.SwigDelegateIAudioDecoder_0 delegate0, IAudioDecoder.SwigDelegateIAudioDecoder_1 delegate1, IAudioDecoder.SwigDelegateIAudioDecoder_2 delegate2, IAudioDecoder.SwigDelegateIAudioDecoder_3 delegate3, IAudioDecoder.SwigDelegateIAudioDecoder_4 delegate4, IAudioDecoder.SwigDelegateIAudioDecoder_5 delegate5, IAudioDecoder.SwigDelegateIAudioDecoder_6 delegate6, IAudioDecoder.SwigDelegateIAudioDecoder_7 delegate7, IAudioDecoder.SwigDelegateIAudioDecoder_8 delegate8, IAudioDecoder.SwigDelegateIAudioDecoder_9 delegate9, IAudioDecoder.SwigDelegateIAudioDecoder_10 delegate10, IAudioDecoder.SwigDelegateIAudioDecoder_11 delegate11, IAudioDecoder.SwigDelegateIAudioDecoder_12 delegate12, IAudioDecoder.SwigDelegateIAudioDecoder_13 delegate13, IAudioDecoder.SwigDelegateIAudioDecoder_14 delegate14, IAudioDecoder.SwigDelegateIAudioDecoder_15 delegate15);

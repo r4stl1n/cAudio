@@ -194,7 +194,7 @@ public:
     typedef float (SWIGSTDCALL* SWIG_Callback12_t)();
     typedef int (SWIGSTDCALL* SWIG_Callback13_t)();
     typedef int (SWIGSTDCALL* SWIG_Callback14_t)();
-    typedef void * (SWIGSTDCALL* SWIG_Callback15_t)();
+    typedef char * (SWIGSTDCALL* SWIG_Callback15_t)();
     void swig_connect_director(SWIG_Callback0_t callbackgrab, SWIG_Callback1_t callbackdrop, SWIG_Callback2_t callbackgetFormat, SWIG_Callback3_t callbackgetFrequency, SWIG_Callback4_t callbackisSeekingSupported, SWIG_Callback5_t callbackisValid, SWIG_Callback6_t callbackreadAudioData, SWIG_Callback7_t callbacksetPosition, SWIG_Callback8_t callbackseek, SWIG_Callback9_t callbackgetTotalTime, SWIG_Callback10_t callbackgetTotalSize, SWIG_Callback11_t callbackgetCompressedSize, SWIG_Callback12_t callbackgetCurrentTime, SWIG_Callback13_t callbackgetCurrentPosition, SWIG_Callback14_t callbackgetCurrentCompressedPosition, SWIG_Callback15_t callbackgetType);
 
 private:

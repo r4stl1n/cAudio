@@ -17,14 +17,14 @@ public class cAudioCSharpWrapper {
     return ret;
   }
 
-  public static string toUTF8(SWIGTYPE_p_std__basic_stringT_char_t str) {
-    string ret = cAudioCSharpWrapperPINVOKE.toUTF8(SWIGTYPE_p_std__basic_stringT_char_t.getCPtr(str));
+  public static string toUTF8(string str) {
+    string ret = cAudioCSharpWrapperPINVOKE.toUTF8(str);
     if (cAudioCSharpWrapperPINVOKE.SWIGPendingException.Pending) throw cAudioCSharpWrapperPINVOKE.SWIGPendingException.Retrieve();
     return ret;
   }
 
-  public static SWIGTYPE_p_std__basic_stringT_char_t fromUTF8(string str) {
-    SWIGTYPE_p_std__basic_stringT_char_t ret = new SWIGTYPE_p_std__basic_stringT_char_t(cAudioCSharpWrapperPINVOKE.fromUTF8(str), true);
+  public static string fromUTF8(string str) {
+    string ret = cAudioCSharpWrapperPINVOKE.fromUTF8(str);
     return ret;
   }
 

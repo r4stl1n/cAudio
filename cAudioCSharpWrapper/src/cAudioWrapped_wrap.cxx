@@ -1398,18 +1398,18 @@ int SwigDirector_IAudioDecoder::getCurrentCompressedPosition() {
 }
 
 cAudio::cAudioString SwigDirector_IAudioDecoder::getType() const {
-  cAudio::cAudioString c_result = SwigValueInit< cAudio::cAudioString >() ;
-  void * jresult = 0 ;
+  cAudio::cAudioString c_result ;
+  char * jresult = 0 ;
   
   if (!swig_callbackgetType) {
     throw Swig::DirectorPureVirtualException("cAudio::IAudioDecoder::getType");
   } else {
-    jresult = (void *) swig_callbackgetType();
+    jresult = (char *) swig_callbackgetType();
     if (!jresult) {
-      SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "Unexpected null return for type cAudio::cAudioString", 0);
+      SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
       return c_result;
     }
-    c_result = *(cAudio::cAudioString *)jresult; 
+    c_result.assign(jresult); 
   }
   return c_result;
 }
@@ -1501,30 +1501,31 @@ SWIGEXPORT char * SWIGSTDCALL CSharp_toWINSTR(char * jarg1) {
 }
 
 
-SWIGEXPORT char * SWIGSTDCALL CSharp_toUTF8(void * jarg1) {
+SWIGEXPORT char * SWIGSTDCALL CSharp_toUTF8(char * jarg1) {
   char * jresult ;
   cAudio::cAudioString *arg1 = 0 ;
   char *result = 0 ;
   
-  arg1 = (cAudio::cAudioString *)jarg1;
-  if (!arg1) {
-    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "cAudio::cAudioString const & type is null", 0);
+  if (!jarg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null string", 0);
     return 0;
-  } 
-  result = (char *)cAudio::toUTF8((std::basic_string< char > const &)*arg1);
+  }
+  std::string arg1_str(jarg1);
+  arg1 = &arg1_str; 
+  result = (char *)cAudio::toUTF8((std::string const &)*arg1);
   jresult = SWIG_csharp_string_callback((const char *)result); 
   return jresult;
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_fromUTF8(char * jarg1) {
-  void * jresult ;
+SWIGEXPORT char * SWIGSTDCALL CSharp_fromUTF8(char * jarg1) {
+  char * jresult ;
   char *arg1 = (char *) 0 ;
   cAudio::cAudioString result;
   
   arg1 = (char *)jarg1; 
   result = cAudio::fromUTF8((char const *)arg1);
-  jresult = new cAudio::cAudioString((const cAudio::cAudioString &)result); 
+  jresult = SWIG_csharp_string_callback((&result)->c_str()); 
   return jresult;
 }
 
@@ -1649,8 +1650,8 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_IAudioDeviceList_getDeviceCount(void 
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_IAudioDeviceList_getDeviceName(void * jarg1, unsigned int jarg2) {
-  void * jresult ;
+SWIGEXPORT char * SWIGSTDCALL CSharp_IAudioDeviceList_getDeviceName(void * jarg1, unsigned int jarg2) {
+  char * jresult ;
   cAudio::IAudioDeviceList *arg1 = (cAudio::IAudioDeviceList *) 0 ;
   unsigned int arg2 ;
   cAudio::cAudioString result;
@@ -1658,13 +1659,13 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_IAudioDeviceList_getDeviceName(void * jarg1
   arg1 = (cAudio::IAudioDeviceList *)jarg1; 
   arg2 = (unsigned int)jarg2; 
   result = (arg1)->getDeviceName(arg2);
-  jresult = new cAudio::cAudioString((const cAudio::cAudioString &)result); 
+  jresult = SWIG_csharp_string_callback((&result)->c_str()); 
   return jresult;
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_IAudioDeviceList_getDeviceDescription(void * jarg1, unsigned int jarg2) {
-  void * jresult ;
+SWIGEXPORT char * SWIGSTDCALL CSharp_IAudioDeviceList_getDeviceDescription(void * jarg1, unsigned int jarg2) {
+  char * jresult ;
   cAudio::IAudioDeviceList *arg1 = (cAudio::IAudioDeviceList *) 0 ;
   unsigned int arg2 ;
   cAudio::cAudioString result;
@@ -1672,19 +1673,19 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_IAudioDeviceList_getDeviceDescription(void 
   arg1 = (cAudio::IAudioDeviceList *)jarg1; 
   arg2 = (unsigned int)jarg2; 
   result = (arg1)->getDeviceDescription(arg2);
-  jresult = new cAudio::cAudioString((const cAudio::cAudioString &)result); 
+  jresult = SWIG_csharp_string_callback((&result)->c_str()); 
   return jresult;
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_IAudioDeviceList_getDefaultDeviceName(void * jarg1) {
-  void * jresult ;
+SWIGEXPORT char * SWIGSTDCALL CSharp_IAudioDeviceList_getDefaultDeviceName(void * jarg1) {
+  char * jresult ;
   cAudio::IAudioDeviceList *arg1 = (cAudio::IAudioDeviceList *) 0 ;
   cAudio::cAudioString result;
   
   arg1 = (cAudio::IAudioDeviceList *)jarg1; 
   result = (arg1)->getDefaultDeviceName();
-  jresult = new cAudio::cAudioString((const cAudio::cAudioString &)result); 
+  jresult = SWIG_csharp_string_callback((&result)->c_str()); 
   return jresult;
 }
 
@@ -3652,14 +3653,14 @@ SWIGEXPORT int SWIGSTDCALL CSharp_IAudioDecoder_getCurrentCompressedPosition(voi
 }
 
 
-SWIGEXPORT void * SWIGSTDCALL CSharp_IAudioDecoder_getType(void * jarg1) {
-  void * jresult ;
+SWIGEXPORT char * SWIGSTDCALL CSharp_IAudioDecoder_getType(void * jarg1) {
+  char * jresult ;
   cAudio::IAudioDecoder *arg1 = (cAudio::IAudioDecoder *) 0 ;
   cAudio::cAudioString result;
   
   arg1 = (cAudio::IAudioDecoder *)jarg1; 
   result = ((cAudio::IAudioDecoder const *)arg1)->getType();
-  jresult = new cAudio::cAudioString((const cAudio::cAudioString &)result); 
+  jresult = SWIG_csharp_string_callback((&result)->c_str()); 
   return jresult;
 }
 

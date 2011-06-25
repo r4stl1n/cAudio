@@ -46,18 +46,18 @@ public class IAudioDeviceList : IDisposable {
     return ret;
   }
 
-  public virtual SWIGTYPE_p_std__basic_stringT_char_t getDeviceName(uint idx) {
-    SWIGTYPE_p_std__basic_stringT_char_t ret = new SWIGTYPE_p_std__basic_stringT_char_t(cAudioCSharpWrapperPINVOKE.IAudioDeviceList_getDeviceName(swigCPtr, idx), true);
+  public virtual string getDeviceName(uint idx) {
+    string ret = cAudioCSharpWrapperPINVOKE.IAudioDeviceList_getDeviceName(swigCPtr, idx);
     return ret;
   }
 
-  public virtual SWIGTYPE_p_std__basic_stringT_char_t getDeviceDescription(uint idx) {
-    SWIGTYPE_p_std__basic_stringT_char_t ret = new SWIGTYPE_p_std__basic_stringT_char_t(cAudioCSharpWrapperPINVOKE.IAudioDeviceList_getDeviceDescription(swigCPtr, idx), true);
+  public virtual string getDeviceDescription(uint idx) {
+    string ret = cAudioCSharpWrapperPINVOKE.IAudioDeviceList_getDeviceDescription(swigCPtr, idx);
     return ret;
   }
 
-  public virtual SWIGTYPE_p_std__basic_stringT_char_t getDefaultDeviceName() {
-    SWIGTYPE_p_std__basic_stringT_char_t ret = new SWIGTYPE_p_std__basic_stringT_char_t(cAudioCSharpWrapperPINVOKE.IAudioDeviceList_getDefaultDeviceName(swigCPtr), true);
+  public virtual string getDefaultDeviceName() {
+    string ret = cAudioCSharpWrapperPINVOKE.IAudioDeviceList_getDefaultDeviceName(swigCPtr);
     return ret;
   }
 

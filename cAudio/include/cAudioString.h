@@ -36,8 +36,11 @@ namespace cAudio
 #if CAUDIO_REROUTE_STRING_ALLOCATIONS == 1
 	typedef std::basic_string< cAudioChar, std::char_traits<cAudioChar>, cSTLAllocator<cAudioChar> > cAudioString;
 #else
-	//typedef std::string cAudioString;
-	typedef std::basic_string<cAudioChar> cAudioString;
+#	if defined(UNICODE) || defined(_UNICODE)
+		typedef std::basic_string<cAudioChar> cAudioString;
+#	else
+	typedef std::string cAudioString;
+#	endif
 #endif
 
     

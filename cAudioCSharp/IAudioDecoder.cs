@@ -109,8 +109,8 @@ public class IAudioDecoder : IRefCounted {
     return ret;
   }
 
-  public virtual SWIGTYPE_p_std__basic_stringT_char_t getType() {
-    SWIGTYPE_p_std__basic_stringT_char_t ret = new SWIGTYPE_p_std__basic_stringT_char_t(cAudioCSharpWrapperPINVOKE.IAudioDecoder_getType(swigCPtr), true);
+  public virtual string getType() {
+    string ret = cAudioCSharpWrapperPINVOKE.IAudioDecoder_getType(swigCPtr);
     return ret;
   }
 
@@ -216,8 +216,8 @@ public class IAudioDecoder : IRefCounted {
     return getCurrentCompressedPosition();
   }
 
-  private IntPtr SwigDirectorgetType() {
-    return SWIGTYPE_p_std__basic_stringT_char_t.getCPtr(getType()).Handle;
+  private string SwigDirectorgetType() {
+    return getType();
   }
 
   public delegate void SwigDelegateIAudioDecoder_0();
@@ -235,7 +235,7 @@ public class IAudioDecoder : IRefCounted {
   public delegate float SwigDelegateIAudioDecoder_12();
   public delegate int SwigDelegateIAudioDecoder_13();
   public delegate int SwigDelegateIAudioDecoder_14();
-  public delegate IntPtr SwigDelegateIAudioDecoder_15();
+  public delegate string SwigDelegateIAudioDecoder_15();
 
   private SwigDelegateIAudioDecoder_0 swigDelegate0;
   private SwigDelegateIAudioDecoder_1 swigDelegate1;

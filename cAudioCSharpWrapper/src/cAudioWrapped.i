@@ -6,6 +6,8 @@
 
 #define CAUDIO_API
 
+typedef basic_string<char> cAudioString;
+
 %{
 #include "cAudioString.h"
 #include "IRefCounted.h"
