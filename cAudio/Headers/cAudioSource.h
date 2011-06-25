@@ -142,6 +142,9 @@ namespace cAudio
 		//! The context that owns this source
 		IAudioDeviceContext* Context;
 		
+		//! Holds the current volume
+		float Volume;
+
 		//! Internal audio buffers
 		ALuint Buffers[CAUDIO_SOURCE_NUM_BUFFERS]; 
 		//! OpenAL source

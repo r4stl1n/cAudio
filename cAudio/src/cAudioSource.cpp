@@ -18,11 +18,11 @@ namespace cAudio
 {
 #if CAUDIO_EFX_ENABLED == 1
     cAudioSource::cAudioSource(IAudioDecoder* decoder, IAudioDeviceContext* context, cEFXFunctions* oALFunctions)
-		: Context(context), Source(0), Decoder(decoder), Loop(false), Valid(false),
+		: Context(context), Source(0), Volume(1.0), Decoder(decoder), Loop(false), Valid(false),
 		EFX(oALFunctions), Filter(NULL), EffectSlotsAvailable(0), LastFilterTimeStamp(0)
 #else
 	cAudioSource::cAudioSource(IAudioDecoder* decoder, IAudioDeviceContext* context)
-		: Context(context), Source(0), Decoder(decoder), Loop(false), Valid(false)
+		: Context(context), Source(0), Volume(1.0), Decoder(decoder), Loop(false), Valid(false)
 #endif
     {
 		cAudioMutexBasicLock lock(Mutex);
@@ -49,6 +49,7 @@ namespace cAudio
 			//Creates one source to be stored.
 			alGenSources(1, &Source);
 			state = !checkError();
+			setVolume(Volume);
 		}
 
 #if CAUDIO_EFX_ENABLED == 1
@@ -405,7 +406,8 @@ namespace cAudio
 	void cAudioSource::setVolume(const float& volume)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-        alSourcef(Source, AL_GAIN, volume);
+		Volume = volume;
+        alSourcef(Source, AL_GAIN, Volume * Context->getAudioManager()->getMasterVolume());
 		checkError();
     }
 
@@ -532,9 +534,7 @@ namespace cAudio
 
 	const float cAudioSource::getVolume() const
 	{
-		float value = 0.0f;
-		alGetSourcef(Source, AL_GAIN, &value);
-		return value;
+		return Volume;
 	}
 
 	const float cAudioSource::getMinVolume() const

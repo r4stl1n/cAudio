@@ -202,7 +202,7 @@ namespace cAudio
 		size_t count = audioSources.size();
 		for(size_t i=0; i<count; i++)
 		{
-			audioSources[i]->setVolume(MasterVolume * audioSources[i]->getVolume());
+			audioSources[i]->setVolume(audioSources[i]->getVolume());
 		}
 	}
 
