@@ -8,12 +8,13 @@
 
 //Include cAudio.h so we can work wtih cAudio
 #include "cAudio.h"
-#ifdef CAUDIO_PLATFORM_WIN
+#if defined(CAUDIO_COMILER_MINGW)
+// do nothing
+#elif defined(CAUDIO_PLATFORM_WIN)
 #   define AUDIO_FILE(_soundName_) CAUDIO_MEDIA_ROOT##_soundName_
 #else
 #   define AUDIO_FILE(_soundName_) CAUDIO_MEDIA_ROOT#_soundName_
 #endif
-
 //Include the custom handler
 #include "cTestHandler.h"
 
@@ -26,7 +27,7 @@ int main(int argc, char* argv[])
 
 	//Create an uninitialized Audio Manager
     cAudio::IAudioManager* audioMgr = cAudio::createAudioManager(false);
-	
+
 	//Make a pointer to our handler
 	cTestHandler *handle = new cTestHandler;
 
@@ -57,11 +58,13 @@ int main(int argc, char* argv[])
 		pDeviceList = 0;
 
 		//Create a IAudio object and load a sound from a file
-#ifdef CAUDIO_PLATFORM_WIN         
-		cAudio::IAudioSource* mysound = audioMgr->create("bling", AUDIO_FILE("cAudioTheme1.ogg"),true);
+#if defined(CAUDIO_COMPILER_MINGW)
+        cAudio::IAudioSource* mysound = audioMgr->create("bling", "../cAudioTheme1.ogg",true);
+#elif defined(CAUDIO_PLATFORM_WIN)
+		cAudio::IAudioSource* mysound = audioMgr->create("bling", AUDIO_FILE("cAudioTheme1.ogg")),true);
 #else
-		cAudio::IAudioSource* mysound = audioMgr->create("bling", AUDIO_FILE(cAudioTheme1.ogg),true);        
-#endif        
+		cAudio::IAudioSource* mysound = audioMgr->create("bling", AUDIO_FILE(cAudioTheme1.ogg),true);
+#endif
 		mysound->registerEventHandler(handle);
 
 		if(mysound)

@@ -41,3 +41,9 @@
 #		endif
 #	endif
 #endif
+
+#ifndef CAUDIO_COMPILER_MINGW
+#   if defined(__MINGW32__)
+#       define CAUDIO_COMPILER_MINGW
+#   endif
+#endif

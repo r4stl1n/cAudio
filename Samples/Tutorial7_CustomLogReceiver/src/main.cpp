@@ -1,6 +1,6 @@
 //****************************************************************
 //cAudio 2.3.0 Tutorial 7
-//Custom log receiver 
+//Custom log receiver
 //****************************************************************
 
 #include <iostream>
@@ -8,12 +8,13 @@
 
 //Include cAudio.h so we can work wtih cAudio
 #include "cAudio.h"
-#ifdef CAUDIO_PLATFORM_WIN
+#if defined(CAUDIO_COMILER_MINGW)
+// do nothing
+#elif defined(CAUDIO_PLATFORM_WIN)
 #   define AUDIO_FILE(_soundName_) CAUDIO_MEDIA_ROOT##_soundName_
 #else
 #   define AUDIO_FILE(_soundName_) CAUDIO_MEDIA_ROOT#_soundName_
 #endif
-
 //Include the new log receiver
 #include "cTestLogReceiver.h"
 
@@ -26,7 +27,7 @@ int main(int argc, char* argv[])
 
 	//Create an uninitialized Audio Manager
     cAudio::IAudioManager* audioMgr = cAudio::createAudioManager(false);
-	
+
 	//Now we make a new pointer to our receiver
 	cTestLogReceiver *loggin = new cTestLogReceiver;
 
@@ -64,11 +65,13 @@ int main(int argc, char* argv[])
 		pDeviceList = 0;
 
 		//Create a IAudio object and load a sound from a file
-#ifdef CAUDIO_PLATFORM_WIN         
-		cAudio::IAudioSource* mysound = audioMgr->create("bling", AUDIO_FILE("cAudioTheme1.ogg"),true);
+#if defined(CAUDIO_COMPILER_MINGW)
+        cAudio::IAudioSource* mysound = audioMgr->create("bling", "../cAudioTheme1.ogg",true);
+#elif defined(CAUDIO_PLATFORM_WIN)
+		cAudio::IAudioSource* mysound = audioMgr->create("bling", AUDIO_FILE("cAudioTheme1.ogg")),true);
 #else
-		cAudio::IAudioSource* mysound = audioMgr->create("bling", AUDIO_FILE(cAudioTheme1.ogg),true);        
-#endif  
+		cAudio::IAudioSource* mysound = audioMgr->create("bling", AUDIO_FILE(cAudioTheme1.ogg),true);
+#endif
 		if(mysound)
 		{
 			mysound->setVolume(0.5);
