@@ -20,7 +20,7 @@ int main(int argc, char* argv[]) {
     cout << "cAudio 2.2.0 Tutorial 1: Basic 2D Audio. \n \n";
 
 	//Create an uninitialized Audio Manager
-    cAudio::IAudioaudioMgr* audioMgr = cAudio::createAudioManager(false);
+    cAudio::IAudioManager* audioMgr = cAudio::createAudioManager(false);
 
 	if(audioMgr)
 	{
