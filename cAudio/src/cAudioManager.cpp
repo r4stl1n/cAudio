@@ -199,6 +199,7 @@ namespace cAudio
 	void cAudioManager::setMasterVolume(float vol)
 	{
 		cAudioMutexBasicLock lock(Mutex);
+		MasterVolume = vol;
 		size_t count = audioSources.size();
 		for(size_t i=0; i<count; i++)
 		{
