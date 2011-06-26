@@ -22,9 +22,9 @@ int main(int argc, char* argv[])
     cout << "cAudio 2.2.0 Tutorial 5: Basic Audio Effects. \n \n";
 
 	//Create an uninitialized Audio Manager
-    cAudio::IAudioManager* manager = cAudio::createAudioManager(false);
+    cAudio::IAudioManager* audioMgr = cAudio::createAudioManager(false);
 
-	if(manager)
+	if(audioMgr)
 	{
 		//Allow the user to choose a playback device
 		cout << "\nAvailable Playback Devices: \n";
@@ -46,12 +46,12 @@ int main(int argc, char* argv[])
 		cout << std::endl;
 
 		//Initialize the manager with the user settings
-		manager->initialize(pDeviceList->getDeviceName(deviceSelection).c_str());
+		audioMgr->initialize(pDeviceList->getDeviceName(deviceSelection).c_str());
 		CAUDIO_DELETE pDeviceList;
 		pDeviceList = 0;
 
 #if CAUDIO_EFX_ENABLED == 1
-		cAudio::IAudioEffects* effects = manager->getEffects();
+		cAudio::IAudioEffects* effects = audioMgr->getEffects();
 		if(effects)
 		{
 			cAudio::IEffect* effect = effects->createEffect();
@@ -64,9 +64,9 @@ int main(int argc, char* argv[])
 
 				//Create a IAudio object and load a sound from a file
 #ifdef CAUDIO_PLATFORM_WIN                      
-				cAudio::IAudioSource* mysound = manager->create("bling", AUDIO_FILE("Footsteps.wav"),false);
+				cAudio::IAudioSource* mysound = audioMgr->create("bling", AUDIO_FILE("Footsteps.wav"),false);
 #else
-				cAudio::IAudioSource* mysound = manager->create("bling", AUDIO_FILE(Footsteps.wav),false);                
+				cAudio::IAudioSource* mysound = audioMgr->create("bling", AUDIO_FILE(Footsteps.wav),false);                
 #endif
 				if(mysound)
 				{
@@ -349,19 +349,14 @@ int main(int argc, char* argv[])
 						std::cout << "Equalizer effect not supported by this OpenAL device. \n";
 					}
 				}
-				manager->release(mysound);
+				audioMgr->release(mysound);
 				filter->drop();
 				effect->drop();
 			}
 		}
 #endif
 
-		//Delete all IAudio sounds
-		manager->releaseAllSources();
-		//Shutdown cAudio
-		manager->shutDown();
-
-		cAudio::destroyAudioManager(manager);
+		cAudio::destroyAudioManager(audioMgr);
 	}
 	else
 	{

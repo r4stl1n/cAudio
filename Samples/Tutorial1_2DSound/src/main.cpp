@@ -20,9 +20,9 @@ int main(int argc, char* argv[]) {
     cout << "cAudio 2.2.0 Tutorial 1: Basic 2D Audio. \n \n";
 
 	//Create an uninitialized Audio Manager
-    cAudio::IAudioManager* manager = cAudio::createAudioManager(false);
+    cAudio::IAudioaudioMgr* audioMgr = cAudio::createAudioManager(false);
 
-	if(manager)
+	if(audioMgr)
 	{
 		//Allow the user to choose a playback device
 		cout << "\nAvailable Playback Devices: \n";
@@ -43,24 +43,24 @@ int main(int argc, char* argv[]) {
 		cin >> deviceSelection;
 		cout << std::endl;
 
-		//Initialize the manager with the user settings
-		manager->initialize(pDeviceList->getDeviceName(deviceSelection).c_str());
+		//Initialize the Audio Manager with the user settings
+		audioMgr->initialize(pDeviceList->getDeviceName(deviceSelection).c_str());
 		CAUDIO_DELETE pDeviceList;
 		pDeviceList = 0;
 
 		//Create a IAudio object and load a sound from a file
 #ifdef CAUDIO_PLATFORM_WIN         
-		cAudio::IAudioSource* mysound = manager->create("bling", AUDIO_FILE("cAudioTheme1.ogg"),true);
+		cAudio::IAudioSource* mysound = audioMgr->create("bling", AUDIO_FILE("cAudioTheme1.ogg"),true);
 #else
-		cAudio::IAudioSource* mysound = manager->create("bling", AUDIO_FILE(cAudioTheme1.ogg),true);        
+		cAudio::IAudioSource* mysound = audioMgr->create("bling", AUDIO_FILE(cAudioTheme1.ogg),true);        
 #endif 
 
 		for (size_t i=0; i<10; i++)
 		{
 #ifdef CAUDIO_PLATFORM_WIN   
-			manager->play2D(AUDIO_FILE("bling.ogg"));
+			audioMgr->play2D(AUDIO_FILE("bling.ogg"));
 #else
-			manager->play2D(AUDIO_FILE(bling.ogg));
+			audioMgr->play2D(AUDIO_FILE(bling.ogg));
 #endif 
 		}
 		
@@ -76,14 +76,11 @@ int main(int argc, char* argv[]) {
 
 		}
 
-		//Shutdown cAudio
-		manager->shutDown();
-
-		cAudio::destroyAudioManager(manager);
+		cAudio::destroyAudioManager(audioMgr);
 	}
 	else
 	{
-		std::cout << "Failed to create audio playback manager. \n";
+		std::cout << "Failed to create audio playback audioMgr. \n";
 	}
 
 	std::cout << "Press any key to quit \n";

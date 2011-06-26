@@ -25,12 +25,12 @@ int main(int argc, char* argv[])
     cout << "cAudio 2.1.0 Tutorial 6: Custom event handler. \n \n";
 
 	//Create an uninitialized Audio Manager
-    cAudio::IAudioManager* manager = cAudio::createAudioManager(false);
+    cAudio::IAudioManager* audioMgr = cAudio::createAudioManager(false);
 	
 	//Make a pointer to our handler
 	cTestHandler *handle = new cTestHandler;
 
-	if(manager)
+	if(audioMgr)
 	{
 		//Allow the user to choose a playback device
 		cout << "\nAvailable Playback Devices: \n";
@@ -52,15 +52,15 @@ int main(int argc, char* argv[])
 		cout << std::endl;
 
 		//Initialize the manager with the user settings
-		manager->initialize(pDeviceList->getDeviceName(deviceSelection).c_str());
+		audioMgr->initialize(pDeviceList->getDeviceName(deviceSelection).c_str());
 		CAUDIO_DELETE pDeviceList;
 		pDeviceList = 0;
 
 		//Create a IAudio object and load a sound from a file
 #ifdef CAUDIO_PLATFORM_WIN         
-		cAudio::IAudioSource* mysound = manager->create("bling", AUDIO_FILE("cAudioTheme1.ogg"),true);
+		cAudio::IAudioSource* mysound = audioMgr->create("bling", AUDIO_FILE("cAudioTheme1.ogg"),true);
 #else
-		cAudio::IAudioSource* mysound = manager->create("bling", AUDIO_FILE(cAudioTheme1.ogg),true);        
+		cAudio::IAudioSource* mysound = audioMgr->create("bling", AUDIO_FILE(cAudioTheme1.ogg),true);        
 #endif        
 		mysound->registerEventHandler(handle);
 
@@ -76,12 +76,7 @@ int main(int argc, char* argv[])
 
 		}
 
-		//Delete all IAudio sounds
-		manager->releaseAllSources();
-		//Shutdown cAudio
-		manager->shutDown();
-
-		cAudio::destroyAudioManager(manager);
+		cAudio::destroyAudioManager(audioMgr);
 	}
 	else
 	{

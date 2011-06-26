@@ -25,9 +25,9 @@ int main(int argc, char* argv[])
     float rot = 0;
 
 	//Create an uninitialized Audio Manager
-    cAudio::IAudioManager* manager = cAudio::createAudioManager(false);
+    cAudio::IAudioManager* audioMgr = cAudio::createAudioManager(false);
 
-	if(manager)
+	if(audioMgr)
 	{
 		//Allow the user to choose a playback device
 		cout << "\nAvailable Playback Devices: \n";
@@ -49,19 +49,19 @@ int main(int argc, char* argv[])
 		cout << std::endl;
 
 		//Initialize the manager with the user settings
-		manager->initialize(pDeviceList->getDeviceName(deviceSelection).c_str());
+		audioMgr->initialize(pDeviceList->getDeviceName(deviceSelection).c_str());
 		CAUDIO_DELETE pDeviceList;
 		pDeviceList = 0;
 
 		//Grab the listener object, which allows us to manipulate where "we" are in the world
 		//It's useful to bind this to a camera if you are using a 3d graphics engine
-		cAudio::IListener* listener = manager->getListener();
+		cAudio::IListener* listener = audioMgr->getListener();
 
 		//Create a IAudio object and load a sound from a file
 #ifdef CAUDIO_PLATFORM_WIN        
-		cAudio::IAudioSource* mysound = manager->create("bling", AUDIO_FILE("bling.ogg"), false);
+		cAudio::IAudioSource* mysound = audioMgr->create("bling", AUDIO_FILE("bling.ogg"), false);
 #else
-		cAudio::IAudioSource* mysound = manager->create("bling", AUDIO_FILE(bling.ogg), false);        
+		cAudio::IAudioSource* mysound = audioMgr->create("bling", AUDIO_FILE(bling.ogg), false);        
 #endif
 		//Set the IAudio Sound to play3d and loop
 		//play3d takes 4 arguments play3d(toloop,x,y,z,strength)
@@ -103,12 +103,7 @@ int main(int argc, char* argv[])
 
 		std::cout << std::endl;
 
-		//Delete all IAudio sounds
-		manager->releaseAllSources();
-		//Shutdown cAudio
-		manager->shutDown();
-
-		cAudio::destroyAudioManager(manager);
+		cAudio::destroyAudioManager(audioMgr);
 	}
 	else
 	{

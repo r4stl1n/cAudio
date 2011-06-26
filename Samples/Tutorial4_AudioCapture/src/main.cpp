@@ -36,9 +36,9 @@ int main(int argc, char* argv[])
 		formatName = "16 Bit Stereo";
 
     //Create an Audio Manager with default settings
-    cAudio::IAudioManager* manager = cAudio::createAudioManager();
+    cAudio::IAudioManager* audioMgr = cAudio::createAudioManager();
 
-	if(manager)
+	if(audioMgr)
 	{
 		//! The capture interface can be gotten at any time, and can even be used completely seperate from the manager
 		// Also it is possible to have more than one capture interface at the same time, useful for recording from multiple sources
@@ -112,7 +112,7 @@ int main(int argc, char* argv[])
 				cAudio::AudioCaptureBuffer* buff = capture->getCapturedAudioBuffer();
 
 				//Create a IAudio object and load a sound from a file
-				cAudio::IAudioSource* mysound = manager->createFromRaw("sound1", buff->getReadBuffer(), buff->getLength(), CAPTURE_FREQUENCY, CAPTURE_FORMAT);
+				cAudio::IAudioSource* mysound = audioMgr->createFromRaw("sound1", buff->getReadBuffer(), buff->getLength(), CAPTURE_FREQUENCY, CAPTURE_FORMAT);
 				
 				delete buff;
 
@@ -136,12 +136,7 @@ int main(int argc, char* argv[])
 			capture = 0x0;
 		}
 
-		//Delete all IAudio sounds
-		manager->releaseAllSources();
-		//Shutdown cAudio
-		manager->shutDown();
-
-		cAudio::destroyAudioManager(manager);
+		cAudio::destroyAudioManager(audioMgr);
 	}
 	else
 	{
