@@ -1,5 +1,5 @@
 //****************************************************************
-//cAudio 2.2.0 Tutorial 1
+//cAudio 2.3.0 Tutorial 1
 //Basic 2d Audio
 //****************************************************************
 
@@ -17,7 +17,7 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
     //Some fancy text
-    cout << "cAudio 2.2.0 Tutorial 1: Basic 2D Audio. \n \n";
+    cout << "cAudio 2.3.0 Tutorial 1: Basic 2D Audio. \n \n";
 
 	//Create an uninitialized Audio Manager
     cAudio::IAudioManager* audioMgr = cAudio::createAudioManager(false);

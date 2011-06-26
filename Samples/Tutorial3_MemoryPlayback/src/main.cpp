@@ -1,5 +1,5 @@
 //****************************************************************
-//cAudio 2.2.0 Tutorial 3
+//cAudio 2.3.0 Tutorial 3
 //Basic Memory Playback *Virtual file systems*
 //bling.h created with bin2h http://deadnode.org/sw/bin2h/
 //****************************************************************
@@ -22,7 +22,7 @@ using namespace std;
 int main(int argc, char* argv[])
 {
     //Some fancy text
-    cout << "cAudio 2.1.0 Tutorial 3: Memory Playback. \n \n";
+    cout << "cAudio 2.3.0 Tutorial 3: Memory Playback. \n \n";
     
 	//Create an uninitialized Audio Manager
     cAudio::IAudioManager* audioMgr = cAudio::createAudioManager(false);

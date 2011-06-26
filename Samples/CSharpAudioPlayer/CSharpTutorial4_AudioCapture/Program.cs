@@ -1,4 +1,9 @@
-﻿using System;
+﻿//****************************************************************
+//cAudio 2.3.0 Tutorial 4 C#
+//Audio Capture and playback
+//****************************************************************
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;

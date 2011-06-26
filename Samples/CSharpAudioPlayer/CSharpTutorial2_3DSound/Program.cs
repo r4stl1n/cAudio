@@ -1,4 +1,9 @@
-﻿using System;
+﻿//****************************************************************
+//cAudio 2.3.0 Tutorial 2 C#
+//Basic 3d Audio. Moving Audio source. Must be mono sound source
+//****************************************************************
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;

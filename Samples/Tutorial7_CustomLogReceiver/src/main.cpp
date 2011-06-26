@@ -1,5 +1,5 @@
 //****************************************************************
-//cAudio 2.2.0 Tutorial 7
+//cAudio 2.3.0 Tutorial 7
 //Custom log receiver 
 //****************************************************************
 
@@ -22,7 +22,7 @@ using namespace std;
 int main(int argc, char* argv[])
 {
     //Some fancy text
-    cout << "cAudio 2.1.0 Tutorial 7: Custom log recevier. \n \n";
+    cout << "cAudio 2.3.0 Tutorial 7: Custom log recevier. \n \n";
 
 	//Create an uninitialized Audio Manager
     cAudio::IAudioManager* audioMgr = cAudio::createAudioManager(false);

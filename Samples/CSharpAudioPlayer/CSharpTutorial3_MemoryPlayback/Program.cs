@@ -1,4 +1,10 @@
-﻿using System;
+﻿//****************************************************************
+//cAudio 2.3.0 Tutorial 3 C#
+//Basic Memory Playback *Virtual file systems*
+//bling.h created with bin2h http://deadnode.org/sw/bin2h/
+//****************************************************************
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;

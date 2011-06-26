@@ -1,4 +1,9 @@
-﻿using System;
+﻿//****************************************************************
+//cAudio 2.3.0 Tutorial 6 C#
+//Custom Event Handler
+//****************************************************************
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
