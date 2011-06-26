@@ -324,6 +324,11 @@ namespace cAudio
 		return NULL;
     }
 
+	IAudioSource* cAudioManager::createFromAudioBuffer(const char* name, AudioCaptureBuffer* pBiffer, unsigned int frequency, AudioFormats format)
+	{
+		return createFromRaw(name, pBiffer->getWriteBuffer(), pBiffer->getLength(), frequency, format);
+	}
+
 	IAudioSource* cAudioManager::createFromRaw(const char* name, const char* data, size_t length, unsigned int frequency, AudioFormats format)
 	{
 		if(!Initialized) return NULL;

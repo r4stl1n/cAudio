@@ -164,6 +164,12 @@ public class IAudioManager : IDisposable {
     return ret;
   }
 
+  public virtual IAudioSource createFromAudioBuffer(string name, AudioCaptureBuffer pBiffer, uint frequency, AudioFormats format) {
+    IntPtr cPtr = cAudioCSharpWrapperPINVOKE.IAudioManager_createFromAudioBuffer(swigCPtr, name, AudioCaptureBuffer.getCPtr(pBiffer), frequency, (int)format);
+    IAudioSource ret = (cPtr == IntPtr.Zero) ? null : new IAudioSource(cPtr, false);
+    return ret;
+  }
+
   public virtual bool registerAudioDecoder(IAudioDecoderFactory factory, string extension) {
     bool ret = cAudioCSharpWrapperPINVOKE.IAudioManager_registerAudioDecoder(swigCPtr, IAudioDecoderFactory.getCPtr(factory), extension);
     return ret;

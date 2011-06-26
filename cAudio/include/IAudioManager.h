@@ -16,6 +16,7 @@ namespace cAudio
 {
 	class IAudioSource;
 	class IAudioDecoderFactory;
+	class AudioCaptureBuffer;
 
 	//! Interface for the playback capabilities of cAudio.
     class IAudioManager
@@ -120,6 +121,17 @@ namespace cAudio
 		\return A pointer to an Audio Source or NULL if creation failed.
 		*/
 		virtual IAudioSource* createFromRaw(const char* name, const char* data, size_t length, unsigned int frequency, AudioFormats format) = 0;
+
+
+		//! Creates an Audio Source from AudioCaptureBuffer in a memory buffer.
+		/**
+		\param name: Name of the audio source.
+		\param AudioCaptureBuffer: Pointer to a AudioCaptureBuffer in memory to load the data from.
+		\param frequency: Frequency (or sample rate) of the audio data.
+		\param format: Format of the audio data.
+		\return A pointer to an Audio Source or NULL if creation failed.
+		*/
+		virtual IAudioSource* createFromAudioBuffer(const char* name, AudioCaptureBuffer* pBiffer, unsigned int frequency, AudioFormats format) = 0;
 
 		//! Register an Audio Decoder.
 		/**

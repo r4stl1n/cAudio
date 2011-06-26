@@ -104,7 +104,7 @@ namespace CSharpTutorial4_AudioCapture
 
                 //Create a IAudio object and load a sound from a file
                 var buffer = capture.getCapturedAudioBuffer();
-                IAudioSource mysound = audioMgr.createFromRaw("sound1", buffer.getReadBuffer(), buffer.getLength(), CAPTURE_FREQUENCY, CAPTURE_FORMAT);
+                IAudioSource mysound = audioMgr.createFromAudioBuffer("sound1", buffer, CAPTURE_FREQUENCY, CAPTURE_FORMAT);
                 buffer.Dispose();
 
                 if (mysound != null)

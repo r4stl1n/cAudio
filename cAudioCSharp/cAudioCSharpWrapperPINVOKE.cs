@@ -837,6 +837,9 @@ class cAudioCSharpWrapperPINVOKE {
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioManager_createFromRaw")]
   public static extern IntPtr IAudioManager_createFromRaw(HandleRef jarg1, string jarg2, string jarg3, uint jarg4, uint jarg5, int jarg6);
 
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioManager_createFromAudioBuffer")]
+  public static extern IntPtr IAudioManager_createFromAudioBuffer(HandleRef jarg1, string jarg2, HandleRef jarg3, uint jarg4, int jarg5);
+
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioManager_registerAudioDecoder")]
   public static extern bool IAudioManager_registerAudioDecoder(HandleRef jarg1, HandleRef jarg2, string jarg3);
 

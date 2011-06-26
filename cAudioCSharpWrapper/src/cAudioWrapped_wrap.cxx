@@ -4153,6 +4153,26 @@ SWIGEXPORT void * SWIGSTDCALL CSharp_IAudioManager_createFromRaw(void * jarg1, c
 }
 
 
+SWIGEXPORT void * SWIGSTDCALL CSharp_IAudioManager_createFromAudioBuffer(void * jarg1, char * jarg2, void * jarg3, unsigned int jarg4, int jarg5) {
+  void * jresult ;
+  cAudio::IAudioManager *arg1 = (cAudio::IAudioManager *) 0 ;
+  char *arg2 = (char *) 0 ;
+  cAudio::AudioCaptureBuffer *arg3 = (cAudio::AudioCaptureBuffer *) 0 ;
+  unsigned int arg4 ;
+  cAudio::AudioFormats arg5 ;
+  cAudio::IAudioSource *result = 0 ;
+  
+  arg1 = (cAudio::IAudioManager *)jarg1; 
+  arg2 = (char *)jarg2; 
+  arg3 = (cAudio::AudioCaptureBuffer *)jarg3; 
+  arg4 = (unsigned int)jarg4; 
+  arg5 = (cAudio::AudioFormats)jarg5; 
+  result = (cAudio::IAudioSource *)(arg1)->createFromAudioBuffer((char const *)arg2,arg3,arg4,arg5);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_IAudioManager_registerAudioDecoder(void * jarg1, void * jarg2, char * jarg3) {
   unsigned int jresult ;
   cAudio::IAudioManager *arg1 = (cAudio::IAudioManager *) 0 ;
