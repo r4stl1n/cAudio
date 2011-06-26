@@ -65,7 +65,7 @@ int main(int argc, char* argv[]) {
 		{
 
 #if defined(CAUDIO_COMPILER_MINGW)
-            audioMgr->play2D("../bling.ogg");
+            audioMgr->play2D("../Media/bling.ogg");
 
 #elif defined(CAUDIO_PLATFORM_WIN)
 			audioMgr->play2D(AUDIO_FILE("bling.ogg"));
