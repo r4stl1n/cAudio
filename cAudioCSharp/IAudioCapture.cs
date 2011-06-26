@@ -147,6 +147,12 @@ public class IAudioCapture : IDisposable {
     return ret;
   }
 
+  public virtual AudioCaptureBuffer getCapturedAudioBuffer() {
+    IntPtr cPtr = cAudioCSharpWrapperPINVOKE.IAudioCapture_getCapturedAudioBuffer(swigCPtr);
+    AudioCaptureBuffer ret = (cPtr == IntPtr.Zero) ? null : new AudioCaptureBuffer(cPtr, false);
+    return ret;
+  }
+
   public virtual uint getCurrentCapturedAudioSize() {
     uint ret = cAudioCSharpWrapperPINVOKE.IAudioCapture_getCurrentCapturedAudioSize(swigCPtr);
     return ret;

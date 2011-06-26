@@ -147,6 +147,13 @@ namespace cAudio
 		Capturing = false;
 	}
 
+	AudioCaptureBuffer* cAudioCapture::getCapturedAudioBuffer()
+	{
+		AudioCaptureBuffer* buffer = new AudioCaptureBuffer(CaptureBuffer.size());
+		getCapturedAudio(buffer->getWriteBuffer(), buffer->getLength());
+		return buffer;
+	}
+
 	unsigned int cAudioCapture::getCapturedAudio(void* outputBuffer, unsigned int outputBufferSize)
 	{
 		cAudioMutexBasicLock lock(Mutex);

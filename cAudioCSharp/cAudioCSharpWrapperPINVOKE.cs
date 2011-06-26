@@ -669,6 +669,9 @@ class cAudioCSharpWrapperPINVOKE {
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioCapture_getCapturedAudio")]
   public static extern uint IAudioCapture_getCapturedAudio(HandleRef jarg1, HandleRef jarg2, uint jarg3);
 
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioCapture_getCapturedAudioBuffer")]
+  public static extern IntPtr IAudioCapture_getCapturedAudioBuffer(HandleRef jarg1);
+
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioCapture_getCurrentCapturedAudioSize")]
   public static extern uint IAudioCapture_getCurrentCapturedAudioSize(HandleRef jarg1);
 
@@ -680,6 +683,24 @@ class cAudioCSharpWrapperPINVOKE {
 
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_IAudioCapture_unRegisterAllEventHandlers")]
   public static extern void IAudioCapture_unRegisterAllEventHandlers(HandleRef jarg1);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_new_AudioCaptureBuffer__SWIG_0")]
+  public static extern IntPtr new_AudioCaptureBuffer__SWIG_0(uint jarg1);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_new_AudioCaptureBuffer__SWIG_1")]
+  public static extern IntPtr new_AudioCaptureBuffer__SWIG_1(HandleRef jarg1);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_delete_AudioCaptureBuffer")]
+  public static extern void delete_AudioCaptureBuffer(HandleRef jarg1);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_AudioCaptureBuffer_getReadBuffer")]
+  public static extern string AudioCaptureBuffer_getReadBuffer(HandleRef jarg1);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_AudioCaptureBuffer_getWriteBuffer")]
+  public static extern string AudioCaptureBuffer_getWriteBuffer(HandleRef jarg1);
+
+  [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_AudioCaptureBuffer_getLength")]
+  public static extern uint AudioCaptureBuffer_getLength(HandleRef jarg1);
 
   [DllImport("cAudioCSharpWrapper", EntryPoint="CSharp_new_IAudioDecoder")]
   public static extern IntPtr new_IAudioDecoder(HandleRef jarg1);

@@ -3425,6 +3425,18 @@ SWIGEXPORT unsigned int SWIGSTDCALL CSharp_IAudioCapture_getCapturedAudio(void *
 }
 
 
+SWIGEXPORT void * SWIGSTDCALL CSharp_IAudioCapture_getCapturedAudioBuffer(void * jarg1) {
+  void * jresult ;
+  cAudio::IAudioCapture *arg1 = (cAudio::IAudioCapture *) 0 ;
+  cAudio::AudioCaptureBuffer *result = 0 ;
+  
+  arg1 = (cAudio::IAudioCapture *)jarg1; 
+  result = (cAudio::AudioCaptureBuffer *)(arg1)->getCapturedAudioBuffer();
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_IAudioCapture_getCurrentCapturedAudioSize(void * jarg1) {
   unsigned int jresult ;
   cAudio::IAudioCapture *arg1 = (cAudio::IAudioCapture *) 0 ;
@@ -3462,6 +3474,78 @@ SWIGEXPORT void SWIGSTDCALL CSharp_IAudioCapture_unRegisterAllEventHandlers(void
   
   arg1 = (cAudio::IAudioCapture *)jarg1; 
   (arg1)->unRegisterAllEventHandlers();
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_AudioCaptureBuffer__SWIG_0(unsigned long jarg1) {
+  void * jresult ;
+  size_t arg1 ;
+  cAudio::AudioCaptureBuffer *result = 0 ;
+  
+  arg1 = (size_t)jarg1; 
+  result = (cAudio::AudioCaptureBuffer *)new cAudio::AudioCaptureBuffer(arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void * SWIGSTDCALL CSharp_new_AudioCaptureBuffer__SWIG_1(void * jarg1) {
+  void * jresult ;
+  cAudio::AudioCaptureBuffer *arg1 = 0 ;
+  cAudio::AudioCaptureBuffer *result = 0 ;
+  
+  arg1 = (cAudio::AudioCaptureBuffer *)jarg1;
+  if (!arg1) {
+    SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "cAudio::AudioCaptureBuffer const & type is null", 0);
+    return 0;
+  } 
+  result = (cAudio::AudioCaptureBuffer *)new cAudio::AudioCaptureBuffer((cAudio::AudioCaptureBuffer const &)*arg1);
+  jresult = (void *)result; 
+  return jresult;
+}
+
+
+SWIGEXPORT void SWIGSTDCALL CSharp_delete_AudioCaptureBuffer(void * jarg1) {
+  cAudio::AudioCaptureBuffer *arg1 = (cAudio::AudioCaptureBuffer *) 0 ;
+  
+  arg1 = (cAudio::AudioCaptureBuffer *)jarg1; 
+  delete arg1;
+}
+
+
+SWIGEXPORT char * SWIGSTDCALL CSharp_AudioCaptureBuffer_getReadBuffer(void * jarg1) {
+  char * jresult ;
+  cAudio::AudioCaptureBuffer *arg1 = (cAudio::AudioCaptureBuffer *) 0 ;
+  char *result = 0 ;
+  
+  arg1 = (cAudio::AudioCaptureBuffer *)jarg1; 
+  result = (char *)((cAudio::AudioCaptureBuffer const *)arg1)->getReadBuffer();
+  jresult = SWIG_csharp_string_callback((const char *)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT char * SWIGSTDCALL CSharp_AudioCaptureBuffer_getWriteBuffer(void * jarg1) {
+  char * jresult ;
+  cAudio::AudioCaptureBuffer *arg1 = (cAudio::AudioCaptureBuffer *) 0 ;
+  char *result = 0 ;
+  
+  arg1 = (cAudio::AudioCaptureBuffer *)jarg1; 
+  result = (char *)(arg1)->getWriteBuffer();
+  jresult = SWIG_csharp_string_callback((const char *)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT unsigned long SWIGSTDCALL CSharp_AudioCaptureBuffer_getLength(void * jarg1) {
+  unsigned long jresult ;
+  cAudio::AudioCaptureBuffer *arg1 = (cAudio::AudioCaptureBuffer *) 0 ;
+  size_t result;
+  
+  arg1 = (cAudio::AudioCaptureBuffer *)jarg1; 
+  result = ((cAudio::AudioCaptureBuffer const *)arg1)->getLength();
+  jresult = (unsigned long)result; 
+  return jresult;
 }
 
 

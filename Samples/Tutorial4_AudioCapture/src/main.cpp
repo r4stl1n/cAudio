@@ -107,13 +107,14 @@ int main(int argc, char* argv[])
 				//Not completely necessary, as starting a capture again will clear the old audio data
 				currentsize = capture->getCurrentCapturedAudioSize();
 
-				char* buffer = new char[currentsize];
-				cout << "Captured " << capture->getCapturedAudio(buffer, currentsize) << " bytes of audio data. \n \n";
+				cout << "Captured " << currentsize << " bytes of audio data. \n \n";
+
+				cAudio::AudioCaptureBuffer* buff = capture->getCapturedAudioBuffer();
 
 				//Create a IAudio object and load a sound from a file
-				cAudio::IAudioSource* mysound = manager->createFromRaw("sound1", buffer, currentsize, CAPTURE_FREQUENCY, CAPTURE_FORMAT);
+				cAudio::IAudioSource* mysound = manager->createFromRaw("sound1", buff->getReadBuffer(), buff->getLength(), CAPTURE_FREQUENCY, CAPTURE_FORMAT);
 				
-				delete buffer;
+				delete buff;
 
 				if(mysound)
 				{

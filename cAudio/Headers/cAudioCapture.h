@@ -54,6 +54,7 @@ namespace cAudio
 		virtual bool beginCapture();
 		virtual void stopCapture();
 		virtual unsigned int getCapturedAudio(void* outputBuffer, unsigned int outputBufferSize);
+		virtual AudioCaptureBuffer* getCapturedAudioBuffer();
 
 		virtual unsigned int getCurrentCapturedAudioSize();
 		void getAvailableDevices();

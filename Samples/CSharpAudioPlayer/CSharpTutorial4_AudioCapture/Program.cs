@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using cAudio;
 
@@ -99,15 +100,12 @@ namespace CSharpTutorial4_AudioCapture
                 //Grab the total size again, ensures we get ALL the audio data
                 //Not completely necessary, as starting a capture again will clear the old audio data
                 currentsize = capture.getCurrentCapturedAudioSize();
-
-                //char[] buffer = new char[currentsize];
-                string[] buffer = new string[currentsize];
-
-                Console.WriteLine("Captured " + capture.getCapturedAudio(buffer, currentsize) + " bytes of audio data. \n ");
+                Console.WriteLine("Captured " + currentsize + " bytes of audio data. \n ");
 
                 //Create a IAudio object and load a sound from a file
-                
-                IAudioSource mysound = audioMgr.createFromRaw("sound1", Convert.ToString(buffer), currentsize, CAPTURE_FREQUENCY, CAPTURE_FORMAT);
+                var buffer = capture.getCapturedAudioBuffer();
+                IAudioSource mysound = audioMgr.createFromRaw("sound1", buffer.getReadBuffer(), buffer.getLength(), CAPTURE_FREQUENCY, CAPTURE_FORMAT);
+                buffer.Dispose();
 
                 if (mysound != null)
                 {
@@ -120,6 +118,7 @@ namespace CSharpTutorial4_AudioCapture
                     }
                 }
             }
+
             audioMgr.Dispose();
 
             Console.WriteLine(@"Press any key to quit ");

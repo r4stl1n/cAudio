@@ -10,6 +10,9 @@
 
 namespace cAudio
 {
+	// Is responsible to create/destroy a capture buffer
+	class  AudioCaptureBuffer;
+
 	//! Interface for capturing operations in the cAudio Engine.
 	class IAudioCapture
 	{
@@ -90,6 +93,9 @@ namespace cAudio
 		*/
 		virtual unsigned int getCapturedAudio(void* outputBuffer, unsigned int outputBufferSize) = 0;
 
+		//! this method is the same as getCapturedAudio but it returns an managed CaptureBuffer
+		virtual AudioCaptureBuffer* getCapturedAudioBuffer() = 0;
+
 		//! Returns the current size of the internal audio buffer in bytes.
 		virtual unsigned int getCurrentCapturedAudioSize() = 0;
 
@@ -101,5 +107,47 @@ namespace cAudio
 		virtual void unRegisterEventHandler(ICaptureEventHandler* handler) = 0;
 		//!Removes all event handlers attached to this manager.
 		virtual void unRegisterAllEventHandlers() = 0;	
+	};
+
+	// Is responsible to create/destroy a capture buffer
+	class  AudioCaptureBuffer
+	{
+	public:
+		AudioCaptureBuffer(size_t inlength)
+		{
+			length = inlength;
+			buffer = new char[length];
+		}
+
+		AudioCaptureBuffer(const AudioCaptureBuffer& p)
+		{
+			buffer = p.buffer;
+			length = p.length;
+		}
+
+		~AudioCaptureBuffer()
+		{
+			delete buffer;
+			buffer = NULL;
+		}
+
+		const char* getReadBuffer() const
+		{
+			return buffer;
+		}
+
+		char* getWriteBuffer()
+		{
+			return buffer;
+		}
+
+		size_t getLength() const
+		{
+			return length;
+		}
+
+	private:
+		char* buffer;
+		size_t length;
 	};
 };
