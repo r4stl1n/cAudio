@@ -265,7 +265,8 @@ namespace cAudio
 
 			//gets the sound source processed buffers
 			alGetSourcei(Source, AL_BUFFERS_PROCESSED, &processed);
-
+            checkError();
+            
 			//while there is more data refill buffers with audio data.
 			while (processed--)
 			{
@@ -300,6 +301,7 @@ namespace cAudio
 
 		ALenum state;
 		alGetSourcei(Source, AL_SOURCE_STATE, &state);
+        checkError();
 		if(state == AL_STOPPED && oldState != state)
 		{
 			//Resets the audio to the beginning
@@ -321,6 +323,7 @@ namespace cAudio
 	{
 		ALenum state = 0;
         alGetSourcei(Source, AL_SOURCE_STATE, &state);
+        checkError();
         return (state == AL_PLAYING);
     }
 
@@ -328,6 +331,7 @@ namespace cAudio
 	{
 		ALenum state = 0;
         alGetSourcei(Source, AL_SOURCE_STATE, &state);
+        checkError();
         return (state == AL_PAUSED);
     }
 
@@ -335,6 +339,7 @@ namespace cAudio
 	{
 		ALenum state = 0;
         alGetSourcei(Source, AL_SOURCE_STATE, &state);
+        checkError();
 		return (state == AL_STOPPED);
     }
 
@@ -475,6 +480,7 @@ namespace cAudio
 	{
 		cVector3 position;
 		alGetSourcefv(Source, AL_POSITION, &position.x);
+        checkError();
 		return position;
 	}
 
@@ -489,6 +495,7 @@ namespace cAudio
 	{
 		cVector3 direction;
 		alGetSourcefv(Source, AL_DIRECTION, &direction.x);
+        checkError();
 		return direction;
 	}
 
@@ -496,6 +503,7 @@ namespace cAudio
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_ROLLOFF_FACTOR, &value);
+        checkError();
 		return value;
 	}
 
@@ -503,7 +511,8 @@ namespace cAudio
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_ROLLOFF_FACTOR, &value);
-
+        checkError();
+        
 		float inverseStrength = 0.0f;
 		if(value > 0.0f)
 			inverseStrength = 1.0f / value;
@@ -515,6 +524,7 @@ namespace cAudio
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_REFERENCE_DISTANCE, &value);
+        checkError();
 		return value;
 	}
 
@@ -522,6 +532,7 @@ namespace cAudio
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_MAX_DISTANCE, &value);
+        checkError();
 		return value;
 	}
 
@@ -529,6 +540,7 @@ namespace cAudio
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_PITCH, &value);
+        checkError();
 		return value;
 	}
 
@@ -541,6 +553,7 @@ namespace cAudio
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_MIN_GAIN, &value);
+        checkError();
 		return value;
 	}
 
@@ -548,6 +561,7 @@ namespace cAudio
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_MAX_GAIN, &value);
+        checkError();
 		return value;
 	}
 
@@ -555,6 +569,7 @@ namespace cAudio
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_CONE_INNER_ANGLE, &value);
+        checkError();
 		return value;
 	}
 
@@ -562,6 +577,7 @@ namespace cAudio
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_CONE_OUTER_ANGLE, &value);
+        checkError();
 		return value;
 	}
 
@@ -569,6 +585,7 @@ namespace cAudio
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_CONE_OUTER_GAIN, &value);
+        checkError();
 		return value;
 	}
 
@@ -576,6 +593,7 @@ namespace cAudio
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_DOPPLER_FACTOR, &value);
+        checkError();
 		return value;
 	}
 
@@ -583,6 +601,7 @@ namespace cAudio
 	{
 		cVector3 velocity;
 		alGetSourcefv(Source, AL_DOPPLER_VELOCITY, &velocity.x);
+        checkError();
 		return velocity;
 	}
 
@@ -649,7 +668,8 @@ namespace cAudio
     {
         int queued = 0;
         alGetSourcei(Source, AL_BUFFERS_QUEUED, &queued);
-
+        checkError();
+        
         while (queued--)
         {
             ALuint buffer;
