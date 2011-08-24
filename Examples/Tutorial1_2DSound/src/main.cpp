@@ -56,7 +56,7 @@ int main(int argc, char* argv[]) {
 #if defined(CAUDIO_COMPILER_MINGW)
         cAudio::IAudioSource* mysound = audioMgr->create("bling", "../Media/cAudioTheme1.ogg",true);
 #elif defined(CAUDIO_PLATFORM_WIN)
-		cAudio::IAudioSource* mysound = audioMgr->create("bling", AUDIO_FILE("cAudioTheme1.ogg")),true);
+		cAudio::IAudioSource* mysound = audioMgr->create("bling", AUDIO_FILE("cAudioTheme1.ogg"),true);
 #else
 		cAudio::IAudioSource* mysound = audioMgr->create("bling", AUDIO_FILE(cAudioTheme1.ogg),true);
 #endif

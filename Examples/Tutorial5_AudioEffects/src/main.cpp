@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
 #if defined(CAUDIO_COMPILER_MINGW)
         cAudio::IAudioSource* mysound = audioMgr->create("bling", "../Media/Footsteps.wav",true);
 #elif defined(CAUDIO_PLATFORM_WIN)
-		cAudio::IAudioSource* mysound = audioMgr->create("bling", AUDIO_FILE("Footsteps.wav")),true);
+		cAudio::IAudioSource* mysound = audioMgr->create("bling", AUDIO_FILE("Footsteps.wav"),true);
 #else
 		cAudio::IAudioSource* mysound = audioMgr->create("bling", AUDIO_FILE(Footsteps.wav),true);
 #endif
