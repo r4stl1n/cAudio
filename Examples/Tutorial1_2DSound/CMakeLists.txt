@@ -9,7 +9,7 @@
 PROJECT(Tutorial1_2DSound)
 
 set (SOURCE_FILES
-	src/Main.cpp
+	src/main.cpp
 )
  
  if(CAUDIO_IOS_BUILD)

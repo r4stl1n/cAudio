@@ -13,6 +13,7 @@
 #include <list>
 #include <vector>
 #include <string>
+#include <cstddef>
 
 namespace cAudio
 {

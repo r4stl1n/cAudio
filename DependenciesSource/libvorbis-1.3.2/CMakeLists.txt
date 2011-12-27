@@ -11,6 +11,11 @@ include(libvorbis_src_files)
 
 add_library(Vorbis STATIC ${file_root})
 target_link_libraries(Vorbis Ogg)
+
+if(UNIX AND CMAKE_SIZEOF_VOID_P EQUAL 8)
+	set_target_properties( Vorbis PROPERTIES COMPILE_FLAGS -fPIC)
+endif()
+
 add_dependencies(Vorbis Ogg)
 
 if (APPLE AND CAUDIO_IOS_BUILD)

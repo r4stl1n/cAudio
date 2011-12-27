@@ -11,7 +11,7 @@ PROJECT(Tutorial6_CustomEventHandler)
 set (SOURCE_FILES
 	include/cTestHandler.h
 	src/cTestHandler.cpp
-	src/Main.cpp
+	src/main.cpp
 )
  
  if(CAUDIO_IOS_BUILD)
