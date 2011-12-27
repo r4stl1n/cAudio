@@ -11,7 +11,7 @@ PROJECT(Tutorial7_CustomLogReceiver)
 set (SOURCE_FILES
 	include/cTestLogReceiver.h
 	src/cTestLogReceiver.cpp
-	src/Main.cpp
+	src/main.cpp
 )
  
  if(CAUDIO_IOS_BUILD)

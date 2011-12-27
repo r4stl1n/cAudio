@@ -10,7 +10,7 @@ PROJECT(Tutorial3_MemoryPlayback)
 
 set (SOURCE_FILES
 	include/bling.h
-	src/Main.cpp
+	src/main.cpp
 )
  
  if(CAUDIO_IOS_BUILD)

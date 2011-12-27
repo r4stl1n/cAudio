@@ -1,9 +1,6 @@
 #####################################################
 # Install dependencies 
 #####################################################
-if (NOT APPLE AND NOT WIN32)
-  return()
-endif()
 
 option(CAUDIO_COPY_DEPENDENCIES "Copy dependency libs to the build directory" TRUE)
 
