@@ -574,34 +574,32 @@ namespace cAudio
     void cAudioManager::releaseAllSources()
     {
 		cAudioMutexBasicLock lock(Mutex);
-		size_t count = audioSources.size();
-		for(size_t i=0; i<count; i++)
+		cAudioVector<IAudioSource*>::Type::iterator audioSourcesIter;
+
+		for(audioSourcesIter = audioSources.begin(); audioSourcesIter != audioSources.end(); audioSourcesIter++)
 		{
-			IAudioSource* source = audioSources[i];
-			if(source)
-				source->drop();
+			if((*audioSourcesIter))
+				(*audioSourcesIter)->drop();
 		}
 		audioSources.clear();
 		audioIndex.clear();
 
-		count = managedAudioSources.size();
-		for(size_t i=0; i<count; i++)
+		cAudioVector<IAudioSource*>::Type::iterator managedAudioIter;
+		for(managedAudioIter = managedAudioSources.begin(); managedAudioIter != managedAudioSources.end(); managedAudioIter++)
 		{
-			IAudioSource* source = managedAudioSources[i];
-			if (source)
+			if ((*managedAudioIter))
 			{
-				CAUDIO_DELETE source;
+				CAUDIO_DELETE (*managedAudioIter);
 			}
 		}
 		managedAudioSources.clear();
 
-		count = managedAudioSourcesDelBuffer.size();
-		for(size_t i=0; i<count; i++)
+		cAudioVector<IAudioSource*>::Type::iterator managedAudioSourcesDelIter;
+		for(managedAudioSourcesDelIter = managedAudioSourcesDelBuffer.begin(); managedAudioSourcesDelIter != managedAudioSourcesDelBuffer.end(); managedAudioSourcesDelIter++)
 		{
-			IAudioSource* source = managedAudioSourcesDelBuffer[i];
-			if (source)
+			if ((*managedAudioSourcesDelIter))
 			{
-				CAUDIO_DELETE source;
+				CAUDIO_DELETE (*managedAudioSourcesDelIter);
 			}
 		}
 		managedAudioSourcesDelBuffer.clear();
