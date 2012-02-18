@@ -2,10 +2,6 @@
 
 This is the new cAudio 2.2.0 Dev . This release is mainly a bug fix release.
 
-Visit our site at http://caudio.deathtouchstudios.com/ for news and information.
-
-To get help, report bugs, or talk about cAudio visit our forums at: http://www.memoryoffset.com/forum
-
 ## Change log
 
 * C# Bindings as well has tutorials and demo application
