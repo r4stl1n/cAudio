@@ -47,4 +47,53 @@ The project will now build and you can run an optional `sudo make install` to in
 
 ## Common problems and solutions
 
-None reported so far.
+Here is a collection of problems and solutions that have come up while compiling on Linux
+
+### Errors on config_types.h
+
+On older versions of Linux you might get errors like:
+
+
+```
+In file included from /home/thijs/Downloads/cAudio/DependenciesSource/libogg-1.2.2/include/ogg/os_types.h:143,
+                 from /home/thijs/Downloads/cAudio/DependenciesSource/libogg-1.2.2/include/ogg/ogg.h:25,
+                 from /home/thijs/Downloads/cAudio/DependenciesSource/libvorbis-1.3.2/src/analysis.c:21:
+/usr/include/ogg/config_types.h:5: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘ogg_int16_t’
+/usr/include/ogg/config_types.h:6: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘ogg_uint16_t’
+/usr/include/ogg/config_types.h:7: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘ogg_int32_t’
+/usr/include/ogg/config_types.h:8: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘ogg_uint32_t’
+/usr/include/ogg/config_types.h:9: error: expected ‘=’, ‘,’, ‘;’, ‘asm’ or ‘__attribute__’ before ‘ogg_int64_t’
+```
+
+If you do it's an indication that your version of libogg is to old. The version required to function with cAudio is, probably, 1.2.0 or higher (the build described here uses 1.2.2). Try finding updated packages (on Ubuntu the packages are libogg0 and libogg-dev) for your distribution or build it from source that you'll find at http://xiph.org/downloads/ ...
+
+Building libogg from source is a simple process, it's a small library. Just follow the normal path of:
+
+1. Download sources
+2. Unpack the downloaded tar.gz somewhere
+3. Change to the directory with the unpacked source
+4. `./configure`
+5. `make`
+6. `make install` (as root)
+
+### Music stops after about one second
+
+This is due to the fact that cAudio on Linux fails to build with proper threading enabled (see issue #8 https://github.com/wildicv/cAudio/issues/8).
+
+To solve the problem you have to manually update cAudio's audio manager (audioMgr in the tutorials). Look at the source for Tutorial 1 (lines 84-85):
+
+```cpp
+while(mysound->isPlaying())
+  cAudio::cAudioSleep(10);
+```
+
+You will have to change this to:
+
+```cpp
+while(mysound->isPlaying()) {
+  cAudio::cAudioSleep(10);
+  audioMgr->update();
+}
+```
+
+for the code to work as expected. You will also have to call the update function regularly somewhere in your code to keep the sounds playing.
