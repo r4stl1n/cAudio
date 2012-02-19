@@ -71,25 +71,3 @@ Building libogg from source is a simple process, it's a small library. Just foll
 4. `./configure`
 5. `make`
 6. `make install` (as root)
-
-### Music stops after about one second
-
-This is due to the fact that cAudio on Linux fails to build with proper threading enabled (see issue #8 https://github.com/wildicv/cAudio/issues/8).
-
-To solve the problem you have to manually update cAudio's audio manager (audioMgr in the tutorials). Look at the source for Tutorial 1 (lines 84-85):
-
-```cpp
-while(mysound->isPlaying())
-  cAudio::cAudioSleep(10);
-```
-
-You will have to change this to:
-
-```cpp
-while(mysound->isPlaying()) {
-  cAudio::cAudioSleep(10);
-  audioMgr->update();
-}
-```
-
-for the code to work as expected. You will also have to call the update function regularly somewhere in your code to keep the sounds playing.
