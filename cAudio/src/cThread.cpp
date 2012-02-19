@@ -31,9 +31,9 @@ namespace cAudio
 		if(ThreadHandle == 0)
 			CloseHandle( ThreadHandle );
 #else
-		ThreadID = pthread_create( &ThreadHandle, 0, threadFunc, this );
+		pthread_create( &ThreadHandle, 0, threadFunc, this );
 #endif
-        IsInit = ThreadID != 0;
+        IsInit = ThreadHandle != 0;
 		return IsInit;
 	}
 	void cAudioThread::join()
