@@ -78,7 +78,7 @@ int main(int argc, char* argv[])
 			mysound->play3d(cAudio::cVector3(0,0,0),2.0f,true);
 			mysound->setVolume(1.0f);
 			mysound->setMinDistance(1.0f);
-			mysound->setMaxDistance(100.0f);
+			mysound->setMaxAttenuationDistance(100.0f);
 
 			//Play for 10 seconds
 			const int ticksToPlay = 10000;
