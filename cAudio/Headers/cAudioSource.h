@@ -73,7 +73,7 @@ namespace cAudio
 		virtual void setRolloffFactor(const float& rolloff);
 		virtual void setStrength(const float& soundstrength);
 		virtual void setMinDistance(const float& minDistance);
-		virtual void setMaxDistance(const float& maxDistance);
+		virtual void setMaxAttenuationDistance(const float& maxDistance);
 
 		virtual void setPitch(const float& pitch);
 		virtual void setVolume(const float& volume);

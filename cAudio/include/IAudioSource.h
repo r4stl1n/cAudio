@@ -128,7 +128,7 @@ namespace cAudio
 		//! Sets the distance from the source where attenuation will stop.
 		/** Range: 0.0f to +inf
 		\param maxDistance: Distance where attenuation will cease.  Normally the farthest range you can hear the source. */
-		virtual void setMaxDistance(const float& maxDistance) = 0;
+		virtual void setMaxAttenuationDistance(const float& maxDistance) = 0;
 
 		//! Sets the pitch of the source.
 		/** Range: 0.0f to +inf (Default: 1.0f)

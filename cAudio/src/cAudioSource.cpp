@@ -394,7 +394,7 @@ namespace cAudio
 		checkError();
 	}
 
-	void cAudioSource::setMaxDistance(const float& maxDistance)
+	void cAudioSource::setMaxAttenuationDistance(const float& maxDistance)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_MAX_DISTANCE, maxDistance);
