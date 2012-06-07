@@ -2,8 +2,6 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#pragma once
-
 #include "cOpenALAudioDeviceList.h"
 #include <al.h>
 #include <alc.h>

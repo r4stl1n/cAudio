@@ -69,6 +69,7 @@ set (file_root_source_files
 	src/cAudioEffects.cpp
 	src/cAudioManager.cpp
 	src/cAudioMemory.cpp
+	src/cAudioString.cpp
 	src/cAudioSleep.cpp
 	src/cAudioSource.cpp
 	src/cConsoleLogReceiver.cpp
