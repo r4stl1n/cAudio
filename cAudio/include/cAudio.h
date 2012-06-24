@@ -52,7 +52,7 @@
  *
  * \section intro Introduction
  *
- * Welcome to the Main API Documentation for cAudio 2.2.0.  cAudio is an advanced C++ wrapper around OpenAL, a professional and powerful
+ * Welcome to the Main API Documentation for cAudio 2.3.0.  cAudio is an advanced C++ wrapper around OpenAL, a professional and powerful
  * audio library.  Thus cAudio provides you with a number of classes to allow you to easily manipulate your audio world and
  * intergrate audio effects like reverberation, doppler, attenuation, ect.  cAudio also has a plugin system, allowing developers to extend 
  * the functionality of the library.  Furthermore, cAudio is released under the zlib license, meaning it is free for you to use in your projects, 

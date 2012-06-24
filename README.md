@@ -1,17 +1,10 @@
-# Version 2.2.0 dev
+# Version 2.3.0 dev
 
-This is the new cAudio 2.2.0 Dev . This release is mainly a bug fix release.
+This is the development branch for cAudio 2.3.0 development.
+If you need a stable version of cAudio please use the 2.2.0 tag.
 
 ## Change log
-
-* C# Bindings as well has tutorials and demo application
-* CMake Build System
-* Remove unneeded mutex/locks from dataFactory->CreateDataSource
-* Replace include guards with #pragma once
-* Bug fixes,
-* cAudio Source are now cleared
-* Updated cAudio.h documentation and created doxyfile for easy documentation generation
-# Compiling
+*Nothing yet
 
 ## Windows
 
