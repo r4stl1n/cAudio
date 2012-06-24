@@ -10,7 +10,7 @@ This is the new cAudio 2.2.0 Dev . This release is mainly a bug fix release.
 * Replace include guards with #pragma once
 * Bug fixes,
 * cAudio Source are now cleared
-
+* Updated cAudio.h documentation and created doxyfile for easy documentation generation
 # Compiling
 
 ## Windows
