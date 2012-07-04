@@ -240,15 +240,15 @@ namespace cAudio
 					audioIndex[audioName] = audio;
 
 				audioSources.push_back(audio);		
-				getLogger()->logInfo("AudioManager", "Audio Source (%s) created from Data Source %s.", audioName.c_str(), dataSource.c_str());
+				getLogger()->logInfo("AudioManager", "Audio Source (%s) created from Data Source %s.", toUTF8(audioName), toUTF8(dataSource));
 				return audio;
 			}
 
-			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Error creating audio source.", audioName.c_str());
+			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Error creating audio source.", toUTF8(audioName));
 			audio->drop();
 			return NULL;
 		}
-		getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Audio data could not be decoded by (.%s) decoder.", audioName.c_str(), decoder->getType().c_str());
+		getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Audio data could not be decoded by (.%s) decoder.", toUTF8(audioName), toUTF8(decoder->getType()));
 		decoder->drop();
 		return NULL;
 	}
@@ -264,7 +264,7 @@ namespace cAudio
 		IAudioDecoderFactory* factory = getAudioDecoderFactory(toUTF8(ext));
 
 		if(!factory) {
-			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): No decoder could be found for (.%s).", audioName.c_str(), ext.c_str());
+			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): No decoder could be found for (.%s).", toUTF8(audioName), toUTF8(ext));
 			return NULL;
 		}
 
@@ -304,7 +304,7 @@ namespace cAudio
 		IAudioDecoderFactory* factory = getAudioDecoderFactory(toUTF8(ext));
 
 		if(!factory) {
-			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Codec (.%s) is not supported.", audioName.c_str(), ext.c_str());
+			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Codec (.%s) is not supported.", toUTF8(audioName), toUTF8(ext));
 			return NULL;
 		}
 
@@ -338,7 +338,7 @@ namespace cAudio
 		IAudioDecoderFactory* factory = getAudioDecoderFactory("raw");
 
 		if(!factory) {
-			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Codec (.raw) is not supported.", audioName.c_str());
+			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Codec (.raw) is not supported.", toUTF8(audioName));
 			return NULL;
 		}
 
@@ -363,7 +363,7 @@ namespace cAudio
 		cAudioMutexBasicLock lock(Mutex);
 		cAudioString ext = fromUTF8(extension);
         decodermap[ext] = factory;
-		getLogger()->logInfo("AudioManager", "Audio Decoder for extension .%s registered.", ext.c_str());
+		getLogger()->logInfo("AudioManager", "Audio Decoder for extension .%s registered.", toUTF8(ext));
 		return true;
     }
 
@@ -375,7 +375,7 @@ namespace cAudio
 		if(it != decodermap.end())
 		{
 			decodermap.erase(it);
-			getLogger()->logInfo("AudioManager", "Audio Decoder for extension .%s unregistered.", ext.c_str());
+			getLogger()->logInfo("AudioManager", "Audio Decoder for extension .%s unregistered.", toUTF8(ext));
 		}
 	}
 
@@ -418,7 +418,7 @@ namespace cAudio
 		dataSourcePriorityList.push_back(std::pair<int, cAudioString>(priority, safeName));
 		std::sort(dataSourcePriorityList.begin(), dataSourcePriorityList.end(), compareDataSourcePriorities);
 
-		getLogger()->logInfo("AudioManager", "Data Source named %s registered (Priority %i).", safeName.c_str(), priority);
+		getLogger()->logInfo("AudioManager", "Data Source named %s registered (Priority %i).", toUTF8(safeName), priority);
 		return true;
 	}
 
@@ -430,7 +430,7 @@ namespace cAudio
 		if(it != datasourcemap.end())
 		{
 			datasourcemap.erase(it);
-			getLogger()->logInfo("AudioManager", "Data Source named %s unregistered.", safeName.c_str());
+			getLogger()->logInfo("AudioManager", "Data Source named %s unregistered.", toUTF8(safeName));
 		}
 
 		for(size_t i=0; i<dataSourcePriorityList.size(); ++i)

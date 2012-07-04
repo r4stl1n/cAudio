@@ -29,7 +29,7 @@ namespace cAudio
 			it->first->drop();
 			if(DYNLIB_UNLOAD(it->second))
 			{
-				getLogger()->logError("cPluginManager", "Plugin Error: %s.", getError().c_str());
+				getLogger()->logError("cPluginManager", "Plugin Error: %s.", toUTF8(getError()));
 			}
 		}
 	}
@@ -38,7 +38,7 @@ namespace cAudio
 	{
 		if(plugin)
 		{
-			cAudioString theName = safeCStr(name);
+			cAudioString theName = fromUTF8(name);
 			if(theName.empty())
 				theName = plugin->getPluginName();
 
@@ -70,7 +70,7 @@ namespace cAudio
 				}
 			}
 			else
-				getLogger()->logError("cPluginManager", "installPlugin Error: %s.", getError().c_str());
+				getLogger()->logError("cPluginManager", "installPlugin Error: %s.", toUTF8(getError()));
 		}
 		return false;
 	}
@@ -126,7 +126,7 @@ namespace cAudio
 				it2->first->drop();
 				if(DYNLIB_UNLOAD(it2->second))
 				{
-					getLogger()->logError("cPluginManager", "Plugin Error: %s.", getError().c_str());
+					getLogger()->logError("cPluginManager", "Plugin Error: %s.", fromUTF8(getError()));
 				}
 				DynamicallyLoadedPlugins.erase(it2->first);
 			}
@@ -146,10 +146,10 @@ namespace cAudio
 		cAudioVector<cAudioString>::Type fileList = getFilesInDirectory(".");
 		for(size_t i=0; i<fileList.size(); ++i)
 		{
-			if(fileList[i].substr(0, 4) == "cAp_")
+			if(fileList[i].substr(0, 4) == _CTEXT("cAp_"))
 			{
 #ifdef CAUDIO_PLATFORM_WIN
-				if(fileList[i].substr(fileList[i].length()-4, 4) == ".dll")
+				if(fileList[i].substr(fileList[i].length()-4, 4) == _CTEXT(".dll"))
 #elif defined(CAUDIO_PLATFORM_LINUX)
 				if(fileList[i].substr(fileList[i].length()-3, 3) == ".so")
 #elif defined(CAUDIO_PLATFORM_MAC)
@@ -157,7 +157,7 @@ namespace cAudio
 #endif
 				{
 					//Found a plugin, load it
-					installPlugin(cAudioString("./" + fileList[i]).c_str(), NULL);
+					installPlugin(toUTF8(cAudioString(_CTEXT("./") + fileList[i])), NULL);
 				}
 			}
 		}
@@ -179,7 +179,7 @@ namespace cAudio
 			NULL 
 			);
 
-		cAudioString ret = (char*)lpMsgBuf;
+		cAudioString ret = fromUTF8((char*)lpMsgBuf);
 		// remove line break
 		ret = ret.substr(0, ret.length()-2);
 		LocalFree(lpMsgBuf);
