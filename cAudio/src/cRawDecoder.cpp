@@ -114,6 +114,6 @@ namespace cAudio{
 
 	cAudioString cRawDecoder::getType() const
 	{
-		return cAudioString("cRawDecoder");
+		return cAudioString(_CTEXT("cRawDecoder"));
 	}
 }

@@ -39,10 +39,10 @@ namespace cAudio
 		if(DeviceName.empty())
 			CaptureDevice = alcCaptureOpenDevice(NULL, Frequency, convertAudioFormatEnum(Format), InternalBufferSize / SampleSize);
 		else
-			CaptureDevice = alcCaptureOpenDevice(DeviceName.c_str(), Frequency, convertAudioFormatEnum(Format), InternalBufferSize / SampleSize);
+			CaptureDevice = alcCaptureOpenDevice(toUTF8(DeviceName), Frequency, convertAudioFormatEnum(Format), InternalBufferSize / SampleSize);
 		if(CaptureDevice)
 		{
-			DeviceName = alcGetString(CaptureDevice, ALC_CAPTURE_DEVICE_SPECIFIER);
+			DeviceName = fromUTF8(alcGetString(CaptureDevice, ALC_CAPTURE_DEVICE_SPECIFIER));
 			Ready = true;
 			checkError();
 			getLogger()->logDebug("AudioCapture", "OpenAL Capture Device Opened.");
@@ -214,7 +214,7 @@ namespace cAudio
 	bool cAudioCapture::setDevice(const char* deviceName)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		DeviceName = safeCStr(deviceName);
+		DeviceName = fromUTF8(deviceName);
 
 		shutdownOpenALDevice();
 		return initOpenALDevice();
@@ -223,7 +223,7 @@ namespace cAudio
 	bool cAudioCapture::initialize(const char* deviceName, unsigned int frequency, AudioFormats format, unsigned int internalBufferSize)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		DeviceName = safeCStr(deviceName);
+		DeviceName = fromUTF8(deviceName);
 		Frequency = frequency;
 		InternalBufferSize = internalBufferSize;
 

@@ -31,15 +31,6 @@ static cAudioString getExt(const cAudioString& filename)
 	return filename.substr(filename.find_last_of(_CTEXT(".")) + 1, filename.length()-filename.find_last_of(_CTEXT("."))-1);
 }
 
-//! Prevents a bug with NULL passed into cAudioString.
-
-static cAudioString safeCStr(const char* str)
-{
-	if( str != NULL ) return cAudioString(str);
-	else return cAudioString("");
-}
-
-
 //! Returns a list of files/directories in the supplied directory.  Used internally for auto-installation of plugins.
 static cAudioVector<cAudioString>::Type getFilesInDirectory(cAudioString path)
 {

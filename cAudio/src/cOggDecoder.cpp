@@ -178,7 +178,7 @@ namespace cAudio
 	
 	cAudioString cOggDecoder::getType() const
 	{
-		return cAudioString("cOggDecoder");
+		return cAudioString(_CTEXT("cOggDecoder"));
 	}
 };
 
