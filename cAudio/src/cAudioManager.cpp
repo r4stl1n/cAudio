@@ -240,15 +240,15 @@ namespace cAudio
 					audioIndex[audioName] = audio;
 
 				audioSources.push_back(audio);		
-				getLogger()->logInfo("AudioManager", "Audio Source (%s) created from Data Source %s.", audioName.c_str(), dataSource.c_str());
+				getLogger()->logInfo("AudioManager", "Audio Source (%s) created from Data Source %s.", toUTF8(audioName), toUTF8(dataSource));
 				return audio;
 			}
 
-			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Error creating audio source.", audioName.c_str());
+			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Error creating audio source.", toUTF8(audioName));
 			audio->drop();
 			return NULL;
 		}
-		getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Audio data could not be decoded by (.%s) decoder.", audioName.c_str(), decoder->getType().c_str());
+		getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Audio data could not be decoded by (.%s) decoder.", toUTF8(audioName), toUTF8(decoder->getType()));
 		decoder->drop();
 		return NULL;
 	}
@@ -258,13 +258,13 @@ namespace cAudio
 		if(!Initialized) return NULL;
 
 		cAudioMutexBasicLock lock(Mutex);
-		cAudioString audioName = safeCStr(name);
-		cAudioString path = safeCStr(filename);
+		cAudioString audioName = fromUTF8(name);
+		cAudioString path = fromUTF8(filename);
 		cAudioString ext = getExt(path);
-		IAudioDecoderFactory* factory = getAudioDecoderFactory(ext.c_str());
+		IAudioDecoderFactory* factory = getAudioDecoderFactory(toUTF8(ext));
 
 		if(!factory) {
-			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): No decoder could be found for (.%s).", audioName.c_str(), ext.c_str());
+			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): No decoder could be found for (.%s).", toUTF8(audioName), toUTF8(ext));
 			return NULL;
 		}
 
@@ -299,12 +299,12 @@ namespace cAudio
 		if(!Initialized) return NULL;
 
 		cAudioMutexBasicLock lock(Mutex);
-		cAudioString audioName = safeCStr(name);
-		cAudioString ext = safeCStr(extension);
-		IAudioDecoderFactory* factory = getAudioDecoderFactory(ext.c_str());
+		cAudioString audioName = fromUTF8(name);
+		cAudioString ext = fromUTF8(extension);
+		IAudioDecoderFactory* factory = getAudioDecoderFactory(toUTF8(ext));
 
 		if(!factory) {
-			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Codec (.%s) is not supported.", audioName.c_str(), ext.c_str());
+			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Codec (.%s) is not supported.", toUTF8(audioName), toUTF8(ext));
 			return NULL;
 		}
 
@@ -314,7 +314,7 @@ namespace cAudio
 			IAudioDecoder* decoder = factory->CreateAudioDecoder(source);
 			source->drop();
 
-			IAudioSource* audio = createAudioSource(decoder, audioName, "cMemorySource");
+			IAudioSource* audio = createAudioSource(decoder, audioName, _CTEXT("cMemorySource"));
 			if(audio != NULL)
 				return audio;
 
@@ -334,11 +334,11 @@ namespace cAudio
 		if(!Initialized) return NULL;
 
 		cAudioMutexBasicLock lock(Mutex);
-		cAudioString audioName = safeCStr(name);
+		cAudioString audioName = fromUTF8(name);
 		IAudioDecoderFactory* factory = getAudioDecoderFactory("raw");
 
 		if(!factory) {
-			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Codec (.raw) is not supported.", audioName.c_str());
+			getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Codec (.raw) is not supported.", toUTF8(audioName));
 			return NULL;
 		}
 
@@ -348,7 +348,7 @@ namespace cAudio
 			IAudioDecoder* decoder = ((cRawAudioDecoderFactory*)factory)->CreateAudioDecoder(source, frequency, format);
 			source->drop();
 
-			IAudioSource* audio = createAudioSource(decoder, audioName, "cMemorySource");
+			IAudioSource* audio = createAudioSource(decoder, audioName, _CTEXT("cMemorySource"));
 			if(audio != NULL)
 				return audio;
 
@@ -361,28 +361,28 @@ namespace cAudio
     bool cAudioManager::registerAudioDecoder(IAudioDecoderFactory* factory, const char* extension)
     {
 		cAudioMutexBasicLock lock(Mutex);
-		cAudioString ext = safeCStr(extension);
+		cAudioString ext = fromUTF8(extension);
         decodermap[ext] = factory;
-		getLogger()->logInfo("AudioManager", "Audio Decoder for extension .%s registered.", ext.c_str());
+		getLogger()->logInfo("AudioManager", "Audio Decoder for extension .%s registered.", toUTF8(ext));
 		return true;
     }
 
 	void cAudioManager::unRegisterAudioDecoder(const char* extension)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		cAudioString ext = safeCStr(extension);
+		cAudioString ext = fromUTF8(extension);
 		decodermapIterator it = decodermap.find(ext);
 		if(it != decodermap.end())
 		{
 			decodermap.erase(it);
-			getLogger()->logInfo("AudioManager", "Audio Decoder for extension .%s unregistered.", ext.c_str());
+			getLogger()->logInfo("AudioManager", "Audio Decoder for extension .%s unregistered.", toUTF8(ext));
 		}
 	}
 
 	bool cAudioManager::isAudioDecoderRegistered(const char* extension)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		cAudioString ext = safeCStr(extension);
+		cAudioString ext = fromUTF8(extension);
 		decodermapIterator it = decodermap.find(ext);
 		return (it != decodermap.end());
 	}
@@ -390,7 +390,7 @@ namespace cAudio
 	IAudioDecoderFactory* cAudioManager::getAudioDecoderFactory(const char* extension)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		cAudioString ext = safeCStr(extension);
+		cAudioString ext = fromUTF8(extension);
 		decodermapIterator it = decodermap.find(ext);
 		if(it != decodermap.end())
 		{
@@ -413,24 +413,24 @@ namespace cAudio
 	bool cAudioManager::registerDataSource(IDataSourceFactory* factory, const char* name, int priority)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		cAudioString safeName = safeCStr(name);
+		cAudioString safeName = fromUTF8(name);
         datasourcemap[safeName] = factory;
 		dataSourcePriorityList.push_back(std::pair<int, cAudioString>(priority, safeName));
 		std::sort(dataSourcePriorityList.begin(), dataSourcePriorityList.end(), compareDataSourcePriorities);
 
-		getLogger()->logInfo("AudioManager", "Data Source named %s registered (Priority %i).", safeName.c_str(), priority);
+		getLogger()->logInfo("AudioManager", "Data Source named %s registered (Priority %i).", toUTF8(safeName), priority);
 		return true;
 	}
 
 	void cAudioManager::unRegisterDataSource(const char* name)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		cAudioString safeName = safeCStr(name);
+		cAudioString safeName = fromUTF8(name);
 		datasourcemapIterator it = datasourcemap.find(safeName);
 		if(it != datasourcemap.end())
 		{
 			datasourcemap.erase(it);
-			getLogger()->logInfo("AudioManager", "Data Source named %s unregistered.", safeName.c_str());
+			getLogger()->logInfo("AudioManager", "Data Source named %s unregistered.", toUTF8(safeName));
 		}
 
 		for(size_t i=0; i<dataSourcePriorityList.size(); ++i)
@@ -448,7 +448,7 @@ namespace cAudio
 	bool cAudioManager::isDataSourceRegistered(const char* name)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		cAudioString safeName = safeCStr(name);
+		cAudioString safeName = fromUTF8(name);
 		datasourcemapIterator it = datasourcemap.find(safeName);
 		return (it != datasourcemap.end());
 	}
@@ -456,7 +456,7 @@ namespace cAudio
 	IDataSourceFactory* cAudioManager::getDataSourceFactory(const char* name)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		cAudioString safeName = safeCStr(name);
+		cAudioString safeName = fromUTF8(name);
 		datasourcemapIterator it = datasourcemap.find(safeName);
 		if(it != datasourcemap.end())
 		{
@@ -562,7 +562,7 @@ namespace cAudio
     IAudioSource* cAudioManager::getSoundByName(const char* name)
     {
 		cAudioMutexBasicLock lock(Mutex);
-		cAudioString audioName = safeCStr(name);
+		cAudioString audioName = fromUTF8(name);
         audioIndexIterator i = audioIndex.find(audioName);
         if (i == audioIndex.end())
 		{
@@ -576,11 +576,16 @@ namespace cAudio
 		cAudioMutexBasicLock lock(Mutex);
 		cAudioVector<IAudioSource*>::Type::iterator audioSourcesIter;
 
-		for(audioSourcesIter = audioSources.begin(); audioSourcesIter != audioSources.end(); audioSourcesIter++)
+		cAudioVector<IAudioSource*>::Type deleteSources;
+		for(audioSourcesIter = audioSources.begin(); audioSourcesIter != audioSources.end(); ++audioSourcesIter)
 		{
 			if((*audioSourcesIter))
-				(*audioSourcesIter)->drop();
+				deleteSources.push_back(*audioSourcesIter);
 		}
+		for(audioSourcesIter = deleteSources.begin(); audioSourcesIter != deleteSources.end(); ++audioSourcesIter)
+			(*audioSourcesIter)->drop();
+
+		deleteSources.clear();
 		audioSources.clear();
 		audioIndex.clear();
 
