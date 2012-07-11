@@ -126,7 +126,7 @@ namespace cAudio
 				it2->first->drop();
 				if(DYNLIB_UNLOAD(it2->second))
 				{
-					getLogger()->logError("cPluginManager", "Plugin Error: %s.", fromUTF8(getError()));
+					getLogger()->logError("cPluginManager", "Plugin Error: %s.", toUTF8(getError()));
 				}
 				DynamicallyLoadedPlugins.erase(it2->first);
 			}
