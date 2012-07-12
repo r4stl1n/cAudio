@@ -228,7 +228,7 @@ namespace cAudio
 
 	cAudioString cWavDecoder::getType() const
 	{
-		return cAudioString("cWavDecoder");
+		return cAudioString(_CTEXT("cWavDecoder"));
 	}
 };
 
