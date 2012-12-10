@@ -116,4 +116,25 @@ namespace cAudio{
 	{
 		return cAudioString(_CTEXT("cRawDecoder"));
 	}
+
+	long cRawDecoder::getBitRateNominal()
+	{
+		if(Format == EAF_8BIT_MONO || EAF_8BIT_STEREO)
+			return Frequency * 8;
+		else if(Format == EAF_16BIT_MONO || EAF_16BIT_STEREO)
+			return Frequency * 16;
+
+		return 0;
+	}
+
+	long cRawDecoder::getBitRateLower()
+	{
+		return getBitRateNominal();
+	}
+
+	long cRawDecoder::getBitRateUpper()
+	{
+		return getBitRateNominal();
+	}
+
 }

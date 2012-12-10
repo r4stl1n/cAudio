@@ -74,6 +74,15 @@ namespace cAudio
 			//! Returns the IAudioDecoderType.
 			virtual cAudioString getType() const = 0;
 
+			//! returns the average bitrate of the decoded audio stream.
+			virtual long getBitRateNominal() = 0;
+
+			//! returns the minimum bitrate of the decoded audio stream.
+			virtual long getBitRateLower() = 0;
+
+			//! returns the maximum bitrate of the decoded audio stream.
+			virtual long getBitRateUpper() = 0;
+
 		protected:
 			//! Pointer to the data source to take audio data from.
 			IDataSource* Stream;
