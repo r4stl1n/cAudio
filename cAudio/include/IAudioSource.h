@@ -21,6 +21,9 @@ namespace cAudio
 		IAudioSource() {}
 		virtual ~IAudioSource() {}
 
+		//! Returns the format of the audio data
+		virtual AudioFormats getFormat() const = 0;
+
 		//! Plays the source with the last set parameters.
 		/**
 		\return True if the source is playing, false if not. */

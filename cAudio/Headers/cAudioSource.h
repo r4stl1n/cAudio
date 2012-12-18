@@ -41,6 +41,8 @@ namespace cAudio
 #endif
 		~cAudioSource();
 
+		virtual AudioFormats getFormat() const;
+
 		virtual bool play();
 		virtual bool play2d(const bool& toLoop = false);
 		virtual bool play3d(const cVector3& position, const float& soundstr = 1.0 , const bool& toLoop = false);
