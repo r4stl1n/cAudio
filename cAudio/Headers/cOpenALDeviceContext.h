@@ -4,13 +4,12 @@
 
 #pragma once
 
-#include <al.h>
-#include <alc.h>
-
 #include "IAudioDeviceContext.h"
 #include "cMemoryOverride.h"
 #include "cMutex.h"
 #include "cAudioEffects.h"
+
+#include "cOpenALUtil.h"
 
 namespace cAudio
 {

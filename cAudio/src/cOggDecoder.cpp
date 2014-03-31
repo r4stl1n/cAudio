@@ -153,7 +153,8 @@ namespace cAudio
 
 	int cOggDecoder::getTotalSize()
 	{
-		return ov_pcm_total(&oggStream, -1) * vorbisInfo->channels;
+        // ov_pcm_total is in samples
+		return ov_pcm_total(&oggStream, -1) * vorbisInfo->channels * 2;
 	}
 
 	int cOggDecoder::getCompressedSize()
@@ -168,7 +169,8 @@ namespace cAudio
 
 	int cOggDecoder::getCurrentPosition()
 	{
-		return ov_pcm_tell(&oggStream) * vorbisInfo->channels;
+        // ov_pcm_tell is in samples
+		return ov_pcm_tell(&oggStream) * vorbisInfo->channels * 2;
 	}
 
 	int cOggDecoder::getCurrentCompressedPosition()

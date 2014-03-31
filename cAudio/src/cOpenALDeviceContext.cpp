@@ -169,12 +169,12 @@ namespace cAudio
 			return true;
 		}
 
-		if(Device)
+		//if(Device)
 		{
 			error = alcGetError(Device);
 			if (error != AL_NO_ERROR)
 			{
-				errorString = alGetString(error);
+				errorString = alcGetString(Device, error);
 				getLogger()->logError("AudioManager", "OpenAL Error: %s.", errorString);
 				return true;
 			}

@@ -17,7 +17,7 @@ cFileSource::cFileSource(const char* filename) : pFile(NULL), Valid(false), File
 	cAudioString safeFilename = fromUTF8(filename);
     if(safeFilename.length() != 0)
     {
-		pFile = fopen(toUTF8(safeFilename),"rb");
+        pFile = cfopen(safeFilename, "rb");
 		if(pFile)
 			Valid = true;
     }

@@ -5,6 +5,8 @@
 #include "cAudioPlatform.h"
 
 #ifdef CAUDIO_PLATFORM_WIN
+#define NOMINMAX
+#define WIN32_LEAN_AND_MEAN
 #include <windows.h>	//Basic windows include for Sleep();
 #else
 #include <unistd.h>		//Assumed linux system, include for usleep()

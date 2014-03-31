@@ -29,5 +29,6 @@ namespace cAudio
 		//! This function is called whe user requests data from the capture buffer.
 		virtual void onUserRequestBuffer() = 0;
 
+        virtual ~ICaptureEventHandler(){}
 	};
 };
