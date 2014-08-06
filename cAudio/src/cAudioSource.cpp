@@ -71,7 +71,7 @@ namespace cAudio
 		if(Decoder)
 			Decoder->grab();
 
-        bool state = alIsSource(Source);
+        ALboolean state = alIsSource(Source);
 
         if (state)
         {

@@ -136,7 +136,7 @@ namespace cAudio
 			{
 				if(relative)
 				{
-					float curtime = ov_time_tell(&oggStream);
+					double curtime = ov_time_tell(&oggStream);
 					return (ov_time_seek(&oggStream,curtime+seconds)==0);
 				}
 				else

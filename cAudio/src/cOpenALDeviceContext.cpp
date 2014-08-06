@@ -84,9 +84,9 @@ namespace cAudio
 			return false;
 		}
 
-		getLogger()->logInfo("AudioManager", "OpenAL Version: %s", alGetString(AL_VERSION));
-		getLogger()->logInfo("AudioManager", "Vendor: %s", alGetString(AL_VENDOR));
-		getLogger()->logInfo("AudioManager", "Renderer: %s", alGetString(AL_RENDERER));
+		getLogger()->logWarning("AudioManager", "OpenAL Version: %s", alGetString(AL_VERSION));
+		getLogger()->logWarning("AudioManager", "Vendor: %s", alGetString(AL_VENDOR));
+		getLogger()->logWarning("AudioManager", "Renderer: %s", alGetString(AL_RENDERER));
 
 #if CAUDIO_EFX_ENABLED == 1
 		initEffects.getEFXInterface()->Mutex.lock();

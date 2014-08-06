@@ -28,8 +28,6 @@ namespace cAudio
         
 #ifdef CAUDIO_PLATFORM_WIN
 		ThreadHandle = reinterpret_cast<HANDLE>(_beginthreadex(0, 0, threadFunc, this, 0, &ThreadID));
-		if(ThreadHandle == 0)
-			CloseHandle( ThreadHandle );
 #else
 		pthread_create( &ThreadHandle, 0, threadFunc, this );
 #endif
@@ -80,7 +78,6 @@ namespace cAudio
 
 #ifdef CAUDIO_PLATFORM_WIN
 
-#if _WIN32
     //
     // Usage: SetThreadName (-1, "MainThread");
     //
@@ -112,7 +109,6 @@ namespace cAudio
         {
         }
     }
-#endif
 
 	unsigned int __stdcall cAudioThread::threadFunc(void *args)
 	{
