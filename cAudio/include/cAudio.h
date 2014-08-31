@@ -52,16 +52,14 @@
  *
  * \section intro Introduction
  *
- * Welcome to the Main API Documentation for cAudio 2.1.0.  cAudio is an advanced C++ wrapper around OpenAL, a professional and powerful
+ * Welcome to the Main API Documentation for cAudio 2.3.0.  cAudio is an advanced C++ wrapper around OpenAL, a professional and powerful
  * audio library.  Thus cAudio provides you with a number of classes to allow you to easily manipulate your audio world and
  * intergrate audio effects like reverberation, doppler, attenuation, ect.  cAudio also has a plugin system, allowing developers to extend 
  * the functionality of the library.  Furthermore, cAudio is released under the zlib license, meaning it is free for you to use in your projects, 
  * even if they are commercial.  Of course, we suggest you read the full text of the license by looking at the local license.txt file or cAudio.h.
  *
  * Included with the SDK is a number of tutorials.  We suggest you begin with them as they will guide you through the basics of cAudio usage
- * and work up to more advanced topics.  If you find you need more help, found a bug, or just want to talk about cAudio, please visit our forums
- * at <A HREF="http://www.deathtouchstudios.com/phpBB3/index.php" >http://www.deathtouchstudios.com/phpBB3/index.php</A>.
- *
+ * and work up to more advanced topics.
  * \section links Links
  *
  * <A HREF="namespacec_audio.html">Namespaces</A>: Central namespace for the entire engine.  A good place to begin looking.<BR>

@@ -1,3 +1,3 @@
 echo Invoking SWIG...
 del "..\cAudioCSharp\*.cs"
-%SWIG_PATH%\swig.exe -outdir "..\cAudioCSharp" -namespace cAudio -c++ -csharp "%CD%/src/cAudioWrapped.i"
+swig.exe -outdir "..\cAudioCSharp" -namespace cAudio -c++ -csharp "%CD%/src/cAudioWrapped.i"

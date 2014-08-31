@@ -47,7 +47,7 @@ namespace cAudio
 	//! EFX Extension function pointers and setup
 	struct cEFXFunctions
 	{
-		cEFXFunctions::cEFXFunctions()
+		cEFXFunctions()
 		{
 			alGenEffects = NULL;
 			alDeleteEffects = NULL;

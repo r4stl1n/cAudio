@@ -14,9 +14,9 @@
 
 namespace cAudio
 {
-	cAudioCapture::cAudioCapture() : Frequency(22050), Format(EAF_16BIT_MONO), InternalBufferSize(8192),
-									SampleSize(2), Ready(false), Capturing(false), 
-									CaptureDevice(NULL), AudioThread(NULL)
+	cAudioCapture::cAudioCapture() : AudioThread(NULL),  Frequency(22050), Format(EAF_16BIT_MONO),
+                                     InternalBufferSize(8192), SampleSize(2), Ready(false),
+                                     Capturing(false), CaptureDevice(NULL)
 	{
 
 	}
@@ -39,10 +39,10 @@ namespace cAudio
 		if(DeviceName.empty())
 			CaptureDevice = alcCaptureOpenDevice(NULL, Frequency, convertAudioFormatEnum(Format), InternalBufferSize / SampleSize);
 		else
-			CaptureDevice = alcCaptureOpenDevice(DeviceName.c_str(), Frequency, convertAudioFormatEnum(Format), InternalBufferSize / SampleSize);
+			CaptureDevice = alcCaptureOpenDevice(toUTF8(DeviceName), Frequency, convertAudioFormatEnum(Format), InternalBufferSize / SampleSize);
 		if(CaptureDevice)
 		{
-			DeviceName = alcGetString(CaptureDevice, ALC_CAPTURE_DEVICE_SPECIFIER);
+			DeviceName = fromUTF8(alcGetString(CaptureDevice, ALC_CAPTURE_DEVICE_SPECIFIER));
 			Ready = true;
 			checkError();
 			getLogger()->logDebug("AudioCapture", "OpenAL Capture Device Opened.");
@@ -214,7 +214,7 @@ namespace cAudio
 	bool cAudioCapture::setDevice(const char* deviceName)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		DeviceName = safeCStr(deviceName);
+		DeviceName = fromUTF8(deviceName);
 
 		shutdownOpenALDevice();
 		return initOpenALDevice();
@@ -223,7 +223,7 @@ namespace cAudio
 	bool cAudioCapture::initialize(const char* deviceName, unsigned int frequency, AudioFormats format, unsigned int internalBufferSize)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		DeviceName = safeCStr(deviceName);
+		DeviceName = fromUTF8(deviceName);
 		Frequency = frequency;
 		InternalBufferSize = internalBufferSize;
 
@@ -315,7 +315,7 @@ namespace cAudio
 
 				case ON_INIT: 
 					
-					for(it; it != eventHandlerList.end(); it++){
+					for(; it != eventHandlerList.end(); it++){
 						(*it)->onInit();
 					}
 
@@ -323,7 +323,7 @@ namespace cAudio
 				
 				case ON_UPDATE:
 
-					for(it; it != eventHandlerList.end(); it++){
+					for(; it != eventHandlerList.end(); it++){
 						(*it)->onUpdate();
 					}
 
@@ -331,7 +331,7 @@ namespace cAudio
 
 				case ON_RELEASE:
 
-					for(it; it != eventHandlerList.end(); it++){
+					for(; it != eventHandlerList.end(); it++){
 						(*it)->onRelease();
 					}
 
@@ -339,7 +339,7 @@ namespace cAudio
 
 				case ON_BEGINCAPTURE:
 
-					for(it; it != eventHandlerList.end(); it++){
+					for(; it != eventHandlerList.end(); it++){
 						(*it)->onBeginCapture();
 					}
 
@@ -348,7 +348,7 @@ namespace cAudio
 
 				case ON_ENDCAPTURE:
 
-					for(it; it != eventHandlerList.end(); it++){
+					for(; it != eventHandlerList.end(); it++){
 						(*it)->onEndCapture();
 					}
 
@@ -356,7 +356,7 @@ namespace cAudio
 
 				case ON_USERREQUESTEDBUFFER:
 
-					for(it; it != eventHandlerList.end(); it++){
+					for(; it != eventHandlerList.end(); it++){
 						(*it)->onUserRequestBuffer();
 					}
 

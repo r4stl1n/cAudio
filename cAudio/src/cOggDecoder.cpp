@@ -136,7 +136,7 @@ namespace cAudio
 			{
 				if(relative)
 				{
-					float curtime = ov_time_tell(&oggStream);
+					double curtime = ov_time_tell(&oggStream);
 					return (ov_time_seek(&oggStream,curtime+seconds)==0);
 				}
 				else
@@ -153,7 +153,8 @@ namespace cAudio
 
 	int cOggDecoder::getTotalSize()
 	{
-		return ov_pcm_total(&oggStream, -1) * vorbisInfo->channels;
+        // ov_pcm_total is in samples
+		return ov_pcm_total(&oggStream, -1) * vorbisInfo->channels * 2;
 	}
 
 	int cOggDecoder::getCompressedSize()
@@ -168,7 +169,8 @@ namespace cAudio
 
 	int cOggDecoder::getCurrentPosition()
 	{
-		return ov_pcm_tell(&oggStream) * vorbisInfo->channels;
+        // ov_pcm_tell is in samples
+		return ov_pcm_tell(&oggStream) * vorbisInfo->channels * 2;
 	}
 
 	int cOggDecoder::getCurrentCompressedPosition()
@@ -178,7 +180,7 @@ namespace cAudio
 	
 	cAudioString cOggDecoder::getType() const
 	{
-		return cAudioString("cOggDecoder");
+		return cAudioString(_CTEXT("cOggDecoder"));
 	}
 };
 

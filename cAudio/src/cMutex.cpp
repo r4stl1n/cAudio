@@ -30,7 +30,7 @@ namespace cAudio
 	#ifdef CAUDIO_PLATFORM_WIN
 		EnterCriticalSection(&criticalSection);
 	#else
-		int error = pthread_mutex_lock(&Mutex);
+		pthread_mutex_lock(&Mutex);
 	#endif
 	}
 
@@ -41,7 +41,7 @@ namespace cAudio
 	#ifdef CAUDIO_PLATFORM_WIN
 		LeaveCriticalSection(&criticalSection);
 	#else
-		int error = pthread_mutex_unlock(&Mutex);
+		pthread_mutex_unlock(&Mutex);
 	#endif
 	}
 
@@ -51,10 +51,10 @@ namespace cAudio
 		InitializeCriticalSection(&criticalSection);
 	#else
 		pthread_mutexattr_t attr;
-		int error = pthread_mutexattr_init(&attr);
-		error = pthread_mutexattr_settype(&attr,PTHREAD_MUTEX_RECURSIVE);
-		error = pthread_mutex_init(&Mutex, &attr);
-		error = pthread_mutexattr_destroy(&attr);
+		pthread_mutexattr_init(&attr);
+		pthread_mutexattr_settype(&attr,PTHREAD_MUTEX_RECURSIVE);
+		pthread_mutex_init(&Mutex, &attr);
+		pthread_mutexattr_destroy(&attr);
 	#endif
 		Initialized=true;
 	}

@@ -3,8 +3,7 @@
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
 #include "cOpenALAudioDeviceList.h"
-#include <al.h>
-#include <alc.h>
+#include "cOpenALUtil.h"
 
 namespace cAudio
 {
@@ -40,14 +39,14 @@ namespace cAudio
 			{
 				while(*deviceList)
 				{
-					cAudioString device(deviceList);
+					cAudioString device(fromUTF8(deviceList));
 					AvailableDevices.push_back(device);
 					deviceList += strlen(deviceList) + 1;
 				}
 			}
 
 			// Get the name of the 'default' capture device
-			DefaultDevice = alcGetString(NULL, defaultDevice);
+			DefaultDevice = fromUTF8(alcGetString(NULL, defaultDevice));
 		}
 	}
 
@@ -69,7 +68,7 @@ namespace cAudio
 		{
 			return AvailableDevices[idx];
 		}
-		return cAudioString("");
+		return cAudioString(_CTEXT(""));
 	}
 
 	cAudioString cOpenALAudioDeviceList::getDeviceDescription(unsigned int idx)

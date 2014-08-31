@@ -96,7 +96,7 @@ namespace cAudio
 	bool cLogger::registerLogReceiver(ILogReceiver* receiver, const char* name)
     {
 		Mutex.lock();
-		cAudioString logName = safeCStr(name);
+		cAudioString logName = fromUTF8(name);
         Receivers[logName] = receiver;
 		Mutex.unlock();
 		return true;
@@ -105,7 +105,7 @@ namespace cAudio
 	void cLogger::unRegisterLogReceiver(const char* name)
 	{
 		Mutex.lock();
-		cAudioString logName = safeCStr(name);
+		cAudioString logName = fromUTF8(name);
 		ReceiversIterator it = Receivers.find(logName);
 		if(it != Receivers.end())
 		{
@@ -117,7 +117,7 @@ namespace cAudio
 	bool cLogger::isLogReceiverRegistered(const char* name)
 	{
 		Mutex.lock();
-		cAudioString logName = safeCStr(name);
+		cAudioString logName = fromUTF8(name);
 		ReceiversIterator it = Receivers.find(logName);
 		bool result = (it != Receivers.end());
 		Mutex.unlock();
@@ -127,7 +127,7 @@ namespace cAudio
 	ILogReceiver* cLogger::getLogReceiver(const char* name)
 	{
 		Mutex.lock();
-		cAudioString logName = safeCStr(name);
+		cAudioString logName = fromUTF8(name);
 		ReceiversIterator it = Receivers.find(logName);
 		if(it != Receivers.end())
 		{

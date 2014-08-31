@@ -14,10 +14,10 @@ namespace cAudio
 
 cFileSource::cFileSource(const char* filename) : pFile(NULL), Valid(false), Filesize(0)
 {
-	cAudioString safeFilename = safeCStr(filename);
+	cAudioString safeFilename = fromUTF8(filename);
     if(safeFilename.length() != 0)
     {
-		pFile = fopen(safeFilename.c_str(),"rb");
+        pFile = cfopen(safeFilename, "rb");
 		if(pFile)
 			Valid = true;
     }

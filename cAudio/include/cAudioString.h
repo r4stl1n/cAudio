@@ -18,12 +18,12 @@ namespace cAudio
 #	define _CTEXT(x)	L ## x
 #	define cstrcmp		wcscmp
 #	define cAudioChar	wchar_t
-#	define cfopen		_wfopen
+#	define cfopen(N, M)	_wfopen((N).c_str(), L ## M)
 #else
 #	define _CTEXT(x) x
 #	define cstrcmp		strcmp
 #	define cAudioChar	char
-#	define cfopen		fopen
+#	define cfopen(N, M)	fopen(toUTF8(N), M)
 #endif
 
 #if CAUDIO_REROUTE_STRING_ALLOCATIONS == 1
@@ -48,14 +48,14 @@ namespace cAudio
 #else
     inline const char* toWINSTR(const char* str) 
     {
-        return str;
+		return str;
     }
-    
+
     inline const char* toUTF8(const cAudioString& str)
     {
         return str.c_str();
     }
-        
+
     inline cAudioString fromUTF8(const char* str)
     {
         return cAudioString(str);
