@@ -146,7 +146,7 @@ namespace cAudio
 		cAudioVector<cAudioString>::Type fileList = getFilesInDirectory(".");
 		for(size_t i=0; i<fileList.size(); ++i)
 		{
-			if(fileList[i].substr(0, 4) == _CTEXT("cAp_"))
+			if(fileList[i].substr(0, 4) == _CTEXT("cAp_") ||fileList[i].substr(0, 7) == _CTEXT("libcAp_") )
 			{
 #ifdef CAUDIO_PLATFORM_WIN
 				if(fileList[i].substr(fileList[i].length()-4, 4) == _CTEXT(".dll"))
@@ -157,7 +157,7 @@ namespace cAudio
 #endif
 				{
 					//Found a plugin, load it
-					installPlugin(toUTF8(cAudioString(_CTEXT("./") + fileList[i])), NULL);
+					installPlugin(toUTF8(cAudioString(_CTEXT("./") + fileList[i])), fileList[i].c_str());
 				}
 			}
 		}
