@@ -9,26 +9,56 @@
 #include "cEffect.h"
 #include "cAudioSleep.h"
 #include <string.h>
+#include <algorithm>
 
 #if CAUDIO_EFX_ENABLED == 1
 #include "cOpenALDeviceContext.h"
 #endif
 
+namespace
+{
+    // return buffer length in seconds
+    ALfloat GetBufferLength(ALuint buffer)
+    {
+        ALint size, bits, channels, freq;
+
+        alGetBufferi(buffer, AL_SIZE, &size);
+        alGetBufferi(buffer, AL_BITS, &bits);
+        alGetBufferi(buffer, AL_CHANNELS, &channels);
+        alGetBufferi(buffer, AL_FREQUENCY, &freq);
+        if(alGetError() != AL_NO_ERROR || !bits || !channels || !freq)
+            return -1.0f;
+
+        return (ALfloat)((ALuint)size/channels/(bits/8)) / (ALfloat)freq;
+    }
+
+    ALint GetBufferSize(ALuint buffer)
+    {
+        ALint size;
+        alGetBufferi(buffer, AL_SIZE, &size);
+        return size;
+    }
+}
+
 namespace cAudio
 {
+
 #if CAUDIO_EFX_ENABLED == 1
     cAudioSource::cAudioSource(IAudioDecoder* decoder, IAudioDeviceContext* context, cEFXFunctions* oALFunctions)
-		: Context(context), Source(0), Volume(1.0), Decoder(decoder), Loop(false), Valid(false),
+		: cAudioSourceBase(context), Decoder(decoder), Loop(false), Valid(false),
 		EFX(oALFunctions), Filter(NULL), EffectSlotsAvailable(0), LastFilterTimeStamp(0)
 #else
 	cAudioSource::cAudioSource(IAudioDecoder* decoder, IAudioDeviceContext* context)
-		: Context(context), Source(0), Volume(1.0), Decoder(decoder), Loop(false), Valid(false)
+        : cAudioSourceBase(context), Decoder(decoder), Loop(false), Valid(false)
 #endif
     {
 		cAudioMutexBasicLock lock(Mutex);
 
-		for(int i=0; i<CAUDIO_SOURCE_NUM_BUFFERS; ++i)
+        BufferPosition = 0;
+        BufferTime = 0;
+		for(int i=0; i<CAUDIO_SOURCE_NUM_BUFFERS; ++i) {
 			Buffers[i] = 0;
+        }
 
 #if CAUDIO_EFX_ENABLED == 1
 		for(int i=0; i<CAUDIO_SOURCE_MAX_EFFECT_SLOTS; ++i)
@@ -41,16 +71,14 @@ namespace cAudio
 		if(Decoder)
 			Decoder->grab();
 
-		//Generates 3 buffers for the ogg file
-		alGenBuffers(CAUDIO_SOURCE_NUM_BUFFERS, Buffers);
-		bool state = !checkError();
-		if(state)
-		{
-			//Creates one source to be stored.
-			alGenSources(1, &Source);
-			state = !checkError();
-			setVolume(Volume);
-		}
+        ALboolean state = alIsSource(Source);
+
+        if (state)
+        {
+            //Generates 3 buffers for the ogg file
+            alGenBuffers(CAUDIO_SOURCE_NUM_BUFFERS, Buffers);
+            state = !checkALError();
+        }
 
 #if CAUDIO_EFX_ENABLED == 1
 		Valid = state && (Decoder != NULL) && (Context != NULL) && (EFX != NULL);
@@ -84,19 +112,36 @@ namespace cAudio
 		
 		//Stops the audio Source
 		alSourceStop(Source);
+        checkALError();
 		empty();
-		//Deletes the source
-		alDeleteSources(1, &Source);
+        alSourcei(Source, AL_BUFFER, 0);
 		//deletes the last filled buffer
 		alDeleteBuffers(CAUDIO_SOURCE_NUM_BUFFERS, Buffers);
-		checkError();
+		checkALError();
+
+		if(Decoder) {
+			Decoder->drop();
+            Decoder = NULL;
+        }
+    }
+
+    cAudioSourceBase::cAudioSourceBase(IAudioDeviceContext* context) : 
+        Context(context), Volume(1.f), Source(0) 
+    {
+        alGenSources(1, &Source);
+        checkALError();
+        setVolume(Volume);
+    }
+
+    cAudioSourceBase::~cAudioSourceBase()
+    {
+        alSourceStop(Source);
+        checkALError();
+		alDeleteSources(1, &Source);
+        checkALError();
+
 		getLogger()->logDebug("Audio Source", "Audio source released.");
 		signalEvent(ON_RELEASE);
-
-		if(Decoder)
-			Decoder->drop();
-
-		unRegisterAllEventHandlers();
     }
 
 
@@ -119,7 +164,9 @@ namespace cAudio
             int queueSize = 0;
 			//Purges all buffers from the source
 			alSourcei(Source, AL_BUFFER, 0);
-			checkError();
+            BufferPosition = Decoder->getCurrentPosition();
+            BufferTime = Decoder->getCurrentTime();
+			checkALError();
             for(int u = 0; u < CAUDIO_SOURCE_NUM_BUFFERS; u++)
             {
                 int val = stream(Buffers[u]);
@@ -133,7 +180,7 @@ namespace cAudio
             }
             //Stores the sources 3 buffers to be used in the queue
             alSourceQueueBuffers(Source, queueSize, Buffers);
-			checkError();
+			checkALError();
         }
 #if CAUDIO_EFX_ENABLED == 1
 		updateFilter();
@@ -141,7 +188,7 @@ namespace cAudio
 			updateEffect(i);
 #endif
         alSourcePlay(Source);
-		checkError();
+		checkALError();
 		getLogger()->logDebug("Audio Source", "Source playing.");
 		signalEvent(ON_PLAY);
 		oldState = AL_PLAYING;
@@ -154,7 +201,7 @@ namespace cAudio
         alSourcei(Source, AL_SOURCE_RELATIVE, true);
         loop(toLoop);
         bool state = play();
-		checkError();
+		checkALError();
 		return state;
     }
 
@@ -166,7 +213,7 @@ namespace cAudio
         setStrength(soundstr);
         loop(toLoop);
         bool state = play();
-		checkError();
+		checkALError();
 		return state;
     }
 
@@ -174,7 +221,7 @@ namespace cAudio
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourcePause(Source);
-		checkError();
+		checkALError();
 		getLogger()->logDebug("Audio Source", "Source paused.");
 		signalEvent(ON_PAUSE);
 		oldState = AL_PAUSED;
@@ -196,7 +243,7 @@ namespace cAudio
 
 		//Resets the audio to the beginning
 		Decoder->setPosition(0, false);
-		checkError();
+		checkALError();
 		getLogger()->logDebug("Audio Source", "Source stopped.");
 		signalEvent(ON_STOP);
 		oldState = AL_STOPPED;
@@ -215,6 +262,16 @@ namespace cAudio
         if(Decoder->isSeekingSupported())
         {
 			state = Decoder->seek(seconds, relative);
+
+            BufferPosition = Decoder->getCurrentPosition();
+            BufferTime = Decoder->getCurrentTime();
+
+            int queued = 0;
+            alGetSourcei(Source, AL_BUFFERS_QUEUED, &queued);
+            if (queued) {
+                BufferPosition -= queued * GetBufferSize(Buffers[0]);
+                BufferTime -= queued * GetBufferLength(Buffers[0]);
+            }
         }
 		return state;
     }
@@ -236,12 +293,16 @@ namespace cAudio
 
 	float cAudioSource::getCurrentAudioTime()
 	{
-		return Decoder->getCurrentTime();
+        float time = -1;
+        alGetSourcef(Source, AL_SEC_OFFSET, &time);
+        return BufferTime + time;
 	}
 
 	int cAudioSource::getCurrentAudioPosition()
 	{
-		return Decoder->getCurrentPosition();
+        int offset = -1;
+        alGetSourcei(Source, AL_BYTE_OFFSET, &offset);
+		return BufferPosition + offset;
 	}
 
 	int cAudioSource::getCurrentCompressedAudioPosition()
@@ -265,15 +326,17 @@ namespace cAudio
 
 			//gets the sound source processed buffers
 			alGetSourcei(Source, AL_BUFFERS_PROCESSED, &processed);
-            checkError();
+            checkALError();
             
 			//while there is more data refill buffers with audio data.
 			while (processed--)
 			{
 				ALuint buffer;
 				alSourceUnqueueBuffers(Source, 1, &buffer);
+                BufferPosition += GetBufferSize(buffer);
+                BufferTime += GetBufferLength(buffer);
 
-				if (checkError()) 
+				if (checkALError()) 
 				{
 					processed++;
 					cAudioSleep(1);
@@ -288,7 +351,7 @@ namespace cAudio
 					alSourceQueueBuffers(Source, 1, &buffer);
 				}
 
-				if (checkError()) 
+				if (checkALError()) 
 				{
 					processed++;
 					cAudioSleep(1);
@@ -301,7 +364,7 @@ namespace cAudio
 
 		ALenum state;
 		alGetSourcei(Source, AL_SOURCE_STATE, &state);
-        checkError();
+        checkALError();
 		if(state == AL_STOPPED && oldState != state)
 		{
 			//Resets the audio to the beginning
@@ -314,69 +377,69 @@ namespace cAudio
 		return active;
     }
 
-	const bool cAudioSource::isValid() const
+	bool cAudioSource::isValid() const
 	{
         return Valid;
 	}
 
-	const bool cAudioSource::isPlaying() const
+	bool cAudioSourceBase::isPlaying() const
 	{
 		ALenum state = 0;
         alGetSourcei(Source, AL_SOURCE_STATE, &state);
-        checkError();
+        checkALError();
         return (state == AL_PLAYING);
     }
 
-	const bool cAudioSource::isPaused() const
+	bool cAudioSourceBase::isPaused() const
 	{
 		ALenum state = 0;
         alGetSourcei(Source, AL_SOURCE_STATE, &state);
-        checkError();
+        checkALError();
         return (state == AL_PAUSED);
     }
 
-	const bool cAudioSource::isStopped() const
+	bool cAudioSourceBase::isStopped() const
 	{
 		ALenum state = 0;
         alGetSourcei(Source, AL_SOURCE_STATE, &state);
-        checkError();
+        checkALError();
 		return (state == AL_STOPPED);
     }
 
-	const bool cAudioSource::isLooping() const
+	bool cAudioSource::isLooping() const
 	{
 		return Loop;
 	}
 
-	void cAudioSource::setPosition(const cVector3& position)
+	void cAudioSourceBase::setPosition(const cVector3& position)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSource3f(Source, AL_POSITION, position.x, position.y, position.z);
-		checkError();
+		checkALError();
     }
 
-	void cAudioSource::setVelocity(const cVector3& velocity)
+	void cAudioSourceBase::setVelocity(const cVector3& velocity)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSource3f(Source, AL_VELOCITY, velocity.x, velocity.y, velocity.z);
-		checkError();
+		checkALError();
     }
 
-	void cAudioSource::setDirection(const cVector3& direction)
+	void cAudioSourceBase::setDirection(const cVector3& direction)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSource3f(Source, AL_DIRECTION, direction.x, direction.y, direction.z);
-		checkError();
+		checkALError();
     }
 
-	void cAudioSource::setRolloffFactor(const float& rolloff)
+	void cAudioSourceBase::setRolloffFactor(const float& rolloff)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_ROLLOFF_FACTOR, rolloff);
-		checkError();
+		checkALError();
     }
 
-	void cAudioSource::setStrength(const float& soundstrength)
+	void cAudioSourceBase::setStrength(const float& soundstrength)
 	{
 		float inverseStrength = 0.0f;
 		if(soundstrength > 0.0f)
@@ -384,88 +447,88 @@ namespace cAudio
 
 		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_ROLLOFF_FACTOR, inverseStrength);
-		checkError();
+		checkALError();
     }
 
-	void cAudioSource::setMinDistance(const float& minDistance)
+	void cAudioSourceBase::setMinDistance(const float& minDistance)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_REFERENCE_DISTANCE, minDistance);
-		checkError();
+		checkALError();
 	}
 
-	void cAudioSource::setMaxAttenuationDistance(const float& maxDistance)
+	void cAudioSourceBase::setMaxAttenuationDistance(const float& maxDistance)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_MAX_DISTANCE, maxDistance);
-		checkError();
+		checkALError();
 	}
 
-	void cAudioSource::setPitch(const float& pitch)
+	void cAudioSourceBase::setPitch(const float& pitch)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourcef (Source, AL_PITCH, pitch);
-		checkError();
+		checkALError();
     }
 
-	void cAudioSource::setVolume(const float& volume)
+	void cAudioSourceBase::setVolume(const float& volume)
 	{
 		cAudioMutexBasicLock lock(Mutex);
 		Volume = volume;
         alSourcef(Source, AL_GAIN, Volume * Context->getAudioManager()->getMasterVolume());
-		checkError();
+		checkALError();
     }
 
-	void cAudioSource::setMinVolume(const float& minVolume)
+	void cAudioSourceBase::setMinVolume(const float& minVolume)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_MIN_GAIN, minVolume);
-		checkError();
+		checkALError();
 	}
 
-	void cAudioSource::setMaxVolume(const float& maxVolume)
+	void cAudioSourceBase::setMaxVolume(const float& maxVolume)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_MAX_GAIN, maxVolume);
-		checkError();
+		checkALError();
 	}
 
-	void cAudioSource::setInnerConeAngle(const float& innerAngle)
+	void cAudioSourceBase::setInnerConeAngle(const float& innerAngle)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_CONE_INNER_ANGLE, innerAngle);
-		checkError();
+		checkALError();
 	}
 
-	void cAudioSource::setOuterConeAngle(const float& outerAngle)
+	void cAudioSourceBase::setOuterConeAngle(const float& outerAngle)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_CONE_OUTER_ANGLE, outerAngle);
-		checkError();
+		checkALError();
 	}
 
-	void cAudioSource::setOuterConeVolume(const float& outerVolume)
+	void cAudioSourceBase::setOuterConeVolume(const float& outerVolume)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_CONE_OUTER_GAIN, outerVolume);
-		checkError();
+		checkALError();
 	}
 
-	void cAudioSource::setDopplerStrength(const float& dstrength)
+	void cAudioSourceBase::setDopplerStrength(const float& dstrength)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSourcef(Source, AL_DOPPLER_FACTOR, dstrength);
-		checkError();
+		checkALError();
     }
 
-	void cAudioSource::setDopplerVelocity(const cVector3& dvelocity)
+	void cAudioSourceBase::setDopplerVelocity(const cVector3& dvelocity)
 	{
 		cAudioMutexBasicLock lock(Mutex);
         alSource3f(Source, AL_DOPPLER_VELOCITY, dvelocity.x, dvelocity.y, dvelocity.z);
-		checkError();
+		checkALError();
     }
 
-	void cAudioSource::move(const cVector3& position)
+	void cAudioSourceBase::move(const cVector3& position)
 	{
 		cAudioMutexBasicLock lock(Mutex);
 		cVector3 oldPos = getPosition();
@@ -473,45 +536,45 @@ namespace cAudio
 
         alSource3f(Source, AL_VELOCITY, velocity.x, velocity.y, velocity.z);
 		alSource3f(Source, AL_POSITION, position.x, position.y, position.z);
-		checkError();
+		checkALError();
 	}
 
-	const cVector3 cAudioSource::getPosition() const
+	cVector3 cAudioSourceBase::getPosition() const
 	{
 		cVector3 position;
 		alGetSourcefv(Source, AL_POSITION, &position.x);
-        checkError();
+        checkALError();
 		return position;
 	}
 
-	const cVector3 cAudioSource::getVelocity() const
+	cVector3 cAudioSourceBase::getVelocity() const
 	{
 		cVector3 velocity;
 		alGetSourcefv(Source, AL_VELOCITY, &velocity.x);
 		return velocity;
 	}
 
-	const cVector3 cAudioSource::getDirection() const
+	cVector3 cAudioSourceBase::getDirection() const
 	{
 		cVector3 direction;
 		alGetSourcefv(Source, AL_DIRECTION, &direction.x);
-        checkError();
+        checkALError();
 		return direction;
 	}
 
-	const float cAudioSource::getRolloffFactor() const
+	float cAudioSourceBase::getRolloffFactor() const
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_ROLLOFF_FACTOR, &value);
-        checkError();
+        checkALError();
 		return value;
 	}
 
-	const float cAudioSource::getStrength() const
+	float cAudioSourceBase::getStrength() const
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_ROLLOFF_FACTOR, &value);
-        checkError();
+        checkALError();
         
 		float inverseStrength = 0.0f;
 		if(value > 0.0f)
@@ -520,88 +583,116 @@ namespace cAudio
 		return inverseStrength;
 	}
 
-	const float cAudioSource::getMinDistance() const
+	float cAudioSourceBase::getMinDistance() const
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_REFERENCE_DISTANCE, &value);
-        checkError();
+        checkALError();
 		return value;
 	}
 
-	const float cAudioSource::getMaxDistance() const
+	float cAudioSourceBase::getMaxDistance() const
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_MAX_DISTANCE, &value);
-        checkError();
+        checkALError();
 		return value;
 	}
 
-	const float cAudioSource::getPitch() const
+    bool cAudioSourceBase::isRelative() const
+    {
+        int relative = 0;
+        alGetSourcei(Source, AL_SOURCE_RELATIVE, &relative);
+        return relative;
+    }
+
+    float cAudioSourceBase::calculateGain() const
+    {
+        // OpenAL Inverse Distance Clamped Model
+        // distance = max(distance,AL_REFERENCE_DISTANCE);
+        // distance = min(distance,AL_MAX_DISTANCE);
+        // gain = AL_REFERENCE_DISTANCE / (AL_REFERENCE_DISTANCE +
+        //                                 AL_ROLLOFF_FACTOR *
+        //                                 (distance – AL_REFERENCE_DISTANCE));
+
+        cVector3 lpos = Context->getAudioManager()->getListener()->getPosition();
+        cVector3 pos  = getPosition();
+
+        float refDist =  getMinDistance();
+        float dist = 0.f;
+        dist = isRelative() ? pos.length() : (pos - lpos).length();
+        dist = std::max(dist, refDist);
+        dist = std::min(dist, getMaxDistance());
+        float gain = refDist / (refDist + getRolloffFactor() * (dist - refDist));
+        return gain * getVolume();
+    }
+
+	float cAudioSourceBase::getPitch() const
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_PITCH, &value);
-        checkError();
+        checkALError();
 		return value;
 	}
 
-	const float cAudioSource::getVolume() const
+	float cAudioSourceBase::getVolume() const
 	{
 		return Volume;
 	}
 
-	const float cAudioSource::getMinVolume() const
+	float cAudioSourceBase::getMinVolume() const
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_MIN_GAIN, &value);
-        checkError();
+        checkALError();
 		return value;
 	}
 
-	const float cAudioSource::getMaxVolume() const
+	float cAudioSourceBase::getMaxVolume() const
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_MAX_GAIN, &value);
-        checkError();
+        checkALError();
 		return value;
 	}
 
-	const float cAudioSource::getInnerConeAngle() const
+	float cAudioSourceBase::getInnerConeAngle() const
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_CONE_INNER_ANGLE, &value);
-        checkError();
+        checkALError();
 		return value;
 	}
 
-	const float cAudioSource::getOuterConeAngle() const
+	float cAudioSourceBase::getOuterConeAngle() const
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_CONE_OUTER_ANGLE, &value);
-        checkError();
+        checkALError();
 		return value;
 	}
 
-	const float cAudioSource::getOuterConeVolume() const
+	float cAudioSourceBase::getOuterConeVolume() const
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_CONE_OUTER_GAIN, &value);
-        checkError();
+        checkALError();
 		return value;
 	}
 
-	const float cAudioSource::getDopplerStrength() const
+	float cAudioSourceBase::getDopplerStrength() const
 	{
 		float value = 0.0f;
 		alGetSourcef(Source, AL_DOPPLER_FACTOR, &value);
-        checkError();
+        checkALError();
 		return value;
 	}
 
-	const cVector3 cAudioSource::getDopplerVelocity() const
+	cVector3 cAudioSourceBase::getDopplerVelocity() const
 	{
 		cVector3 velocity;
 		alGetSourcefv(Source, AL_DOPPLER_VELOCITY, &velocity.x);
-        checkError();
+        checkALError();
 		return velocity;
 	}
 
@@ -668,100 +759,67 @@ namespace cAudio
     {
         int queued = 0;
         alGetSourcei(Source, AL_BUFFERS_QUEUED, &queued);
-        checkError();
+        checkALError();
         
         while (queued--)
         {
             ALuint buffer;
             alSourceUnqueueBuffers(Source, 1, &buffer);
-			checkError();
+			checkALError();
         }
-    }
-
-	bool cAudioSource::checkError() const
-    {
-        int error = alGetError();
-        if (error != AL_NO_ERROR)
-        {
-			const char* errorString = alGetString(error);
-			if(error == AL_OUT_OF_MEMORY)
-				getLogger()->logCritical("Audio Source", "OpenAL Error: %s.", errorString);
-			else
-				getLogger()->logError("Audio Source", "OpenAL Error: %s.", errorString);
-			return true;
-        }
-		return false;
     }
 
     bool cAudioSource::stream(ALuint buffer)
     {
-        if(Decoder)
+        if(!Decoder)
+            return false;
+        
+        //stores the calculated data into buffer that is passed to output.
+        size_t totalread = 0;
+        unsigned int errorcount = 0;
+        char tempbuffer[CAUDIO_SOURCE_BUFFER_SIZE];
+        while( totalread < CAUDIO_SOURCE_BUFFER_SIZE )
         {
-	        //stores the calculated data into buffer that is passed to output.
-			size_t totalread = 0;
-			unsigned int errorcount = 0;
-	        char tempbuffer[CAUDIO_SOURCE_BUFFER_SIZE];
-			while( totalread < CAUDIO_SOURCE_BUFFER_SIZE )
-			{
-				char tempbuffer2[CAUDIO_SOURCE_BUFFER_SIZE];
-				int actualread = Decoder->readAudioData(tempbuffer2, CAUDIO_SOURCE_BUFFER_SIZE-totalread);
-				if(actualread > 0)
-				{
-					memcpy(tempbuffer+totalread,tempbuffer2,actualread);
-					totalread += actualread;
-				}
-				if(actualread < 0)
-				{
-					++errorcount;
-					getLogger()->logDebug("Audio Source", "Decoder returned an error: %i (%i of 3)", actualread, errorcount);
-					if(errorcount >= 3)
-					{
-						stop();
-						break;
-					}
-				}
-				if(actualread == 0)
-				{
-					if(isLooping())
-					{
-						//If we are to loop, set to the beginning and reload from the start
-						Decoder->setPosition(0, false);
-						getLogger()->logDebug("Audio Source", "Buffer looping.");
-					}
-					else
-						break;
-				}
-			}
-
-	        //Second check, in case looping is not enabled, we will return false for end of stream
-	        if(totalread == 0)
-	       	{
-	       		return false;
-	        }
-			getLogger()->logDebug("Audio Source", "Buffered %i bytes of data into buffer %i at %i hz.", totalread, buffer, Decoder->getFrequency());
-            alBufferData(buffer, convertAudioFormatEnum(Decoder->getFormat()), tempbuffer, totalread, Decoder->getFrequency());
-			checkError();
-            return true;
+            char tempbuffer2[CAUDIO_SOURCE_BUFFER_SIZE];
+            int actualread = Decoder->readAudioData(tempbuffer2, CAUDIO_SOURCE_BUFFER_SIZE-totalread);
+            if(actualread > 0)
+            {
+                memcpy(tempbuffer+totalread,tempbuffer2,actualread);
+                totalread += actualread;
+            }
+            if(actualread < 0)
+            {
+                ++errorcount;
+                getLogger()->logDebug("Audio Source", "Decoder returned an error: %i (%i of 3)", actualread, errorcount);
+                if(errorcount >= 3)
+                {
+                    stop();
+                    break;
+                }
+            }
+            if(actualread == 0)
+            {
+                if(isLooping())
+                {
+                    //If we are to loop, set to the beginning and reload from the start
+                    Decoder->setPosition(0, false);
+                    getLogger()->logDebug("Audio Source", "Buffer looping.");
+                }
+                else
+                    break;
+            }
         }
-		return false;
-    }
 
-	ALenum cAudioSource::convertAudioFormatEnum(AudioFormats format)
-	{
-		switch(format)
-		{
-		case EAF_8BIT_MONO:
-			return AL_FORMAT_MONO8;
-		case EAF_16BIT_MONO:
-			return AL_FORMAT_MONO16;
-		case EAF_8BIT_STEREO:
-			return AL_FORMAT_STEREO8;
-		case EAF_16BIT_STEREO:
-			return AL_FORMAT_STEREO16;
-		default:
-			return AL_FORMAT_MONO8;
-		};
-	}
+        //Second check, in case looping is not enabled, we will return false for end of stream
+        if(totalread == 0)
+        {
+            return false;
+        }
+        getLogger()->logDebug("Audio Source", "Buffered %i bytes of data into buffer %i at %i hz.", totalread, buffer, Decoder->getFrequency());
+        alBufferData(buffer, convertAudioFormatEnum(Decoder->getFormat()), tempbuffer, totalread, Decoder->getFrequency());
+        checkALError();
+        return true;
+    }
 
 #if CAUDIO_EFX_ENABLED == 1
 	void cAudioSource::updateFilter(bool remove)
@@ -777,7 +835,7 @@ namespace cAudio
 					if(theFilter)
 					{
 						alSourcei(Source, AL_DIRECT_FILTER, theFilter->getOpenALFilter());
-						checkError();
+						checkALError();
 						return;
 					}
 				}
@@ -785,7 +843,7 @@ namespace cAudio
 			}
 		}
 		alSourcei(Source, AL_DIRECT_FILTER, AL_FILTER_NULL);
-		checkError();
+		checkALError();
 	}
 
 	void cAudioSource::updateEffect(unsigned int slot, bool remove)
@@ -809,7 +867,7 @@ namespace cAudio
 								filterID = theFilter->getOpenALFilter();
 							}
 							alSource3i(Source, AL_AUXILIARY_SEND_FILTER, theEffect->getOpenALEffectSlot(), slot, filterID);
-							checkError();
+							checkALError();
 							return;
 						}
 					}
@@ -817,12 +875,12 @@ namespace cAudio
 				}
 			}
 			alSource3i(Source, AL_AUXILIARY_SEND_FILTER, AL_EFFECTSLOT_NULL, slot, AL_FILTER_NULL);
-			checkError();
+			checkALError();
 		}
 	}
 #endif
 
-	void cAudioSource::registerEventHandler(ISourceEventHandler* handler)
+	void cAudioSourceBase::registerEventHandler(ISourceEventHandler* handler)
 	{
 		if(handler)
 		{
@@ -831,71 +889,51 @@ namespace cAudio
 		}
 	}
 
-	void cAudioSource::unRegisterEventHandler(ISourceEventHandler* handler)
+	void cAudioSourceBase::unRegisterEventHandler(ISourceEventHandler* handler)
 	{
 		if(handler)
 		{
 		    cAudioMutexBasicLock lock(Mutex);
-			eventHandlerList.remove(handler);
+            for(int i=0; i<eventHandlerList.size(); i++) {
+                if(eventHandlerList[i] == handler)
+                    eventHandlerList.erase(eventHandlerList.begin() + i);
+            }
 		}
 	}
 
-	void cAudioSource::unRegisterAllEventHandlers()
+	void cAudioSourceBase::unRegisterAllEventHandlers()
 	{
 	    cAudioMutexBasicLock lock(Mutex);
 		eventHandlerList.clear();
 	}
 
-	void cAudioSource::signalEvent(Events sevent)
+	void cAudioSourceBase::signalEvent(Events sevent)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		cAudioList<ISourceEventHandler*>::Type::iterator it = eventHandlerList.begin();
+		if(eventHandlerList.empty())
+            return;
 
-		if(it != eventHandlerList.end()){
+        size_t size = eventHandlerList.size();
 
-			switch(sevent){
+        for(int i=0; i<size; )
+        {
+            ISourceEventHandler *handler = eventHandlerList[i];
 
-				case ON_UPDATE:
-
-					for( ; it != eventHandlerList.end(); it++){
-						(*it)->onUpdate();
-					}
-
-					break;
-
-				case ON_RELEASE:
-
-					for( ; it != eventHandlerList.end(); it++){
-						(*it)->onRelease();
-					}
-
-					break;
-
-				case ON_PLAY:
-
-					for( ; it != eventHandlerList.end(); it++){
-						(*it)->onPlay();
-					}
-
-
-					break;
-
-				case ON_PAUSE:
-
-					for( ; it != eventHandlerList.end(); it++){
-						(*it)->onPause();
-					}
-
-					break;
-
-				case ON_STOP:
-
-					for( ; it != eventHandlerList.end(); it++){
-						(*it)->onStop();
-					}
-
-					break;
-			}
-		}
-	}
+            switch(sevent)
+            {
+            case ON_UPDATE:  handler->onUpdate(); break;
+            case ON_RELEASE: handler->onRelease(); break;
+            case ON_PLAY:    handler->onPlay(); break;
+            case ON_PAUSE:   handler->onPause(); break;
+            case ON_STOP:    handler->onStop(); break;
+            }
+     
+            // handler may have unregistered itself
+            if(size == eventHandlerList.size()) {
+                i++;
+            } else {
+                size = eventHandlerList.size();
+            }
+        }
+    }
 }

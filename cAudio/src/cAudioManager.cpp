@@ -5,6 +5,7 @@
 #include "cAudioManager.h"
 #include "cAudio.h"
 #include "cAudioSource.h"
+#include "cAudioStaticSource.h"
 #include "cAudioPlatform.h"
 #include "cAudioSleep.h"
 #include "cUtils.h"
@@ -148,6 +149,9 @@ namespace cAudio
 	{
 		cAudioMutexBasicLock lock(Mutex);
 		IAudioSource* pAudioSrc = create("", filename, true);
+        
+        if (!pAudioSrc)
+            return NULL;
 
 		if (!playLooped && !startPaused)
 		{
@@ -212,6 +216,28 @@ namespace cAudio
 		return MasterVolume;
 	}
 
+    void cAudioManager::setSpeedOfSound(float speed)
+    {
+        alSpeedOfSound(speed);
+        checkALError();
+    }
+    
+    float cAudioManager::getSpeedOfSound() const
+    {
+        return alGetFloat(AL_SPEED_OF_SOUND);
+    }
+
+    void cAudioManager::setDopplerFactor(float factor) const
+    {
+        alDopplerFactor(factor);
+        checkALError();
+    }
+
+    float cAudioManager::getDopplerFactor() const
+    {
+        return alGetFloat(AL_DOPPLER_FACTOR);
+    }
+
 	void cAudioManager::stopAllSounds() 
 	{
 		cAudioMutexBasicLock lock(Mutex);
@@ -225,7 +251,10 @@ namespace cAudio
 
 	IAudioSource* cAudioManager::createAudioSource(IAudioDecoder* decoder, const cAudioString& audioName, const cAudioString& dataSource)
 	{
-		if(decoder && decoder->isValid())
+        if (!decoder)
+            return NULL;
+        
+		if(decoder->isValid())
 		{
 #if CAUDIO_EFX_ENABLED == 1
 			IAudioSource* audio = CAUDIO_NEW cAudioSource(decoder, AudioContext, ((cAudioEffects*)getEffects())->getEFXInterface());
@@ -248,10 +277,12 @@ namespace cAudio
 			audio->drop();
 			return NULL;
 		}
-		getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Audio data could not be decoded by (.%s) decoder.", toUTF8(audioName), toUTF8(decoder->getType()));
+		getLogger()->logError("AudioManager", "Failed to create Audio Source (%s): Audio data could not be decoded by (.%s) decoder.",
+                              toUTF8(audioName), toUTF8(decoder->getType()));
 		decoder->drop();
 		return NULL;
 	}
+
 
     IAudioSource* cAudioManager::create(const char* name, const char* filename, bool stream)
     {
@@ -284,8 +315,8 @@ namespace cAudio
 					if(audio != NULL)
 						return audio;
 
-					if(source)
-						source->drop();
+					//if(source)
+					//	source->drop();
 
 					return NULL;
 				}
@@ -357,6 +388,56 @@ namespace cAudio
 		}
 		return NULL;
 	}
+
+    IAudioBuffer* cAudioManager::createBuffer(const char* filename)
+    {
+		if(!Initialized) return NULL;
+
+		cAudioMutexBasicLock lock(Mutex);
+		cAudioString path = fromUTF8(filename);
+		cAudioString ext = getExt(path);
+		IAudioDecoderFactory* factory = getAudioDecoderFactory(toUTF8(ext));
+
+		if(!factory) {
+			getLogger()->logError("AudioManager", "Failed to create Audio Buffer: No decoder could be found for (.%s).", toUTF8(ext));
+			return NULL;
+		}
+
+		for(size_t i=0; i<dataSourcePriorityList.size(); ++i)
+		{
+			const cAudioString dataSourceName = dataSourcePriorityList[i].second;
+			IDataSourceFactory* dataFactory = datasourcemap[dataSourceName];
+			if(dataFactory)
+			{
+				IDataSource* source = dataFactory->CreateDataSource(filename, false);
+				if(source && source->isValid())
+				{
+					IAudioDecoder* decoder = factory->CreateAudioDecoder(source);
+					source->drop();
+
+                    IAudioBuffer* buffer = CAUDIO_NEW cAudioBuffer(decoder);
+
+					if(buffer != NULL)
+						return buffer;
+
+					//if(source)
+					//	source->drop();
+
+					return NULL;
+				}
+			}
+		}
+		return NULL;
+    }
+
+    IAudioSource* cAudioManager::createStatic(IAudioBuffer* buffer)
+    {
+        if(!Initialized) return NULL;
+
+        // FIXME save a reference?
+        IAudioSource *audio = CAUDIO_NEW cAudioStaticSource(buffer, AudioContext);
+        return audio;
+    }
 
     bool cAudioManager::registerAudioDecoder(IAudioDecoderFactory* factory, const char* extension)
     {
@@ -504,7 +585,7 @@ namespace cAudio
 			{
 				case ON_INIT: 
 					
-					for(it; it != eventHandlerList.end(); it++)
+					for(; it != eventHandlerList.end(); it++)
 					{
 						(*it)->onInit();
 					}
@@ -513,7 +594,7 @@ namespace cAudio
 				
 				case ON_UPDATE:
 
-					for(it; it != eventHandlerList.end(); it++)
+					for(; it != eventHandlerList.end(); it++)
 					{
 						(*it)->onUpdate();
 					}
@@ -522,7 +603,7 @@ namespace cAudio
 
 				case ON_RELEASE:
 
-					for(it; it != eventHandlerList.end(); it++)
+					for(; it != eventHandlerList.end(); it++)
 					{
 						(*it)->onRelease();
 					}
@@ -531,7 +612,7 @@ namespace cAudio
 
 				case ON_SOURCECREATE:
 
-					for(it; it != eventHandlerList.end(); it++)
+					for(; it != eventHandlerList.end(); it++)
 					{
 						(*it)->onSourceCreate();
 					}
@@ -540,7 +621,7 @@ namespace cAudio
 
 				case ON_DECODERREGISTER:
 
-					for(it; it != eventHandlerList.end(); it++)
+					for(; it != eventHandlerList.end(); it++)
 					{
 						(*it)->onDecoderRegister();
 					}
@@ -549,7 +630,7 @@ namespace cAudio
 
 				case ON_DATASOURCEREGISTER:
 
-					for(it; it != eventHandlerList.end(); it++)
+					for(; it != eventHandlerList.end(); it++)
 					{
 						(*it)->onDataSourceRegister();
 					}

@@ -15,7 +15,7 @@ namespace cAudio
 	{
 	public:
 		IPluginManager() { }
-		~IPluginManager() { }
+		virtual ~IPluginManager() { }
 
 		//! Installs a plugin using a statically linked plugin implementation.
 		/**

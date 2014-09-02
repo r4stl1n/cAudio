@@ -10,7 +10,7 @@
 
 #ifdef CAUDIO_PLATFORM_WIN
 #  define WIN32_LEAN_AND_MEAN
-#  include <windows.h>
+#   define NOMINMAX
 #  include <direct.h>
 #  include <io.h>
 #endif
@@ -25,14 +25,14 @@ namespace cAudio
 {
 
 //! Grabs the current extention of a given string.
-static cAudioString getExt(const cAudioString& filename)
+inline cAudioString getExt(const cAudioString& filename)
 {
 	if(filename.find_last_of(_CTEXT(".")) == cAudioString::npos) return filename;
 	return filename.substr(filename.find_last_of(_CTEXT(".")) + 1, filename.length()-filename.find_last_of(_CTEXT("."))-1);
 }
 
 //! Returns a list of files/directories in the supplied directory.  Used internally for auto-installation of plugins.
-static cAudioVector<cAudioString>::Type getFilesInDirectory(cAudioString path)
+inline cAudioVector<cAudioString>::Type getFilesInDirectory(cAudioString path)
 {
 	cAudioVector<cAudioString>::Type FileList;
 #ifdef CAUDIO_PLATFORM_WIN

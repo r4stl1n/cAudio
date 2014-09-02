@@ -1161,7 +1161,7 @@ void _vp_couple_quantize_normalize(int blobno,
                     by Aoyumi @ 2004/04/18
                 */
                 /*float derate = (1.0 - de*((float)(j-limit+i) / (float)(n-limit)));
-                /* elliptical 
+                * elliptical 
                 if(reM[j]+reA[j]<0){
                   reM[j] = - (qeM[j] = (fabs(reM[j])+fabs(reA[j]))*derate*derate);
                 }else{
