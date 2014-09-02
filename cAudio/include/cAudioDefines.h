@@ -12,7 +12,7 @@
 
 //! Global define for the version of cAudio.
 //! This is used primarily by plugins to make sure they are linking to the right library.
-#define CAUDIO_VERSION "2.2.0"
+#define CAUDIO_VERSION "2.3.0"
 
 #if !defined( CAUDIO_DEBUG )
 	#if defined( DEBUG ) || defined( _DEBUG )

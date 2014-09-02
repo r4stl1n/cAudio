@@ -97,7 +97,7 @@ namespace cAudio
 
 			outf<<"<body>\n";
 			outf<<"<h1>cAudio Log</h1>\n";
-			outf<<"<h3>" << "2.2.0" << "</h3>\n";
+			outf<<"<h3>" << "2.3.0" << "</h3>\n";
 			outf<<"<div class=\"box\">\n";
 			outf<<"<table>\n";
 

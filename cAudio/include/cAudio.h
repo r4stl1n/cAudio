@@ -46,7 +46,7 @@
 #include "IRefCounted.h"
 #include "IAudioDeviceList.h"
 
-/*! \mainpage cAudio 2.2.0 API documentation
+/*! \mainpage cAudio 2.3.0 API documentation
  *
  * <img src="../cAudioLogo.jpg"></img>
  *
