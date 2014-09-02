@@ -9,14 +9,6 @@
 
 //Include cAudio.h so we can work wtih cAudio
 #include "cAudio.h"
-#if defined(CAUDIO_COMILER_MINGW)
-// do nothing
-#elif defined(CAUDIO_PLATFORM_WIN)
-#   define AUDIO_FILE(_soundName_) CAUDIO_MEDIA_ROOT##_soundName_
-#else
-#   define AUDIO_FILE(_soundName_) CAUDIO_MEDIA_ROOT#_soundName_
-#endif
-//Our Bling sound
 #include "bling.h"
 
 using namespace std;

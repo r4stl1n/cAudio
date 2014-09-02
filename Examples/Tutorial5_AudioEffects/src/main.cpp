@@ -8,13 +8,6 @@
 
 ///Include cAudio.h so we can work wtih cAudio
 #include "cAudio.h"
-#if defined(CAUDIO_COMILER_MINGW)
-// do nothing
-#elif defined(CAUDIO_PLATFORM_WIN)
-#   define AUDIO_FILE(_soundName_) CAUDIO_MEDIA_ROOT##_soundName_
-#else
-#   define AUDIO_FILE(_soundName_) CAUDIO_MEDIA_ROOT#_soundName_
-#endif
 
 using namespace std;
 
@@ -65,13 +58,7 @@ int main(int argc, char* argv[])
 				filter->setLowFrequencyVolume(0.1f);
 
 				//Create a IAudio object and load a sound from a file
-#if defined(CAUDIO_COMPILER_MINGW)
-        cAudio::IAudioSource* mysound = audioMgr->create("bling", "../Media/Footsteps.wav",true);
-#elif defined(CAUDIO_PLATFORM_WIN)
-		cAudio::IAudioSource* mysound = audioMgr->create("bling", AUDIO_FILE("Footsteps.wav"),true);
-#else
-		cAudio::IAudioSource* mysound = audioMgr->create("bling", AUDIO_FILE(Footsteps.wav),true);
-#endif
+        		cAudio::IAudioSource* mysound = audioMgr->create("footsteps", "../Media/Footsteps.wav",true);
 
 				if(mysound)
 				{

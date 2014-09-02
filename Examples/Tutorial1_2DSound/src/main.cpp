@@ -8,13 +8,6 @@
 
 //Include cAudio.h so we can work wtih cAudio
 #include "cAudio.h"
-#if defined(CAUDIO_COMILER_MINGW)
-// do nothing
-#elif defined(CAUDIO_PLATFORM_WIN)
-#   define AUDIO_FILE(_soundName_) CAUDIO_MEDIA_ROOT##_soundName_
-#else
-#   define AUDIO_FILE(_soundName_) CAUDIO_MEDIA_ROOT#_soundName_
-#endif
 
 using namespace std;
 
@@ -52,26 +45,11 @@ int main(int argc, char* argv[]) {
 		pDeviceList = 0;
 
 		//Create a IAudio object and load a sound from a file
-
-#if defined(CAUDIO_COMPILER_MINGW)
-        cAudio::IAudioSource* mysound = audioMgr->create("bling", "../Media/cAudioTheme1.ogg",true);
-#elif defined(CAUDIO_PLATFORM_WIN)
-		cAudio::IAudioSource* mysound = audioMgr->create("bling", AUDIO_FILE("cAudioTheme1.ogg"),true);
-#else
-		cAudio::IAudioSource* mysound = audioMgr->create("bling", AUDIO_FILE(cAudioTheme1.ogg),true);
-#endif
+        cAudio::IAudioSource* mysound = audioMgr->create("song", "../Media/cAudioTheme1.ogg",true);
 
 		for (size_t i=0; i<10; i++)
 		{
-
-#if defined(CAUDIO_COMPILER_MINGW)
             audioMgr->play2D("../Media/bling.ogg");
-
-#elif defined(CAUDIO_PLATFORM_WIN)
-			audioMgr->play2D(AUDIO_FILE("bling.ogg"));
-#else
-			audioMgr->play2D(AUDIO_FILE(bling.ogg));
-#endif
 		}
 
 		if(mysound)
