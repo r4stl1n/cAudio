@@ -11,9 +11,9 @@ project(cAudio)
 
 # Include necessary submodules
 set(CMAKE_MODULE_PATH 
-  "${CMAKE_SOURCE_DIR}/CMake"
-  "${CMAKE_SOURCE_DIR}/CMake/Utils" 
-  "${CMAKE_SOURCE_DIR}/CMake/Packages"
+  "${CMAKE_CURRENT_SOURCE_DIR}/CMake"
+  "${CMAKE_CURRENT_SOURCE_DIR}/CMake/Utils"
+  "${CMAKE_CURRENT_SOURCE_DIR}/CMake/Packages"
 )
 
 include(CMakeDependentOption)

@@ -5,7 +5,7 @@ if(CAUDIO_STATIC)
 endif()
 
 # generate cAudioBuildSettings.h 
-configure_file(${CMAKE_SOURCE_DIR}/CMake/Templates/cAudioBuildSettings.h.in ${CMAKE_BINARY_DIR}/include/cAudioBuildSettings.h @ONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../CMake/Templates/cAudioBuildSettings.h.in ${CMAKE_BINARY_DIR}/include/cAudioBuildSettings.h @ONLY)
 install(FILES ${CMAKE_BINARY_DIR}/include/cAudioBuildSettings.h DESTINATION include/cAudio)
 INSTALL(DIRECTORY include/ DESTINATION include/cAudio FILES_MATCHING PATTERN "*.h")
 
