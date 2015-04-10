@@ -77,6 +77,12 @@ namespace cAudio
 		virtual IAudioEffects* getEffects();
 #endif
 
+		//! returns a pointer to the used openal context. useful for sharing/reusing them.
+		ALCcontext* getOpenALContext() const { return Context; }
+
+		//! returns a pointer to the used openal device. useful for sharing/reusing them.
+		ALCdevice* getOpenALDevice() const { return Device;	}
+
 	protected:
 		virtual void run();
 

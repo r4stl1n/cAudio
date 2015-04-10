@@ -180,6 +180,22 @@ namespace cAudio
 	{
 		return cAudioString(_CTEXT("cOggDecoder"));
 	}
+
+	long cOggDecoder::getBitRateNominal()
+	{
+		return vorbisInfo->bitrate_nominal;
+	}
+
+	long cOggDecoder::getBitRateLower()
+	{
+		return vorbisInfo->bitrate_lower;
+	}
+
+	long cOggDecoder::getBitRateUpper()
+	{
+		return vorbisInfo->bitrate_upper;
+	}
+
 };
 
 #endif

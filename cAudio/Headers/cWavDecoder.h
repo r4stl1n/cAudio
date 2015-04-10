@@ -33,6 +33,9 @@ namespace cAudio
 			virtual int getCurrentPosition();
 			virtual int getCurrentCompressedPosition();
 			virtual cAudioString getType() const;
+			virtual long getBitRateNominal();
+			virtual long getBitRateLower();
+			virtual long getBitRateUpper();
 
         private:
             short Channels;

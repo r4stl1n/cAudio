@@ -99,6 +99,10 @@ namespace cAudio
 		unRegisterAllEventHandlers();
     }
 
+	AudioFormats cAudioSource::getFormat() const
+	{
+		return Decoder->getFormat();
+	}
 
 	bool cAudioSource::drop()
 	{

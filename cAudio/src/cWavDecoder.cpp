@@ -230,6 +230,22 @@ namespace cAudio
 	{
 		return cAudioString(_CTEXT("cWavDecoder"));
 	}
+
+	long cWavDecoder::getBitRateNominal()
+	{
+		return BitsPerSample * SampleRate;
+	}
+
+	long cWavDecoder::getBitRateLower()
+	{
+		return getBitRateNominal();
+	}
+
+	long cWavDecoder::getBitRateUpper()
+	{
+		return getBitRateNominal();
+	}
+
 };
 
 #endif
