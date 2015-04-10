@@ -17,6 +17,8 @@ namespace cAudio
 	class IAudioDeviceList
 	{
 	public:
+        virtual ~IAudioDeviceList() {};
+        
 		virtual unsigned int getDeviceCount() = 0;
 		virtual cAudioString getDeviceName(unsigned int idx) = 0;
 		virtual cAudioString getDeviceDescription(unsigned int idx) = 0;
