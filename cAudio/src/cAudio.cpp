@@ -91,9 +91,6 @@ namespace cAudio
 			}
 #endif
 
-			manager->unRegisterAllAudioDecoders();
-			manager->unRegisterAllDataSources();
-			manager->unRegisterAllEventHandlers();
 			manager->shutDown();
 
 			CAUDIO_DELETE manager;
@@ -144,9 +141,6 @@ namespace cAudio
 	// Logger section
 	//---------------------------------------------------------------------------------------
 
-	static cLogger Logger;
-	static bool FirstTimeLogInit(false);
-
 #if CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER == 1
 	static cConsoleLogReceiver ConsoleLog;
 #endif
@@ -157,17 +151,19 @@ namespace cAudio
 
 	CAUDIO_API ILogger* getLogger()
 	{
-		if(!FirstTimeLogInit)
+        static cLogger* Logger = NULL;
+
+		if(!Logger)
 		{
-			FirstTimeLogInit = true;
+			Logger = new cLogger;
 #if CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER == 1
-			Logger.registerLogReceiver(&ConsoleLog, "Console");
+			Logger->registerLogReceiver(&ConsoleLog, "Console");
 #endif
 #if CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER == 1
-			Logger.registerLogReceiver(&FileLog,"File");
+			Logger->registerLogReceiver(&FileLog,"File");
 #endif
 		}
-		return &Logger;
+		return Logger;
 	}
 
 	//---------------------------------------------------------------------------------------

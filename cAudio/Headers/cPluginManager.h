@@ -13,8 +13,6 @@
 #ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
 
 #ifdef CAUDIO_PLATFORM_WIN
-#	define WIN32_LEAN_AND_MEAN
-#	include <windows.h>
 
 struct HINSTANCE__;
 typedef struct HINSTANCE__* hInstance;

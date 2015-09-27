@@ -15,8 +15,10 @@
 namespace cAudio
 {
 	class IAudioSource;
+    class IAudioBuffer;
 	class IAudioDecoderFactory;
 	class AudioCaptureBuffer;
+    class cAudioMutex;
 
 	//! Interface for the playback capabilities of cAudio.
     class IAudioManager
@@ -89,6 +91,18 @@ namespace cAudio
 		//! Get the master volume.
 		virtual float getMasterVolume() const = 0;
 
+        //! Set Speed of Sound (for doppler computations)
+        virtual void setSpeedOfSound(float speed) = 0;
+        
+        //! Get Speed of Sound (for doppler computations)
+        virtual float getSpeedOfSound() const = 0;
+
+        //! Set Doppler Factor
+        virtual void setDopplerFactor(float factor) const = 0;
+
+        //! Get Doppler Factor
+        virtual float getDopplerFactor() const = 0;
+
 		//! Stops all playing sounds.
 		virtual void stopAllSounds() = 0;
 
@@ -132,6 +146,20 @@ namespace cAudio
 		\return A pointer to an Audio Source or NULL if creation failed.
 		*/
 		virtual IAudioSource* createFromAudioBuffer(const char* name, AudioCaptureBuffer* pBiffer, unsigned int frequency, AudioFormats format) = 0;
+
+        //! Creates a Audio Sample using the highest priority data source that has the referenced filename
+		/**
+		\param filename: Path to the file to load audio data from.
+		\return A pointer to an Audio Source or NULL if creation failed.
+		*/
+        virtual IAudioBuffer* createBuffer(const char* filename) = 0;
+
+		//! Creates an Audio Source from an Audio Buffer object (see createAudioBuffer())
+		/**
+		\param buffer: The buffer to play, or NULL to create an empty static source
+		\return A pointer to an Audio Source or NULL if creation failed.
+		*/
+        virtual IAudioSource* createStatic(IAudioBuffer* buffer) = 0;
 
 		//! Register an Audio Decoder.
 		/**
@@ -206,6 +234,8 @@ namespace cAudio
 
 		//! Returns the interface for the listener.
 		virtual IListener* getListener() = 0;
+
+        virtual cAudioMutex *getMutex() = 0;
 
 #if CAUDIO_EFX_ENABLED == 1
 		//! Returns the interface for audio effects.
