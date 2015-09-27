@@ -14,6 +14,20 @@
 
 namespace cAudio
 {
+    //! interface for a sample (audio buffer): completely loaded into memory, shareable across sources
+    class IAudioBuffer : public IRefCounted
+    {
+    public:
+        virtual ~IAudioBuffer() {}
+
+        virtual bool     isValid()  const = 0;
+        virtual unsigned getBuffer() const = 0;
+        virtual int      getChannels() const = 0;
+
+        virtual int   getTotalAudioSize() const = 0;
+        virtual float getTotalAudioTime() const = 0;
+    };
+
 	//! Interface for a single audio source, which allow you to manipulate sound sources (speakers) in 2D or 3D space.
     class IAudioSource : public IRefCounted
     {
@@ -39,7 +53,7 @@ namespace cAudio
 		\param toLoop: Whether to loop (restart) the audio when the end is reached.
 		\return True if the source is playing, false if not. */
 		virtual bool play3d(const cVector3& position, const float& soundstr = 1.0 , const bool& toLoop = false) = 0;
-		
+
 		//! Pauses playback of the sound source.
 		virtual void pause() = 0;
 
@@ -56,6 +70,15 @@ namespace cAudio
 		\param relative: Whether to seek from the current position or the start of the stream.
 		\return True on success, False if the codec does not support seeking. */
 		virtual bool seek(const float& seconds, bool relative = false) = 0;
+
+        //! Change the audio buffer associated with the source
+        /** Note: Only supported on sources created with createFromBuffer() or createForBuffer()
+         \return True on success, False if the sample does not support setting buffers or is currently playing */
+        virtual bool setBuffer(IAudioBuffer* buffer) = 0;
+
+        //! Get the audio buffer associated with the source
+        /** \return buffer on succes, NULL if no buffer or sample is streaming */
+        virtual IAudioBuffer *getBuffer() = 0;
 
 		//! Returns the total amount of time in the audio stream.  See IAudioDecoder for details.
 		virtual float getTotalAudioTime() = 0;
@@ -79,19 +102,19 @@ namespace cAudio
 		virtual bool update() = 0;
 
 		//! Returns if the source is ready to be used.
-		virtual const bool isValid() const = 0;
+		virtual bool isValid() const = 0; // 
 
 		//! Returns if the source is playing.
-		virtual const bool isPlaying() const = 0;
+		virtual bool isPlaying() const = 0;
 
 		//! Returns if the source is paused.
-		virtual const bool isPaused() const = 0;
+		virtual bool isPaused() const = 0;
 
 		//! Returns if the source is stopped.
-		virtual const bool isStopped() const = 0;
+		virtual bool isStopped() const = 0;
 
 		//! Returns if the source is looping.
-		virtual const bool isLooping() const = 0;
+		virtual bool isLooping() const = 0;
 
 		//! Sets the position of the source in 3D space.
 		/**
@@ -183,52 +206,58 @@ namespace cAudio
 		virtual void move(const cVector3& position) = 0;
 
 		//! Returns the audio objects position
-		virtual const cVector3 getPosition() const = 0;
+		virtual cVector3 getPosition() const = 0;
 
 		//! Returns the audio objects velocity
-		virtual const cVector3 getVelocity() const = 0;
+		virtual cVector3 getVelocity() const = 0;
 
 		//! Returns the audio objects direction
-		virtual const cVector3 getDirection() const = 0;
+		virtual cVector3 getDirection() const = 0;
 
 		//! Returns the factor used in attenuating the source over distance
-		virtual const float getRolloffFactor() const = 0;
+		virtual float getRolloffFactor() const = 0;
 
 		//! Returns the strength of the source
-		virtual const float getStrength() const = 0;
+		virtual float getStrength() const = 0;
 
 		//! Returns the distance from the source where attenuation will begin
-		virtual const float getMinDistance() const = 0;
+		virtual float getMinDistance() const = 0;
 
 		//! Returns the distance from the source where attenuation will stop
-		virtual const float getMaxDistance() const = 0;
+		virtual float getMaxDistance() const = 0;
+
+        //! Return true for 2d sounds, false for 3d sounds
+        virtual bool isRelative() const = 0;
+
+        //! Return gain, taking into account volume as well as distance attenuation
+        virtual float calculateGain() const = 0;
 
 		//! Returns the pitch of the source
-		virtual const float getPitch() const = 0;
+		virtual float getPitch() const = 0;
 
 		//! Returns the source volume before attenuation and other effects
-		virtual const float getVolume() const = 0;
+		virtual float getVolume() const = 0;
 
 		//! Returns the minimum volume that the source can be attenuated to
-		virtual const float getMinVolume() const = 0;
+		virtual float getMinVolume() const = 0;
 
 		//! Returns the maximum volume that the source can achieve
-		virtual const float getMaxVolume() const = 0;
+		virtual float getMaxVolume() const = 0;
 
 		//! Returns the angle of the inner sound cone of the source
-		virtual const float getInnerConeAngle() const = 0;
+		virtual float getInnerConeAngle() const = 0;
 
 		//! Returns the angle of the outer sound cone of the source
-		virtual const float getOuterConeAngle() const = 0;
+		virtual float getOuterConeAngle() const = 0;
 
 		//! Returns how much the volume of the source is scaled in the outer cone
-		virtual const float getOuterConeVolume() const = 0;
+		virtual float getOuterConeVolume() const = 0;
 
 		//! Returns the doppler strength, which enhances or diminishes the doppler effect 
-		virtual const float getDopplerStrength() const = 0;
+		virtual float getDopplerStrength() const = 0;
 
 		//! Returns the override for the doppler velocity vector
-		virtual const cVector3 getDopplerVelocity() const = 0;
+		virtual cVector3 getDopplerVelocity() const = 0;
 
 		//! Registers a new event handler to this source
 		/**

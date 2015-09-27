@@ -33,7 +33,7 @@ namespace cAudio
 	{
 	public:
 		ILogReceiver() { }
-		~ILogReceiver() { }
+		virtual ~ILogReceiver() { }
 
 		//! Called on every logged message that is greater than or equal to the minimum log level.
 		/**

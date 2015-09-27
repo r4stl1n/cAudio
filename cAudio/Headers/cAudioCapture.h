@@ -4,8 +4,7 @@
 
 #pragma once
 
-#include <al.h>
-#include <alc.h>
+#include "cOpenALUtil.h"
 #include "cMutex.h"
 #include "cMemoryOverride.h"
 #include "IAudioCapture.h"

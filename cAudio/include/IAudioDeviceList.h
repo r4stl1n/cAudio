@@ -24,5 +24,6 @@ namespace cAudio
 		virtual cAudioString getDeviceDescription(unsigned int idx) = 0;
 		virtual cAudioString getDefaultDeviceName() = 0;
 		virtual bool isSupported() = 0;
+        virtual ~IAudioDeviceList(){}
 	};
 }

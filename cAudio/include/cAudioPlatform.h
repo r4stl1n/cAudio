@@ -47,3 +47,20 @@
 #       define CAUDIO_COMPILER_MINGW
 #   endif
 #endif
+
+
+#ifdef CAUDIO_PLATFORM_WIN
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#define WIN32_LEAN_AND_MEAN
+#define _CRT_SECURE_NO_WARNINGS 1
+#if defined(_DEBUG) && !defined(DEBUG)
+#define DEBUG _DEBUG
+#endif
+#ifndef DEBUG
+#define _SECURE_SCL 0
+#define _HAS_ITERATOR_DEBUGGING 0
+#endif
+#include <windows.h>	//Basic windows includes
+#endif

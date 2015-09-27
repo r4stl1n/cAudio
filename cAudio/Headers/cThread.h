@@ -9,7 +9,6 @@
 #include "IThread.h"
 
 #ifdef CAUDIO_PLATFORM_WIN
-#include <windows.h>	//Basic windows includes
 #include <process.h>
 #else
 #include <pthread.h>	//Assumed linux system

@@ -7,9 +7,8 @@
 #include <list>
 #include <string>
 #include <vector>
-#include <al.h>
-#include <alc.h>
 
+#include "cOpenALUtil.h"
 #include "cMutex.h"
 #include "cEFXFunctions.h"
 #include "cMemoryOverride.h"
@@ -21,8 +20,8 @@
 
 namespace cAudio
 {
-
-    class cAudioSource : public IAudioSource, public cMemoryOverride
+    
+    class cAudioSourceBase : public IAudioSource, public cMemoryOverride
     {
     public:
 
@@ -34,38 +33,13 @@ namespace cAudio
 			ON_STOP,
 		};
 
-#if CAUDIO_EFX_ENABLED == 1
-		cAudioSource(IAudioDecoder* decoder, IAudioDeviceContext* context, cEFXFunctions* oALFunctions);
-#else
-		cAudioSource(IAudioDecoder* decoder, IAudioDeviceContext* context);
-#endif
-		~cAudioSource();
+        cAudioSourceBase(IAudioDeviceContext* context);
+        virtual ~cAudioSourceBase();
 
-		virtual bool play();
-		virtual bool play2d(const bool& toLoop = false);
-		virtual bool play3d(const cVector3& position, const float& soundstr = 1.0 , const bool& toLoop = false);
-		
-		virtual void pause();    
-		virtual void stop();
-		virtual void loop(const bool& toLoop);
-		virtual bool seek(const float& seconds, bool relative = false);
+		virtual bool isPlaying() const;
+		virtual bool isPaused() const;
+		virtual bool isStopped() const;
 
-		virtual float getTotalAudioTime();
-		virtual int getTotalAudioSize();
-		virtual int getCompressedAudioSize();
-
-		virtual float getCurrentAudioTime();
-		virtual int getCurrentAudioPosition();
-		virtual int getCurrentCompressedAudioPosition();
-
-		virtual bool update();
-
-		virtual const bool isValid() const;
-		virtual const bool isPlaying() const;
-		virtual const bool isPaused() const;
-		virtual const bool isStopped() const;
-		virtual const bool isLooping() const;
-      
 		virtual void setPosition(const cVector3& position);
 		virtual void setVelocity(const cVector3& velocity);
 		virtual void setDirection(const cVector3& direction);
@@ -89,30 +63,89 @@ namespace cAudio
 
 		virtual void move(const cVector3& position);
 
-		virtual const cVector3 getPosition() const;
-		virtual const cVector3 getVelocity() const;
-		virtual const cVector3 getDirection() const;
+		virtual cVector3 getPosition() const;
+		virtual cVector3 getVelocity() const;
+		virtual cVector3 getDirection() const;
 
-		virtual const float getRolloffFactor() const;
-		virtual const float getStrength() const;
-		virtual const float getMinDistance() const;
-		virtual const float getMaxDistance() const;
+		virtual float getRolloffFactor() const;
+		virtual float getStrength() const;
+		virtual float getMinDistance() const;
+		virtual float getMaxDistance() const;
 
-		virtual const float getPitch() const;
-		virtual const float getVolume() const;
-		virtual const float getMinVolume() const;
-		virtual const float getMaxVolume() const;
+        virtual bool isRelative() const;
+        virtual float calculateGain() const;
 
-		virtual const float getInnerConeAngle() const;
-		virtual const float getOuterConeAngle() const;
-		virtual const float getOuterConeVolume() const;
+		virtual float getPitch() const;
+		virtual float getVolume() const;
+		virtual float getMinVolume() const;
+		virtual float getMaxVolume() const;
 
-		virtual const float getDopplerStrength() const;
-		virtual const cVector3 getDopplerVelocity() const;
+		virtual float getInnerConeAngle() const;
+		virtual float getOuterConeAngle() const;
+		virtual float getOuterConeVolume() const;
+
+		virtual float getDopplerStrength() const;
+		virtual cVector3 getDopplerVelocity() const;
 
 		virtual void registerEventHandler(ISourceEventHandler* handler);
 		virtual void unRegisterEventHandler(ISourceEventHandler* handler);
 		virtual void unRegisterAllEventHandlers();
+
+    protected:
+		//! Mutex for thread synchronization
+		cAudioMutex Mutex;
+
+		//! Signals a event to all event handlers
+		void signalEvent(Events sevent);
+
+		//! The context that owns this source
+		IAudioDeviceContext* Context;
+		
+		//! Holds the current volume
+		float Volume;
+
+ 		//! OpenAL source
+		ALuint Source; 
+
+		ALenum oldState;
+
+		//! List of registered event handlers
+		cAudioVector<ISourceEventHandler*>::Type eventHandlerList;
+    };
+
+    class cAudioSource : public cAudioSourceBase {
+    public:
+#if CAUDIO_EFX_ENABLED == 1
+		cAudioSource(IAudioDecoder* decoder, IAudioDeviceContext* context, cEFXFunctions* oALFunctions);
+#else
+		cAudioSource(IAudioDecoder* decoder, IAudioDeviceContext* context);
+#endif
+		~cAudioSource();
+
+		virtual bool play();
+		virtual bool play2d(const bool& toLoop = false);
+		virtual bool play3d(const cVector3& position, const float& soundstr = 1.0 , const bool& toLoop = false);
+		
+		virtual void pause();    
+		virtual void stop();
+		virtual void loop(const bool& toLoop);
+		virtual bool seek(const float& seconds, bool relative = false);
+
+        virtual bool setBuffer(IAudioBuffer* buffer) { return false; }
+        virtual IAudioBuffer *getBuffer() { return NULL; }
+
+		virtual float getTotalAudioTime();
+		virtual int getTotalAudioSize();
+		virtual int getCompressedAudioSize();
+
+		virtual float getCurrentAudioTime();
+		virtual int getCurrentAudioPosition();
+		virtual int getCurrentCompressedAudioPosition();
+
+		virtual bool update();
+
+		virtual bool isValid() const;
+		virtual bool isLooping() const;
 
 		virtual bool drop(); //! Override the default behavior
 
@@ -126,31 +159,14 @@ namespace cAudio
 #endif
 
 	private:
-		//! Mutex for thread synchronization
-		cAudioMutex Mutex;
 		//! Empties the current working buffer queue
 		void empty();
-		//! Checks for OpenAL errors and reports them
-		bool checkError() const;
 		//! Streams audio data from the decoder into a buffer
 		bool stream(ALuint buffer);
-		//! Signals a event to all event handlers
-		void signalEvent(Events sevent);
-		//! Converts our audio format enum to OpenAL's
-		ALenum convertAudioFormatEnum(AudioFormats format);
-
-		//! The context that owns this source
-		IAudioDeviceContext* Context;
-		
-		//! Holds the current volume
-		float Volume;
 
 		//! Internal audio buffers
 		ALuint Buffers[CAUDIO_SOURCE_NUM_BUFFERS]; 
-		//! OpenAL source
-		ALuint Source; 
 
-		ALenum oldState;
 		//! cAudio decoder being used to stream data
 		IAudioDecoder* Decoder;
 
@@ -159,8 +175,10 @@ namespace cAudio
 		//! Stores whether the source is ready to be used
 		bool Valid;
 
-		//! List of registered event handlers
-		cAudioList<ISourceEventHandler*>::Type eventHandlerList;
+        //! position of first buffer in seconds
+        float BufferTime;
+        //! position of first buffer in bytes
+        int BufferPosition;
 
 #if CAUDIO_EFX_ENABLED == 1
 		//! Holds pointers to all the EFX related functions

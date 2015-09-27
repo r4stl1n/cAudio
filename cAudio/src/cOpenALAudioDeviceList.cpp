@@ -2,11 +2,8 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#pragma once
-
 #include "cOpenALAudioDeviceList.h"
-#include <al.h>
-#include <alc.h>
+#include "cOpenALUtil.h"
 
 namespace cAudio
 {
@@ -23,12 +20,15 @@ namespace cAudio
 		}
 		else
 		{
+#if ALC_ENUMERATE_ALL_EXT
 			if( alcIsExtensionPresent(NULL, "ALC_ENUMERATE_ALL_EXT") == AL_TRUE )
 			{
 				specifier = ALC_ALL_DEVICES_SPECIFIER;
 				defaultDevice = ALC_DEFAULT_ALL_DEVICES_SPECIFIER;
 			}
-			else if( alcIsExtensionPresent(NULL, "ALC_ENUMERATION_EXT") == AL_TRUE )
+			else 
+#endif
+            if( alcIsExtensionPresent(NULL, "ALC_ENUMERATION_EXT") == AL_TRUE )
 			{	
 				specifier = ALC_DEVICE_SPECIFIER;
 				defaultDevice = ALC_DEFAULT_DEVICE_SPECIFIER;
