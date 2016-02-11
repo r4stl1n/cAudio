@@ -368,8 +368,8 @@ namespace cAudio
 			if(audio != NULL)
 				return audio;
 
-			if(source)
-				source->drop();
+			// if(source)
+			// 	source->drop();
 		}
 		return NULL;
     }
