@@ -334,9 +334,6 @@ namespace cAudio
 					if(audio != NULL)
 						return audio;
 
-					//if(source)
-					//	source->drop();
-
 					return NULL;
 				}
 			}
@@ -367,9 +364,6 @@ namespace cAudio
 			IAudioSource* audio = createAudioSource(decoder, audioName, _CTEXT("cMemorySource"));
 			if(audio != NULL)
 				return audio;
-
-			if(source)
-				source->drop();
 		}
 		return NULL;
     }
@@ -401,9 +395,6 @@ namespace cAudio
 			IAudioSource* audio = createAudioSource(decoder, audioName, _CTEXT("cMemorySource"));
 			if(audio != NULL)
 				return audio;
-
-			if(source)
-				source->drop();
 		}
 		return NULL;
 	}
@@ -438,9 +429,6 @@ namespace cAudio
 
 					if(buffer != NULL)
 						return buffer;
-
-					//if(source)
-					//	source->drop();
 
 					return NULL;
 				}
