@@ -31,6 +31,19 @@ namespace cAudio
 {
 
 	//---------------------------------------------------------------------------------------
+	// Logger section
+	//---------------------------------------------------------------------------------------
+
+#if CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER == 1
+	static cConsoleLogReceiver ConsoleLog;
+#endif
+
+#if CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER == 1
+  //	static cFileLogReceiver *FileLog = new cFileLogReceiver();
+  static cFileLogReceiver *FileLog;
+#endif
+
+	//---------------------------------------------------------------------------------------
 	// Audio manager section
 	//---------------------------------------------------------------------------------------
 
@@ -46,10 +59,11 @@ namespace cAudio
 #if CAUDIO_COMPILE_WITH_FILE_SOURCE == 1
 	static cFileSourceFactory FileSourceFactory;
 #endif
-
-	CAUDIO_API IAudioManager* createAudioManager(bool initializeDefault)
+  CAUDIO_API IAudioManager* createAudioManager(bool initializeDefault, const char *lFilePath)
 	{
 		cAudioManager* manager = CAUDIO_NEW cAudioManager;
+		if(FileLog == nullptr)
+         		FileLog = new cFileLogReceiver(lFilePath);
 		if(manager)
 		{
 			if(initializeDefault) 
@@ -98,6 +112,26 @@ namespace cAudio
 		}
 	}
 
+  //////////////////////////////////////////
+
+	CAUDIO_API ILogger* getLogger()
+	{
+        static cLogger* Logger = NULL;
+		if(!Logger)
+		{
+			Logger = new cLogger;
+#if CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER == 1
+			Logger->registerLogReceiver(&ConsoleLog, "Console");
+#endif
+#if CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER == 1
+			Logger->registerLogReceiver(FileLog,"File");
+#endif
+		}
+		return Logger;
+	}
+
+
+
 	//---------------------------------------------------------------------------------------
 	// Audio capture section
 	//---------------------------------------------------------------------------------------
@@ -135,35 +169,6 @@ namespace cAudio
 			CAUDIO_DELETE capture;
 			capture = NULL;
 		}
-	}
-
-	//---------------------------------------------------------------------------------------
-	// Logger section
-	//---------------------------------------------------------------------------------------
-
-#if CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER == 1
-	static cConsoleLogReceiver ConsoleLog;
-#endif
-
-#if CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER == 1
-	static cFileLogReceiver FileLog;
-#endif
-
-	CAUDIO_API ILogger* getLogger()
-	{
-        static cLogger* Logger = NULL;
-
-		if(!Logger)
-		{
-			Logger = new cLogger;
-#if CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER == 1
-			Logger->registerLogReceiver(&ConsoleLog, "Console");
-#endif
-#if CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER == 1
-			Logger->registerLogReceiver(&FileLog,"File");
-#endif
-		}
-		return Logger;
 	}
 
 	//---------------------------------------------------------------------------------------

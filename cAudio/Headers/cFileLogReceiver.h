@@ -14,7 +14,7 @@ namespace cAudio
 	class cFileLogReceiver : public ILogReceiver
 	{
 	public:
-		cFileLogReceiver();
+		cFileLogReceiver(const char *lFilePath);
 		~cFileLogReceiver();
 
 		bool OnLogMessage(const char* sender, const char* message, LogLevel level, float time);
@@ -22,7 +22,7 @@ namespace cAudio
 	private:
 
 		bool firsttime;
-
+		const char *logFilePath;
 	};
 };
 #endif
