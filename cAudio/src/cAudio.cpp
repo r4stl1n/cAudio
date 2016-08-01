@@ -30,22 +30,37 @@
 namespace cAudio
 {
 
-	//---------------------------------------------------------------------------------------
-	// Logger section
-	//---------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------
+// Logger section
+//---------------------------------------------------------------------------------------
 
 #if CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER == 1
 	static cConsoleLogReceiver ConsoleLog;
 #endif
 
 #if CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER == 1
-  //	static cFileLogReceiver *FileLog = new cFileLogReceiver();
-  static cFileLogReceiver *FileLog;
+        static cFileLogReceiver *FileLog;
 #endif
 
-	//---------------------------------------------------------------------------------------
-	// Audio manager section
-	//---------------------------------------------------------------------------------------
+  CAUDIO_API ILogger* getLogger()
+  {
+    static cLogger* Logger = NULL;
+    if(!Logger)
+      {
+	Logger = new cLogger;
+#if CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER == 1
+	Logger->registerLogReceiver(&ConsoleLog, "Console");
+#endif
+#if CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER == 1
+	Logger->registerLogReceiver(FileLog,"File");
+#endif
+      }
+    return Logger;
+  }
+  
+//---------------------------------------------------------------------------------------
+// Audio manager section
+//---------------------------------------------------------------------------------------
 
 #if CAUDIO_COMPILE_WITH_OGG_DECODER == 1
 	static cOggAudioDecoderFactory OggDecoderFactory;
@@ -111,26 +126,6 @@ namespace cAudio
 			manager = NULL;
 		}
 	}
-
-  //////////////////////////////////////////
-
-	CAUDIO_API ILogger* getLogger()
-	{
-        static cLogger* Logger = NULL;
-		if(!Logger)
-		{
-			Logger = new cLogger;
-#if CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER == 1
-			Logger->registerLogReceiver(&ConsoleLog, "Console");
-#endif
-#if CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER == 1
-			Logger->registerLogReceiver(FileLog,"File");
-#endif
-		}
-		return Logger;
-	}
-
-
 
 	//---------------------------------------------------------------------------------------
 	// Audio capture section
