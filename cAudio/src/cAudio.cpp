@@ -77,8 +77,11 @@ namespace cAudio
   CAUDIO_API IAudioManager* createAudioManager(bool initializeDefault, const char *lFilePath)
 	{
 		cAudioManager* manager = CAUDIO_NEW cAudioManager;
+#if CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER == 1
 		if(FileLog == nullptr)
+
          		FileLog = new cFileLogReceiver(lFilePath);
+#endif
 		if(manager)
 		{
 			if(initializeDefault) 
