@@ -78,7 +78,7 @@ namespace cAudio
 	{
 		cAudioManager* manager = CAUDIO_NEW cAudioManager;
 #if CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER == 1
-		if(FileLog == nullptr)
+		if(FileLog == NULL)
 
          		FileLog = new cFileLogReceiver(lFilePath);
 #endif
@@ -114,7 +114,7 @@ namespace cAudio
 	CAUDIO_API void destroyAudioManager(IAudioManager* manager)
 	{
 #if CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER == 1
-	  if(FileLog not_eq nullptr)
+	  if(FileLog != NULL)
          	  delete FileLog;
 #endif
 		if(manager)
