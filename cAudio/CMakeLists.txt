@@ -26,6 +26,9 @@ else()
 	target_link_libraries(cAudio ${OPENAL_LIBRARIES})
 endif()
 
+set_property(TARGET ${CMAKE_PROJECT_NAME} PROPERTY VERSION "2.3.0")
+set_property(TARGET ${CMAKE_PROJECT_NAME} PROPERTY SOVERSION 2 )
+
 if (APPLE AND CAUDIO_IOS_BUILD)
 	set_target_properties(cAudio PROPERTIES XCODE_ATTRIBUTE_GCC_THUMB_SUPPORT "NO")
 	set_target_properties(cAudio PROPERTIES XCODE_ATTRIBUTE_GCC_UNROLL_LOOPS "YES")
