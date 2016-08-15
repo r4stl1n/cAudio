@@ -25,4 +25,7 @@ if(${CAUDIO_STATIC})
 	ADD_DEFINITIONS(-DCAUDIO_STATIC_LIB)
 endif()
 
+set_property(TARGET EAXLegacyPreset PROPERTY VERSION "2.3.0")
+set_property(TARGET EAXLegacyPreset PROPERTY SOVERSION 2 )
+
 install_all_targets(EAXLegacyPreset)
