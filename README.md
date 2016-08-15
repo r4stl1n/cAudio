@@ -1,4 +1,4 @@
-# Version 2.3.0 dev
+# Version 2.4.0 dev
 
 This is the development branch for cAudio 2.3.0 development.
 If you need a stable version of cAudio please use the 2.2.0 tag.
