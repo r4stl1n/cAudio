@@ -108,9 +108,10 @@ namespace cAudio {
 	/** Note: This is the only way to get access to the audio playback capabilities of cAudio.
 	You must delete this interface using destroyAudioManager() once you are done with it.
 	\param initializeDefault: Whether to return an object initialized with the default settings.  If set to false, you must make a call to initialize before you can create audio sources.
+        \param lFilePath Where the log file is going to be placed
 	\return A pointer to the created object, NULL if the object could not be allocated.
 	*/
-	CAUDIO_API IAudioManager* createAudioManager(bool initializeDefault = true);
+        CAUDIO_API IAudioManager* createAudioManager(bool initializeDefault = true, const char *lFilePath = "cAudioEngineLog.html");
 
 	//! Destroys an interface to a previously created Audio Manager and frees the memory allocated for it.
 	/**

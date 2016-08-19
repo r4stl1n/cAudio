@@ -10,7 +10,8 @@
 
 namespace cAudio
 {
-	cFileLogReceiver::cFileLogReceiver()
+        cFileLogReceiver::cFileLogReceiver(const char *lFilePath) :
+        logFilePath(lFilePath)
 	{
 		firsttime = false;
 	}
@@ -31,7 +32,7 @@ namespace cAudio
 			// Reset log file
 			outf.setf( std::ios::fixed );
 			outf.precision( 3 );
-			outf.open( "cAudioEngineLog.html", std::ios::out );
+			outf.open( logFilePath, std::ios::out );
 			
 			if( !outf ){
 				return false;
@@ -108,7 +109,7 @@ namespace cAudio
 		}
 		else
 		{
-			outf.open( "cAudioEngineLog.html", std::ios::out | std::ios::app );
+			outf.open( logFilePath, std::ios::out | std::ios::app );
 			
 			if( !outf ){
 				return false;
