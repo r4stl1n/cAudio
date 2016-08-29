@@ -25,4 +25,7 @@ if(${CAUDIO_STATIC})
 	ADD_DEFINITIONS(-DCAUDIO_STATIC_LIB)
 endif()
 
+set_property(TARGET cAp_mp3Decoder PROPERTY VERSION "2.3.0")
+set_property(TARGET cAp_mp3Decoder PROPERTY SOVERSION 2 )
+
 install_all_targets(cAp_mp3Decoder)
