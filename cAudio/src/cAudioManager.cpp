@@ -138,6 +138,7 @@ namespace cAudio
 			}
 			managedAudioSourcesDelBuffer.clear();
 		}		
+		signalEvent(ON_UPDATE);
 	}
 
 	void cAudioManager::run()
