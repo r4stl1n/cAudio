@@ -4,6 +4,9 @@
 
 #include "cThread.h"
 #include "cAudioSleep.h"
+#ifdef CAUDIO_PLATFORM_WIN
+#include <excpt.h>
+#endif
 
 namespace cAudio
 {
@@ -99,11 +102,21 @@ namespace cAudio
         info.dwThreadID = dwThreadID;
         info.dwFlags = 0;
 
-        __try
+#ifdef CAUDIO_PLATFORM_WIN
+	try
+#else
+			__try
+#endif
+
         {
             RaiseException(MS_VC_EXCEPTION, 0, sizeof(info) / sizeof(ULONG_PTR), (ULONG_PTR*)&info);
         }
+#ifdef CAUDIO_PLATFORM_WIN
+        catch (bool b)
+#else
         __except (EXCEPTION_EXECUTE_HANDLER)
+#endif
+
         {
         }
     }
