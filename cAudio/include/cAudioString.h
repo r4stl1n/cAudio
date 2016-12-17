@@ -42,8 +42,8 @@ namespace cAudio
 #	endif
 #endif
 
-    
-#if defined(CAUDIO_PLATFORM_WIN)
+// Conversion is only required if using wide characters in cAudioString
+#if defined(CAUDIO_PLATFORM_WIN) && (defined(UNICODE) || defined(_UNICODE))
     static const char* toUTF8(const cAudioString& str)
     {
         static int id = 0;

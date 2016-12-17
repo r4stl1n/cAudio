@@ -29,3 +29,11 @@ MACRO_DISPLAY_FEATURE_LOG()
 include_directories(
   ${OPENAL_INCLUDE_DIR}
 )
+
+# On Windows it's possible to get an include path that directly contains the headers.
+# This breaks the build so here's a fix that requires no changes to the source files
+if(WIN32)
+  include_directories(
+    "${OPENAL_INCLUDE_DIR}/../"
+  )
+endif()

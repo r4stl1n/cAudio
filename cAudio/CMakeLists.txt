@@ -35,4 +35,8 @@ if (APPLE AND CAUDIO_IOS_BUILD)
 	set_target_properties(cAudio PROPERTIES XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "iPhone Developer")
 endif()
 
+if(UNIX)
+  target_link_libraries(cAudio dl)
+endif()
+
 install_all_targets(cAudio)
