@@ -157,8 +157,8 @@ namespace cAudio
 		\param dataSource: Name for the source of data (mainly used for logging).
 		\return A pointer to an Audio Source or NULL if creation failed.
 		*/
-		virtual IAudioSource* createFromAudioDecoder(IAudioDecoder* decoder,
-            const char* name, const char* dataSource) = 0;
+		virtual IAudioSource* createFromAudioDecoder(const char* name,
+            const char* dataSource, IAudioDecoder* decoder) = 0;
         
         //! Creates a Audio Sample using the highest priority data source that has the referenced filename
 		/**

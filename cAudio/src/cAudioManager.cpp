@@ -400,8 +400,8 @@ namespace cAudio
 		return NULL;
 	}
 
-    IAudioSource* cAudioManager::createFromAudioDecoder(IAudioDecoder* decoder,
-        const char* name, const char* dataSource)
+    IAudioSource* cAudioManager::createFromAudioDecoder(const char* name,
+        const char* dataSource, IAudioDecoder* decoder)
     {
 		if(!Initialized) return NULL;
 
