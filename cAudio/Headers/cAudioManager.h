@@ -57,6 +57,8 @@ namespace cAudio
 		virtual IAudioSource* createFromMemory(const char* name, const char* data, size_t length, const char* extension);
 		virtual IAudioSource* createFromRaw(const char* name, const char* data, size_t length, unsigned int frequency, AudioFormats format);
 		virtual IAudioSource* createFromAudioBuffer(const char* name, AudioCaptureBuffer* pBiffer, unsigned int frequency, AudioFormats format);
+        virtual IAudioSource* createFromAudioDecoder(IAudioDecoder* decoder,
+            const char* name, const char* dataSource);
 
         virtual IAudioBuffer* createBuffer(const char* filename);
         virtual IAudioSource* createStatic(IAudioBuffer* buffer);

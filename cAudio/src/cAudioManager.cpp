@@ -400,6 +400,23 @@ namespace cAudio
 		return NULL;
 	}
 
+    IAudioSource* cAudioManager::createFromAudioDecoder(IAudioDecoder* decoder,
+        const char* name, const char* dataSource)
+    {
+		if(!Initialized) return NULL;
+
+        if(!decoder || !decoder->isValid()) return NULL;
+
+		cAudioMutexBasicLock lock(Mutex);
+		cAudioString audioName = fromUTF8(name);
+
+        IAudioSource* audio = createAudioSource(decoder, audioName, fromUTF8(dataSource));
+        if(audio != NULL)
+            return audio;
+
+		return NULL;
+    }
+
     IAudioBuffer* cAudioManager::createBuffer(const char* filename)
     {
 		if(!Initialized) return NULL;
