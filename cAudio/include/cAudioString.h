@@ -20,7 +20,7 @@
 namespace cAudio
 {
 
-#if defined(UNICODE) || defined(_UNICODE)
+#if defined(CAUDIO_USE_UNICODE)
 #	define _CTEXT(x)	L ## x
 #	define cstrcmp		wcscmp
 #	define cAudioChar	wchar_t
@@ -35,7 +35,7 @@ namespace cAudio
 #if CAUDIO_REROUTE_STRING_ALLOCATIONS == 1
 	typedef std::basic_string< cAudioChar, std::char_traits<cAudioChar>, cSTLAllocator<cAudioChar> > cAudioString;
 #else
-#	if defined(UNICODE) || defined(_UNICODE)
+#	if defined(CAUDIO_USE_UNICODE)
 		typedef std::basic_string<cAudioChar> cAudioString;
 #	else
 	typedef std::string cAudioString;
@@ -43,7 +43,7 @@ namespace cAudio
 #endif
 
 // Conversion is only required if using wide characters in cAudioString
-#if defined(CAUDIO_PLATFORM_WIN) && (defined(UNICODE) || defined(_UNICODE))
+#if defined(CAUDIO_PLATFORM_WIN) && (defined(CAUDIO_USE_UNICODE))
     static const char* toUTF8(const cAudioString& str)
     {
         static int id = 0;
