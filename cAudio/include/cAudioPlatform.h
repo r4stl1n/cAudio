@@ -63,4 +63,9 @@
 #define _HAS_ITERATOR_DEBUGGING 0
 #endif
 #include <windows.h>	//Basic windows includes
+// Some undefines //
+#undef GetNextSibling
+#undef GetFirstChild
+#undef GetObject
+#undef GetCurrentTime
 #endif
