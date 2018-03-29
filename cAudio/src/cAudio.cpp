@@ -113,10 +113,6 @@ namespace cAudio
 
 	CAUDIO_API void destroyAudioManager(IAudioManager* manager)
 	{
-#if CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER == 1
-	  if(FileLog != NULL)
-         	  delete FileLog;
-#endif
 		if(manager)
 		{
 #ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
@@ -132,6 +128,14 @@ namespace cAudio
 			CAUDIO_DELETE manager;
 			manager = NULL;
 		}
+    #if CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER == 1
+        if(FileLog != NULL){
+            delete FileLog;
+            FileLog = NULL;
+
+            getLogger()->unRegisterLogReceiver("File");
+        }
+    #endif
 	}
 
 	//---------------------------------------------------------------------------------------
