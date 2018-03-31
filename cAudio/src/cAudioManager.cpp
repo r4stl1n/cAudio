@@ -168,7 +168,7 @@ namespace cAudio
 	IAudioSource* cAudioManager::play2D(const char* filename, bool playLooped, bool startPaused)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		IAudioSource* pAudioSrc = create("", filename, true);
+		IAudioSource* pAudioSrc = create(filename, filename, true);
         
         if (!pAudioSrc)
             return NULL;
