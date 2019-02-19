@@ -4,6 +4,7 @@
 
 #include "cFileSource.h"
 #include "cUtils.h"
+#include <algorithm>
 
 #if CAUDIO_COMPILE_WITH_FILE_SOURCE == 1
 
@@ -12,28 +13,22 @@
 namespace cAudio
 {
 
-cFileSource::cFileSource(const char* filename) : pFile(NULL), Valid(false), Filesize(0)
+std::unordered_map<std::string, std::vector<char>> cFileSource::cache;
+
+cFileSource::cFileSource(const char* filename)
 {
 	cAudioString safeFilename = fromUTF8(filename);
-    if(safeFilename.length() != 0)
-    {
-        pFile = cfopen(safeFilename, "rb");
-		if(pFile)
-			Valid = true;
-    }
+	if(safeFilename.length() != 0)
+	{
+		if (cache.count(safeFilename) == 0) { // Is this thread-safe?
+			std::ifstream f(safeFilename, std::ios::binary);
+			f.unsetf(std::ios_base::skipws);
+			cache.emplace(safeFilename, std::vector<char>(std::istreambuf_iterator<char>{f}, {}));
+		}
 
-    if(Valid)
-    {
-        fseek(pFile, 0, SEEK_END);
-        Filesize = ftell(pFile);
-        fseek(pFile, 0, SEEK_SET);
+		data = &cache[safeFilename];
+		Valid = true;
     }
-}
-
-cFileSource::~cFileSource()
-{
-	if(pFile)
-		fclose(pFile);
 }
 
 bool cFileSource::isValid()
@@ -43,38 +38,27 @@ bool cFileSource::isValid()
 
 int cFileSource::getCurrentPos()
 {
-    return ftell(pFile);
+    return currentPos;
 }
 
 int cFileSource::getSize()
 {
-    return Filesize;
+    return data->size();
 }
 
 int cFileSource::read(void* output, int size)
 {
-	return fread(output, sizeof(char), size, pFile);
+	const int bytesToRead = std::min(size, getSize() - currentPos);
+	memcpy(output, &(*data)[currentPos], bytesToRead);
+	currentPos += bytesToRead;
+	return bytesToRead;
 }
 
 bool cFileSource::seek(int amount, bool relative)
 {
-    if(relative == true)
-    {
-        int oldamount = ftell(pFile);
-        fseek(pFile, amount, SEEK_CUR);
-
-        //check against the absolute position
-        if(oldamount+amount != ftell(pFile))
-            return false;
-    }
-    else
-    {
-        fseek(pFile, amount, SEEK_SET);
-        if(amount != ftell(pFile))
-            return false;
-    }
-
-    return true;
+	int desiredPosition = relative ? amount + currentPos : amount;
+	currentPos = std::min(std::max(desiredPosition, 0), getSize());
+	return desiredPosition < getSize() && desiredPosition >= 0;
 }
 
 };
