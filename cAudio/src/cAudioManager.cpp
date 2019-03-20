@@ -168,7 +168,7 @@ namespace cAudio
 	IAudioSource* cAudioManager::play2D(const char* filename, bool playLooped, bool startPaused)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		IAudioSource* pAudioSrc = create("", filename, true);
+		IAudioSource* pAudioSrc = create(filename, filename, true);
         
         if (!pAudioSrc)
             return NULL;
@@ -399,6 +399,23 @@ namespace cAudio
 		}
 		return NULL;
 	}
+
+    IAudioSource* cAudioManager::createFromAudioDecoder(const char* name,
+        const char* dataSource, IAudioDecoder* decoder)
+    {
+		if(!Initialized) return NULL;
+
+        if(!decoder || !decoder->isValid()) return NULL;
+
+		cAudioMutexBasicLock lock(Mutex);
+		cAudioString audioName = fromUTF8(name);
+
+        IAudioSource* audio = createAudioSource(decoder, audioName, fromUTF8(dataSource));
+        if(audio != NULL)
+            return audio;
+
+		return NULL;
+    }
 
     IAudioBuffer* cAudioManager::createBuffer(const char* filename)
     {

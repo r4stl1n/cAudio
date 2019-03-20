@@ -4,13 +4,8 @@
 
 #include "cAudio.h"
 
-#if !defined(CAUDIO_PLATFORM_LINUX)
-#include <OpenAL/al.h>
-#include <OpenAL/alc.h>
-#else
 #include <AL/al.h>
 #include <AL/alc.h>
-#endif
 
 #if DEBUG
 #ifndef __func__

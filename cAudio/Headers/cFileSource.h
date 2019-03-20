@@ -11,6 +11,9 @@
 #if CAUDIO_COMPILE_WITH_FILE_SOURCE == 1
 
 #include <fstream>
+#include <string>
+#include <unordered_map>
+#include <vector>
 
 namespace cAudio
 {
@@ -19,7 +22,7 @@ class cFileSource : public IDataSource, public cMemoryOverride
 {
     public:
         cFileSource(const char* filename);
-        ~cFileSource();
+        ~cFileSource() = default;
 
         virtual bool isValid();
         virtual int getCurrentPos();
@@ -29,12 +32,13 @@ class cFileSource : public IDataSource, public cMemoryOverride
     
     protected:
 		//! Holds if valid        
-		bool Valid;
-		//! Holds file size
-        int Filesize;
-		//! File stream
-        FILE* pFile;
+		bool Valid = false;
+
+		std::vector<char>* data;
+		int currentPos = 0;
+
     private:
+		static std::unordered_map<std::string, std::vector<char>> cache;
 };
 
 };

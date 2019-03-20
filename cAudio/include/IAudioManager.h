@@ -17,6 +17,7 @@ namespace cAudio
 	class IAudioSource;
     class IAudioBuffer;
 	class IAudioDecoderFactory;
+    class IAudioDecoder;
 	class AudioCaptureBuffer;
     class cAudioMutex;
 
@@ -147,6 +148,18 @@ namespace cAudio
 		*/
 		virtual IAudioSource* createFromAudioBuffer(const char* name, AudioCaptureBuffer* pBiffer, unsigned int frequency, AudioFormats format) = 0;
 
+		//! Creates an Audio Source from an already created decoder
+        //!
+        //! This can be used to play procedurally generated audio or audio received over
+        //! the network
+		/**
+		\param audioName: Name of the audio source.
+		\param dataSource: Name for the source of data (mainly used for logging).
+		\return A pointer to an Audio Source or NULL if creation failed.
+		*/
+		virtual IAudioSource* createFromAudioDecoder(const char* name,
+            const char* dataSource, IAudioDecoder* decoder) = 0;
+        
         //! Creates a Audio Sample using the highest priority data source that has the referenced filename
 		/**
 		\param filename: Path to the file to load audio data from.

@@ -36,6 +36,7 @@ namespace cAudio
 
 #if CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER == 1
 	static cConsoleLogReceiver ConsoleLog;
+    static bool UseConsoleLog = true;
 #endif
 
 #if CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER == 1
@@ -49,7 +50,8 @@ namespace cAudio
       {
 	Logger = new cLogger;
 #if CAUDIO_COMPILE_WITH_CONSOLE_LOG_RECEIVER == 1
-	Logger->registerLogReceiver(&ConsoleLog, "Console");
+    if(UseConsoleLog)
+        Logger->registerLogReceiver(&ConsoleLog, "Console");
 #endif
 #if CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER == 1
 	Logger->registerLogReceiver(FileLog,"File");
@@ -74,8 +76,11 @@ namespace cAudio
 #if CAUDIO_COMPILE_WITH_FILE_SOURCE == 1
 	static cFileSourceFactory FileSourceFactory;
 #endif
-  CAUDIO_API IAudioManager* createAudioManager(bool initializeDefault, const char *lFilePath)
+    CAUDIO_API IAudioManager* createAudioManager(bool initializeDefault, const char *lFilePath,
+        bool noConsoleLog)
 	{
+        UseConsoleLog = !noConsoleLog;
+        
 		cAudioManager* manager = CAUDIO_NEW cAudioManager;
 #if CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER == 1
 		if(FileLog == NULL)
@@ -113,10 +118,6 @@ namespace cAudio
 
 	CAUDIO_API void destroyAudioManager(IAudioManager* manager)
 	{
-#if CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER == 1
-	  if(FileLog != NULL)
-         	  delete FileLog;
-#endif
 		if(manager)
 		{
 #ifdef CAUDIO_COMPILE_WITH_PLUGIN_SUPPORT
@@ -132,6 +133,14 @@ namespace cAudio
 			CAUDIO_DELETE manager;
 			manager = NULL;
 		}
+    #if CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER == 1
+        if(FileLog != NULL){
+            delete FileLog;
+            FileLog = NULL;
+
+            getLogger()->unRegisterLogReceiver("File");
+        }
+    #endif
 	}
 
 	//---------------------------------------------------------------------------------------
