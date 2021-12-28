@@ -7,17 +7,18 @@
 #include "cAudioDefines.h"
 
 #if CAUDIO_EFX_ENABLED == 1
-//#ifdef __LINUX__
+
+#	if defined( WIN32 ) || defined( _WINDOWS ) || defined(_WIN32)
+#include "OpenAL/al.h"
+#include "OpenAL/alc.h"
+#include "OpenAL/efx.h"
+#include "OpenAL/efx-creative.h"
+#else
 #include "AL/al.h"
 #include "AL/alc.h"
 #include "AL/efx.h"
 #include "AL/efx-creative.h"
-//#else
-//#include "OpenAL/al.h"
-//#include "OpenAL/alc.h"
-//#include "OpenAL/efx.h"
-//#include "OpenAL/efx-creative.h"
-//#endif
+#endif
 #include "cMutex.h"
 
 //To use EFX in linux.
@@ -45,7 +46,7 @@
 #define ALC_EFX_MAJOR_VERSION                              0x20001
 #define ALC_EFX_MINOR_VERSION                              0x20002
 #define ALC_MAX_AUXILIARY_SENDS                            0x20003
-#endif  
+#endif
 
 namespace cAudio
 {
