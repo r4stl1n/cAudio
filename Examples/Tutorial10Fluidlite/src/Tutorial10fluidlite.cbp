@@ -73,6 +73,8 @@
 					<Add library="vorbisfile" />
 					<Add library="vorbis" />
 					<Add library="openal" />
+					<Add library="pthread" />
+					<Add library="dl" />
 					<Add directory="../../bin/gcc" />
 				</Linker>
 			</Target>
