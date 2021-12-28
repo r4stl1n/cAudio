@@ -2,7 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#include "cOggDecoder.h"
+#include "../Headers/cOggDecoder.h"
 
 #if CAUDIO_COMPILE_WITH_OGG_DECODER == 1
 
@@ -12,7 +12,7 @@ namespace cAudio
     size_t VorbisRead(void *ptr, size_t byteSize,size_t sizeToRead, void *datasource)
     {
         IDataSource* Stream = (IDataSource*)datasource;
-        return Stream->read(ptr,byteSize*sizeToRead);
+        return Stream->read(ptr, (int)(byteSize*sizeToRead));
     }
 
     //! Seek Vorbis Data
@@ -22,15 +22,15 @@ namespace cAudio
         switch (whence)
         {
         case SEEK_SET:
-            Stream->seek(offset, false);
+            Stream->seek((int)offset, false);
             break;
 
         case SEEK_CUR:
-            Stream->seek(offset, true);
+            Stream->seek((int)offset, true);
             break;
 
         case SEEK_END:
-            Stream->seek(Stream->getSize()-offset, false);
+            Stream->seek((int)(Stream->getSize()-offset), false);
             break;
         };
         return 0;
@@ -148,34 +148,34 @@ namespace cAudio
 
 	float cOggDecoder::getTotalTime()
 	{
-		return ov_time_total(&oggStream, -1);
+		return (float)ov_time_total(&oggStream, -1);
 	}
 
 	int cOggDecoder::getTotalSize()
 	{
         // ov_pcm_total is in samples
-		return ov_pcm_total(&oggStream, -1) * vorbisInfo->channels * 2;
+		return (int)ov_pcm_total(&oggStream, -1) * vorbisInfo->channels * 2;
 	}
 
 	int cOggDecoder::getCompressedSize()
 	{
-		return ov_raw_total(&oggStream, -1);
+		return (int)ov_raw_total(&oggStream, -1);
 	}
 
 	float cOggDecoder::getCurrentTime()
 	{
-		return ov_time_tell(&oggStream);
+		return (float)ov_time_tell(&oggStream);
 	}
 
 	int cOggDecoder::getCurrentPosition()
 	{
         // ov_pcm_tell is in samples
-		return ov_pcm_tell(&oggStream) * vorbisInfo->channels * 2;
+		return (int)ov_pcm_tell(&oggStream) * vorbisInfo->channels * 2;
 	}
 
 	int cOggDecoder::getCurrentCompressedPosition()
 	{
-		return ov_raw_tell(&oggStream);
+		return (int)ov_raw_tell(&oggStream);
 	}
 	
 	cAudioString cOggDecoder::getType() const

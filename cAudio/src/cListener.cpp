@@ -2,9 +2,9 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#include "cListener.h"
-#include "cEFXFunctions.h"
-#include "cOpenALUtil.h"
+#include "../Headers/cListener.h"
+#include "../Headers/cEFXFunctions.h"
+#include "../Headers/cOpenALUtil.h"
 
 namespace cAudio
 {

@@ -3,12 +3,12 @@
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
 #include "cAudio.h"
-#include "cAudioCapture.h"
-#include "cUtils.h"
-#include "cThread.h"
+#include "../Headers/cAudioCapture.h"
+#include "../Headers/cUtils.h"
+#include "../Headers/cThread.h"
 #include "cAudioSleep.h"
-#include "cLogger.h"
-#include "cPluginManager.h"
+#include "../Headers/cLogger.h"
+#include "../Headers/cPluginManager.h"
 
 #include <string.h>
 
@@ -102,7 +102,7 @@ namespace cAudio
 				//Fixes a bug with the capture being forced, but no data being available
 				if(availbuffersize > 0)
 				{
-					const unsigned int oldBufferSize = CaptureBuffer.size();
+					const unsigned int oldBufferSize = (unsigned int)CaptureBuffer.size();
 					CaptureBuffer.resize(oldBufferSize + availbuffersize, 0);
 					alcCaptureSamples(CaptureDevice, &CaptureBuffer[oldBufferSize], AvailableSamples);
 					checkError();
@@ -150,14 +150,14 @@ namespace cAudio
 	AudioCaptureBuffer* cAudioCapture::getCapturedAudioBuffer()
 	{
 		AudioCaptureBuffer* buffer = new AudioCaptureBuffer(CaptureBuffer.size());
-		getCapturedAudio(buffer->getWriteBuffer(), buffer->getLength());
+		getCapturedAudio(buffer->getWriteBuffer(), (unsigned int)buffer->getLength());
 		return buffer;
 	}
 
 	unsigned int cAudioCapture::getCapturedAudio(void* outputBuffer, unsigned int outputBufferSize)
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		unsigned int internalBufferSize = CaptureBuffer.size();
+		unsigned int internalBufferSize = (unsigned int)CaptureBuffer.size();
 		if(outputBuffer && outputBufferSize > 0 && internalBufferSize > 0)
 		{
 			int sizeToCopy = (outputBufferSize >= internalBufferSize) ? internalBufferSize : outputBufferSize;
@@ -174,7 +174,7 @@ namespace cAudio
 	unsigned int cAudioCapture::getCurrentCapturedAudioSize()
 	{
 		cAudioMutexBasicLock lock(Mutex);
-		return CaptureBuffer.size();
+		return (unsigned int)CaptureBuffer.size();
 	}
 
 	bool cAudioCapture::setFrequency(unsigned int frequency)

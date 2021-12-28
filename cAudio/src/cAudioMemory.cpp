@@ -3,7 +3,7 @@
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
 #include "cAudioMemory.h"
-#include "cStandardMemoryProvider.h"
+#include "../Headers/cStandardMemoryProvider.h"
 
 namespace cAudio
 {

@@ -2,7 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#include "cThread.h"
+#include "../Headers/cThread.h"
 #include "cAudioSleep.h"
 
 namespace cAudio

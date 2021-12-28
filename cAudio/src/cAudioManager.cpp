@@ -2,22 +2,23 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#include "cAudioManager.h"
+#include "../Headers/cAudioManager.h"
 #include "cAudio.h"
-#include "cAudioSource.h"
-#include "cAudioStaticSource.h"
+#include "../Headers/cAudioSource.h"
+#include "../Headers/cAudioStaticSource.h"
 #include "cAudioPlatform.h"
 #include "cAudioSleep.h"
-#include "cUtils.h"
-#include "cThread.h"
-#include "cLogger.h"
-#include "cPluginManager.h"
-#include "cThread.h"
-#include "cMemorySource.h"
-#include "cRawAudioDecoderFactory.h"
+#include "../Headers/cUtils.h"
+#include "../Headers/cThread.h"
+#include "../Headers/cLogger.h"
+#include "../Headers/cPluginManager.h"
+#include "../Headers/cThread.h"
+#include "../Headers/cMemorySource.h"
+#include "../Headers/cRawAudioDecoderFactory.h"
 #include <string.h>
 #include <algorithm>
-#include "cOpenALDeviceContext.h"
+#include "../Headers/cOpenALDeviceContext.h"
+#include <iostream>
 
 namespace cAudio
 {
@@ -77,7 +78,8 @@ namespace cAudio
 
 			Initialized = false;
 
-			getLogger()->logInfo("AudioManager", "Manager successfully shutdown.");
+			std::cout << "Manager successfully shutdown." << std::endl;
+			//getLogger()->logInfo("AudioManager", "Manager successfully shutdown.");
 		}
 	}
 
@@ -356,7 +358,7 @@ namespace cAudio
 			return NULL;
 		}
 
-		cMemorySource* source = CAUDIO_NEW cMemorySource(data, length, true);
+		cMemorySource* source = CAUDIO_NEW cMemorySource(data, (int)length, true);
 		if(source && source->isValid())
 		{
 			IAudioDecoder* decoder = factory->CreateAudioDecoder(source);
@@ -387,7 +389,7 @@ namespace cAudio
 			return NULL;
 		}
 
-		cMemorySource* source = CAUDIO_NEW cMemorySource(data, length, true);
+		cMemorySource* source = CAUDIO_NEW cMemorySource(data, (int)length, true);
 		if(source && source->isValid())
 		{
 			IAudioDecoder* decoder = ((cRawAudioDecoderFactory*)factory)->CreateAudioDecoder(source, frequency, format);

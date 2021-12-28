@@ -7,12 +7,17 @@
 #include "cAudioDefines.h"
 
 #if CAUDIO_EFX_ENABLED == 1
-
-#include <al.h>
-#include <alc.h>
-#include <efx.h>
-#include <efx-creative.h>
-
+//#ifdef __LINUX__
+#include "AL/al.h"
+#include "AL/alc.h"
+#include "AL/efx.h"
+#include "AL/efx-creative.h"
+//#else
+//#include "OpenAL/al.h"
+//#include "OpenAL/alc.h"
+//#include "OpenAL/efx.h"
+//#include "OpenAL/efx-creative.h"
+//#endif
 #include "cMutex.h"
 
 //To use EFX in linux.

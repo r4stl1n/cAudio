@@ -2,9 +2,9 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#include "cEffect.h"
-#include "cLogger.h"
-#include "cUtils.h"
+#include "../Headers/cEffect.h"
+#include "../Headers/cLogger.h"
+#include "../Headers/cUtils.h"
 #include "cAudio.h"
 
 #if CAUDIO_EFX_ENABLED == 1

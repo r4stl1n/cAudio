@@ -2,7 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#include "cWavDecoder.h"
+#include "../Headers/cWavDecoder.h"
 #include <string.h>
 
 #if CAUDIO_COMPILE_WITH_WAV_DECODER == 1

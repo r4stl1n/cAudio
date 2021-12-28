@@ -4,10 +4,10 @@
 
 #include <time.h>
 #include <stdio.h>
-#include "cLogger.h"
-#include "cConsoleLogReceiver.h"
-#include "cFileLogReceiver.h"
-#include "cUtils.h"
+#include "../Headers/cLogger.h"
+#include "../Headers/cConsoleLogReceiver.h"
+#include "../Headers/cFileLogReceiver.h"
+#include "../Headers/cUtils.h"
 
 namespace cAudio
 {
@@ -58,7 +58,7 @@ namespace cAudio
 		{
 			Mutex.lock();
 			va_list args;
-			va_start( args, msg );
+			va_start( args, msg );			
 			broadcastMessage( ELL_INFO, sender, msg, args );
 			va_end( args );
 			Mutex.unlock();

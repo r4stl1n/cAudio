@@ -8,8 +8,8 @@
 
 #if CAUDIO_EFX_ENABLED == 1
 
-#include <al.h>
-#include <alc.h>
+#include <AL/al.h>
+#include <AL/alc.h>
 #include "cMutex.h"
 #include "cEFXFunctions.h"
 #include "cMemoryOverride.h"

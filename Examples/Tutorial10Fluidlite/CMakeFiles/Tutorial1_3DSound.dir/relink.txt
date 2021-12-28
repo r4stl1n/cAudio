@@ -1,0 +1,1 @@
+/usr/bin/c++   -O2 -g -DNDEBUG    CMakeFiles/Tutorial1_3DSound.dir/src/main.cpp.o  -o CMakeFiles/CMakeRelink.dir/Tutorial1_3DSound -rdynamic ../../cAudio/libcAudio.so ../../DependenciesSource/libvorbis-1.3.2/libVorbis.a ../../DependenciesSource/libogg-1.2.2/libOgg.a -lopenal 

@@ -2,7 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#include "cRawDecoder.h"
+#include "../Headers/cRawDecoder.h"
 
 namespace cAudio{
 
@@ -59,7 +59,7 @@ namespace cAudio{
 		else
 			SampleSize = 4;
 
-        int amountToSeek = seconds * (float)Frequency * (float)SampleSize;
+        int amountToSeek = (int)(seconds * (float)Frequency * (float)SampleSize);
         return setPosition(amountToSeek, relative);
     }
 

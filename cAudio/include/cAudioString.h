@@ -50,7 +50,8 @@ namespace cAudio
         static char buffer[8][1024];
         id = ++id & 0x7;
 
-        int buff_size = WideCharToMultiByte(CP_UTF8, 0, str.c_str(), (int)(str.size() < 1023 ? str.size() : 1023), buffer[id], 1023, 0, false);
+        BOOL f = FALSE;
+        int buff_size = WideCharToMultiByte(CP_UTF8, 0, str.c_str(), (int)(str.size() < 1023 ? str.size() : 1023), buffer[id], 1023, 0, &f);
         buffer[id][buff_size] = 0;
         buffer[id][1023] = 0;
         return buffer[id];

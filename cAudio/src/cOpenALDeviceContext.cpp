@@ -2,16 +2,16 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#include "cOpenALDeviceContext.h"
+#include "../Headers/cOpenALDeviceContext.h"
 #include "cAudio.h"
-#include "cLogger.h"
-#include "cAudioEffects.h"
+#include "../Headers/cLogger.h"
+#include "../Headers/cAudioEffects.h"
 
 #if CAUDIO_EFX_ENABLED == 1
 #	ifdef CAUDIO_PLATFORM_WIN
-#		include <efx.h>
-#		include <efx-creative.h>
-#		include <xram.h>
+#		include <OpenAL/efx.h>
+#		include <OpenAL/efx-creative.h>
+#		include <OpenAL/xram.h>
 #	elif defined(CAUDIO_PLATFORM_LINUX)
 #		include <AL/alext.h>
 #	endif

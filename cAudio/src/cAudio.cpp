@@ -3,29 +3,29 @@
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
 #include "cAudio.h"
-#include "cAudioManager.h"
-#include "cAudioCapture.h"
+#include "../Headers/cAudioManager.h"
+#include "../Headers/cAudioCapture.h"
 
 #if CAUDIO_COMPILE_WITH_OGG_DECODER == 1
-#include "cOggAudioDecoderFactory.h"
+#include "../Headers/cOggAudioDecoderFactory.h"
 #endif
 
 #if CAUDIO_COMPILE_WITH_WAV_DECODER == 1
-#include "cWavAudioDecoderFactory.h"
+#include "../Headers/cWavAudioDecoderFactory.h"
 #endif
 
-#include "cRawAudioDecoderFactory.h"
+#include "../Headers/cRawAudioDecoderFactory.h"
 
 #if CAUDIO_COMPILE_WITH_FILE_SOURCE == 1
-#include "cFileSourceFactory.h"
-#include "cFileSource.h"
+#include "../Headers/cFileSourceFactory.h"
+#include "../Headers/cFileSource.h"
 #endif
 
-#include "cPluginManager.h"
-#include "cLogger.h"
-#include "cConsoleLogReceiver.h"
-#include "cFileLogReceiver.h"
-#include "cOpenALAudioDeviceList.h"
+#include "../Headers/cPluginManager.h"
+#include "../Headers/cLogger.h"
+#include "../Headers/cConsoleLogReceiver.h"
+#include "../Headers/cFileLogReceiver.h"
+#include "../Headers/cOpenALAudioDeviceList.h"
 
 namespace cAudio
 {

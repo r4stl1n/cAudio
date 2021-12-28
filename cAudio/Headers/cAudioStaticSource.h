@@ -50,7 +50,7 @@ namespace cAudio
                 const ALsizei freq   = decoder->getFrequency();
                 const ALenum  format = convertAudioFormatEnum(decoder->getFormat());
                 getLogger()->logDebug("Audio Buffer", "Buffered %d bytes of data into buffer %d at %d hz.", totalread, (int)Buffer, (int)freq);
-                alBufferData(Buffer, format, &data[0], data.size(), freq);
+                alBufferData(Buffer, format, &data[0], (ALsizei)data.size(), freq);
                 checkALError();
                 Valid = true;
             }

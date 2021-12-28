@@ -2,17 +2,17 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#include "cAudioSource.h"
+#include "../Headers/cAudioSource.h"
 #include "cAudio.h"
-#include "cLogger.h"
-#include "cFilter.h"
-#include "cEffect.h"
+#include "../Headers/cLogger.h"
+#include "../Headers/cFilter.h"
+#include "../Headers/cEffect.h"
 #include "cAudioSleep.h"
 #include <string.h>
 #include <algorithm>
 
 #if CAUDIO_EFX_ENABLED == 1
-#include "cOpenALDeviceContext.h"
+#include "../Headers/cOpenALDeviceContext.h"
 #endif
 
 namespace
@@ -782,7 +782,7 @@ namespace cAudio
         {
             char tempbuffer2[CAUDIO_SOURCE_BUFFER_SIZE];
             Mutex.unlock();    // this can take a long time
-            int actualread = Decoder->readAudioData(tempbuffer2, CAUDIO_SOURCE_BUFFER_SIZE-totalread);
+            int actualread = Decoder->readAudioData(tempbuffer2, (int)(CAUDIO_SOURCE_BUFFER_SIZE-totalread));
             Mutex.lock();
             
             if(actualread > 0)
@@ -819,7 +819,7 @@ namespace cAudio
             return false;
         }
         getLogger()->logDebug("Audio Source", "Buffered %i bytes of data into buffer %i at %i hz.", totalread, buffer, Decoder->getFrequency());
-        alBufferData(buffer, convertAudioFormatEnum(Decoder->getFormat()), tempbuffer, totalread, Decoder->getFrequency());
+        alBufferData(buffer, convertAudioFormatEnum(Decoder->getFormat()), tempbuffer, (ALsizei)totalread, Decoder->getFrequency());
         checkALError();
         return true;
     }
@@ -897,7 +897,7 @@ namespace cAudio
 		if(handler)
 		{
 		    cAudioMutexBasicLock lock(Mutex);
-            for(int i=0; i<eventHandlerList.size(); i++) {
+            for(unsigned int i=0; i<eventHandlerList.size(); i++) {
                 if(eventHandlerList[i] == handler)
                     eventHandlerList.erase(eventHandlerList.begin() + i);
             }
@@ -918,7 +918,7 @@ namespace cAudio
 
         size_t size = eventHandlerList.size();
 
-        for(int i=0; i<size; )
+        for(unsigned int i=0; i<size; )
         {
             ISourceEventHandler *handler = eventHandlerList[i];
 

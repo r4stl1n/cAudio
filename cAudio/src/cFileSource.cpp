@@ -2,8 +2,9 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#include "cFileSource.h"
-#include "cUtils.h"
+#include "../Headers/cFileSource.h"
+#include "../Headers/cUtils.h"
+
 
 #if CAUDIO_COMPILE_WITH_FILE_SOURCE == 1
 
@@ -53,7 +54,7 @@ int cFileSource::getSize()
 
 int cFileSource::read(void* output, int size)
 {
-	return fread(output, sizeof(char), size, pFile);
+	return (int)fread(output, sizeof(char), size, pFile);
 }
 
 bool cFileSource::seek(int amount, bool relative)

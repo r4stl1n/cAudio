@@ -2,8 +2,8 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#include "cPluginManager.h"
-#include "cUtils.h"
+#include "../Headers/cPluginManager.h"
+#include "../Headers/cUtils.h"
 #include "cAudioPlatform.h"
 #include "cAudioDefines.h"
 #include "ILogger.h"
@@ -40,7 +40,7 @@ namespace cAudio
 		{
 			cAudioString theName = fromUTF8(name);
 			if(theName.empty())
-				theName = plugin->getPluginName();
+				theName = (plugin->getPluginName());
 
 			if(plugin->installPlugin(getLogger()))
 			{
@@ -76,12 +76,12 @@ namespace cAudio
 	}
 
 	bool cPluginManager::checkForPlugin(const char* name)
-	{
+	{		
 		return (RegisteredPlugins.find(name) != RegisteredPlugins.end());
 	}
 
 	IAudioPlugin* cPluginManager::getPlugin(const char* name)
-	{
+	{		
 		if(RegisteredPlugins.find(name) != RegisteredPlugins.end())
 		{
 			return RegisteredPlugins[name];
@@ -91,7 +91,7 @@ namespace cAudio
 
 	unsigned int cPluginManager::getPluginCount()
 	{
-		return RegisteredPlugins.size();
+		return (unsigned int)(RegisteredPlugins.size());
 	}
 
 	cAudioVector<IAudioPlugin*>::Type cPluginManager::getPluginList()

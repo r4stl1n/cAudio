@@ -2,7 +2,7 @@
 // This file is part of the "cAudio Engine"
 // For conditions of distribution and use, see copyright notice in cAudio.h
 
-#include "cFileLogReceiver.h"
+#include "../Headers/cFileLogReceiver.h"
 
 #if CAUDIO_COMPILE_WITH_FILE_LOG_RECEIVER == 1
 #include <iostream>
@@ -10,7 +10,7 @@
 
 namespace cAudio
 {
-        cFileLogReceiver::cFileLogReceiver(const char *lFilePath) :
+    cFileLogReceiver::cFileLogReceiver(const char *lFilePath) :
         logFilePath(lFilePath)
 	{
 		firsttime = false;
