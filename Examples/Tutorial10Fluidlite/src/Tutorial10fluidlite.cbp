@@ -80,7 +80,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add directory="../../../cAudio/include" />
-			<Add directory="FluidLite-netpipe/include" />
+			<Add directory="standalone/include" />
 		</Compiler>
 		<Linker>
 			<Add directory="../../bin/win32-gcc" />
