@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="cAudio" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/win32-gcc/cAudio_d" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/gcc/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-O3" />
+					<Add option="-g" />
+					<Add option="-DHAVE_MALLOC_H" />
+					<Add option="-DCAUDIO_USE_MMGR" />
+					<Add directory="include" />
+					<Add directory="Headers" />
+					<Add directory="dependencies/Headers" />
+					<Add directory="dependencies/Headers/AL" />
+				</Compiler>
+				<Linker>
+					<Add library="vorbisfile" />
+					<Add library="vorbis" />
+					<Add library="ogg" />
+					<Add library="OpenAL32" />
+					<Add directory="dependencies/Libs/windows-mingw" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/win32-gcc/cAudio" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/gcc/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-O3" />
+					<Add option="-DHAVE_MALLOC_H" />
+					<Add option="-DCAUDIO_USE_MMGR" />
+					<Add directory="include" />
+					<Add directory="Headers" />
+					<Add directory="dependencies/Headers" />
+					<Add directory="dependencies/Headers/AL" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="vorbisfile" />
+					<Add library="vorbis" />
+					<Add library="ogg" />
+					<Add library="OpenAL32" />
+					<Add directory="dependencies/Libs/windows-mingw" />
+				</Linker>
+			</Target>
+			<Target title="Debug Visual">
+				<Option output="bin/visual/cAudio_d" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/visual/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="/EHc" />
+					<Add option="/EHa" />
+					<Add option="/EHs" />
+					<Add option="/Ot" />
+					<Add option="/O2" />
+					<Add option="/Zi /D_DEBUG" />
+					<Add option="-DCAUDIO_USE_MMGR" />
+					<Add directory="include" />
+					<Add directory="Headers" />
+					<Add directory="dependencies/Headers" />
+					<Add directory="dependencies/Headers/AL" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add option="/DEBUG" />
+					<Add library="vorbisfile_static" />
+					<Add library="vorbis_static" />
+					<Add library="ogg_static" />
+					<Add library="OpenAL32" />
+				</Linker>
+			</Target>
+			<Target title="Release Visual">
+				<Option output="bin/visual/cAudio" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/visual/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="/EHc" />
+					<Add option="/EHa" />
+					<Add option="/EHs" />
+					<Add option="/Ot" />
+					<Add option="/O2" />
+					<Add option="-DCAUDIO_USE_MMGR" />
+					<Add directory="include" />
+					<Add directory="Headers" />
+					<Add directory="dependencies/Headers" />
+					<Add directory="dependencies/Headers/AL" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="vorbisfile_static" />
+					<Add library="vorbis_static" />
+					<Add library="ogg_static" />
+					<Add library="OpenAL32" />
+				</Linker>
+			</Target>
+			<Target title="Linux64">
+				<Option output="bin/gcc/cAudio" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/gcc/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O3" />
+					<Add option="-fPIC" />
+					<Add option="-g" />
+					<Add option="-DHAVE_MALLOC_H" />
+					<Add option="-DCAUDIO_MEMORY_USE_STD" />
+					<Add directory="include" />
+					<Add directory="Headers" />
+					<Add directory="dependencies/Headers" />
+					<Add directory="dependencies/Headers/AL" />
+					<Add directory="/usr/include/AL" />
+					<Add directory="../../libogg-1.1.4/include" />
+					<Add directory="../../libvorbis-1.2.3/include" />
+				</Compiler>
+				<Linker>
+					<Add library="vorbisfile" />
+					<Add library="vorbis" />
+					<Add library="ogg" />
+					<Add library="openal" />
+					<Add directory="dependencies/Libs/windows-mingw" />
+					<Add directory="../../libvorbis-1.2.3/" />
+					<Add directory="../../libogg-1.1.4" />
+				</Linker>
+			</Target>
+			<Target title="emscripten">
+				<Option output="bin/emcc/cAudio" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/gcc/" />
+				<Option type="3" />
+				<Option compiler="emscripten" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-O3" />
+					<Add option="-fPIC" />
+					<Add option="-g" />
+					<Add option="-DHAVE_MALLOC_H" />
+					<Add option="-DCAUDIO_MEMORY_USE_STD" />
+					<Add directory="include" />
+					<Add directory="Headers" />
+					<Add directory="dependencies/Headers" />
+					<Add directory="dependencies/Headers/AL" />
+					<Add directory="/usr/include/AL" />
+					<Add directory="../../libogg-1.1.4/include" />
+					<Add directory="../../libvorbis-1.2.3/include" />
+				</Compiler>
+				<Linker>
+					<Add library="vorbisfile" />
+					<Add library="vorbis" />
+					<Add library="ogg" />
+					<Add library="openal" />
+					<Add directory="dependencies/Libs/windows-mingw" />
+					<Add directory="../../libvorbis-1.2.3/" />
+					<Add directory="../../libogg-1.1.4" />
+				</Linker>
+			</Target>
+			<Target title="LinuxDynamic">
+				<Option output="bin/gcc/cAudio" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="bin/gcc" />
+				<Option object_output="obj/gcc/" />
+				<Option type="3" />
+				<Option compiler="gcc" />
+				<Option createStaticLib="1" />
+				<Compiler>
+					<Add option="-O3" />
+					<Add option="-fPIC" />
+					<Add option="-g" />
+					<Add option="-DHAVE_MALLOC_H" />
+					<Add option="-DCAUDIO_MEMORY_USE_STD" />
+					<Add directory="include" />
+					<Add directory="Headers" />
+					<Add directory="dependencies/Headers" />
+					<Add directory="dependencies/Headers/AL" />
+					<Add directory="/usr/include/AL" />
+					<Add directory="../../libogg-1.1.4/include" />
+					<Add directory="../../libvorbis-1.2.3/include" />
+				</Compiler>
+				<Linker>
+					<Add library="vorbisfile" />
+					<Add library="vorbis" />
+					<Add library="ogg" />
+					<Add library="openal" />
+					<Add directory="dependencies/Libs/windows-mingw" />
+					<Add directory="../../libvorbis-1.2.3/" />
+					<Add directory="../../libogg-1.1.4" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-fPIC" />
+			<Add option="-DCOMPILE_FOR_WINDOWS" />
+			<Add option="-DCAUDIO_EXPORTS" />
+			<Add directory="../include" />
+			<Add directory="./../libogg-1.1.4/include" />
+		</Compiler>
+		<Linker>
+			<Add directory="dependencies/Libs/windows" />
+		</Linker>
+		<Unit filename="Headers/cAudioCapture.h" />
+		<Unit filename="Headers/cAudioEffects.h" />
+		<Unit filename="Headers/cAudioManager.h" />
+		<Unit filename="Headers/cAudioSource.h" />
+		<Unit filename="Headers/cAudioStaticSource.h" />
+		<Unit filename="Headers/cConsoleLogReceiver.h" />
+		<Unit filename="Headers/cEFXFunctions.h" />
+		<Unit filename="Headers/cEffect.h" />
+		<Unit filename="Headers/cFileLogReceiver.h" />
+		<Unit filename="Headers/cFileSource.h" />
+		<Unit filename="Headers/cFileSourceFactory.h" />
+		<Unit filename="Headers/cFilter.h" />
+		<Unit filename="Headers/cListener.h" />
+		<Unit filename="Headers/cLogger.h" />
+		<Unit filename="Headers/cMemoryOverride.h" />
+		<Unit filename="Headers/cMemorySource.h" />
+		<Unit filename="Headers/cMemoryTracker.h" />
+		<Unit filename="Headers/cMutex.h" />
+		<Unit filename="Headers/cOggAudioDecoderFactory.h" />
+		<Unit filename="Headers/cOggDecoder.h" />
+		<Unit filename="Headers/cOpenALAudioDeviceList.h" />
+		<Unit filename="Headers/cOpenALDeviceContext.h" />
+		<Unit filename="Headers/cOpenALUtil.h" />
+		<Unit filename="Headers/cPluginManager.h" />
+		<Unit filename="Headers/cRawAudioDecoderFactory.h" />
+		<Unit filename="Headers/cRawDecoder.h" />
+		<Unit filename="Headers/cStandardMemoryProvider.h" />
+		<Unit filename="Headers/cThread.h" />
+		<Unit filename="Headers/cUtils.h" />
+		<Unit filename="Headers/cWavAudioDecoderFactory.h" />
+		<Unit filename="Headers/cWavDecoder.h" />
+		<Unit filename="include/EAudioFormats.h" />
+		<Unit filename="include/IAudioCapture.h" />
+		<Unit filename="include/IAudioDecoder.h" />
+		<Unit filename="include/IAudioDecoderFactory.h" />
+		<Unit filename="include/IAudioDeviceContext.h" />
+		<Unit filename="include/IAudioDeviceList.h" />
+		<Unit filename="include/IAudioEffects.h" />
+		<Unit filename="include/IAudioManager.h" />
+		<Unit filename="include/IAudioPlugin.h" />
+		<Unit filename="include/IAudioSource.h" />
+		<Unit filename="include/ICaptureEventHandler.h" />
+		<Unit filename="include/IDataSource.h" />
+		<Unit filename="include/IDataSourceFactory.h" />
+		<Unit filename="include/IEffect.h" />
+		<Unit filename="include/IEffectParameters.h" />
+		<Unit filename="include/IFilter.h" />
+		<Unit filename="include/IListener.h" />
+		<Unit filename="include/ILogReceiver.h" />
+		<Unit filename="include/ILogger.h" />
+		<Unit filename="include/IManagerEventHandler.h" />
+		<Unit filename="include/IMemoryProvider.h" />
+		<Unit filename="include/IPluginManager.h" />
+		<Unit filename="include/IRefCounted.h" />
+		<Unit filename="include/ISourceEventHandler.h" />
+		<Unit filename="include/IThread.h" />
+		<Unit filename="include/cAudio.h" />
+		<Unit filename="include/cAudioDefines.h" />
+		<Unit filename="include/cAudioMemory.h" />
+		<Unit filename="include/cAudioPlatform.h" />
+		<Unit filename="include/cAudioSleep.h" />
+		<Unit filename="include/cAudioString.h" />
+		<Unit filename="include/cSTLAllocator.h" />
+		<Unit filename="include/cVector3.h" />
+		<Unit filename="src/cAudio.cpp" />
+		<Unit filename="src/cAudioCapture.cpp" />
+		<Unit filename="src/cAudioEffects.cpp" />
+		<Unit filename="src/cAudioManager.cpp" />
+		<Unit filename="src/cAudioMemory.cpp" />
+		<Unit filename="src/cAudioSleep.cpp" />
+		<Unit filename="src/cAudioSource.cpp" />
+		<Unit filename="src/cConsoleLogReceiver.cpp" />
+		<Unit filename="src/cEffect.cpp" />
+		<Unit filename="src/cFileLogReceiver.cpp" />
+		<Unit filename="src/cFileSource.cpp" />
+		<Unit filename="src/cFilter.cpp" />
+		<Unit filename="src/cListener.cpp" />
+		<Unit filename="src/cLogger.cpp" />
+		<Unit filename="src/cMemorySource.cpp" />
+		<Unit filename="src/cMemoryTracker.cpp" />
+		<Unit filename="src/cMutex.cpp" />
+		<Unit filename="src/cOggAudioDecoderFactory.cpp" />
+		<Unit filename="src/cOggDecoder.cpp" />
+		<Unit filename="src/cOpenALAudioDeviceList.cpp" />
+		<Unit filename="src/cOpenALDeviceContext.cpp" />
+		<Unit filename="src/cPluginManager.cpp" />
+		<Unit filename="src/cRawDecoder.cpp" />
+		<Unit filename="src/cStandardMemoryProvider.cpp" />
+		<Unit filename="src/cThread.cpp" />
+		<Unit filename="src/cWavAudioDecoderFactory.cpp" />
+		<Unit filename="src/cWavDecoder.cpp" />
+		<Extensions />
+	</Project>
+</CodeBlocks_project_file>

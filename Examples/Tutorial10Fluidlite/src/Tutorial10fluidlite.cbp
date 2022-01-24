@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Tutorial10:fluidlite" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../../bin/win32-gcc/Tutorial1_2DSound_d" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add library="cAudio_d" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="../../bin/win32-gcc/Tutorial1_2DSound" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="cAudio" />
+				</Linker>
+			</Target>
+			<Target title="Debug Visual">
+				<Option output="../../bin/win32-visual/Tutorial1_2DSound_d" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/visual" />
+				<Option type="1" />
+				<Option compiler="msvc8" />
+				<Option use_console_runner="0" />
+				<Compiler>
+					<Add option="/Zi /D_DEBUG" />
+				</Compiler>
+				<Linker>
+					<Add option="/DEBUG" />
+					<Add library="cAudio_d.lib" />
+					<Add directory="../../bin/win32-visual" />
+				</Linker>
+			</Target>
+			<Target title="Release Visual">
+				<Option output="../../bin/win32-visual/Tutorial1_2DSound" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/visual" />
+				<Option type="1" />
+				<Option compiler="msvc8" />
+				<Option use_console_runner="0" />
+				<Linker>
+					<Add library="cAudio.lib" />
+					<Add directory="../../bin/win32-visual" />
+				</Linker>
+			</Target>
+			<Target title="Linux">
+				<Option output="../../bin/gcc/Tutorial1_2DSound" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="cAudio" />
+					<Add library="ogg" />
+					<Add library="vorbisenc" />
+					<Add library="vorbisfile" />
+					<Add library="vorbis" />
+					<Add library="openal" />
+					<Add library="pthread" />
+					<Add library="dl" />
+					<Add directory="../../bin/gcc" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add directory="../../../cAudio/include" />
+			<Add directory="standalone/include" />
+		</Compiler>
+		<Linker>
+			<Add directory="../../bin/win32-gcc" />
+			<Add directory="../../../cAudio/bin/gcc" />
+			<Add directory="FluidLite-netpipe/src" />
+			<Add directory="FluidLite-netpipe" />
+			<Add directory="../../../cAudio" />
+		</Linker>
+		<Unit filename="cAudioDemo.cpp" />
+		<Unit filename="standalone/fluid_chan.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="standalone/fluid_chan.h" />
+		<Unit filename="standalone/fluid_chorus.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="standalone/fluid_chorus.h" />
+		<Unit filename="standalone/fluid_config.h" />
+		<Unit filename="standalone/fluid_conv.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="standalone/fluid_conv.h" />
+		<Unit filename="standalone/fluid_defsfont.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="standalone/fluid_defsfont.h" />
+		<Unit filename="standalone/fluid_dsp_float.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="standalone/fluid_gen.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="standalone/fluid_gen.h" />
+		<Unit filename="standalone/fluid_hash.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="standalone/fluid_hash.h" />
+		<Unit filename="standalone/fluid_init.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="standalone/fluid_list.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="standalone/fluid_list.h" />
+		<Unit filename="standalone/fluid_midi.h" />
+		<Unit filename="standalone/fluid_mod.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="standalone/fluid_mod.h" />
+		<Unit filename="standalone/fluid_phase.h" />
+		<Unit filename="standalone/fluid_ramsfont.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="standalone/fluid_ramsfont.h" />
+		<Unit filename="standalone/fluid_rev.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="standalone/fluid_rev.h" />
+		<Unit filename="standalone/fluid_settings.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="standalone/fluid_settings.h" />
+		<Unit filename="standalone/fluid_sfont.h" />
+		<Unit filename="standalone/fluid_synth.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="standalone/fluid_synth.h" />
+		<Unit filename="standalone/fluid_sys.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="standalone/fluid_sys.h" />
+		<Unit filename="standalone/fluid_tuning.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="standalone/fluid_tuning.h" />
+		<Unit filename="standalone/fluid_voice.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="standalone/fluid_voice.h" />
+		<Unit filename="standalone/fluidsynth_priv.h" />
+		<Unit filename="standalone/include/fluidlite.h" />
+		<Unit filename="standalone/include/fluidsynth/gen.h" />
+		<Unit filename="standalone/include/fluidsynth/log.h" />
+		<Unit filename="standalone/include/fluidsynth/misc.h" />
+		<Unit filename="standalone/include/fluidsynth/mod.h" />
+		<Unit filename="standalone/include/fluidsynth/ramsfont.h" />
+		<Unit filename="standalone/include/fluidsynth/settings.h" />
+		<Unit filename="standalone/include/fluidsynth/sfont.h" />
+		<Unit filename="standalone/include/fluidsynth/synth.h" />
+		<Unit filename="standalone/include/fluidsynth/types.h" />
+		<Unit filename="standalone/include/fluidsynth/version.h" />
+		<Unit filename="standalone/include/fluidsynth/voice.h" />
+		<Unit filename="standalone/stb/stb_vorbis.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions />
+	</Project>
+</CodeBlocks_project_file>
