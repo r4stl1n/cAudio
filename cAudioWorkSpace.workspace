@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="Workspace">
+		<Project filename="cAudio/cAudio.cbp" />
+		<Project filename="Examples/Tutorial1_2DSound/src/Tutorial1_2DSound.cbp" />
+		<Project filename="Examples/Tutorial2_3DSound/src/Tutorial2_3DSound.cbp" />
+		<Project filename="Examples/Tutorial10Fluidlite/src/Tutorial10fluidlite.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>
